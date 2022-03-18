@@ -1,6 +1,6 @@
 # inni_di_lode
 
-Inni, cantici spirituali e cori di risveglio.
+Inni, cantici spirituali e cori di risveglio
 
 ## Getting Started
 
