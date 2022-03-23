@@ -18,8 +18,8 @@ class SongsPage extends StatelessWidget {
               pinned: false,
               toolbarHeight: 0.0,
               collapsedHeight: 0.0,
-              backgroundColor: Colors.transparent,
               automaticallyImplyLeading: false,
+              backgroundColor: Colors.transparent,
               flexibleSpace: FlexibleSpaceBar(
                 background: SongsHeader(),
               ),

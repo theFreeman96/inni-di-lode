@@ -69,8 +69,6 @@ class _AutBodyState extends State<AutBody> {
                     child: new ListView.separated(
                       physics: ScrollPhysics(),
                       shrinkWrap: true,
-                      padding: const EdgeInsets.only(
-                          top: kDefaultPadding * 0.5, bottom: kDefaultPadding),
                       itemCount: snapshot.data!.length,
                       itemBuilder: (context, i) {
                         return _buildRow(snapshot.data![i]);
