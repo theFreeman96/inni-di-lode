@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-//import 'package:system_settings/system_settings.dart';
 
 import '/assets/theme/provider.dart';
 import '/assets/theme/constants.dart';
@@ -71,17 +70,6 @@ class _HamburgerMenuState extends State<HamburgerMenu> {
               );
             },
           ),
-          Divider(),
-          ListTile(
-            title: Text('Informazioni app'),
-            onTap: () {
-              /*
-              FocusScope.of(context).unfocus();
-              Navigator.pop(context);
-              SystemSettings.app();
-              */
-            },
-          ),
         ],
       ),
     );
@@ -94,12 +82,27 @@ Widget createDrawerHeader() {
     padding: EdgeInsets.zero,
     decoration: BoxDecoration(
       image: DecorationImage(
-        fit: BoxFit.fill,
+        fit: BoxFit.cover,
         image: AssetImage('lib/assets/images/menu.png'),
       ),
     ),
     child: Stack(
       children: <Widget>[
+        Builder(
+          builder: (BuildContext context) {
+            return IconButton(
+              icon: Icon(
+                Icons.clear,
+                color: kWhite,
+              ),
+              onPressed: () {
+                FocusScope.of(context).unfocus();
+                Navigator.of(context).pop();
+              },
+              tooltip: 'Chiudi',
+            );
+          },
+        ),
         Positioned(
           bottom: 12.0,
           left: 16.0,

@@ -12,7 +12,7 @@ class MyTheme {
           .copyWith(color: kPrimaryColor),
       scaffoldBackgroundColor: kWhite,
       cardColor: kWhite,
-      toggleableActiveColor: kPrimaryColor,
+      toggleableActiveColor: kWhite,
       accentColor: kPrimaryColor,
       progressIndicatorTheme: ProgressIndicatorThemeData(color: kPrimaryColor)
       // colorScheme: ColorScheme.fromSwatch().copyWith(secondary: kPrimaryColor),
@@ -26,7 +26,7 @@ class MyTheme {
         .copyWith(color: kGrey),
     scaffoldBackgroundColor: kBlack,
     cardColor: kBlack,
-    toggleableActiveColor: kPrimaryLightColor,
+    toggleableActiveColor: kWhite,
     accentColor: kWhite,
     progressIndicatorTheme: ProgressIndicatorThemeData(color: kWhite),
     floatingActionButtonTheme: FloatingActionButtonThemeData(
