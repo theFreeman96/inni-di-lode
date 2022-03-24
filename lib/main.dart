@@ -1,10 +1,10 @@
 import "package:flutter/material.dart";
 import 'package:provider/provider.dart';
 
-import '/assets/theme/themes.dart';
-import '/assets/theme/provider.dart';
+import '/theme/themes.dart';
+import '/theme/provider.dart';
 
-import '/navigation/home.dart';
+import '/screens/home.dart';
 
 void main() {
   runApp(Innario());

@@ -1,8 +1,8 @@
-import 'helper.dart';
+import 'database_helper.dart';
 import 'lists.dart';
 
 class QueryCtr {
-  DatabaseHelper con = new DatabaseHelper();
+  DatabaseHelper con = DatabaseHelper();
 
   Future<List<Songs>?> getAllSongs() async {
     final dbClient = await con.db;

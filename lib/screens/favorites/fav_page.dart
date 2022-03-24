@@ -29,15 +29,15 @@ class FavPage extends StatelessWidget {
         body: FavBody(),
       );
     } else {
-      return new Row(
+      return Row(
         children: <Widget>[
-          Container(
+          SizedBox(
             width: MediaQuery.of(context).size.width * 0.35,
             height: MediaQuery.of(context).size.height,
-            child: new FavHeader(),
+            child: FavHeader(),
           ),
           Expanded(
-            child: new FavBody(),
+            child: FavBody(),
           ),
         ],
       );

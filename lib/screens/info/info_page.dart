@@ -12,10 +12,10 @@ class InfoPage extends StatelessWidget {
       return SafeArea(
         child: Scaffold(
           appBar: AppBar(
-            title: Text('Contatti'),
+            title: const Text('Contatti'),
             leading: IconButton(
               tooltip: 'Indietro',
-              icon: Icon(Icons.arrow_back),
+              icon: const Icon(Icons.arrow_back),
               onPressed: () {
                 FocusScope.of(context).unfocus();
                 Navigator.of(context).pop();
@@ -25,7 +25,7 @@ class InfoPage extends StatelessWidget {
           body: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Container(
+              SizedBox(
                 height: MediaQuery.of(context).size.height * 0.3,
                 child: InfoHeader(),
               ),
@@ -40,17 +40,17 @@ class InfoPage extends StatelessWidget {
       return SafeArea(
         child: Scaffold(
           appBar: AppBar(
-            title: Text('Contatti'),
+            title: const Text('Contatti'),
           ),
           body: Row(
             children: <Widget>[
-              Container(
+              SizedBox(
                 width: MediaQuery.of(context).size.width * 0.35,
                 height: MediaQuery.of(context).size.height,
-                child: new InfoHeader(),
+                child: InfoHeader(),
               ),
               Expanded(
-                child: new InfoBody(),
+                child: InfoBody(),
               ),
             ],
           ),

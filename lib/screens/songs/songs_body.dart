@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '/assets/theme/provider.dart';
-import '/assets/theme/constants.dart';
+import '/theme/provider.dart';
+import '/theme/constants.dart';
 import '/assets/data/query.dart';
 import '/assets/data/lists.dart';
 
@@ -15,8 +15,8 @@ class SongsBody extends StatefulWidget {
 
 class _SongsBodyState extends State<SongsBody> {
   TextEditingController editingController = TextEditingController();
-  FocusNode myFocusNode = new FocusNode();
-  QueryCtr _query = new QueryCtr();
+  FocusNode myFocusNode = FocusNode();
+  final QueryCtr _query = QueryCtr();
 
   @override
   Widget build(BuildContext context) {
@@ -30,12 +30,12 @@ class _SongsBodyState extends State<SongsBody> {
             autofocus: false,
             controller: editingController,
             decoration: InputDecoration(
-              prefixIcon: Icon(
+              prefixIcon: const Icon(
                 Icons.search,
                 color: kLightGrey,
               ),
               enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.all(
+                borderRadius: const BorderRadius.all(
                   Radius.circular(25.0),
                 ),
                 borderSide: BorderSide(
@@ -43,7 +43,7 @@ class _SongsBodyState extends State<SongsBody> {
                     width: 1.0),
               ),
               focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.all(
+                borderRadius: const BorderRadius.all(
                   Radius.circular(25.0),
                 ),
                 borderSide: BorderSide(
@@ -54,32 +54,32 @@ class _SongsBodyState extends State<SongsBody> {
               ),
               prefixIconColor: kPrimaryColor,
               labelText: 'Cerca un Cantico',
-              labelStyle: TextStyle(color: kLightGrey),
+              labelStyle: const TextStyle(color: kLightGrey),
               hintText: 'Cerca per numero, titolo o parole',
             ),
           ),
         ),
-        Divider(height: 0.0),
+        const Divider(height: 0.0),
         FutureBuilder<List?>(
           future: _query.getAllSongs(),
-          initialData: [],
+          initialData: const [],
           builder: (context, snapshot) {
             return snapshot.hasData
                 ? Expanded(
                     child: ListView.separated(
-                      physics: ScrollPhysics(),
+                      physics: const ScrollPhysics(),
                       shrinkWrap: true,
                       itemCount: snapshot.data!.length,
                       itemBuilder: (context, i) {
                         return _buildRow(snapshot.data![i]);
                       },
                       separatorBuilder: (context, index) {
-                        return Divider();
+                        return const Divider();
                       },
                     ),
                   )
-                : Padding(
-                    padding: const EdgeInsets.all(kDefaultPadding * 2),
+                : const Padding(
+                    padding: EdgeInsets.all(kDefaultPadding * 2),
                     child: Center(
                       child: CircularProgressIndicator(),
                     ),
@@ -91,14 +91,14 @@ class _SongsBodyState extends State<SongsBody> {
   }
 
   Widget _buildRow(Songs song) {
-    return new ListTile(
-      leading: new CircleAvatar(
-        child: new Text(
+    return ListTile(
+      leading: CircleAvatar(
+        child: Text(
           song.id.toString(),
         ),
       ),
-      title: new Text(song.title),
-      trailing: Icon(
+      title: Text(song.title),
+      trailing: const Icon(
         Icons.navigate_next,
         color: kLightGrey,
       ),

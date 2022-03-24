@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-import '/assets/theme/provider.dart';
-import '/assets/theme/constants.dart';
+import '/theme/provider.dart';
+import '/theme/constants.dart';
 
 import 'drawer.dart';
 import '/screens/songs/songs_page.dart';
@@ -13,9 +13,7 @@ import '/screens/favorites/fav_page.dart';
 
 class Home extends StatefulWidget {
   @override
-  State<StatefulWidget> createState() {
-    return _HomeState();
-  }
+  _HomeState createState() => _HomeState();
 }
 
 class _HomeState extends State<Home> {
@@ -33,7 +31,7 @@ class _HomeState extends State<Home> {
         leading: Builder(
           builder: (BuildContext context) {
             return IconButton(
-              icon: Icon(Icons.menu),
+              icon: const Icon(Icons.menu),
               onPressed: () {
                 Scaffold.of(context).openDrawer();
               },
@@ -41,7 +39,7 @@ class _HomeState extends State<Home> {
             );
           },
         ),
-        title: Text('Innario'),
+        title: const Text('Innario'),
       ),
       drawer: HamburgerMenu(),
       body: _children[_currentIndex],
@@ -58,22 +56,22 @@ class _HomeState extends State<Home> {
           unselectedItemColor: kWhite.withOpacity(0.6),
           items: [
             BottomNavigationBarItem(
-              icon: Icon(Icons.library_music),
+              icon: const Icon(Icons.library_music),
               label: 'Cantici',
               backgroundColor: themeProvider.isDarkMode ? kGrey : kPrimaryColor,
             ),
             BottomNavigationBarItem(
-              icon: FaIcon(FontAwesomeIcons.tags, size: 18),
+              icon: const FaIcon(FontAwesomeIcons.tags, size: 18),
               label: 'Categorie',
               backgroundColor: themeProvider.isDarkMode ? kGrey : kPrimaryColor,
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.people_alt),
+              icon: const Icon(Icons.people_alt),
               label: 'Autori',
               backgroundColor: themeProvider.isDarkMode ? kGrey : kPrimaryColor,
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.favorite),
+              icon: const Icon(Icons.favorite),
               label: 'Preferiti',
               backgroundColor: themeProvider.isDarkMode ? kGrey : kPrimaryColor,
             )

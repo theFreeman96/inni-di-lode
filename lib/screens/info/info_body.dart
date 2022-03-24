@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-import '/assets/theme/constants.dart';
+import '/theme/constants.dart';
 
 class InfoBody extends StatefulWidget {
   @override
-  InfoBodyState createState() => InfoBodyState();
+  _InfoBodyState createState() => _InfoBodyState();
 }
 
-class InfoBodyState extends State<InfoBody> {
+class _InfoBodyState extends State<InfoBody> {
   @override
   Widget build(BuildContext context) {
     return ListView(

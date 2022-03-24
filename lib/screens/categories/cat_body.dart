@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-import '/assets/theme/provider.dart';
-import '/assets/theme/constants.dart';
+import '/theme/provider.dart';
+import '/theme/constants.dart';
 import '/assets/data/query.dart';
 import '/assets/data/lists.dart';
 
@@ -16,8 +16,8 @@ class CatBody extends StatefulWidget {
 
 class _CatBodyState extends State<CatBody> {
   TextEditingController editingController = TextEditingController();
-  FocusNode myFocusNode = new FocusNode();
-  QueryCtr _query = new QueryCtr();
+  FocusNode myFocusNode = FocusNode();
+  final QueryCtr _query = QueryCtr();
   int? _activeMeterIndex;
 
   @override
@@ -32,12 +32,12 @@ class _CatBodyState extends State<CatBody> {
             autofocus: false,
             controller: editingController,
             decoration: InputDecoration(
-              prefixIcon: Icon(
+              prefixIcon: const Icon(
                 Icons.search,
                 color: kLightGrey,
               ),
               enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.all(
+                borderRadius: const BorderRadius.all(
                   Radius.circular(25.0),
                 ),
                 borderSide: BorderSide(
@@ -45,7 +45,7 @@ class _CatBodyState extends State<CatBody> {
                     width: 1.0),
               ),
               focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.all(
+                borderRadius: const BorderRadius.all(
                   Radius.circular(25.0),
                 ),
                 borderSide: BorderSide(
@@ -56,32 +56,32 @@ class _CatBodyState extends State<CatBody> {
               ),
               prefixIconColor: kPrimaryColor,
               labelText: 'Cerca una Categoria',
-              labelStyle: TextStyle(color: kLightGrey),
+              labelStyle: const TextStyle(color: kLightGrey),
               hintText: 'Cerca',
             ),
           ),
         ),
-        Divider(height: 0.0),
+        const Divider(height: 0.0),
         FutureBuilder<List?>(
           future: _query.getAllMacroCat(),
-          initialData: [],
+          initialData: const [],
           builder: (context, snapshot) {
             return snapshot.hasData
                 ? Expanded(
-                    child: new ListView.separated(
-                      physics: ScrollPhysics(),
+                    child: ListView.separated(
+                      physics: const ScrollPhysics(),
                       shrinkWrap: true,
                       itemCount: snapshot.data!.length,
                       itemBuilder: (context, i) {
                         return _buildRow(snapshot.data![i], i);
                       },
                       separatorBuilder: (context, index) {
-                        return Divider();
+                        return const Divider();
                       },
                     ),
                   )
-                : Padding(
-                    padding: const EdgeInsets.all(kDefaultPadding * 2),
+                : const Padding(
+                    padding: EdgeInsets.all(kDefaultPadding * 2),
                     child: Center(
                       child: CircularProgressIndicator(),
                     ),
@@ -93,21 +93,21 @@ class _CatBodyState extends State<CatBody> {
   }
 
   Widget _buildRow(Macrocategories macrocat, i) {
-    return new ExpansionPanelList(
+    return ExpansionPanelList(
       elevation: 0.0,
       children: [
         ExpansionPanel(
           headerBuilder: (BuildContext context, bool isExpanded) {
             return ListTile(
-              leading: new CircleAvatar(
-                child: new FaIcon(
+              leading: const CircleAvatar(
+                child: FaIcon(
                   FontAwesomeIcons.tags,
                   size: 15,
                 ),
               ),
-              title: new Text(
+              title: Text(
                 macrocat.name.toString(),
-                style: TextStyle(fontSize: 16.0),
+                style: const TextStyle(fontSize: 16.0),
               ),
             );
           },
@@ -115,11 +115,11 @@ class _CatBodyState extends State<CatBody> {
           isExpanded: _activeMeterIndex == i,
           body: FutureBuilder<List?>(
             future: _query.getCatByMacro(macrocat.id),
-            initialData: [],
+            initialData: const [],
             builder: (context, snapshot) {
               return snapshot.hasData
-                  ? new ListView.builder(
-                      physics: ScrollPhysics(),
+                  ? ListView.builder(
+                      physics: const ScrollPhysics(),
                       shrinkWrap: true,
                       padding: const EdgeInsets.only(
                           top: kDefaultPadding * 0.5, bottom: kDefaultPadding),
@@ -128,7 +128,7 @@ class _CatBodyState extends State<CatBody> {
                         return _buildCatRow(snapshot.data![i]);
                       },
                     )
-                  : Center(
+                  : const Center(
                       child: CircularProgressIndicator(),
                     );
             },
@@ -146,19 +146,19 @@ class _CatBodyState extends State<CatBody> {
   }
 
   Widget _buildCatRow(Categories cat) {
-    return new ListTile(
-      leading: Padding(
-        padding: const EdgeInsets.only(left: kDefaultPadding),
-        child: new FaIcon(
+    return ListTile(
+      leading: const Padding(
+        padding: EdgeInsets.only(left: kDefaultPadding),
+        child: FaIcon(
           FontAwesomeIcons.tag,
         ),
       ),
-      title: new Text(
+      title: Text(
         cat.name,
-        style: TextStyle(fontSize: 16.0),
+        style: const TextStyle(fontSize: 16.0),
       ),
-      trailing: Padding(
-        padding: const EdgeInsets.only(right: kDefaultPadding),
+      trailing: const Padding(
+        padding: EdgeInsets.only(right: kDefaultPadding),
         child: Icon(
           Icons.navigate_next,
           color: kLightGrey,

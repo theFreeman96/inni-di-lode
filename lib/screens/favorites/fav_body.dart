@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 
 class FavBody extends StatefulWidget {
   @override
-  FavBodyState createState() => FavBodyState();
+  _FavBodyState createState() => _FavBodyState();
 }
 
-class FavBodyState extends State<FavBody> {
+class _FavBodyState extends State<FavBody> {
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
+    return const SafeArea(
       child: Center(
         child: Text('Elenco Cantici Preferiti'),
       ),
