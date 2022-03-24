@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '/assets/theme/provider.dart';
-import '/assets/theme/constants.dart';
+import '/theme/provider.dart';
+import '/theme/constants.dart';
 import '/assets/data/query.dart';
 import '/assets/data/lists.dart';
 
@@ -15,8 +15,8 @@ class AutBody extends StatefulWidget {
 
 class _AutBodyState extends State<AutBody> {
   TextEditingController editingController = TextEditingController();
-  FocusNode myFocusNode = new FocusNode();
-  QueryCtr _query = new QueryCtr();
+  FocusNode myFocusNode = FocusNode();
+  final QueryCtr _query = QueryCtr();
 
   @override
   Widget build(BuildContext context) {
@@ -30,12 +30,12 @@ class _AutBodyState extends State<AutBody> {
             autofocus: false,
             controller: editingController,
             decoration: InputDecoration(
-              prefixIcon: Icon(
+              prefixIcon: const Icon(
                 Icons.search,
                 color: kLightGrey,
               ),
               enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.all(
+                borderRadius: const BorderRadius.all(
                   Radius.circular(25.0),
                 ),
                 borderSide: BorderSide(
@@ -43,7 +43,7 @@ class _AutBodyState extends State<AutBody> {
                     width: 1.0),
               ),
               focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.all(
+                borderRadius: const BorderRadius.all(
                   Radius.circular(25.0),
                 ),
                 borderSide: BorderSide(
@@ -54,32 +54,32 @@ class _AutBodyState extends State<AutBody> {
               ),
               prefixIconColor: kPrimaryColor,
               labelText: 'Cerca un Autore',
-              labelStyle: TextStyle(color: kLightGrey),
+              labelStyle: const TextStyle(color: kLightGrey),
               hintText: 'Cerca',
             ),
           ),
         ),
-        Divider(height: 0.0),
+        const Divider(height: 0.0),
         FutureBuilder<List?>(
           future: _query.getAllAut(),
-          initialData: [],
+          initialData: const [],
           builder: (context, snapshot) {
             return snapshot.hasData
                 ? Expanded(
-                    child: new ListView.separated(
-                      physics: ScrollPhysics(),
+                    child: ListView.separated(
+                      physics: const ScrollPhysics(),
                       shrinkWrap: true,
                       itemCount: snapshot.data!.length,
                       itemBuilder: (context, i) {
                         return _buildRow(snapshot.data![i]);
                       },
                       separatorBuilder: (context, index) {
-                        return Divider();
+                        return const Divider();
                       },
                     ),
                   )
-                : Padding(
-                    padding: const EdgeInsets.all(kDefaultPadding * 2),
+                : const Padding(
+                    padding: EdgeInsets.all(kDefaultPadding * 2),
                     child: Center(
                       child: CircularProgressIndicator(),
                     ),
@@ -91,14 +91,14 @@ class _AutBodyState extends State<AutBody> {
   }
 
   Widget _buildRow(Authors aut) {
-    return new ListTile(
-      leading: new CircleAvatar(
-        child: new Icon(
+    return ListTile(
+      leading: const CircleAvatar(
+        child: Icon(
           Icons.person,
         ),
       ),
-      title: new Text(aut.surname + ' ' + aut.name),
-      trailing: Icon(
+      title: Text(aut.surname + ' ' + aut.name),
+      trailing: const Icon(
         Icons.navigate_next,
         color: kLightGrey,
       ),

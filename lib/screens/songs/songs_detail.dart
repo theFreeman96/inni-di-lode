@@ -1,12 +1,14 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '/assets/theme/constants.dart';
-import '/assets/theme/provider.dart';
+import '/theme/constants.dart';
+import '/theme/provider.dart';
 
 class SongsDetail extends StatefulWidget {
   @override
-  State<SongsDetail> createState() => _SongsDetailState();
+  _SongsDetailState createState() => _SongsDetailState();
 }
 
 class _SongsDetailState extends State<SongsDetail> {
@@ -25,10 +27,10 @@ class _SongsDetailState extends State<SongsDetail> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          title: Text('Dettaglio'),
+          title: const Text('Dettaglio'),
           leading: IconButton(
             tooltip: 'Indietro',
-            icon: Icon(Icons.arrow_back),
+            icon: const Icon(Icons.arrow_back),
             onPressed: () {
               FocusScope.of(context).unfocus();
               Navigator.of(context).pop();
@@ -60,7 +62,7 @@ class _SongsDetailState extends State<SongsDetail> {
         ),
         floatingActionButton: FloatingActionButton(
           tooltip: 'Preferito',
-          child: Icon(Icons.favorite_border),
+          child: const Icon(Icons.favorite_border),
           onPressed: () {},
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
@@ -71,29 +73,27 @@ class _SongsDetailState extends State<SongsDetail> {
             children: [
               Column(
                 children: [
-                  Container(
+                  SizedBox(
                     width: MediaQuery.of(context).size.width,
-                    child: Padding(
-                      padding: const EdgeInsets.all(kDefaultPadding),
+                    child: const Padding(
+                      padding: EdgeInsets.all(kDefaultPadding),
                       child: CircleAvatar(
                         child: Text('1'),
                       ),
                     ),
                   ),
-                  Container(
-                    child: Padding(
-                      padding: const EdgeInsets.only(bottom: kDefaultPadding),
-                      child: Text(
-                        'Titolo del Cantico',
-                        style: TextStyle(fontSize: 25.0),
-                        textAlign: TextAlign.left,
-                      ),
+                  const Padding(
+                    padding: EdgeInsets.only(bottom: kDefaultPadding),
+                    child: Text(
+                      'Titolo del Cantico',
+                      style: TextStyle(fontSize: 25.0),
+                      textAlign: TextAlign.left,
                     ),
                   ),
                   Padding(
                     padding: const EdgeInsets.only(
                         left: kDefaultPadding * 2, right: kDefaultPadding * 2),
-                    child: Container(
+                    child: SizedBox(
                       width: MediaQuery.of(context).size.width,
                       child: SelectableText(
                         '''Testo del Cantico:\nTesto del Cantico,\nTesto del Cantico.\n\nTesto del Cantico:\nTesto del Cantico,\nTesto del Cantico.\n\nTesto del Cantico:\nTesto del Cantico,\nTesto del Cantico.\n\n''',
@@ -116,7 +116,7 @@ class _SongsDetailState extends State<SongsDetail> {
             child: Row(
               children: [
                 IconButton(
-                  icon: Icon(Icons.settings),
+                  icon: const Icon(Icons.settings),
                   tooltip: 'Impostazioni',
                   onPressed: () {
                     showModalBottomSheet<void>(
@@ -131,20 +131,19 @@ class _SongsDetailState extends State<SongsDetail> {
                           mainAxisSize: MainAxisSize.min,
                           children: <Widget>[
                             ListTile(
-                              leading: Icon(Icons.format_size),
-                              title: Text('Dimensione Testo'),
+                              leading: const Icon(Icons.format_size),
+                              title: const Text('Dimensione Testo'),
                               trailing: Row(
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
                                   IconButton(
-                                    icon: Icon(Icons.text_decrease),
+                                    icon: const Icon(Icons.text_decrease),
                                     tooltip: 'Testo più Piccolo',
                                     onPressed: () {
                                       if (textSize > textSizeMin) {
                                         textSize = textSize - 3.0;
                                       } else {
-                                        print(
-                                            'Dimensione minima del testo: $textSize');
+                                        log('Dimensione minima del testo: $textSize');
                                       }
                                       setState(
                                         () {},
@@ -152,14 +151,13 @@ class _SongsDetailState extends State<SongsDetail> {
                                     },
                                   ),
                                   IconButton(
-                                    icon: Icon(Icons.text_increase),
+                                    icon: const Icon(Icons.text_increase),
                                     tooltip: 'Testo più Grande',
                                     onPressed: () {
                                       if (textSize < textSizeMax) {
                                         textSize = textSize + 3.0;
                                       } else {
-                                        print(
-                                            'Dimensione massima del testo: $textSize');
+                                        log('Dimensione massima del testo: $textSize');
                                       }
                                       setState(
                                         () {},
@@ -170,13 +168,13 @@ class _SongsDetailState extends State<SongsDetail> {
                               ),
                             ),
                             ListTile(
-                              leading: Icon(Icons.format_line_spacing),
-                              title: Text('Interlinea'),
+                              leading: const Icon(Icons.format_line_spacing),
+                              title: const Text('Interlinea'),
                               trailing: Row(
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
                                   IconButton(
-                                    icon: Icon(
+                                    icon: const Icon(
                                       Icons.density_small,
                                     ),
                                     tooltip: 'Diminuisci Interlinea',
@@ -184,7 +182,7 @@ class _SongsDetailState extends State<SongsDetail> {
                                       if (textHeight > textHeightMin) {
                                         textHeight = textHeight - 0.5;
                                       } else {
-                                        print('Interlinea minima: $textHeight');
+                                        log('Interlinea minima: $textHeight');
                                       }
                                       setState(
                                         () {},
@@ -192,7 +190,7 @@ class _SongsDetailState extends State<SongsDetail> {
                                     },
                                   ),
                                   IconButton(
-                                    icon: Icon(
+                                    icon: const Icon(
                                       Icons.density_medium,
                                     ),
                                     tooltip: 'Aumenta Interlinea',
@@ -200,8 +198,7 @@ class _SongsDetailState extends State<SongsDetail> {
                                       if (textHeight < textHeightMax) {
                                         textHeight = textHeight + 0.5;
                                       } else {
-                                        print(
-                                            'Interlinea massima: $textHeight');
+                                        log('Interlinea massima: $textHeight');
                                       }
                                       setState(
                                         () {},
@@ -211,9 +208,9 @@ class _SongsDetailState extends State<SongsDetail> {
                                 ],
                               ),
                             ),
-                            Divider(),
+                            const Divider(),
                             ListTile(
-                              title: Center(
+                              title: const Center(
                                 child: Text('Chiudi'),
                               ),
                               onTap: () {
@@ -228,7 +225,7 @@ class _SongsDetailState extends State<SongsDetail> {
                   },
                 ),
                 IconButton(
-                  icon: Icon(
+                  icon: const Icon(
                     Icons.play_circle_fill,
                   ),
                   tooltip: 'Riproduci',
@@ -236,7 +233,7 @@ class _SongsDetailState extends State<SongsDetail> {
                 ),
                 IconButton(
                   tooltip: 'Condividi',
-                  icon: Icon(
+                  icon: const Icon(
                     Icons.share,
                   ),
                   onPressed: () {},

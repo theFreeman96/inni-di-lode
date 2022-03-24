@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 
-import '/assets/theme/constants.dart';
+import '/theme/constants.dart';
 
 class CatHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         image: DecorationImage(
           fit: BoxFit.cover,
-          image: AssetImage('lib/assets/images/categories.png'),
+          image: AssetImage('lib/assets/images/cat_header.png'),
           alignment: Alignment.center,
         ),
         color: kPrimaryColor,

@@ -5,8 +5,8 @@ class Songs {
   Songs(this.id, this.title);
 
   Songs.fromMap(dynamic obj) {
-    this.id = obj['id'];
-    this.title = obj['title'];
+    id = obj['id'];
+    title = obj['title'];
   }
 }
 
@@ -17,8 +17,8 @@ class Macrocategories {
   Macrocategories(this.id, this.name);
 
   Macrocategories.fromMap(dynamic obj) {
-    this.id = obj['id'];
-    this.name = obj['name'];
+    id = obj['id'];
+    name = obj['name'];
   }
 }
 
@@ -30,9 +30,9 @@ class Categories {
   Categories(this.id, this.name, this.macro_id);
 
   Categories.fromMap(dynamic obj) {
-    this.id = obj['id'];
-    this.name = obj['name'];
-    this.macro_id = obj['macro_id'];
+    id = obj['id'];
+    name = obj['name'];
+    macro_id = obj['macro_id'];
   }
 }
 
@@ -44,9 +44,9 @@ class Authors {
   Authors(this.id, this.name, this.surname);
 
   Authors.fromMap(dynamic obj) {
-    this.id = obj['id'];
-    this.name = obj['name'];
-    this.surname = obj['surname'];
+    id = obj['id'];
+    name = obj['name'];
+    surname = obj['surname'];
   }
 }
 
@@ -64,13 +64,13 @@ class View_Canti {
       this.macroName, this.catId, this.catName, this.autName);
 
   View_Canti.fromMap(dynamic obj) {
-    this.songID = obj['songID'];
-    this.songTitle = obj['songTitle'];
-    this.songText = obj['songText'];
-    this.macroId = obj['macroId'];
-    this.macroName = obj['macroName'];
-    this.catId = obj['catId'];
-    this.catName = obj['catName'];
-    this.autName = obj['autName'];
+    songID = obj['songID'];
+    songTitle = obj['songTitle'];
+    songText = obj['songText'];
+    macroId = obj['macroId'];
+    macroName = obj['macroName'];
+    catId = obj['catId'];
+    catName = obj['catName'];
+    autName = obj['autName'];
   }
 }

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '/assets/theme/constants.dart';
+import '/theme/constants.dart';
 import '/assets/data/query.dart';
 import '/assets/data/lists.dart';
 
@@ -8,21 +8,21 @@ import '/screens/songs/songs_detail.dart';
 
 class AutDetail extends StatefulWidget {
   @override
-  State<AutDetail> createState() => _AutDetailState();
+  _AutDetailState createState() => _AutDetailState();
 }
 
 class _AutDetailState extends State<AutDetail> {
-  QueryCtr _query = new QueryCtr();
+  final QueryCtr _query = QueryCtr();
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          title: Text('Nome Autore'),
+          title: const Text('Nome Autore'),
           leading: IconButton(
             tooltip: 'Indietro',
-            icon: Icon(Icons.arrow_back),
+            icon: const Icon(Icons.arrow_back),
             onPressed: () {
               FocusScope.of(context).unfocus();
               Navigator.of(context).pop();
@@ -31,11 +31,11 @@ class _AutDetailState extends State<AutDetail> {
         ),
         body: FutureBuilder<List?>(
           future: _query.getAllSongs(),
-          initialData: [],
+          initialData: const [],
           builder: (context, snapshot) {
             return snapshot.hasData
-                ? new ListView.separated(
-                    physics: ScrollPhysics(),
+                ? ListView.separated(
+                    physics: const ScrollPhysics(),
                     shrinkWrap: true,
                     padding: const EdgeInsets.only(
                         top: kDefaultPadding * 0.5, bottom: kDefaultPadding),
@@ -44,10 +44,10 @@ class _AutDetailState extends State<AutDetail> {
                       return _buildRow(snapshot.data![i]);
                     },
                     separatorBuilder: (context, index) {
-                      return Divider();
+                      return const Divider();
                     },
                   )
-                : Center(
+                : const Center(
                     child: CircularProgressIndicator(),
                   );
           },
@@ -57,14 +57,14 @@ class _AutDetailState extends State<AutDetail> {
   }
 
   Widget _buildRow(Songs song) {
-    return new ListTile(
-      leading: new CircleAvatar(
-        child: new Text(
+    return ListTile(
+      leading: CircleAvatar(
+        child: Text(
           song.id.toString(),
         ),
       ),
-      title: new Text(song.title),
-      trailing: Icon(
+      title: Text(song.title),
+      trailing: const Icon(
         Icons.navigate_next,
         color: kLightGrey,
       ),

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '/assets/theme/provider.dart';
-import '/assets/theme/constants.dart';
+import '/theme/provider.dart';
+import '/theme/constants.dart';
 
 import '/screens/songs/songs_detail.dart';
 import '/screens/info/info_page.dart';
@@ -39,7 +39,7 @@ class _HamburgerMenuState extends State<HamburgerMenu> {
             },
           ),
           ListTile(
-            leading: Icon(Icons.help),
+            leading: const Icon(Icons.help),
             title: const Text('Cantico casuale'),
             onTap: () {
               FocusScope.of(context).unfocus();
@@ -55,7 +55,7 @@ class _HamburgerMenuState extends State<HamburgerMenu> {
             },
           ),
           ListTile(
-            leading: Icon(Icons.info),
+            leading: const Icon(Icons.info),
             title: const Text('Contatti'),
             onTap: () {
               FocusScope.of(context).unfocus();
@@ -80,10 +80,10 @@ Widget createDrawerHeader() {
   return DrawerHeader(
     margin: EdgeInsets.zero,
     padding: EdgeInsets.zero,
-    decoration: BoxDecoration(
+    decoration: const BoxDecoration(
       image: DecorationImage(
         fit: BoxFit.cover,
-        image: AssetImage('lib/assets/images/menu.png'),
+        image: AssetImage('lib/assets/images/drawer_header.png'),
       ),
     ),
     child: Stack(
@@ -91,7 +91,7 @@ Widget createDrawerHeader() {
         Builder(
           builder: (BuildContext context) {
             return IconButton(
-              icon: Icon(
+              icon: const Icon(
                 Icons.clear,
                 color: kWhite,
               ),
@@ -103,7 +103,7 @@ Widget createDrawerHeader() {
             );
           },
         ),
-        Positioned(
+        const Positioned(
           bottom: 12.0,
           left: 16.0,
           child: Text(

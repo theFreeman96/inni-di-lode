@@ -29,15 +29,15 @@ class CatPage extends StatelessWidget {
         body: CatBody(),
       );
     } else {
-      return new Row(
+      return Row(
         children: <Widget>[
-          Container(
+          SizedBox(
             width: MediaQuery.of(context).size.width * 0.35,
             height: MediaQuery.of(context).size.height,
-            child: new CatHeader(),
+            child: CatHeader(),
           ),
           Expanded(
-            child: new CatBody(),
+            child: CatBody(),
           ),
         ],
       );
