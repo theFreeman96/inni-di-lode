@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '/theme/constants.dart';
 import '/assets/data/query.dart';
-import '/assets/data/tables.dart';
+import '/assets/data/lists.dart';
 
 import '/screens/songs/songs_detail.dart';
 

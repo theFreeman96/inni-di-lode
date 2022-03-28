@@ -1,5 +1,5 @@
 import 'database_helper.dart';
-import 'tables.dart';
+import 'lists.dart';
 
 class QueryCtr {
   DatabaseHelper con = DatabaseHelper();

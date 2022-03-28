@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import '/theme/provider.dart';
 import '/theme/constants.dart';
 import '/assets/data/query.dart';
-import '/assets/data/tables.dart';
+import '/assets/data/lists.dart';
 
 import 'aut_detail.dart';
 
