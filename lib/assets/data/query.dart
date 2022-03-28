@@ -1,5 +1,5 @@
 import 'database_helper.dart';
-import 'lists.dart';
+import 'tables.dart';
 
 class QueryCtr {
   DatabaseHelper con = DatabaseHelper();
@@ -52,6 +52,29 @@ class QueryCtr {
 
     List<Categories>? list =
         res.isNotEmpty ? res.map((c) => Categories.fromMap(c)).toList() : null;
+
+    return list;
+  }
+
+  Future<List<Songs>?> getSongsByCat(id) async {
+    final dbClient = await con.db;
+    final res =
+        await dbClient!.query('songs', where: 'cat_id = ?', whereArgs: [id]);
+
+    List<Songs>? list =
+        res.isNotEmpty ? res.map((c) => Songs.fromMap(c)).toList() : null;
+
+    return list;
+  }
+
+  Future<List<Songs_Authors>?> getSongsByAut(id) async {
+    final dbClient = await con.db;
+    final res = await dbClient!
+        .query('songs_authors', where: 'aut_id = ?', whereArgs: [id]);
+
+    List<Songs_Authors>? list = res.isNotEmpty
+        ? res.map((c) => Songs_Authors.fromMap(c)).toList()
+        : null;
 
     return list;
   }

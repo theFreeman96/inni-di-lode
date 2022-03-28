@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import '/theme/provider.dart';
 import '/theme/constants.dart';
 import '/assets/data/query.dart';
-import '/assets/data/lists.dart';
+import '/assets/data/tables.dart';
 
 import 'aut_detail.dart';
 
@@ -104,11 +104,13 @@ class _AutBodyState extends State<AutBody> {
       ),
       onTap: () {
         FocusScope.of(context).unfocus();
+        int autId = aut.id;
+        String autName = aut.surname + ' ' + aut.name;
         Navigator.push(
           context,
           MaterialPageRoute(
             builder: (context) {
-              return AutDetail();
+              return AutDetail(autId, autName);
             },
           ),
         );

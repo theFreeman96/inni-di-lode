@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import '/theme/provider.dart';
 import '/theme/constants.dart';
 import '/assets/data/query.dart';
-import '/assets/data/lists.dart';
+import '/assets/data/tables.dart';
 
 import 'songs_detail.dart';
 
@@ -104,11 +104,13 @@ class _SongsBodyState extends State<SongsBody> {
       ),
       onTap: () {
         FocusScope.of(context).unfocus();
+        int songId = song.id;
+        String songTitle = song.title;
         Navigator.push(
           context,
           MaterialPageRoute(
             builder: (context) {
-              return SongsDetail();
+              return SongsDetail(songId, songTitle);
             },
           ),
         );

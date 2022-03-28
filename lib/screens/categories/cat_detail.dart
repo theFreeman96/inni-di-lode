@@ -2,24 +2,33 @@ import 'package:flutter/material.dart';
 
 import '/theme/constants.dart';
 import '/assets/data/query.dart';
-import '/assets/data/lists.dart';
+import '/assets/data/tables.dart';
 
 import '/screens/songs/songs_detail.dart';
 
 class CatDetail extends StatefulWidget {
+  final int catId;
+  final String catName;
+  const CatDetail(this.catId, this.catName);
   @override
-  _CatDetailState createState() => _CatDetailState();
+  _CatDetailState createState() => _CatDetailState(catId, catName);
 }
 
 class _CatDetailState extends State<CatDetail> {
   final QueryCtr _query = QueryCtr();
+  final int catId;
+  final String catName;
+
+  _CatDetailState(this.catId, this.catName);
+
+  get id => catId;
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('Nome Categoria'),
+          title: Text(catName),
           leading: IconButton(
             tooltip: 'Indietro',
             icon: const Icon(Icons.arrow_back),
@@ -30,7 +39,7 @@ class _CatDetailState extends State<CatDetail> {
           ),
         ),
         body: FutureBuilder<List?>(
-          future: _query.getAllSongs(),
+          future: _query.getSongsByCat(id),
           initialData: const [],
           builder: (context, snapshot) {
             return snapshot.hasData
@@ -70,11 +79,13 @@ class _CatDetailState extends State<CatDetail> {
       ),
       onTap: () {
         FocusScope.of(context).unfocus();
+        int songId = song.id;
+        String songTitle = song.title;
         Navigator.push(
           context,
           MaterialPageRoute(
             builder: (context) {
-              return SongsDetail();
+              return SongsDetail(songId, songTitle);
             },
           ),
         );

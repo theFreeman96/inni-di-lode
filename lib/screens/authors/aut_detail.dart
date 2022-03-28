@@ -2,24 +2,33 @@ import 'package:flutter/material.dart';
 
 import '/theme/constants.dart';
 import '/assets/data/query.dart';
-import '/assets/data/lists.dart';
+import '/assets/data/tables.dart';
 
 import '/screens/songs/songs_detail.dart';
 
 class AutDetail extends StatefulWidget {
+  final int autId;
+  final String autName;
+  const AutDetail(this.autId, this.autName);
   @override
-  _AutDetailState createState() => _AutDetailState();
+  _AutDetailState createState() => _AutDetailState(autId, autName);
 }
 
 class _AutDetailState extends State<AutDetail> {
   final QueryCtr _query = QueryCtr();
+  final int autId;
+  final String autName;
+
+  _AutDetailState(this.autId, this.autName);
+
+  get id => autId;
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('Nome Autore'),
+          title: Text('Testi di ' + autName),
           leading: IconButton(
             tooltip: 'Indietro',
             icon: const Icon(Icons.arrow_back),
@@ -30,7 +39,7 @@ class _AutDetailState extends State<AutDetail> {
           ),
         ),
         body: FutureBuilder<List?>(
-          future: _query.getAllSongs(),
+          future: _query.getSongsByAut(id),
           initialData: const [],
           builder: (context, snapshot) {
             return snapshot.hasData
@@ -56,25 +65,27 @@ class _AutDetailState extends State<AutDetail> {
     );
   }
 
-  Widget _buildRow(Songs song) {
+  Widget _buildRow(Songs_Authors songsAuthors) {
     return ListTile(
       leading: CircleAvatar(
         child: Text(
-          song.id.toString(),
+          songsAuthors.song_id.toString(),
         ),
       ),
-      title: Text(song.title),
+      title: Text(songsAuthors.song_title),
       trailing: const Icon(
         Icons.navigate_next,
         color: kLightGrey,
       ),
       onTap: () {
         FocusScope.of(context).unfocus();
+        int songId = songsAuthors.song_id;
+        String songTitle = songsAuthors.song_title;
         Navigator.push(
           context,
           MaterialPageRoute(
             builder: (context) {
-              return SongsDetail();
+              return SongsDetail(songId, songTitle);
             },
           ),
         );
