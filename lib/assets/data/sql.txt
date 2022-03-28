@@ -1,0 +1,33 @@
+DROP VIEW "main"."View_Canti";
+CREATE VIEW "View_Canti" AS SELECT s.id AS 'songId', s.title AS 'songTitle', s.text AS 'songText', 
+m.name AS 'macroName', c.name AS 'catName', GROUP_CONCAT(tbl_autori.autore) AS 'autName'
+FROM Songs s 
+LEFT JOIN Categories c ON s.cat_id=c.id
+LEFT JOIN Macrocategories m ON c.macro_id=m.id
+LEFT JOIN 
+(SELECT sa.song_id AS 'id_cantico', (a.surname || ' ' || a.name) AS 'autore'
+FROM Authors a INNER JOIN Songs_Authors sa ON a.id=sa.aut_id) AS 'tbl_autori' 
+ON s.id=tbl_autori.id_cantico
+GROUP BY s.title,s.id
+ORDER BY s.id,s.title
+
+
+DROP VIEW "main"."View_Autori";
+CREATE VIEW "View_Autori" AS SELECT tbl_autori.aut_id , tbl_autori.autore AS 'Autore' , s.title AS 'Titolo', s.id AS 'song_id'
+FROM Songs s 
+JOIN 
+(SELECT sa.song_id AS 'id_cantico', (a.surname || ' ' || a.name) AS 'autore',a.id AS 'aut_id' FROM Authors a INNER JOIN Songs_Authors sa ON a.id=sa.aut_id) AS 'tbl_autori' ON s.id=tbl_autori.id_cantico
+ORDER BY tbl_autori.autore,s.title
+
+
+CREATE TABLE "Raccolta" AS SELECT s.id AS 'songId', s.title AS 'songTitle', s.text AS 'songText', 
+m.id AS 'macroId', m.name AS 'macroName', c.id AS 'catId', c.name AS 'catName', GROUP_CONCAT(tbl_autori.autore) AS 'autName'
+FROM Songs s 
+LEFT JOIN Categories c ON s.cat_id=c.id
+LEFT JOIN Macrocategories m ON c.macro_id=m.id
+LEFT JOIN 
+(SELECT sa.song_id AS 'id_cantico', (a.surname || ' ' || a.name) AS 'autore'
+FROM Authors a INNER JOIN Songs_Authors sa ON a.id=sa.aut_id) AS 'tbl_autori' 
+ON s.id=tbl_autori.id_cantico
+GROUP BY s.title,s.id
+ORDER BY s.id,s.title
