@@ -24,7 +24,6 @@ dependencies:
   flutter:
     sdk: flutter
   sqflite: any
-  drift: ^1.5.0
   provider: ^6.0.1
   font_awesome_flutter: ^9.2.0
   # system_settings: ^2.0.0

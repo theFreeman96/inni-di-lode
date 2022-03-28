@@ -7,11 +7,20 @@ import '/theme/constants.dart';
 import '/theme/provider.dart';
 
 class SongsDetail extends StatefulWidget {
+  final int songId;
+  final String songTitle;
+  const SongsDetail(this.songId, this.songTitle);
+
   @override
-  _SongsDetailState createState() => _SongsDetailState();
+  _SongsDetailState createState() => _SongsDetailState(songId, songTitle);
 }
 
 class _SongsDetailState extends State<SongsDetail> {
+  final int songId;
+  final String songTitle;
+
+  _SongsDetailState(this.songId, this.songTitle);
+
   double textSize = 18.0;
   double textSizeMin = 15.0;
   double textSizeMax = 24.0;
@@ -75,18 +84,18 @@ class _SongsDetailState extends State<SongsDetail> {
                 children: [
                   SizedBox(
                     width: MediaQuery.of(context).size.width,
-                    child: const Padding(
-                      padding: EdgeInsets.all(kDefaultPadding),
+                    child: Padding(
+                      padding: const EdgeInsets.all(kDefaultPadding),
                       child: CircleAvatar(
-                        child: Text('1'),
+                        child: Text(songId.toString()),
                       ),
                     ),
                   ),
-                  const Padding(
-                    padding: EdgeInsets.only(bottom: kDefaultPadding),
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: kDefaultPadding),
                     child: Text(
-                      'Titolo del Cantico',
-                      style: TextStyle(fontSize: 25.0),
+                      songTitle,
+                      style: const TextStyle(fontSize: 20.0),
                       textAlign: TextAlign.left,
                     ),
                   ),

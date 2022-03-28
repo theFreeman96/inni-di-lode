@@ -5,7 +5,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '/theme/provider.dart';
 import '/theme/constants.dart';
 import '/assets/data/query.dart';
-import '/assets/data/lists.dart';
+import '/assets/data/tables.dart';
 
 import 'cat_detail.dart';
 
@@ -166,11 +166,13 @@ class _CatBodyState extends State<CatBody> {
       ),
       onTap: () {
         FocusScope.of(context).unfocus();
+        int catId = cat.id;
+        String catName = cat.name;
         Navigator.push(
           context,
           MaterialPageRoute(
             builder: (context) {
-              return CatDetail();
+              return CatDetail(catId, catName);
             },
           ),
         );

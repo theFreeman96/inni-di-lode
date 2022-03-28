@@ -42,6 +42,7 @@ class _HamburgerMenuState extends State<HamburgerMenu> {
             leading: const Icon(Icons.help),
             title: const Text('Cantico casuale'),
             onTap: () {
+              /*
               FocusScope.of(context).unfocus();
               Navigator.pop(context);
               Navigator.push(
@@ -51,7 +52,7 @@ class _HamburgerMenuState extends State<HamburgerMenu> {
                     return SongsDetail();
                   },
                 ),
-              );
+              );*/
             },
           ),
           ListTile(
