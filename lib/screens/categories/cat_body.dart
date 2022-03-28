@@ -5,7 +5,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '/theme/provider.dart';
 import '/theme/constants.dart';
 import '/assets/data/query.dart';
-import '/assets/data/tables.dart';
+import '/assets/data/lists.dart';
 
 import 'cat_detail.dart';
 
@@ -106,7 +106,7 @@ class _CatBodyState extends State<CatBody> {
                 ),
               ),
               title: Text(
-                macrocat.name.toString(),
+                macrocat.name,
                 style: const TextStyle(fontSize: 16.0),
               ),
             );
