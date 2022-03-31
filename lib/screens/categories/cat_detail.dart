@@ -65,27 +65,28 @@ class _CatDetailState extends State<CatDetail> {
     );
   }
 
-  Widget _buildRow(Songs song) {
+  Widget _buildRow(Raccolta get) {
     return ListTile(
       leading: CircleAvatar(
         child: Text(
-          song.id.toString(),
+          get.songId.toString(),
         ),
       ),
-      title: Text(song.title),
+      title: Text(get.songTitle),
       trailing: const Icon(
         Icons.navigate_next,
         color: kLightGrey,
       ),
       onTap: () {
         FocusScope.of(context).unfocus();
-        int songId = song.id;
-        String songTitle = song.title;
+        int songId = get.songId;
+        String songTitle = get.songTitle;
+        String songText = get.songText;
         Navigator.push(
           context,
           MaterialPageRoute(
             builder: (context) {
-              return SongsDetail(songId, songTitle);
+              return SongsDetail(songId, songTitle, songText);
             },
           ),
         );

@@ -4,77 +4,154 @@ import 'lists.dart';
 class QueryCtr {
   DatabaseHelper con = DatabaseHelper();
 
-  Future<List<Songs>?> getAllSongs() async {
+  Future<List<Raccolta>?> getAllSongs() async {
     final dbClient = await con.db;
-    final res = await dbClient!.query('songs');
+    final res = await dbClient!.query('view_raccolta', groupBy: 'songId');
 
-    List<Songs>? list =
-        res.isNotEmpty ? res.map((c) => Songs.fromMap(c)).toList() : null;
+    List<Raccolta>? list =
+        res.isNotEmpty ? res.map((c) => Raccolta.fromMap(c)).toList() : null;
 
     return list;
   }
 
-  Future<List<Macrocategories>?> getAllMacroCat() async {
+  Future<List<Raccolta>?> getAllMacroCat() async {
     final dbClient = await con.db;
-    final res = await dbClient!.query('macrocategories');
+    final res = await dbClient!.query('view_raccolta', groupBy: 'macroId');
 
-    List<Macrocategories>? list = res.isNotEmpty
-        ? res.map((c) => Macrocategories.fromMap(c)).toList()
-        : null;
+    List<Raccolta>? list =
+        res.isNotEmpty ? res.map((c) => Raccolta.fromMap(c)).toList() : null;
 
     return list;
   }
 
-  Future<List<Categories>?> getAllCat() async {
+  Future<List<Raccolta>?> getCatByMacro(id) async {
     final dbClient = await con.db;
-    final res = await dbClient!.query('categories');
+    final res = await dbClient!.query('view_raccolta',
+        where: 'macroId = ?', whereArgs: [id], groupBy: 'catId');
 
-    List<Categories>? list =
-        res.isNotEmpty ? res.map((c) => Categories.fromMap(c)).toList() : null;
+    List<Raccolta>? list =
+        res.isNotEmpty ? res.map((c) => Raccolta.fromMap(c)).toList() : null;
 
     return list;
   }
 
-  Future<List<Authors>?> getAllAut() async {
+  Future<List<Raccolta>?> getSongsByCat(id) async {
     final dbClient = await con.db;
-    final res = await dbClient!.query('authors');
+    final res = await dbClient!.query('view_raccolta',
+        where: 'catId = ?', whereArgs: [id], groupBy: 'songId');
 
-    List<Authors>? list =
-        res.isNotEmpty ? res.map((c) => Authors.fromMap(c)).toList() : null;
+    List<Raccolta>? list =
+        res.isNotEmpty ? res.map((c) => Raccolta.fromMap(c)).toList() : null;
 
     return list;
   }
 
-  Future<List<Categories>?> getCatByMacro(id) async {
+  Future<List<Autori>?> getAllAut() async {
     final dbClient = await con.db;
     final res = await dbClient!
-        .query('categories', where: 'macro_id = ?', whereArgs: [id]);
+        .query('view_autori', orderBy: 'autName', groupBy: 'autId');
 
-    List<Categories>? list =
-        res.isNotEmpty ? res.map((c) => Categories.fromMap(c)).toList() : null;
+    List<Autori>? list =
+        res.isNotEmpty ? res.map((c) => Autori.fromMap(c)).toList() : null;
 
     return list;
   }
 
-  Future<List<Songs>?> getSongsByCat(id) async {
+  Future<List<Autori>?> getSongsByAut(id) async {
     final dbClient = await con.db;
-    final res =
-        await dbClient!.query('songs', where: 'cat_id = ?', whereArgs: [id]);
+    final res = await dbClient!.query('view_autori',
+        where: 'autId = ?', whereArgs: [id], groupBy: 'songId');
 
-    List<Songs>? list =
-        res.isNotEmpty ? res.map((c) => Songs.fromMap(c)).toList() : null;
+    List<Autori>? list =
+        res.isNotEmpty ? res.map((c) => Autori.fromMap(c)).toList() : null;
 
     return list;
   }
 
-  Future<List<Songs_Authors>?> getSongsByAut(id) async {
+  Future<List<Raccolta>?> getRandomSong() async {
     final dbClient = await con.db;
     final res = await dbClient!
-        .query('songs_authors', where: 'aut_id = ?', whereArgs: [id]);
+        .rawQuery('select * from tableName order by random() limit 1');
 
-    List<Songs_Authors>? list = res.isNotEmpty
-        ? res.map((c) => Songs_Authors.fromMap(c)).toList()
-        : null;
+    List<Raccolta>? list =
+        res.isNotEmpty ? res.map((c) => Raccolta.fromMap(c)).toList() : null;
+
+    return list;
+  }
+
+  Future<List<Raccolta>?> getSongsFrom1To100() async {
+    final dbClient = await con.db;
+    final res = await dbClient!.rawQuery(
+        'SELECT * FROM View_Raccolta WHERE songId BETWEEN 1 and 100 GROUP BY songId');
+
+    List<Raccolta>? list =
+        res.isNotEmpty ? res.map((c) => Raccolta.fromMap(c)).toList() : null;
+
+    return list;
+  }
+
+  Future<List<Raccolta>?> getSongsFrom101To200() async {
+    final dbClient = await con.db;
+    final res = await dbClient!.rawQuery(
+        'SELECT * FROM View_Raccolta WHERE songId BETWEEN 101 and 200 GROUP BY songId');
+
+    List<Raccolta>? list =
+        res.isNotEmpty ? res.map((c) => Raccolta.fromMap(c)).toList() : null;
+
+    return list;
+  }
+
+  Future<List<Raccolta>?> getSongsFrom201To300() async {
+    final dbClient = await con.db;
+    final res = await dbClient!.rawQuery(
+        'SELECT * FROM View_Raccolta WHERE songId BETWEEN 201 and 300 GROUP BY songId');
+
+    List<Raccolta>? list =
+        res.isNotEmpty ? res.map((c) => Raccolta.fromMap(c)).toList() : null;
+
+    return list;
+  }
+
+  Future<List<Raccolta>?> getSongsFrom301To400() async {
+    final dbClient = await con.db;
+    final res = await dbClient!.rawQuery(
+        'SELECT * FROM View_Raccolta WHERE songId BETWEEN 301 and 400 GROUP BY songId');
+
+    List<Raccolta>? list =
+        res.isNotEmpty ? res.map((c) => Raccolta.fromMap(c)).toList() : null;
+
+    return list;
+  }
+
+  Future<List<Raccolta>?> getSongsFrom401To500() async {
+    final dbClient = await con.db;
+    final res = await dbClient!.rawQuery(
+        'SELECT * FROM View_Raccolta WHERE songId BETWEEN 401 and 500 GROUP BY songId');
+
+    List<Raccolta>? list =
+        res.isNotEmpty ? res.map((c) => Raccolta.fromMap(c)).toList() : null;
+
+    return list;
+  }
+
+  Future<List<Raccolta>?> getSongsFrom501To600() async {
+    final dbClient = await con.db;
+    final res = await dbClient!.rawQuery(
+        'SELECT * FROM View_Raccolta WHERE songId BETWEEN 501 and 600 GROUP BY songId');
+
+    List<Raccolta>? list =
+        res.isNotEmpty ? res.map((c) => Raccolta.fromMap(c)).toList() : null;
+
+    return list;
+  }
+
+  Future<List<Raccolta>?> getSongsFrom601To700() async {
+    final dbClient = await con.db;
+    final res = await dbClient!.rawQuery(
+        'SELECT * FROM View_Raccolta WHERE songId BETWEEN 601 and 700 GROUP BY songId');
+
+    List<Raccolta>? list =
+        res.isNotEmpty ? res.map((c) => Raccolta.fromMap(c)).toList() : null;
 
     return list;
   }

@@ -92,7 +92,7 @@ class _CatBodyState extends State<CatBody> {
     );
   }
 
-  Widget _buildRow(Macrocategories macrocat, i) {
+  Widget _buildRow(Raccolta get, i) {
     return ExpansionPanelList(
       elevation: 0.0,
       children: [
@@ -106,7 +106,7 @@ class _CatBodyState extends State<CatBody> {
                 ),
               ),
               title: Text(
-                macrocat.name,
+                get.macroName,
                 style: const TextStyle(fontSize: 16.0),
               ),
             );
@@ -114,7 +114,7 @@ class _CatBodyState extends State<CatBody> {
           canTapOnHeader: true,
           isExpanded: _activeMeterIndex == i,
           body: FutureBuilder<List?>(
-            future: _query.getCatByMacro(macrocat.id),
+            future: _query.getCatByMacro(get.macroId),
             initialData: const [],
             builder: (context, snapshot) {
               return snapshot.hasData
@@ -145,7 +145,7 @@ class _CatBodyState extends State<CatBody> {
     );
   }
 
-  Widget _buildCatRow(Categories cat) {
+  Widget _buildCatRow(Raccolta get) {
     return ListTile(
       leading: const Padding(
         padding: EdgeInsets.only(left: kDefaultPadding),
@@ -154,7 +154,7 @@ class _CatBodyState extends State<CatBody> {
         ),
       ),
       title: Text(
-        cat.name,
+        get.catName,
         style: const TextStyle(fontSize: 16.0),
       ),
       trailing: const Padding(
@@ -166,8 +166,8 @@ class _CatBodyState extends State<CatBody> {
       ),
       onTap: () {
         FocusScope.of(context).unfocus();
-        int catId = cat.id;
-        String catName = cat.name;
+        int catId = get.catId;
+        String catName = get.catName;
         Navigator.push(
           context,
           MaterialPageRoute(

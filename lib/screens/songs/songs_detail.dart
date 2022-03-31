@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
 
 import '/theme/constants.dart';
 import '/theme/provider.dart';
@@ -9,21 +10,24 @@ import '/theme/provider.dart';
 class SongsDetail extends StatefulWidget {
   final int songId;
   final String songTitle;
-  const SongsDetail(this.songId, this.songTitle);
+  final String songText;
+  const SongsDetail(this.songId, this.songTitle, this.songText);
 
   @override
-  _SongsDetailState createState() => _SongsDetailState(songId, songTitle);
+  _SongsDetailState createState() =>
+      _SongsDetailState(songId, songTitle, songText);
 }
 
 class _SongsDetailState extends State<SongsDetail> {
   final int songId;
   final String songTitle;
+  final String songText;
 
-  _SongsDetailState(this.songId, this.songTitle);
+  _SongsDetailState(this.songId, this.songTitle, this.songText);
 
-  double textSize = 18.0;
-  double textSizeMin = 15.0;
-  double textSizeMax = 24.0;
+  double textSize = 16.0;
+  double textSizeMin = 16.0;
+  double textSizeMax = 20.0;
 
   double textHeight = 1.5;
   double textHeightMin = 1.0;
@@ -95,21 +99,29 @@ class _SongsDetailState extends State<SongsDetail> {
                     padding: const EdgeInsets.only(bottom: kDefaultPadding),
                     child: Text(
                       songTitle,
-                      style: const TextStyle(fontSize: 20.0),
+                      style: const TextStyle(fontSize: 22.0),
                       textAlign: TextAlign.left,
                     ),
                   ),
                   Padding(
                     padding: const EdgeInsets.only(
-                        left: kDefaultPadding * 2, right: kDefaultPadding * 2),
+                        left: kDefaultPadding,
+                        right: kDefaultPadding,
+                        bottom: kDefaultPadding * 3),
                     child: SizedBox(
                       width: MediaQuery.of(context).size.width,
-                      child: SelectableText(
-                        '''Testo del Cantico:\nTesto del Cantico,\nTesto del Cantico.\n\nTesto del Cantico:\nTesto del Cantico,\nTesto del Cantico.\n\nTesto del Cantico:\nTesto del Cantico,\nTesto del Cantico.\n\n''',
+                      child: HtmlWidget(
+                        songText,
+                        textStyle: TextStyle(
+                          fontSize: textSize,
+                          height: textHeight,
+                        ),
+                      ), /*SelectableText(
+                        songText,
                         style:
                             TextStyle(fontSize: textSize, height: textHeight),
                         textAlign: TextAlign.left,
-                      ),
+                      ),*/
                     ),
                   ),
                 ],
@@ -130,8 +142,11 @@ class _SongsDetailState extends State<SongsDetail> {
                   onPressed: () {
                     showModalBottomSheet<void>(
                       context: context,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(15.0),
+                      shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(15),
+                          topRight: Radius.circular(15),
+                        ),
                       ),
                       isScrollControlled: true,
                       builder: (BuildContext context) {
@@ -150,7 +165,7 @@ class _SongsDetailState extends State<SongsDetail> {
                                     tooltip: 'Testo più Piccolo',
                                     onPressed: () {
                                       if (textSize > textSizeMin) {
-                                        textSize = textSize - 3.0;
+                                        textSize = textSize - 2.0;
                                       } else {
                                         log('Dimensione minima del testo: $textSize');
                                       }
@@ -164,7 +179,7 @@ class _SongsDetailState extends State<SongsDetail> {
                                     tooltip: 'Testo più Grande',
                                     onPressed: () {
                                       if (textSize < textSizeMax) {
-                                        textSize = textSize + 3.0;
+                                        textSize = textSize + 2.0;
                                       } else {
                                         log('Dimensione massima del testo: $textSize');
                                       }

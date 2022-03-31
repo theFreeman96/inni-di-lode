@@ -90,22 +90,22 @@ class _AutBodyState extends State<AutBody> {
     );
   }
 
-  Widget _buildRow(Authors aut) {
+  Widget _buildRow(Autori get) {
     return ListTile(
       leading: const CircleAvatar(
         child: Icon(
           Icons.person,
         ),
       ),
-      title: Text(aut.surname + ' ' + aut.name),
+      title: Text(get.autName),
       trailing: const Icon(
         Icons.navigate_next,
         color: kLightGrey,
       ),
       onTap: () {
         FocusScope.of(context).unfocus();
-        int autId = aut.id;
-        String autName = aut.surname + ' ' + aut.name;
+        int autId = get.autId;
+        String autName = get.autName;
         Navigator.push(
           context,
           MaterialPageRoute(

@@ -65,27 +65,28 @@ class _AutDetailState extends State<AutDetail> {
     );
   }
 
-  Widget _buildRow(Songs_Authors songsAuthors) {
+  Widget _buildRow(Autori get) {
     return ListTile(
       leading: CircleAvatar(
         child: Text(
-          songsAuthors.song_id.toString(),
+          get.songId.toString(),
         ),
       ),
-      title: Text(songsAuthors.song_title),
+      title: Text(get.songTitle),
       trailing: const Icon(
         Icons.navigate_next,
         color: kLightGrey,
       ),
       onTap: () {
         FocusScope.of(context).unfocus();
-        int songId = songsAuthors.song_id;
-        String songTitle = songsAuthors.song_title;
+        int songId = get.songId;
+        String songTitle = get.songTitle;
+        String songText = get.songText;
         Navigator.push(
           context,
           MaterialPageRoute(
             builder: (context) {
-              return SongsDetail(songId, songTitle);
+              return SongsDetail(songId, songTitle, songText);
             },
           ),
         );
