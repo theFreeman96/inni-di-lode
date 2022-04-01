@@ -41,6 +41,7 @@ class _SongsDetailState extends State<SongsDetail> {
       child: Scaffold(
         extendBody: true,
         appBar: AppBar(
+          elevation: 0.0,
           title: const Text('Dettaglio'),
           leading: IconButton(
             tooltip: 'Indietro',
@@ -80,54 +81,57 @@ class _SongsDetailState extends State<SongsDetail> {
           onPressed: () {},
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
-        body: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Column(
-                children: [
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width,
-                    child: Padding(
-                      padding: const EdgeInsets.all(kDefaultPadding),
-                      child: CircleAvatar(
-                        child: Text(songId.toString()),
+        body: Scrollbar(
+          isAlwaysShown: true,
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Column(
+                  children: [
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width,
+                      child: Padding(
+                        padding: const EdgeInsets.all(kDefaultPadding),
+                        child: CircleAvatar(
+                          child: Text(songId.toString()),
+                        ),
                       ),
                     ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: kDefaultPadding),
-                    child: Text(
-                      songTitle,
-                      style: const TextStyle(fontSize: 22.0),
-                      textAlign: TextAlign.left,
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(
-                        left: kDefaultPadding,
-                        right: kDefaultPadding,
-                        bottom: kDefaultPadding * 5),
-                    child: SizedBox(
-                      width: MediaQuery.of(context).size.width,
-                      child: HtmlWidget(
-                        songText,
-                        textStyle: TextStyle(
-                          fontSize: textSize,
-                          height: textHeight,
-                        ),
-                      ), /*SelectableText(
-                        songText,
-                        style:
-                            TextStyle(fontSize: textSize, height: textHeight),
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: kDefaultPadding),
+                      child: Text(
+                        songTitle,
+                        style: const TextStyle(fontSize: 22.0),
                         textAlign: TextAlign.left,
-                      ),*/
+                      ),
                     ),
-                  ),
-                ],
-              ),
-            ],
+                    Padding(
+                      padding: const EdgeInsets.only(
+                          left: kDefaultPadding,
+                          right: kDefaultPadding,
+                          bottom: kDefaultPadding * 7),
+                      child: SizedBox(
+                        width: MediaQuery.of(context).size.width,
+                        child: HtmlWidget(
+                          songText,
+                          textStyle: TextStyle(
+                            fontSize: textSize,
+                            height: textHeight,
+                          ),
+                        ), /*SelectableText(
+                          songText,
+                          style:
+                              TextStyle(fontSize: textSize, height: textHeight),
+                          textAlign: TextAlign.left,
+                        ),*/
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
         bottomNavigationBar: BottomAppBar(

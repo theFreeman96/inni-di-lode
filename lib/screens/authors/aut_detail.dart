@@ -28,6 +28,7 @@ class _AutDetailState extends State<AutDetail> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
+          elevation: 0.0,
           title: Text('Testi di ' + autName),
           leading: IconButton(
             tooltip: 'Indietro',
@@ -43,18 +44,21 @@ class _AutDetailState extends State<AutDetail> {
           initialData: const [],
           builder: (context, snapshot) {
             return snapshot.hasData
-                ? ListView.separated(
-                    physics: const ScrollPhysics(),
-                    shrinkWrap: true,
-                    padding: const EdgeInsets.only(
-                        top: kDefaultPadding * 0.5, bottom: kDefaultPadding),
-                    itemCount: snapshot.data!.length,
-                    itemBuilder: (context, i) {
-                      return _buildRow(snapshot.data![i]);
-                    },
-                    separatorBuilder: (context, index) {
-                      return const Divider();
-                    },
+                ? Scrollbar(
+                    isAlwaysShown: true,
+                    child: ListView.separated(
+                      physics: const ScrollPhysics(),
+                      shrinkWrap: true,
+                      padding: const EdgeInsets.only(
+                          top: kDefaultPadding * 0.5, bottom: kDefaultPadding),
+                      itemCount: snapshot.data!.length,
+                      itemBuilder: (context, i) {
+                        return _buildRow(snapshot.data![i]);
+                      },
+                      separatorBuilder: (context, index) {
+                        return const Divider();
+                      },
+                    ),
                   )
                 : const Center(
                     child: CircularProgressIndicator(),
