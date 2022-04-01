@@ -11,6 +11,7 @@ class InfoPage extends StatelessWidget {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
+          elevation: 0.0,
           title: const Text('Contatti'),
           leading: IconButton(
             tooltip: 'Indietro',
@@ -26,7 +27,7 @@ class InfoPage extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.3,
+                    height: MediaQuery.of(context).size.height * 0.25,
                     child: InfoHeader(),
                   ),
                   Expanded(
