@@ -17,8 +17,8 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  int _currentIndex = 0;
-  final List<Widget> _children = [SongsPage(), CatPage(), AutPage(), FavPage()];
+  int currentIndex = 0;
+  final List<Widget> children = [SongsPage(), CatPage(), AutPage(), FavPage()];
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +42,7 @@ class _HomeState extends State<Home> {
         title: const Text('Innario'),
       ),
       drawer: HamburgerMenu(),
-      body: _children[_currentIndex],
+      body: children[currentIndex],
       bottomNavigationBar: BottomAppBar(
         shape: const CircularNotchedRectangle(),
         notchMargin: 6,
@@ -50,7 +50,7 @@ class _HomeState extends State<Home> {
         child: BottomNavigationBar(
           type: BottomNavigationBarType.shifting,
           backgroundColor: themeProvider.isDarkMode ? kGrey : kPrimaryColor,
-          currentIndex: _currentIndex,
+          currentIndex: currentIndex,
           onTap: onTabTapped,
           selectedItemColor: kWhite,
           unselectedItemColor: kWhite.withOpacity(0.6),
@@ -83,7 +83,7 @@ class _HomeState extends State<Home> {
 
   void onTabTapped(int index) {
     setState(() {
-      _currentIndex = index;
+      currentIndex = index;
     });
   }
 }

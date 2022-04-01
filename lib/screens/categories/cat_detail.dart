@@ -15,7 +15,7 @@ class CatDetail extends StatefulWidget {
 }
 
 class _CatDetailState extends State<CatDetail> {
-  final QueryCtr _query = QueryCtr();
+  final QueryCtr query = QueryCtr();
   final int catId;
   final String catName;
 
@@ -39,7 +39,7 @@ class _CatDetailState extends State<CatDetail> {
           ),
         ),
         body: FutureBuilder<List?>(
-          future: _query.getSongsByCat(id),
+          future: query.getSongsByCat(id),
           initialData: const [],
           builder: (context, snapshot) {
             return snapshot.hasData
