@@ -16,7 +16,7 @@ class AutBody extends StatefulWidget {
 class _AutBodyState extends State<AutBody> {
   TextEditingController editingController = TextEditingController();
   FocusNode myFocusNode = FocusNode();
-  final QueryCtr _query = QueryCtr();
+  final QueryCtr query = QueryCtr();
 
   @override
   Widget build(BuildContext context) {
@@ -61,7 +61,7 @@ class _AutBodyState extends State<AutBody> {
         ),
         const Divider(height: 0.0),
         FutureBuilder<List?>(
-          future: _query.getAllAut(),
+          future: query.getAllAut(),
           initialData: const [],
           builder: (context, snapshot) {
             return snapshot.hasData

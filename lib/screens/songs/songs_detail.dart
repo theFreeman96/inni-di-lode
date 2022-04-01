@@ -39,6 +39,7 @@ class _SongsDetailState extends State<SongsDetail> {
 
     return SafeArea(
       child: Scaffold(
+        extendBody: true,
         appBar: AppBar(
           title: const Text('Dettaglio'),
           leading: IconButton(
@@ -107,7 +108,7 @@ class _SongsDetailState extends State<SongsDetail> {
                     padding: const EdgeInsets.only(
                         left: kDefaultPadding,
                         right: kDefaultPadding,
-                        bottom: kDefaultPadding * 3),
+                        bottom: kDefaultPadding * 5),
                     child: SizedBox(
                       width: MediaQuery.of(context).size.width,
                       child: HtmlWidget(

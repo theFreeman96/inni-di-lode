@@ -36,7 +36,7 @@ class _SongsBodyState extends State<SongsBody> {
     });
   }
 
-  final List<Future<List?>> _query = [
+  final List<Future<List?>> queries = [
     QueryCtr().getSongsFrom1To100(),
     QueryCtr().getSongsFrom101To200(),
     QueryCtr().getSongsFrom201To300(),
@@ -103,7 +103,7 @@ class _SongsBodyState extends State<SongsBody> {
           child: Builder(
             builder: (BuildContext context) {
               return FutureBuilder<List?>(
-                future: _query[currentSegment],
+                future: queries[currentSegment],
                 initialData: const [],
                 builder: (context, snapshot) {
                   return snapshot.hasData

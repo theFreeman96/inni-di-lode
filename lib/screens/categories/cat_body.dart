@@ -17,8 +17,8 @@ class CatBody extends StatefulWidget {
 class _CatBodyState extends State<CatBody> {
   TextEditingController editingController = TextEditingController();
   FocusNode myFocusNode = FocusNode();
-  final QueryCtr _query = QueryCtr();
-  int? _activeMeterIndex;
+  final QueryCtr query = QueryCtr();
+  int? expansionIndex;
 
   @override
   Widget build(BuildContext context) {
@@ -63,7 +63,7 @@ class _CatBodyState extends State<CatBody> {
         ),
         const Divider(height: 0.0),
         FutureBuilder<List?>(
-          future: _query.getAllMacroCat(),
+          future: query.getAllMacroCat(),
           initialData: const [],
           builder: (context, snapshot) {
             return snapshot.hasData
@@ -112,9 +112,9 @@ class _CatBodyState extends State<CatBody> {
             );
           },
           canTapOnHeader: true,
-          isExpanded: _activeMeterIndex == i,
+          isExpanded: expansionIndex == i,
           body: FutureBuilder<List?>(
-            future: _query.getCatByMacro(get.macroId),
+            future: query.getCatByMacro(get.macroId),
             initialData: const [],
             builder: (context, snapshot) {
               return snapshot.hasData
@@ -138,7 +138,7 @@ class _CatBodyState extends State<CatBody> {
       expansionCallback: (int index, bool status) {
         setState(
           () {
-            _activeMeterIndex = _activeMeterIndex == i ? null : i;
+            expansionIndex = expansionIndex == i ? null : i;
           },
         );
       },

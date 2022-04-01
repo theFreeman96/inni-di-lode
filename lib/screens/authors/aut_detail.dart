@@ -15,7 +15,7 @@ class AutDetail extends StatefulWidget {
 }
 
 class _AutDetailState extends State<AutDetail> {
-  final QueryCtr _query = QueryCtr();
+  final QueryCtr query = QueryCtr();
   final int autId;
   final String autName;
 
@@ -39,7 +39,7 @@ class _AutDetailState extends State<AutDetail> {
           ),
         ),
         body: FutureBuilder<List?>(
-          future: _query.getSongsByAut(id),
+          future: query.getSongsByAut(id),
           initialData: const [],
           builder: (context, snapshot) {
             return snapshot.hasData
