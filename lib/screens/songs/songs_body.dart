@@ -28,6 +28,14 @@ class _SongsBodyState extends State<SongsBody> {
     6: Text('7'),
   };
 
+  int currentSegment = 0;
+
+  void onValueChanged(newValue) {
+    setState(() {
+      currentSegment = newValue;
+    });
+  }
+
   final List<Future<List?>> _query = [
     QueryCtr().getSongsFrom1To100(),
     QueryCtr().getSongsFrom101To200(),
@@ -37,14 +45,6 @@ class _SongsBodyState extends State<SongsBody> {
     QueryCtr().getSongsFrom501To600(),
     QueryCtr().getSongsFrom601To700(),
   ];
-
-  int currentSegment = 0;
-
-  void onValueChanged(newValue) {
-    setState(() {
-      currentSegment = newValue;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
