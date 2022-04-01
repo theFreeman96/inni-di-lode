@@ -68,16 +68,19 @@ class _CatBodyState extends State<CatBody> {
           builder: (context, snapshot) {
             return snapshot.hasData
                 ? Expanded(
-                    child: ListView.separated(
-                      physics: const ScrollPhysics(),
-                      shrinkWrap: true,
-                      itemCount: snapshot.data!.length,
-                      itemBuilder: (context, i) {
-                        return _buildRow(snapshot.data![i], i);
-                      },
-                      separatorBuilder: (context, index) {
-                        return const Divider();
-                      },
+                    child: Scrollbar(
+                      isAlwaysShown: true,
+                      child: ListView.separated(
+                        physics: const ScrollPhysics(),
+                        shrinkWrap: true,
+                        itemCount: snapshot.data!.length,
+                        itemBuilder: (context, i) {
+                          return _buildRow(snapshot.data![i], i);
+                        },
+                        separatorBuilder: (context, index) {
+                          return const Divider();
+                        },
+                      ),
                     ),
                   )
                 : const Padding(
