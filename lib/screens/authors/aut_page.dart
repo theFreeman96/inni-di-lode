@@ -13,7 +13,7 @@ class AutPage extends StatelessWidget {
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
           return [
             SliverAppBar(
-              expandedHeight: MediaQuery.of(context).size.height * 0.3,
+              expandedHeight: MediaQuery.of(context).size.height * 0.25,
               floating: false,
               pinned: false,
               toolbarHeight: 0.0,
