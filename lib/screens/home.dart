@@ -27,8 +27,10 @@ class _HomeState extends State<Home> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       extendBody: false,
-      appBar: AppBar(
-        leading: Builder(
+      drawer: HamburgerMenu(),
+      body: children[currentIndex],
+      floatingActionButton: FloatingActionButton(
+        child: Builder(
           builder: (BuildContext context) {
             return IconButton(
               icon: const Icon(Icons.menu),
@@ -39,43 +41,53 @@ class _HomeState extends State<Home> {
             );
           },
         ),
-        title: const Text('Innario'),
+        onPressed: () {},
       ),
-      drawer: HamburgerMenu(),
-      body: children[currentIndex],
+      floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
       bottomNavigationBar: BottomAppBar(
+        elevation: 0.0,
         shape: const CircularNotchedRectangle(),
         notchMargin: 6,
         clipBehavior: Clip.antiAlias,
-        child: BottomNavigationBar(
-          type: BottomNavigationBarType.shifting,
-          backgroundColor: themeProvider.isDarkMode ? kGrey : kPrimaryColor,
-          currentIndex: currentIndex,
-          onTap: onTabTapped,
-          selectedItemColor: kWhite,
-          unselectedItemColor: kWhite.withOpacity(0.6),
-          items: [
-            BottomNavigationBarItem(
-              icon: const Icon(Icons.library_music),
-              label: 'Cantici',
-              backgroundColor: themeProvider.isDarkMode ? kGrey : kPrimaryColor,
-            ),
-            BottomNavigationBarItem(
-              icon: const FaIcon(FontAwesomeIcons.tags, size: 18),
-              label: 'Categorie',
-              backgroundColor: themeProvider.isDarkMode ? kGrey : kPrimaryColor,
-            ),
-            BottomNavigationBarItem(
-              icon: const Icon(Icons.people_alt),
-              label: 'Autori',
-              backgroundColor: themeProvider.isDarkMode ? kGrey : kPrimaryColor,
-            ),
-            BottomNavigationBarItem(
-              icon: const Icon(Icons.favorite),
-              label: 'Preferiti',
-              backgroundColor: themeProvider.isDarkMode ? kGrey : kPrimaryColor,
-            )
-          ],
+        color: themeProvider.isDarkMode ? kGrey : kPrimaryColor,
+        child: Padding(
+          padding: const EdgeInsets.only(right: kDefaultPadding * 4),
+          child: BottomNavigationBar(
+            elevation: 0.0,
+            landscapeLayout: BottomNavigationBarLandscapeLayout.spread,
+            type: BottomNavigationBarType.shifting,
+            backgroundColor: themeProvider.isDarkMode ? kGrey : kPrimaryColor,
+            currentIndex: currentIndex,
+            onTap: onTabTapped,
+            selectedItemColor: kWhite,
+            unselectedItemColor: kWhite.withOpacity(0.6),
+            items: [
+              BottomNavigationBarItem(
+                icon: const Icon(Icons.library_music),
+                label: 'Cantici',
+                backgroundColor:
+                    themeProvider.isDarkMode ? kGrey : kPrimaryColor,
+              ),
+              BottomNavigationBarItem(
+                icon: const FaIcon(FontAwesomeIcons.tags, size: 18),
+                label: 'Categorie',
+                backgroundColor:
+                    themeProvider.isDarkMode ? kGrey : kPrimaryColor,
+              ),
+              BottomNavigationBarItem(
+                icon: const Icon(Icons.people_alt),
+                label: 'Autori',
+                backgroundColor:
+                    themeProvider.isDarkMode ? kGrey : kPrimaryColor,
+              ),
+              BottomNavigationBarItem(
+                icon: const Icon(Icons.favorite),
+                label: 'Preferiti',
+                backgroundColor:
+                    themeProvider.isDarkMode ? kGrey : kPrimaryColor,
+              )
+            ],
+          ),
         ),
       ),
     );
