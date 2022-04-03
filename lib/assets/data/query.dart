@@ -145,10 +145,43 @@ class QueryCtr {
     return list;
   }
 
+  Future<List<Raccolta>?> searchSong(String keyword) async {
+    final dbClient = await con.db;
+    final res = await dbClient!.rawQuery(
+        "SELECT * FROM View_Raccolta WHERE songId LIKE '%$keyword%' OR  songTitle LIKE '%$keyword%' OR songText LIKE '%$keyword%' group by songId order by songId");
+
+    List<Raccolta>? list =
+    res.isNotEmpty ? res.map((c) => Raccolta.fromMap(c)).toList() : null;
+
+    return list;
+  }
+
+  Future<List<Autori>?> searchAut(String keyword) async {
+    final dbClient = await con.db;
+    final res = await dbClient!.rawQuery(
+        "SELECT * FROM View_Autori WHERE autId LIKE '%$keyword%' OR  autName LIKE '%$keyword%' group by autId order by autName");
+
+    List<Autori>? list =
+        res.isNotEmpty ? res.map((c) => Autori.fromMap(c)).toList() : null;
+
+    return list;
+  }
+
+  Future<List<Raccolta>?> searchCat(String keyword) async {
+    final dbClient = await con.db;
+    final res = await dbClient!.rawQuery(
+        "SELECT * FROM View_Raccolta WHERE catId LIKE '%$keyword%' OR  catName LIKE '%$keyword%' group by catId order by catName");
+
+    List<Raccolta>? list =
+    res.isNotEmpty ? res.map((c) => Raccolta.fromMap(c)).toList() : null;
+
+    return list;
+  }
+
   Future<List<Raccolta>?> getRandomSong() async {
     final dbClient = await con.db;
     final res = await dbClient!
-        .rawQuery('select * from tableName order by random() limit 1');
+        .rawQuery('select * from View_Raccolta order by random() limit 1');
 
     List<Raccolta>? list =
         res.isNotEmpty ? res.map((c) => Raccolta.fromMap(c)).toList() : null;
