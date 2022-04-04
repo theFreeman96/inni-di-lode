@@ -68,6 +68,7 @@ class _SongsBodyState extends State<SongsBody> {
       results = QueryCtr().searchSong(keyword);
 
       setState(() {
+        currentSegment = 0;
         queries[currentSegment] = results;
         isVisible = false;
       });
@@ -162,6 +163,7 @@ class _SongsBodyState extends State<SongsBody> {
                           child: Scrollbar(
                             isAlwaysShown: true,
                             child: ListView.separated(
+                              physics: const ScrollPhysics(),
                               shrinkWrap: true,
                               itemCount: snapshot.data!.length,
                               itemBuilder: (context, i) {
@@ -174,9 +176,12 @@ class _SongsBodyState extends State<SongsBody> {
                           ),
                         )
                       : const Padding(
-                          padding: EdgeInsets.all(kDefaultPadding * 2),
+                          padding: EdgeInsets.only(top: kDefaultPadding),
                           child: Center(
-                            child: CircularProgressIndicator(),
+                            child: Text(
+                              'Nessun Cantico trovato',
+                              style: TextStyle(fontSize: 20.0),
+                            ),
                           ),
                         );
                 },
