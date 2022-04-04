@@ -19,6 +19,7 @@ class _HamburgerMenuState extends State<HamburgerMenu> {
 
     return Drawer(
       child: ListView(
+        physics: const ScrollPhysics(),
         padding: EdgeInsets.zero,
         children: <Widget>[
           createDrawerHeader(),
