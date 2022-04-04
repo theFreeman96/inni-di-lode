@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 import '/theme/constants.dart';
-import '/assets/data/query.dart';
-import '/assets/data/lists.dart';
+import '/assets/data/queries.dart';
+import '/assets/data/models.dart';
 
 import '/screens/songs/songs_detail.dart';
 

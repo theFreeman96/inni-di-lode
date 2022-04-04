@@ -1,5 +1,5 @@
 import 'database_helper.dart';
-import 'lists.dart';
+import 'models.dart';
 
 class QueryCtr {
   DatabaseHelper con = DatabaseHelper();
@@ -101,6 +101,16 @@ class QueryCtr {
     return list;
   }
 
+  Future<List<Raccolta>?> getAllCat() async {
+    final dbClient = await con.db;
+    final res = await dbClient!.query('view_raccolta', groupBy: 'catId');
+
+    List<Raccolta>? list =
+        res.isNotEmpty ? res.map((c) => Raccolta.fromMap(c)).toList() : null;
+
+    return list;
+  }
+
   Future<List<Raccolta>?> getCatByMacro(id) async {
     final dbClient = await con.db;
     final res = await dbClient!.query('view_raccolta',
@@ -151,7 +161,7 @@ class QueryCtr {
         "SELECT * FROM View_Raccolta WHERE songId LIKE '%$keyword%' OR  songTitle LIKE '%$keyword%' OR songText LIKE '%$keyword%' group by songId order by songId");
 
     List<Raccolta>? list =
-    res.isNotEmpty ? res.map((c) => Raccolta.fromMap(c)).toList() : null;
+        res.isNotEmpty ? res.map((c) => Raccolta.fromMap(c)).toList() : null;
 
     return list;
   }
@@ -159,7 +169,7 @@ class QueryCtr {
   Future<List<Autori>?> searchAut(String keyword) async {
     final dbClient = await con.db;
     final res = await dbClient!.rawQuery(
-        "SELECT * FROM View_Autori WHERE autId LIKE '%$keyword%' OR  autName LIKE '%$keyword%' group by autId order by autName");
+        "SELECT * FROM View_Autori WHERE autName LIKE '%$keyword%' group by autId order by autName");
 
     List<Autori>? list =
         res.isNotEmpty ? res.map((c) => Autori.fromMap(c)).toList() : null;
@@ -170,10 +180,10 @@ class QueryCtr {
   Future<List<Raccolta>?> searchCat(String keyword) async {
     final dbClient = await con.db;
     final res = await dbClient!.rawQuery(
-        "SELECT * FROM View_Raccolta WHERE catId LIKE '%$keyword%' OR  catName LIKE '%$keyword%' group by catId order by catName");
+        "SELECT * FROM View_Raccolta WHERE catName LIKE '%$keyword%' group by catId order by catName");
 
     List<Raccolta>? list =
-    res.isNotEmpty ? res.map((c) => Raccolta.fromMap(c)).toList() : null;
+        res.isNotEmpty ? res.map((c) => Raccolta.fromMap(c)).toList() : null;
 
     return list;
   }
