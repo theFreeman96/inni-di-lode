@@ -100,6 +100,7 @@ class _CatBodyState extends State<CatBody> {
                     child: Scrollbar(
                       isAlwaysShown: true,
                       child: ListView.separated(
+                        physics: const ScrollPhysics(),
                         shrinkWrap: true,
                         itemCount: snapshot.data!.length,
                         itemBuilder: (context, i) {
@@ -153,6 +154,7 @@ class _CatBodyState extends State<CatBody> {
             builder: (context, snapshot) {
               return snapshot.hasData
                   ? ListView.builder(
+                      physics: const ScrollPhysics(),
                       shrinkWrap: true,
                       padding: const EdgeInsets.only(
                         bottom: kDefaultPadding,
