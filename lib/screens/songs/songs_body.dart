@@ -35,7 +35,7 @@ class _SongsBodyState extends State<SongsBody> {
     });
   }
 
-  final List<Future<List?>> queries = [
+  late List<Future<List?>> queries = [
     QueryCtr().getSongsFrom1To100(),
     QueryCtr().getSongsFrom101To200(),
     QueryCtr().getSongsFrom201To300(),
@@ -45,55 +45,108 @@ class _SongsBodyState extends State<SongsBody> {
     QueryCtr().getSongsFrom601To700(),
   ];
 
+  late Future<List?> future;
+
+  bool isVisible = true;
+
+  @override
+  void initState() {
+    future = queries[currentSegment];
+    super.initState();
+  }
+
+  void _runFilter(String keyword) {
+    Future<List?> results;
+    if (keyword.isEmpty) {
+      results = future;
+
+      setState(() {
+        queries[currentSegment] = future;
+        isVisible = true;
+      });
+    } else {
+      results = QueryCtr().searchSong(keyword);
+
+      setState(() {
+        queries[currentSegment] = results;
+        isVisible = false;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final themeProvider = Provider.of<ThemeProvider>(context);
     return Column(
       children: <Widget>[
-        Padding(
-          padding: const EdgeInsets.all(kDefaultPadding),
-          child: TextField(
-            focusNode: myFocusNode,
-            autofocus: false,
-            decoration: InputDecoration(
-              prefixIcon: const Icon(
-                Icons.search,
-                color: kLightGrey,
+        Stack(
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(
+                top: kDefaultPadding,
+                left: kDefaultPadding,
+                right: kDefaultPadding,
+                bottom: kDefaultPadding,
               ),
-              enabledBorder: OutlineInputBorder(
-                borderRadius: const BorderRadius.all(
-                  Radius.circular(25.0),
+              child: TextField(
+                focusNode: myFocusNode,
+                autofocus: false,
+                onChanged: (value) {
+                  _runFilter(value);
+                },
+                decoration: InputDecoration(
+                  prefixIcon: const Icon(
+                    Icons.search,
+                    color: kLightGrey,
+                  ),
+                  contentPadding: const EdgeInsets.symmetric(
+                    vertical: kDefaultPadding * 0.8,
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: const BorderRadius.all(
+                      Radius.circular(25.0),
+                    ),
+                    borderSide: BorderSide(
+                        color: themeProvider.isDarkMode ? kWhite : kLightGrey,
+                        width: 1.0),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: const BorderRadius.all(
+                      Radius.circular(25.0),
+                    ),
+                    borderSide: BorderSide(
+                        color: themeProvider.isDarkMode
+                            ? kPrimaryLightColor
+                            : kPrimaryColor,
+                        width: 2.0),
+                  ),
+                  prefixIconColor: kPrimaryColor,
+                  labelText: 'Cerca per numero, titolo o testo',
+                  labelStyle: const TextStyle(color: kLightGrey),
+                  hintText: 'Cerca un Cantico',
                 ),
-                borderSide: BorderSide(
-                    color: themeProvider.isDarkMode ? kWhite : kLightGrey,
-                    width: 1.0),
               ),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: const BorderRadius.all(
-                  Radius.circular(25.0),
-                ),
-                borderSide: BorderSide(
-                    color: themeProvider.isDarkMode
-                        ? kPrimaryLightColor
-                        : kPrimaryColor,
-                    width: 2.0),
-              ),
-              prefixIconColor: kPrimaryColor,
-              labelText: 'Cerca un Cantico',
-              labelStyle: const TextStyle(color: kLightGrey),
-              hintText: 'Cerca per numero, titolo o testo',
             ),
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.only(bottom: kDefaultPadding),
-          child: CupertinoSlidingSegmentedControl<int>(
-            children: children,
-            onValueChanged: onValueChanged,
-            groupValue: currentSegment,
-            thumbColor:
-                themeProvider.isDarkMode ? kPrimaryLightColor : Colors.white,
-          ),
+            Visibility(
+              visible: isVisible,
+              child: Center(
+                child: Padding(
+                  padding: const EdgeInsets.only(
+                    top: kDefaultPadding * 4,
+                    bottom: kDefaultPadding,
+                  ),
+                  child: CupertinoSlidingSegmentedControl<int>(
+                    children: children,
+                    onValueChanged: onValueChanged,
+                    groupValue: currentSegment,
+                    thumbColor: themeProvider.isDarkMode
+                        ? kPrimaryLightColor
+                        : Colors.white,
+                  ),
+                ),
+              ),
+            ),
+          ],
         ),
         const Divider(height: 0.0),
         CupertinoUserInterfaceLevel(
@@ -109,7 +162,6 @@ class _SongsBodyState extends State<SongsBody> {
                           child: Scrollbar(
                             isAlwaysShown: true,
                             child: ListView.separated(
-                              physics: const ScrollPhysics(),
                               shrinkWrap: true,
                               itemCount: snapshot.data!.length,
                               itemBuilder: (context, i) {
