@@ -4,8 +4,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '/theme/provider.dart';
 import '/theme/constants.dart';
-import '/assets/data/query.dart';
-import '/assets/data/lists.dart';
+import '/assets/data/queries.dart';
+import '/assets/data/models.dart';
 
 import 'cat_detail.dart';
 
@@ -15,10 +15,34 @@ class CatBody extends StatefulWidget {
 }
 
 class _CatBodyState extends State<CatBody> {
-  TextEditingController editingController = TextEditingController();
   FocusNode myFocusNode = FocusNode();
   final QueryCtr query = QueryCtr();
   int? expansionIndex;
+
+  late Future<List?> future;
+
+  @override
+  void initState() {
+    future = QueryCtr().getAllCat();
+    super.initState();
+  }
+
+  void _runFilter(String keyword) {
+    Future<List?> results;
+    if (keyword.isEmpty) {
+      results = future;
+
+      setState(() {
+        future = QueryCtr().getAllCat();
+      });
+    } else {
+      results = QueryCtr().searchCat(keyword);
+
+      setState(() {
+        future = results;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +54,9 @@ class _CatBodyState extends State<CatBody> {
           child: TextField(
             focusNode: myFocusNode,
             autofocus: false,
-            controller: editingController,
+            onChanged: (value) {
+              _runFilter(value);
+            },
             decoration: InputDecoration(
               prefixIcon: const Icon(
                 Icons.search,
@@ -63,7 +89,7 @@ class _CatBodyState extends State<CatBody> {
         ),
         const Divider(height: 0.0),
         FutureBuilder<List?>(
-          future: query.getAllMacroCat(),
+          future: future,
           initialData: const [],
           builder: (context, snapshot) {
             return snapshot.hasData
@@ -84,9 +110,10 @@ class _CatBodyState extends State<CatBody> {
                     ),
                   )
                 : const Padding(
-                    padding: EdgeInsets.all(kDefaultPadding * 2),
-                    child: Center(
-                      child: CircularProgressIndicator(),
+                    padding: EdgeInsets.all(kDefaultPadding),
+                    child: Text(
+                      'Nessun risultato',
+                      style: TextStyle(fontSize: 20.0),
                     ),
                   );
           },
