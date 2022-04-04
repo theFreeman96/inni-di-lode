@@ -4,8 +4,8 @@ import 'package:provider/provider.dart';
 
 import '/theme/provider.dart';
 import '/theme/constants.dart';
-import '/assets/data/query.dart';
-import '/assets/data/lists.dart';
+import '/assets/data/queries.dart';
+import '/assets/data/models.dart';
 
 import 'songs_detail.dart';
 
@@ -15,7 +15,6 @@ class SongsBody extends StatefulWidget {
 }
 
 class _SongsBodyState extends State<SongsBody> {
-  TextEditingController editingController = TextEditingController();
   FocusNode myFocusNode = FocusNode();
 
   final Map<int, Widget> children = const <int, Widget>{
@@ -56,7 +55,6 @@ class _SongsBodyState extends State<SongsBody> {
           child: TextField(
             focusNode: myFocusNode,
             autofocus: false,
-            controller: editingController,
             decoration: InputDecoration(
               prefixIcon: const Icon(
                 Icons.search,
@@ -83,7 +81,7 @@ class _SongsBodyState extends State<SongsBody> {
               prefixIconColor: kPrimaryColor,
               labelText: 'Cerca un Cantico',
               labelStyle: const TextStyle(color: kLightGrey),
-              hintText: 'Cerca per numero, titolo o parole',
+              hintText: 'Cerca per numero, titolo o testo',
             ),
           ),
         ),
