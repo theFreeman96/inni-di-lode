@@ -23,7 +23,7 @@ class _CatBodyState extends State<CatBody> {
 
   @override
   void initState() {
-    future = QueryCtr().getAllCat();
+    future = QueryCtr().getAllMacroCat();
     super.initState();
   }
 
@@ -33,10 +33,10 @@ class _CatBodyState extends State<CatBody> {
       results = future;
 
       setState(() {
-        future = QueryCtr().getAllCat();
+        future = QueryCtr().getAllMacroCat();
       });
     } else {
-      results = QueryCtr().searchCat(keyword);
+      results = QueryCtr().searchMacroCat(keyword);
 
       setState(() {
         future = results;
@@ -61,6 +61,9 @@ class _CatBodyState extends State<CatBody> {
               prefixIcon: const Icon(
                 Icons.search,
                 color: kLightGrey,
+              ),
+              contentPadding: const EdgeInsets.symmetric(
+                vertical: kDefaultPadding * 0.8,
               ),
               enabledBorder: OutlineInputBorder(
                 borderRadius: const BorderRadius.all(
@@ -97,7 +100,6 @@ class _CatBodyState extends State<CatBody> {
                     child: Scrollbar(
                       isAlwaysShown: true,
                       child: ListView.separated(
-                        physics: const ScrollPhysics(),
                         shrinkWrap: true,
                         itemCount: snapshot.data!.length,
                         itemBuilder: (context, i) {
@@ -110,10 +112,12 @@ class _CatBodyState extends State<CatBody> {
                     ),
                   )
                 : const Padding(
-                    padding: EdgeInsets.all(kDefaultPadding),
-                    child: Text(
-                      'Nessun risultato',
-                      style: TextStyle(fontSize: 20.0),
+                    padding: EdgeInsets.only(top: kDefaultPadding),
+                    child: Center(
+                      child: Text(
+                        'Nessuna Categoria trovata',
+                        style: TextStyle(fontSize: 20.0),
+                      ),
                     ),
                   );
           },
@@ -149,10 +153,10 @@ class _CatBodyState extends State<CatBody> {
             builder: (context, snapshot) {
               return snapshot.hasData
                   ? ListView.builder(
-                      physics: const ScrollPhysics(),
                       shrinkWrap: true,
                       padding: const EdgeInsets.only(
-                          top: kDefaultPadding * 0.5, bottom: kDefaultPadding),
+                        bottom: kDefaultPadding,
+                      ),
                       itemCount: snapshot.data!.length,
                       itemBuilder: (context, i) {
                         return _buildCatRow(snapshot.data![i]);
