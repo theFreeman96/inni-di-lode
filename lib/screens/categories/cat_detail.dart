@@ -47,7 +47,6 @@ class _CatDetailState extends State<CatDetail> {
                 ? Scrollbar(
                     isAlwaysShown: true,
                     child: ListView.separated(
-                      physics: const ScrollPhysics(),
                       shrinkWrap: true,
                       padding: const EdgeInsets.only(
                           top: kDefaultPadding * 0.5, bottom: kDefaultPadding),
