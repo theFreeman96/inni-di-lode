@@ -3,8 +3,8 @@ import 'package:provider/provider.dart';
 
 import '/theme/provider.dart';
 import '/theme/constants.dart';
-import '/assets/data/query.dart';
-import '/assets/data/lists.dart';
+import '/assets/data/queries.dart';
+import '/assets/data/models.dart';
 
 import 'aut_detail.dart';
 
@@ -18,6 +18,31 @@ class _AutBodyState extends State<AutBody> {
   FocusNode myFocusNode = FocusNode();
   final QueryCtr query = QueryCtr();
 
+  late Future<List?> future;
+
+  @override
+  void initState() {
+    future = QueryCtr().getAllAut();
+    super.initState();
+  }
+
+  void _runFilter(String keyword) {
+    Future<List?> results;
+    if (keyword.isEmpty) {
+      results = future;
+
+      setState(() {
+        future = QueryCtr().getAllAut();
+      });
+    } else {
+      results = QueryCtr().searchAut(keyword);
+
+      setState(() {
+        future = results;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final themeProvider = Provider.of<ThemeProvider>(context);
@@ -28,7 +53,9 @@ class _AutBodyState extends State<AutBody> {
           child: TextField(
             focusNode: myFocusNode,
             autofocus: false,
-            controller: editingController,
+            onChanged: (value) {
+              _runFilter(value);
+            },
             decoration: InputDecoration(
               prefixIcon: const Icon(
                 Icons.search,
@@ -61,7 +88,7 @@ class _AutBodyState extends State<AutBody> {
         ),
         const Divider(height: 0.0),
         FutureBuilder<List?>(
-          future: query.getAllAut(),
+          future: future,
           initialData: const [],
           builder: (context, snapshot) {
             return snapshot.hasData
@@ -82,9 +109,10 @@ class _AutBodyState extends State<AutBody> {
                     ),
                   )
                 : const Padding(
-                    padding: EdgeInsets.all(kDefaultPadding * 2),
-                    child: Center(
-                      child: CircularProgressIndicator(),
+                    padding: EdgeInsets.all(kDefaultPadding),
+                    child: Text(
+                      'Nessun risultato',
+                      style: TextStyle(fontSize: 20.0),
                     ),
                   );
           },
