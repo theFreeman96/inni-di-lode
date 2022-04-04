@@ -26,7 +26,7 @@ class _HomeState extends State<Home> {
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      extendBody: false,
+      extendBody: true,
       drawer: HamburgerMenu(),
       body: children[currentIndex],
       floatingActionButton: FloatingActionButton(
@@ -54,7 +54,7 @@ class _HomeState extends State<Home> {
           padding: const EdgeInsets.only(right: kDefaultPadding * 4),
           child: BottomNavigationBar(
             elevation: 0.0,
-            landscapeLayout: BottomNavigationBarLandscapeLayout.spread,
+            landscapeLayout: BottomNavigationBarLandscapeLayout.centered,
             type: BottomNavigationBarType.shifting,
             backgroundColor: themeProvider.isDarkMode ? kGrey : kPrimaryColor,
             currentIndex: currentIndex,
