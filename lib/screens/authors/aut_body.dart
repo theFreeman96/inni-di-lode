@@ -61,6 +61,9 @@ class _AutBodyState extends State<AutBody> {
                 Icons.search,
                 color: kLightGrey,
               ),
+              contentPadding: const EdgeInsets.symmetric(
+                vertical: kDefaultPadding * 0.8,
+              ),
               enabledBorder: OutlineInputBorder(
                 borderRadius: const BorderRadius.all(
                   Radius.circular(25.0),
@@ -96,7 +99,6 @@ class _AutBodyState extends State<AutBody> {
                     child: Scrollbar(
                       isAlwaysShown: true,
                       child: ListView.separated(
-                        physics: const ScrollPhysics(),
                         shrinkWrap: true,
                         itemCount: snapshot.data!.length,
                         itemBuilder: (context, i) {
@@ -109,10 +111,12 @@ class _AutBodyState extends State<AutBody> {
                     ),
                   )
                 : const Padding(
-                    padding: EdgeInsets.all(kDefaultPadding),
-                    child: Text(
-                      'Nessun risultato',
-                      style: TextStyle(fontSize: 20.0),
+                    padding: EdgeInsets.only(top: kDefaultPadding),
+                    child: Center(
+                      child: Text(
+                        'Nessun Autore trovato',
+                        style: TextStyle(fontSize: 20.0),
+                      ),
                     ),
                   );
           },
