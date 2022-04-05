@@ -111,7 +111,10 @@ Widget createDrawerHeader() {
           child: Text(
             'Menu',
             style: TextStyle(
-                color: kWhite, fontSize: 20.0, fontWeight: FontWeight.w500),
+              color: kWhite,
+              fontSize: 20.0,
+              fontWeight: FontWeight.w500,
+            ),
           ),
         ),
       ],
