@@ -15,7 +15,11 @@ class Innario extends StatelessWidget {
   Widget build(BuildContext context) => ChangeNotifierProvider(
         create: (context) => ThemeProvider(),
         child: Consumer<ThemeProvider>(
-          builder: (context, ThemeProvider provider, child) {
+          builder: (
+            context,
+            ThemeProvider provider,
+            child,
+          ) {
             final provider = Provider.of<ThemeProvider>(context);
             return GestureDetector(
               onTap: () {

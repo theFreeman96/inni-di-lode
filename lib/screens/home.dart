@@ -17,8 +17,13 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  final List<Widget> children = [
+    SongsPage(),
+    CatPage(),
+    AutPage(),
+    FavPage(),
+  ];
   int currentIndex = 0;
-  final List<Widget> children = [SongsPage(), CatPage(), AutPage(), FavPage()];
 
   @override
   Widget build(BuildContext context) {
