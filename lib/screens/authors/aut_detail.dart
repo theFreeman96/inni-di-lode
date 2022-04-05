@@ -50,7 +50,9 @@ class _AutDetailState extends State<AutDetail> {
                       physics: const ScrollPhysics(),
                       shrinkWrap: true,
                       padding: const EdgeInsets.only(
-                          top: kDefaultPadding * 0.5, bottom: kDefaultPadding),
+                        top: kDefaultPadding * 0.4,
+                        bottom: kDefaultPadding,
+                      ),
                       itemCount: snapshot.data!.length,
                       itemBuilder: (context, i) {
                         return _buildRow(snapshot.data![i]);
