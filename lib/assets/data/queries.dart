@@ -158,7 +158,7 @@ class QueryCtr {
   Future<List<Raccolta>?> searchSong(String keyword) async {
     final dbClient = await con.db;
     final res = await dbClient!.rawQuery(
-        "SELECT * FROM View_Raccolta WHERE songId LIKE '%$keyword%' OR  songTitle LIKE '%$keyword%' OR songText LIKE '%$keyword%' group by songId order by songId");
+        'SELECT * FROM View_Raccolta WHERE songId LIKE "%$keyword%" OR  songTitle LIKE "%$keyword%" OR songText LIKE "%$keyword%" group by songId order by songId');
 
     List<Raccolta>? list =
         res.isNotEmpty ? res.map((c) => Raccolta.fromMap(c)).toList() : null;
@@ -169,7 +169,7 @@ class QueryCtr {
   Future<List<Raccolta>?> searchMacroCat(String keyword) async {
     final dbClient = await con.db;
     final res = await dbClient!.rawQuery(
-        "SELECT * FROM View_Raccolta WHERE macroName LIKE '%$keyword%' OR catName LIKE '%$keyword%' group by macroId order by macroName");
+        'SELECT * FROM View_Raccolta WHERE macroName LIKE "%$keyword%" OR catName LIKE "%$keyword%" group by macroId order by macroName');
 
     List<Raccolta>? list =
         res.isNotEmpty ? res.map((c) => Raccolta.fromMap(c)).toList() : null;
@@ -180,7 +180,7 @@ class QueryCtr {
   Future<List<Autori>?> searchAut(String keyword) async {
     final dbClient = await con.db;
     final res = await dbClient!.rawQuery(
-        "SELECT * FROM View_Autori WHERE autName LIKE '%$keyword%' group by autId order by autName");
+        'SELECT * FROM View_Autori WHERE autName LIKE "%$keyword%" group by autId order by autName');
 
     List<Autori>? list =
         res.isNotEmpty ? res.map((c) => Autori.fromMap(c)).toList() : null;
@@ -191,7 +191,7 @@ class QueryCtr {
   Future<List<Raccolta>?> getRandomSong() async {
     final dbClient = await con.db;
     final res = await dbClient!
-        .rawQuery('select * from View_Raccolta order by random() limit 1');
+        .rawQuery('SELECT * FROM View_Raccolta order by random() limit 1');
 
     List<Raccolta>? list =
         res.isNotEmpty ? res.map((c) => Raccolta.fromMap(c)).toList() : null;
