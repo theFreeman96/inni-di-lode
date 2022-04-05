@@ -31,7 +31,7 @@ class _HomeState extends State<Home> {
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      extendBody: true,
+      extendBody: false,
       drawer: HamburgerMenu(),
       body: children[currentIndex],
       floatingActionButton: FloatingActionButton(
