@@ -52,7 +52,7 @@ class _SongsDetailState extends State<SongsDetail> {
 
   Future savePdf() async {
     Directory documentDirectory = await getApplicationDocumentsDirectory();
-    String documentPath = documentDirectory.path;
+    String documentPath = '/storage/emulated/0/Documents/';
     File file = File("$documentPath/$songId-$songTitle.pdf");
     file.writeAsBytesSync(await pdf.save());
   }
