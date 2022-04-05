@@ -1,8 +1,13 @@
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
+
+import 'package:pdf/pdf.dart';
+import 'package:pdf/widgets.dart' as pw;
+import 'package:path_provider/path_provider.dart';
 
 import '/theme/constants.dart';
 import '/theme/provider.dart';
@@ -24,6 +29,33 @@ class _SongsDetailState extends State<SongsDetail> {
   final String songText;
 
   _SongsDetailState(this.songId, this.songTitle, this.songText);
+
+  final pdf = pw.Document();
+
+  writeOnPdf() {
+    pdf.addPage(
+      pw.MultiPage(
+        pageFormat: PdfPageFormat.a4,
+        margin: const pw.EdgeInsets.all(32),
+        build: (pw.Context context) {
+          return <pw.Widget>[
+            pw.Header(
+              level: 0,
+              child: pw.Text(songTitle),
+            ),
+            pw.Paragraph(text: songText)
+          ];
+        },
+      ),
+    );
+  }
+
+  Future savePdf() async {
+    Directory documentDirectory = await getApplicationDocumentsDirectory();
+    String documentPath = documentDirectory.path;
+    File file = File("$documentPath/$songId-$songTitle.pdf");
+    file.writeAsBytesSync(await pdf.save());
+  }
 
   double textSize = 16.0;
   double textSizeMin = 16.0;
@@ -247,11 +279,14 @@ class _SongsDetailState extends State<SongsDetail> {
                   onPressed: () {},
                 ),
                 IconButton(
-                  tooltip: 'Condividi',
+                  tooltip: 'Salva',
                   icon: const Icon(
-                    Icons.share,
+                    Icons.save,
                   ),
-                  onPressed: () {},
+                  onPressed: () async {
+                    writeOnPdf();
+                    await savePdf();
+                  },
                 ),
               ],
             ),
