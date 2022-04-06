@@ -83,12 +83,7 @@ class _SongsBodyState extends State<SongsBody> {
         Stack(
           children: [
             Padding(
-              padding: const EdgeInsets.only(
-                top: kDefaultPadding,
-                left: kDefaultPadding,
-                right: kDefaultPadding,
-                bottom: kDefaultPadding,
-              ),
+              padding: const EdgeInsets.all(kDefaultPadding),
               child: TextField(
                 focusNode: myFocusNode,
                 autofocus: false,
