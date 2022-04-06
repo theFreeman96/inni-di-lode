@@ -13,6 +13,10 @@ class HamburgerMenu extends StatefulWidget {
 }
 
 class _HamburgerMenuState extends State<HamburgerMenu> {
+  int get songId => 1;
+  String get songTitle => 'Titolo cantico casuale';
+  String get songText => 'Testo cantico casuale';
+
   @override
   Widget build(BuildContext context) {
     final themeProvider = Provider.of<ThemeProvider>(context);
@@ -43,17 +47,16 @@ class _HamburgerMenuState extends State<HamburgerMenu> {
             leading: const Icon(Icons.help),
             title: const Text('Cantico casuale'),
             onTap: () {
-              /*
               FocusScope.of(context).unfocus();
               Navigator.pop(context);
               Navigator.push(
                 context,
                 MaterialPageRoute(
                   builder: (context) {
-                    return SongsDetail();
+                    return SongsDetail(songId, songTitle, songText);
                   },
                 ),
-              );*/
+              );
             },
           ),
           ListTile(
