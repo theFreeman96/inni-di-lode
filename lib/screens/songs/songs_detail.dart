@@ -31,6 +31,7 @@ class _SongsDetailState extends State<SongsDetail> {
   _SongsDetailState(this.songId, this.songTitle, this.songText);
 
   final pdf = pw.Document();
+  get songNumber => songId.toString().padLeft(3, '0');
 
   writeOnPdf() {
     pdf.addPage(
@@ -52,7 +53,7 @@ class _SongsDetailState extends State<SongsDetail> {
               ),
             ),
             child: pw.Text(
-              '$songId. $songTitle',
+              '$songNumber. $songTitle',
               style: pw.Theme.of(context)
                   .defaultTextStyle
                   .copyWith(color: PdfColors.grey),
@@ -78,14 +79,15 @@ class _SongsDetailState extends State<SongsDetail> {
           return <pw.Widget>[
             pw.Header(
               level: 0,
-              title: '$songId. $songTitle',
+              title: '$songNumber. $songTitle',
               child: pw.Row(
                 mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
                 children: <pw.Widget>[
                   pw.Container(
                     padding: const pw.EdgeInsets.only(
                         bottom: 3.0 * PdfPageFormat.mm),
-                    child: pw.Text('$songId. $songTitle', textScaleFactor: 2),
+                    child:
+                        pw.Text('$songNumber. $songTitle', textScaleFactor: 2),
                   ),
                   pw.Container(
                     padding: const pw.EdgeInsets.only(
@@ -106,7 +108,7 @@ class _SongsDetailState extends State<SongsDetail> {
   Future savePdf() async {
     Directory documentDirectory = await getApplicationDocumentsDirectory();
     String documentPath = '/storage/emulated/0/Documents/';
-    File file = File("$documentPath/$songId. $songTitle.pdf");
+    File file = File("$documentPath/$songNumber. $songTitle.pdf");
     file.writeAsBytesSync(await pdf.save());
   }
 
