@@ -36,14 +36,67 @@ class _SongsDetailState extends State<SongsDetail> {
     pdf.addPage(
       pw.MultiPage(
         pageFormat: PdfPageFormat.a4,
-        margin: const pw.EdgeInsets.all(32),
+        orientation: pw.PageOrientation.portrait,
+        crossAxisAlignment: pw.CrossAxisAlignment.start,
+        header: (pw.Context context) {
+          if (context.pageNumber == 1) {
+            return pw.SizedBox();
+          }
+          return pw.Container(
+            alignment: pw.Alignment.centerLeft,
+            margin: const pw.EdgeInsets.only(bottom: 3.0 * PdfPageFormat.mm),
+            padding: const pw.EdgeInsets.only(bottom: 3.0 * PdfPageFormat.mm),
+            decoration: const pw.BoxDecoration(
+              border: pw.Border(
+                bottom: pw.BorderSide(width: 0.5, color: PdfColors.grey),
+              ),
+            ),
+            child: pw.Text(
+              '$songId. $songTitle',
+              style: pw.Theme.of(context)
+                  .defaultTextStyle
+                  .copyWith(color: PdfColors.grey),
+            ),
+          );
+        },
+        footer: (pw.Context context) {
+          if (context.pageNumber == 1) {
+            return pw.SizedBox();
+          }
+          return pw.Container(
+            alignment: pw.Alignment.centerRight,
+            margin: const pw.EdgeInsets.only(top: 1.0 * PdfPageFormat.cm),
+            child: pw.Text(
+              'Page ${context.pageNumber} of ${context.pagesCount}',
+              style: pw.Theme.of(context)
+                  .defaultTextStyle
+                  .copyWith(color: PdfColors.grey),
+            ),
+          );
+        },
         build: (pw.Context context) {
           return <pw.Widget>[
             pw.Header(
               level: 0,
-              child: pw.Text(songTitle),
+              title: '$songId. $songTitle',
+              child: pw.Row(
+                mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
+                children: <pw.Widget>[
+                  pw.Container(
+                    padding: const pw.EdgeInsets.only(
+                        bottom: 3.0 * PdfPageFormat.mm),
+                    child: pw.Text('$songId. $songTitle', textScaleFactor: 2),
+                  ),
+                  pw.Container(
+                    padding: const pw.EdgeInsets.only(
+                      bottom: 3.0 * PdfPageFormat.mm,
+                    ),
+                    child: pw.PdfLogo(),
+                  )
+                ],
+              ),
             ),
-            pw.Paragraph(text: songText)
+            pw.Paragraph(text: songText),
           ];
         },
       ),
@@ -53,7 +106,7 @@ class _SongsDetailState extends State<SongsDetail> {
   Future savePdf() async {
     Directory documentDirectory = await getApplicationDocumentsDirectory();
     String documentPath = '/storage/emulated/0/Documents/';
-    File file = File("$documentPath/$songId-$songTitle.pdf");
+    File file = File("$documentPath/$songId. $songTitle.pdf");
     file.writeAsBytesSync(await pdf.save());
   }
 
@@ -116,39 +169,41 @@ class _SongsDetailState extends State<SongsDetail> {
         body: Scrollbar(
           isAlwaysShown: true,
           child: SingleChildScrollView(
-            child: Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(kDefaultPadding),
-                  child: CircleAvatar(
+            child: Center(
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(kDefaultPadding),
+                    child: CircleAvatar(
+                      child: Text(
+                        songId.toString(),
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: kDefaultPadding),
                     child: Text(
-                      songId.toString(),
+                      songTitle,
+                      style: const TextStyle(fontSize: 22.0),
+                      textAlign: TextAlign.left,
                     ),
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(bottom: kDefaultPadding),
-                  child: Text(
-                    songTitle,
-                    style: const TextStyle(fontSize: 22.0),
-                    textAlign: TextAlign.left,
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(
-                    left: kDefaultPadding,
-                    right: kDefaultPadding,
-                    bottom: kDefaultPadding * 7,
-                  ),
-                  child: HtmlWidget(
-                    songText,
-                    textStyle: TextStyle(
-                      fontSize: textSize,
-                      height: textHeight,
+                  Padding(
+                    padding: const EdgeInsets.only(
+                      left: kDefaultPadding,
+                      right: kDefaultPadding,
+                      bottom: kDefaultPadding * 7,
+                    ),
+                    child: HtmlWidget(
+                      songText,
+                      textStyle: TextStyle(
+                        fontSize: textSize,
+                        height: textHeight,
+                      ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),
