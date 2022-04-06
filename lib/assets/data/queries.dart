@@ -187,15 +187,4 @@ class QueryCtr {
 
     return list;
   }
-
-  Future<List<Raccolta>?> getRandomSong() async {
-    final dbClient = await con.db;
-    final res = await dbClient!
-        .rawQuery('SELECT * FROM View_Raccolta order by random() limit 1');
-
-    List<Raccolta>? list =
-        res.isNotEmpty ? res.map((c) => Raccolta.fromMap(c)).toList() : null;
-
-    return list;
-  }
 }
