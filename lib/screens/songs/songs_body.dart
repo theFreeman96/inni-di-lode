@@ -18,16 +18,6 @@ class SongsBody extends StatefulWidget {
 class _SongsBodyState extends State<SongsBody> {
   FocusNode myFocusNode = FocusNode();
 
-  final Map<int, Widget> children = const <int, Widget>{
-    0: Text('1'),
-    1: Text('2'),
-    2: Text('3'),
-    3: Text('4'),
-    4: Text('5'),
-    5: Text('6'),
-    6: Text('7'),
-  };
-
   int currentPage = 0;
 
   void onValueChanged(newValue) {
@@ -142,7 +132,7 @@ class _SongsBodyState extends State<SongsBody> {
                     },
                     buttonSelectedForegroundColor: Colors.white,
                     buttonUnselectedForegroundColor:
-                    themeProvider.isDarkMode ? Colors.white : kBlack,
+                        themeProvider.isDarkMode ? Colors.white : kBlack,
                     buttonSelectedBackgroundColor: themeProvider.isDarkMode
                         ? kPrimaryLightColor
                         : kPrimaryColor,
@@ -153,16 +143,12 @@ class _SongsBodyState extends State<SongsBody> {
           ],
         ),
         const Divider(height: 0.0),
-        CupertinoUserInterfaceLevel(
-          data: CupertinoUserInterfaceLevelData.base,
-          child: Builder(
-            builder: (BuildContext context) {
-              return FutureBuilder<List?>(
-                future: queries[currentPage],
-                initialData: const [],
-                builder: (context, snapshot) {
-                  return snapshot.hasData
-                      ? Expanded(
+        FutureBuilder<List?>(
+          future: queries[currentPage],
+          initialData: const [],
+          builder: (context, snapshot) {
+            return snapshot.hasData
+                ? Expanded(
                     child: Scrollbar(
                       isAlwaysShown: true,
                       child: ListView.separated(
@@ -178,7 +164,7 @@ class _SongsBodyState extends State<SongsBody> {
                       ),
                     ),
                   )
-                      : const Padding(
+                : const Padding(
                     padding: EdgeInsets.only(top: kDefaultPadding),
                     child: Center(
                       child: Text(
@@ -187,10 +173,7 @@ class _SongsBodyState extends State<SongsBody> {
                       ),
                     ),
                   );
-                },
-              );
-            },
-          ),
+          },
         ),
       ],
     );
