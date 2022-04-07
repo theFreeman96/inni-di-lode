@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
+import 'package:number_paginator/number_paginator.dart';
 
 import '/theme/provider.dart';
 import '/theme/constants.dart';
@@ -27,11 +28,11 @@ class _SongsBodyState extends State<SongsBody> {
     6: Text('7'),
   };
 
-  int currentSegment = 0;
+  int currentPage = 0;
 
   void onValueChanged(newValue) {
     setState(() {
-      currentSegment = newValue;
+      currentPage = newValue;
     });
   }
 
@@ -51,7 +52,7 @@ class _SongsBodyState extends State<SongsBody> {
 
   @override
   void initState() {
-    future = queries[currentSegment];
+    future = queries[currentPage];
     super.initState();
   }
 
@@ -61,15 +62,15 @@ class _SongsBodyState extends State<SongsBody> {
       results = future;
 
       setState(() {
-        queries[currentSegment] = future;
+        queries[currentPage] = future;
         isVisible = true;
       });
     } else {
       results = QueryCtr().searchSong(keyword);
 
       setState(() {
-        currentSegment = 0;
-        queries[currentSegment] = results;
+        currentPage = 0;
+        queries[currentPage] = results;
         isVisible = false;
       });
     }
@@ -131,13 +132,20 @@ class _SongsBodyState extends State<SongsBody> {
                     top: kDefaultPadding * 4,
                     bottom: kDefaultPadding,
                   ),
-                  child: CupertinoSlidingSegmentedControl<int>(
-                    children: children,
-                    onValueChanged: onValueChanged,
-                    groupValue: currentSegment,
-                    thumbColor: themeProvider.isDarkMode
+                  child: NumberPaginator(
+                    numberPages: 7,
+                    height: 40,
+                    onPageChange: (int index) {
+                      setState(() {
+                        currentPage = index;
+                      });
+                    },
+                    buttonSelectedForegroundColor: Colors.white,
+                    buttonUnselectedForegroundColor:
+                        themeProvider.isDarkMode ? Colors.white : kBlack,
+                    buttonSelectedBackgroundColor: themeProvider.isDarkMode
                         ? kPrimaryLightColor
-                        : Colors.white,
+                        : kPrimaryColor,
                   ),
                 ),
               ),
@@ -150,7 +158,7 @@ class _SongsBodyState extends State<SongsBody> {
           child: Builder(
             builder: (BuildContext context) {
               return FutureBuilder<List?>(
-                future: queries[currentSegment],
+                future: queries[currentPage],
                 initialData: const [],
                 builder: (context, snapshot) {
                   return snapshot.hasData

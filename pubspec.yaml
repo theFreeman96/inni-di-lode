@@ -26,6 +26,7 @@ dependencies:
   sqflite: any
   provider: ^6.0.1
   font_awesome_flutter: ^9.2.0
+  number_paginator: ^0.0.2
   flutter_widget_from_html_core: ^0.8.5+1
 
   pdf: ^3.7.3
