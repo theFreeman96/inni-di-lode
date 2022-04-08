@@ -18,16 +18,6 @@ class SongsBody extends StatefulWidget {
 class _SongsBodyState extends State<SongsBody> {
   FocusNode myFocusNode = FocusNode();
 
-  final Map<int, Widget> children = const <int, Widget>{
-    0: Text('1'),
-    1: Text('2'),
-    2: Text('3'),
-    3: Text('4'),
-    4: Text('5'),
-    5: Text('6'),
-    6: Text('7'),
-  };
-
   int currentPage = 0;
 
   void onValueChanged(newValue) {
@@ -153,44 +143,37 @@ class _SongsBodyState extends State<SongsBody> {
           ],
         ),
         const Divider(height: 0.0),
-        CupertinoUserInterfaceLevel(
-          data: CupertinoUserInterfaceLevelData.base,
-          child: Builder(
-            builder: (BuildContext context) {
-              return FutureBuilder<List?>(
-                future: queries[currentPage],
-                initialData: const [],
-                builder: (context, snapshot) {
-                  return snapshot.hasData
-                      ? Expanded(
-                          child: Scrollbar(
-                            isAlwaysShown: true,
-                            child: ListView.separated(
-                              physics: const ScrollPhysics(),
-                              shrinkWrap: true,
-                              itemCount: snapshot.data!.length,
-                              itemBuilder: (context, i) {
-                                return _buildRow(snapshot.data![i]);
-                              },
-                              separatorBuilder: (context, index) {
-                                return const Divider();
-                              },
-                            ),
-                          ),
-                        )
-                      : const Padding(
-                          padding: EdgeInsets.only(top: kDefaultPadding),
-                          child: Center(
-                            child: Text(
-                              'Nessun Cantico trovato',
-                              style: TextStyle(fontSize: 20.0),
-                            ),
-                          ),
-                        );
-                },
-              );
-            },
-          ),
+        FutureBuilder<List?>(
+          future: queries[currentPage],
+          initialData: const [],
+          builder: (context, snapshot) {
+            return snapshot.hasData
+                ? Expanded(
+                    child: Scrollbar(
+                      isAlwaysShown: true,
+                      child: ListView.separated(
+                        physics: const ScrollPhysics(),
+                        shrinkWrap: true,
+                        itemCount: snapshot.data!.length,
+                        itemBuilder: (context, i) {
+                          return _buildRow(snapshot.data![i]);
+                        },
+                        separatorBuilder: (context, index) {
+                          return const Divider();
+                        },
+                      ),
+                    ),
+                  )
+                : const Padding(
+                    padding: EdgeInsets.only(top: kDefaultPadding),
+                    child: Center(
+                      child: Text(
+                        'Nessun Cantico trovato',
+                        style: TextStyle(fontSize: 20.0),
+                      ),
+                    ),
+                  );
+          },
         ),
       ],
     );
