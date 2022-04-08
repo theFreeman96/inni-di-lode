@@ -123,7 +123,6 @@ class _SongsBodyState extends State<SongsBody> {
                   ),
                   child: NumberPaginator(
                     numberPages: 7,
-                    height: 40,
                     onPageChange: (int index) {
                       setState(() {
                         currentPage = index;
