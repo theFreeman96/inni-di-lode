@@ -87,7 +87,7 @@ class _SongsDetailState extends State<SongsDetail> {
                     padding: const pw.EdgeInsets.only(
                         bottom: 3.0 * PdfPageFormat.mm),
                     child:
-                        pw.Text('$songNumber. $songTitle', textScaleFactor: 2),
+                    pw.Text('$songNumber. $songTitle', textScaleFactor: 2),
                   ),
                   pw.Container(
                     padding: const pw.EdgeInsets.only(
@@ -153,7 +153,7 @@ class _SongsDetailState extends State<SongsDetail> {
                     value: themeProvider.isDarkMode,
                     onChanged: (value) {
                       final provider =
-                          Provider.of<ThemeProvider>(context, listen: false);
+                      Provider.of<ThemeProvider>(context, listen: false);
                       provider.toggleTheme(value);
                     },
                   ),
@@ -250,7 +250,7 @@ class _SongsDetailState extends State<SongsDetail> {
                                         log('Dimensione minima del testo: $textSize');
                                       }
                                       setState(
-                                        () {},
+                                            () {},
                                       );
                                     },
                                   ),
@@ -264,7 +264,7 @@ class _SongsDetailState extends State<SongsDetail> {
                                         log('Dimensione massima del testo: $textSize');
                                       }
                                       setState(
-                                        () {},
+                                            () {},
                                       );
                                     },
                                   ),
@@ -289,7 +289,7 @@ class _SongsDetailState extends State<SongsDetail> {
                                         log('Interlinea minima: $textHeight');
                                       }
                                       setState(
-                                        () {},
+                                            () {},
                                       );
                                     },
                                   ),
@@ -305,7 +305,7 @@ class _SongsDetailState extends State<SongsDetail> {
                                         log('Interlinea massima: $textHeight');
                                       }
                                       setState(
-                                        () {},
+                                            () {},
                                       );
                                     },
                                   ),
