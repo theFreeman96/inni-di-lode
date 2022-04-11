@@ -1,8 +1,8 @@
-![Logo](https://user-images.githubusercontent.com/90036768/162753598-0f319f9b-66db-4295-ab0f-646ecdb35157.jpg)
-
 # Inni di Lode
 
 Inni, cantici spirituali e cori di risveglio.
+
+![Logo](https://user-images.githubusercontent.com/90036768/162753598-0f319f9b-66db-4295-ab0f-646ecdb35157.jpg)
 
 La nuova applicazione dell'innario, con tutti i 700 cantici di Inni di Lode.
 
