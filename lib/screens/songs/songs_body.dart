@@ -119,6 +119,8 @@ class _SongsBodyState extends State<SongsBody> {
                 child: Padding(
                   padding: const EdgeInsets.only(
                     top: kDefaultPadding * 4,
+                    left: kDefaultPadding,
+                    right: kDefaultPadding,
                     bottom: kDefaultPadding,
                   ),
                   child: NumberPaginator(
@@ -134,6 +136,9 @@ class _SongsBodyState extends State<SongsBody> {
                     buttonSelectedBackgroundColor: themeProvider.isDarkMode
                         ? kPrimaryLightColor
                         : kPrimaryColor,
+                    buttonUnselectedBackgroundColor: themeProvider.isDarkMode
+                        ? kWhite.withOpacity(0.2)
+                        : kBlack.withOpacity(0.1),
                   ),
                 ),
               ),
