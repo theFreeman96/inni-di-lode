@@ -1,16 +1,26 @@
-# inni_di_lode
+![repository](https://user-images.githubusercontent.com/90036768/162753598-0f319f9b-66db-4295-ab0f-646ecdb35157.jpg)
+
+# Inni di Lode
 
 Inni, cantici spirituali e cori di risveglio.
 
-## Getting Started
+La nuova applicazione ufficiale dell'innario contenente i 700 cantici di Inni di Lode, sviluppata con il framework Flutter.
 
-This project is a starting point for a Flutter application.
+## Funzionalità
 
-A few resources to get you started if this is your first Flutter project:
+- Ricerca cantici per numero, titolo e parole;
+- Consultazione dei cantici per categorie e autori;
+- Modalità scura per far riposare gli occhi;
+- Modifica la dimensione del carattere e dell'interlinea del testo dei cantici;
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+## Prossimamente
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- Salva i tuoi cantici nei preferiti per visualizzarli in qualsiasi momento;
+- Base musicali per ciascun cantico;
+- Vuoi scoprire cantici nuovi o ricordarne qualcuno? Premi su "Cantico casuale".
+
+## Compatilità
+
+L'app può essere eseguita su diverse piattaforme:
+- Mobile: Android e iOS
+- Desktop: Windows, MacOS, Linux
