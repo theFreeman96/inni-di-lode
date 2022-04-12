@@ -23,6 +23,7 @@ La nuova applicazione dell'innario, con tutti i 700 cantici di Inni di Lode.
 - Salva i cantici nei preferiti per visualizzarli in qualsiasi momento;
 - Scopri nuovi cantici premendo su "Cantico casuale";
 - Ascolta le basi musicali di ciascun cantico;
+- Mostra gli accordi dei cantici;
 - Piena compatibilità delle versioni desktop e web.
 
 ## Compatibilità
