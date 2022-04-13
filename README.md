@@ -24,13 +24,12 @@ La nuova applicazione dell'innario, con tutti i 700 cantici di Inni di Lode.
 - Scopri nuovi cantici premendo su "Cantico casuale";
 - Ascolta le basi musicali di ciascun cantico;
 - Mostra gli accordi dei cantici;
-- Piena compatibilità delle versioni desktop e web.
 
 ## Compatibilità
 
-L'app può essere eseguita su diverse piattaforme (*):
-- Mobile: Android e iOS;
+L'app può essere installata sulle seguenti piattaforme (*):
+- Mobile: Android, iOS;
+
+Prossimamente disponibile anche su:
 - Desktop: Windows, MacOS, Linux;
 - Web.
-
-(*) attualmente le versioni desktop e web sono incomplete
