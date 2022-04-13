@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
 
+import 'package:html2md/html2md.dart' as html2md;
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:path_provider/path_provider.dart';
@@ -32,6 +33,11 @@ class _SongsDetailState extends State<SongsDetail> {
 
   final pdf = pw.Document();
   get songNumber => songId.toString().padLeft(3, '0');
+
+  main() {
+    var html = songText;
+    log(html2md.convert(html));
+  }
 
   writeOnPdf() {
     pdf.addPage(
@@ -87,7 +93,7 @@ class _SongsDetailState extends State<SongsDetail> {
                     padding: const pw.EdgeInsets.only(
                         bottom: 3.0 * PdfPageFormat.mm),
                     child:
-                    pw.Text('$songNumber. $songTitle', textScaleFactor: 2),
+                        pw.Text('$songNumber. $songTitle', textScaleFactor: 2),
                   ),
                   pw.Container(
                     padding: const pw.EdgeInsets.only(
@@ -98,7 +104,12 @@ class _SongsDetailState extends State<SongsDetail> {
                 ],
               ),
             ),
-            pw.Paragraph(text: songText),
+            pw.Paragraph(
+              padding: const pw.EdgeInsets.only(
+                  top: 10.0 * PdfPageFormat.mm, bottom: 3.0 * PdfPageFormat.mm),
+              text: html2md.convert(songText),
+              style: pw.TextStyle(fontSize: textSize, height: textHeight * 2),
+            ),
           ];
         },
       ),
@@ -153,7 +164,7 @@ class _SongsDetailState extends State<SongsDetail> {
                     value: themeProvider.isDarkMode,
                     onChanged: (value) {
                       final provider =
-                      Provider.of<ThemeProvider>(context, listen: false);
+                          Provider.of<ThemeProvider>(context, listen: false);
                       provider.toggleTheme(value);
                     },
                   ),
@@ -250,7 +261,7 @@ class _SongsDetailState extends State<SongsDetail> {
                                         log('Dimensione minima del testo: $textSize');
                                       }
                                       setState(
-                                            () {},
+                                        () {},
                                       );
                                     },
                                   ),
@@ -264,7 +275,7 @@ class _SongsDetailState extends State<SongsDetail> {
                                         log('Dimensione massima del testo: $textSize');
                                       }
                                       setState(
-                                            () {},
+                                        () {},
                                       );
                                     },
                                   ),
@@ -289,7 +300,7 @@ class _SongsDetailState extends State<SongsDetail> {
                                         log('Interlinea minima: $textHeight');
                                       }
                                       setState(
-                                            () {},
+                                        () {},
                                       );
                                     },
                                   ),
@@ -305,7 +316,7 @@ class _SongsDetailState extends State<SongsDetail> {
                                         log('Interlinea massima: $textHeight');
                                       }
                                       setState(
-                                            () {},
+                                        () {},
                                       );
                                     },
                                   ),
