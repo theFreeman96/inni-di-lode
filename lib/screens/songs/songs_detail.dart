@@ -67,14 +67,11 @@ class _SongsDetailState extends State<SongsDetail> {
           );
         },
         footer: (pw.Context context) {
-          if (context.pageNumber == 1) {
-            return pw.SizedBox();
-          }
           return pw.Container(
             alignment: pw.Alignment.centerRight,
             margin: const pw.EdgeInsets.only(top: 1.0 * PdfPageFormat.cm),
             child: pw.Text(
-              'Page ${context.pageNumber} of ${context.pagesCount}',
+              'Pagina ${context.pageNumber} di ${context.pagesCount}',
               style: pw.Theme.of(context)
                   .defaultTextStyle
                   .copyWith(color: PdfColors.grey),
@@ -105,10 +102,9 @@ class _SongsDetailState extends State<SongsDetail> {
               ),
             ),
             pw.Paragraph(
-              padding: const pw.EdgeInsets.only(
-                  top: 10.0 * PdfPageFormat.mm, bottom: 3.0 * PdfPageFormat.mm),
+              padding: const pw.EdgeInsets.only(top: 5.0 * PdfPageFormat.mm),
               text: html2md.convert(songText),
-              style: pw.TextStyle(fontSize: textSize, height: textHeight * 2),
+              style: pw.TextStyle(fontSize: textSize, lineSpacing: textHeight),
             ),
           ];
         },
