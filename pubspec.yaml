@@ -24,16 +24,22 @@ dependencies:
   flutter:
     sdk: flutter
 
-  sqflite: any
+  # Layout
   provider: ^6.0.1
+  shared_preferences: ^2.0.13
+  font_awesome_flutter: ^9.2.0
   number_paginator: ^0.0.2
 
+  # Database
+  sqflite: any
+
+  # HTML renderers
   flutter_widget_from_html_core: ^0.8.5+1
   html2md: ^1.2.5
+
+  # PDF and Share
   pdf: ^3.7.3
   path_provider: ^2.0.9
-
-  font_awesome_flutter: ^9.2.0
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
