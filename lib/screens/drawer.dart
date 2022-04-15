@@ -27,20 +27,16 @@ class _HamburgerMenuState extends State<HamburgerMenu> {
         padding: EdgeInsets.zero,
         children: <Widget>[
           createDrawerHeader(),
-          Consumer<ThemeProvider>(
-            builder: (context, ThemeProvider provider, child) {
-              return SwitchListTile(
-                secondary: Icon(
-                  themeProvider.isDarkMode ? Icons.dark_mode : Icons.light_mode,
-                ),
-                title: const Text('Tema'),
-                value: themeProvider.isDarkMode,
-                onChanged: (value) {
-                  final provider =
-                      Provider.of<ThemeProvider>(context, listen: false);
-                  provider.toggleTheme(value);
-                },
-              );
+          SwitchListTile(
+            secondary: Icon(
+              themeProvider.isDarkMode ? Icons.dark_mode : Icons.light_mode,
+            ),
+            title: const Text('Tema'),
+            value: themeProvider.isDarkMode,
+            onChanged: (value) {
+              final provider =
+                  Provider.of<ThemeProvider>(context, listen: false);
+              provider.toggleTheme(value);
             },
           ),
           ListTile(
