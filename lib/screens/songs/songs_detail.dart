@@ -3,9 +3,12 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
 
+// HTML renderers
+import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
 import 'package:html2md/html2md.dart' as html2md;
+
+// PDF
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:path_provider/path_provider.dart';
@@ -34,10 +37,13 @@ class _SongsDetailState extends State<SongsDetail> {
   final pdf = pw.Document();
   get songNumber => songId.toString().padLeft(3, '0');
 
-  main() {
-    var html = songText;
-    log(html2md.convert(html));
-  }
+  late String title = songTitle;
+  RegExp exp = RegExp(
+      r'[^\p{Alphabetic}\p{Mark}\p{Decimal_Number}\p{Connector_Punctuation}\p{Join_Control}\s]+',
+      unicode: true,
+      multiLine: true,
+      caseSensitive: true);
+  late String parsedTitle = title.replaceAll(exp, '');
 
   writeOnPdf() {
     pdf.addPage(
@@ -103,7 +109,46 @@ class _SongsDetailState extends State<SongsDetail> {
             ),
             pw.Paragraph(
               padding: const pw.EdgeInsets.only(top: 5.0 * PdfPageFormat.mm),
-              text: html2md.convert(songText),
+              text: html2md.convert(songText, rules: [
+                html2md.Rule('listItem', filters: ['li'],
+                    replacement: (content, node) {
+                  var convertContent = content
+                      .replaceAll(RegExp(r'^\n+'), '')
+                      .replaceAll(RegExp(r'\n+$'), '\n')
+                      .replaceAll(RegExp('\n', multiLine: true), '\n    ');
+                  var prefix = ('bulletListMarker') + '   ';
+                  if (node.parentElName == 'ol') {
+                    var start = -1;
+                    var startAttr = node.getParentAttribute('start');
+                    if (startAttr != null && startAttr.isNotEmpty) {
+                      try {
+                        start = int.parse(startAttr);
+                      } catch (e) {
+                        log('listItem parse start error $e');
+                      }
+                    }
+                    var index = (start > -1)
+                        ? start + node.parentChildIndex
+                        : node.parentChildIndex + 1;
+                    prefix = '$index. ';
+                  }
+                  var postfix = ((node.nextSibling != null) &&
+                          !RegExp(r'\n$').hasMatch(convertContent))
+                      ? '\n'
+                      : '';
+                  return '$prefix$convertContent$postfix';
+                }),
+                html2md.Rule('emphasis', filters: ['em', 'i'],
+                    replacement: (content, node) {
+                  if (content.trim().isEmpty) return '';
+                  return content.replaceFirst("\n", "");
+                }),
+                html2md.Rule('strong', filters: ['strong', 'b'],
+                    replacement: (content, node) {
+                  if (content.trim().isEmpty) return '';
+                  return content;
+                })
+              ]),
               style: pw.TextStyle(fontSize: textSize, lineSpacing: textHeight),
             ),
           ];
@@ -115,7 +160,7 @@ class _SongsDetailState extends State<SongsDetail> {
   Future savePdf() async {
     Directory documentDirectory = await getApplicationDocumentsDirectory();
     String documentPath = '/storage/emulated/0/Documents/';
-    File file = File("$documentPath/$songNumber. $songTitle.pdf");
+    File file = File("$documentPath/$songNumber. $parsedTitle.pdf");
     file.writeAsBytesSync(await pdf.save());
   }
 
