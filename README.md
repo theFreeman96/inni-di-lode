@@ -10,7 +10,7 @@ La nuova applicazione dell'innario, con tutti i 700 cantici di Inni di Lode.
 
 - Ricerca cantici per numero, titolo e parole;
 - Consulta i cantici per categorie e autori;
-- Modalità scura per far riposare gli occhi;
+- Attiva la modalità scura per far riposare gli occhi;
 - Modifica la dimensione del carattere e dell'interlinea del testo dei cantici.
 
 ## Funzionalità in lavorazione
@@ -23,7 +23,7 @@ La nuova applicazione dell'innario, con tutti i 700 cantici di Inni di Lode.
 - Salva i cantici nei preferiti per visualizzarli in qualsiasi momento;
 - Scopri nuovi cantici premendo su "Cantico casuale";
 - Ascolta le basi musicali di ciascun cantico;
-- Mostra gli accordi dei cantici;
+- Mostra gli accordi dei cantici.
 
 ## Compatibilità
 
