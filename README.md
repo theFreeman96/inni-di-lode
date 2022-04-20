@@ -11,17 +11,17 @@ La nuova applicazione dell'innario, con tutti i 700 cantici di Inni di Lode.
 - Ricerca cantici per numero, titolo e parole;
 - Consulta i cantici per categorie e autori;
 - Attiva la modalità scura per far riposare gli occhi;
-- Modifica la dimensione del carattere e dell'interlinea del testo dei cantici.
+- Modifica la dimensione del carattere e dell'interlinea del testo dei cantici;
+- Condividi i PDF dei cantici con chi vuoi.
 
 ## Funzionalità in lavorazione
 
-- Esporta e condividi i cantici in PDF;
-- Mantieni preferenza tema anche dopo il riavvio dell'app.
+- Mantieni preferenza tema anche dopo il riavvio dell'app;
+- Salva i cantici nei preferiti per trovarli in qualsiasi momento;
+- Scopri nuovi cantici premendo su "Cantico casuale".
 
 ## Prossimamente
 
-- Salva i cantici nei preferiti per visualizzarli in qualsiasi momento;
-- Scopri nuovi cantici premendo su "Cantico casuale";
 - Ascolta le basi musicali di ciascun cantico;
 - Mostra gli accordi dei cantici.
 

@@ -12,6 +12,7 @@ import 'package:html2md/html2md.dart' as html2md;
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:path_provider/path_provider.dart';
+import 'package:share_plus/share_plus.dart';
 
 import '/theme/constants.dart';
 import '/theme/provider.dart';
@@ -157,11 +158,12 @@ class _SongsDetailState extends State<SongsDetail> {
     );
   }
 
-  Future savePdf() async {
-    Directory documentDirectory = await getApplicationDocumentsDirectory();
-    String documentPath = '/storage/emulated/0/Documents/';
-    File file = File("$documentPath/$songNumber. $parsedTitle.pdf");
+  Future sharePdf() async {
+    final directory = await getApplicationDocumentsDirectory();
+    final file = File('${directory.path}/$songNumber. $parsedTitle.pdf');
     file.writeAsBytesSync(await pdf.save());
+    Share.shareFiles(['${directory.path}/$songNumber. $parsedTitle.pdf']);
+    log('$file');
   }
 
   double textSize = 16.0;
@@ -388,13 +390,13 @@ class _SongsDetailState extends State<SongsDetail> {
                   onPressed: () {},
                 ),
                 IconButton(
-                  tooltip: 'Salva',
+                  tooltip: 'Condividi',
                   icon: const Icon(
-                    Icons.save,
+                    Icons.share,
                   ),
                   onPressed: () async {
                     writeOnPdf();
-                    await savePdf();
+                    await sharePdf();
                   },
                 ),
               ],
