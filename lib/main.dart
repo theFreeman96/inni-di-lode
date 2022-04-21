@@ -12,35 +12,37 @@ void main() {
 
 class Innario extends StatelessWidget {
   @override
-  Widget build(BuildContext context) => ChangeNotifierProvider(
-        create: (context) => ThemeProvider(),
-        child: Consumer<ThemeProvider>(
-          builder: (context, ThemeProvider provider, child) {
-            final provider = Provider.of<ThemeProvider>(context);
-            return GestureDetector(
-              onTap: () {
-                FocusManager.instance.primaryFocus?.unfocus();
+  Widget build(BuildContext context) {
+    return ChangeNotifierProvider(
+      create: (context) => ThemeProvider(),
+      child: Consumer<ThemeProvider>(
+        builder: (context, ThemeProvider themeProvider, child) {
+          final themeProvider = Provider.of<ThemeProvider>(context);
+          return GestureDetector(
+            onTap: () {
+              FocusManager.instance.primaryFocus?.unfocus();
+            },
+            child: MaterialApp(
+              debugShowCheckedModeBanner: false,
+              theme: themeProvider.isDarkMode
+                  ? MyTheme.darkTheme
+                  : MyTheme.lightTheme,
+              title: 'Inni di Lode',
+              builder: (context, child) {
+                return ScrollConfiguration(
+                  behavior: MyBehavior(),
+                  child: SizedBox(child: child),
+                );
               },
-              child: MaterialApp(
-                debugShowCheckedModeBanner: false,
-                theme: provider.isDarkMode
-                    ? MyTheme.darkTheme
-                    : MyTheme.lightTheme,
-                title: 'Inni di Lode',
-                builder: (context, child) {
-                  return ScrollConfiguration(
-                    behavior: MyBehavior(),
-                    child: SizedBox(child: child),
-                  );
-                },
-                home: SafeArea(
-                  child: Home(),
-                ),
+              home: SafeArea(
+                child: Home(),
               ),
-            );
-          },
-        ),
-      );
+            ),
+          );
+        },
+      ),
+    );
+  }
 }
 
 class MyBehavior extends ScrollBehavior {
