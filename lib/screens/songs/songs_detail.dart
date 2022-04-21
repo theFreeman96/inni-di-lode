@@ -206,9 +206,9 @@ class _SongsDetailState extends State<SongsDetail> {
                   Switch(
                     value: themeProvider.isDarkMode,
                     onChanged: (value) {
-                      final provider =
+                      final themeProvider =
                           Provider.of<ThemeProvider>(context, listen: false);
-                      provider.toggleTheme(value);
+                      themeProvider.toggleTheme(value);
                     },
                   ),
                 ],

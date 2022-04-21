@@ -34,9 +34,9 @@ class _HamburgerMenuState extends State<HamburgerMenu> {
             title: const Text('Tema'),
             value: themeProvider.isDarkMode,
             onChanged: (value) {
-              final provider =
+              final themeProvider =
                   Provider.of<ThemeProvider>(context, listen: false);
-              provider.toggleTheme(value);
+              themeProvider.toggleTheme(value);
             },
           ),
           ListTile(
