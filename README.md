@@ -16,8 +16,8 @@ La nuova applicazione dell'innario, con tutti i 700 cantici di Inni di Lode.
 
 ## Funzionalità in lavorazione
 
-- Mantieni preferenza tema anche dopo il riavvio dell'app;
 - Salva i cantici nei preferiti per trovarli in qualsiasi momento;
+- Mantieni tema e preferiti anche dopo il riavvio dell'app;
 - Scopri nuovi cantici premendo su "Cantico casuale".
 
 ## Prossimamente
