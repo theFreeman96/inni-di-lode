@@ -26,7 +26,7 @@ dependencies:
 
   # Layout
   provider: ^6.0.1
-  font_awesome_flutter: ^9.2.0
+  font_awesome_flutter: ^10.1.0
   number_paginator: ^0.0.2
 
   # Data
@@ -47,7 +47,7 @@ dependencies:
   cupertino_icons: ^1.0.2
 
 dev_dependencies:
-  flutter_lints: ^1.0.4
+  flutter_lints: ^2.0.1
   flutter_test:
     sdk: flutter
 
