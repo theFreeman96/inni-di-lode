@@ -1,35 +1,35 @@
 # Inni di Lode
 
-Inni, cantici spirituali e cori di risveglio.
+Hymns, spiritual songs and revival choirs.
 
 ![Logo](https://user-images.githubusercontent.com/90036768/162753598-0f319f9b-66db-4295-ab0f-646ecdb35157.jpg)
 
-La nuova applicazione dell'innario, con tutti i 700 cantici di Inni di Lode.
+The new Inni di Lode app, including all 700 songs from our Songbook.
 
-## Funzionalità disponibili
+## Features
 
-- Ricerca cantici per numero, titolo e parole;
-- Consulta i cantici per categorie e autori;
-- Attiva la modalità scura per far riposare gli occhi;
-- Modifica la dimensione del carattere e dell'interlinea del testo dei cantici;
-- Condividi i PDF dei cantici con chi vuoi.
+- Search a song by typing its number, title or lyrics;
+- Songs by categories and authors;
+- Rest your eyes using the dark mode;
+- Adjust font size and line spacing;
+- Share songs with whoever you want.
 
-## Funzionalità in lavorazione
+## Currently working on...
 
-- Salva i cantici nei preferiti per trovarli in qualsiasi momento;
-- Mantieni tema e preferiti anche dopo il riavvio dell'app;
-- Scopri nuovi cantici premendo su "Cantico casuale".
+- Set songs as favorites;
+- Keep theme and favorites preferences;
+- Random song button.
 
-## Prossimamente
+## Coming soon
 
-- Ascolta le basi musicali di ciascun cantico;
-- Mostra gli accordi dei cantici.
+- Play audio for each song;
+- Hide/show chords.
 
-## Compatibilità
+## OS Compatibility
 
-L'app può essere installata sulle seguenti piattaforme:
+The is available on:
 - Mobile: Android, iOS.
 
-Prossimamente disponibile anche su:
+Soon available on
 - Desktop: Windows, MacOS, Linux;
 - Web.
