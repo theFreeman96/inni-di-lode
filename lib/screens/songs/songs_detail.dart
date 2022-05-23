@@ -35,7 +35,6 @@ class _SongsDetailState extends State<SongsDetail> {
 
   _SongsDetailState(this.songId, this.songTitle, this.songText);
 
-  final pdf = pw.Document();
   get songNumber => songId.toString().padLeft(3, '0');
 
   late String title = songTitle;
@@ -46,7 +45,9 @@ class _SongsDetailState extends State<SongsDetail> {
       caseSensitive: true);
   late String parsedTitle = title.replaceAll(exp, '');
 
-  writeOnPdf() {
+  buildPDF() async {
+    final pdf = pw.Document();
+
     pdf.addPage(
       pw.MultiPage(
         pageFormat: PdfPageFormat.a4,
@@ -156,9 +157,6 @@ class _SongsDetailState extends State<SongsDetail> {
         },
       ),
     );
-  }
-
-  Future sharePdf() async {
     final directory = await getApplicationDocumentsDirectory();
     final file = File('${directory.path}/$songNumber. $parsedTitle.pdf');
     file.writeAsBytesSync(await pdf.save());
@@ -206,9 +204,9 @@ class _SongsDetailState extends State<SongsDetail> {
                   Switch(
                     value: themeProvider.isDarkMode,
                     onChanged: (value) {
-                      final provider =
+                      final themeProvider =
                           Provider.of<ThemeProvider>(context, listen: false);
-                      provider.toggleTheme(value);
+                      themeProvider.toggleTheme(value);
                     },
                   ),
                 ],
@@ -395,8 +393,7 @@ class _SongsDetailState extends State<SongsDetail> {
                     Icons.share,
                   ),
                   onPressed: () async {
-                    writeOnPdf();
-                    await sharePdf();
+                    await buildPDF();
                   },
                 ),
               ],
