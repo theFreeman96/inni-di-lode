@@ -97,7 +97,7 @@ class _AutBodyState extends State<AutBody> {
             return snapshot.hasData
                 ? Expanded(
                     child: Scrollbar(
-                      isAlwaysShown: true,
+                      thumbVisibility: true,
                       child: ListView.separated(
                         physics: const ScrollPhysics(),
                         shrinkWrap: true,
