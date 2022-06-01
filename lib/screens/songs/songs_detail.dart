@@ -176,6 +176,8 @@ class _SongsDetailState extends State<SongsDetail> {
   Widget build(BuildContext context) {
     final themeProvider = Provider.of<ThemeProvider>(context);
 
+    PageController pageController = PageController(initialPage: songId - 1);
+
     return SafeArea(
       child: Scaffold(
         extendBody: true,
@@ -221,10 +223,12 @@ class _SongsDetailState extends State<SongsDetail> {
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
         body: PageView.builder(
-          itemCount: 5,
+          controller: pageController,
+          itemCount: 700,
           itemBuilder: (BuildContext context, int itemIndex) {
             return Scrollbar(
               thumbVisibility: true,
+              controller: pageController,
               child: SingleChildScrollView(
                 child: Center(
                   child: Column(
