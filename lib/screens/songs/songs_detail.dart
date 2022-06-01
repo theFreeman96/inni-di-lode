@@ -118,7 +118,7 @@ class _SongsDetailState extends State<SongsDetail> {
                       .replaceAll(RegExp(r'^\n+'), '')
                       .replaceAll(RegExp(r'\n+$'), '\n')
                       .replaceAll(RegExp('\n', multiLine: true), '\n    ');
-                  var prefix = ('bulletListMarker') + '   ';
+                  var prefix = 'bulletListMarker   ';
                   if (node.parentElName == 'ol') {
                     var start = -1;
                     var startAttr = node.getParentAttribute('start');
@@ -220,46 +220,51 @@ class _SongsDetailState extends State<SongsDetail> {
           onPressed: () {},
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
-        body: Scrollbar(
-          isAlwaysShown: true,
-          child: SingleChildScrollView(
-            child: Center(
-              child: Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(kDefaultPadding),
-                    child: CircleAvatar(
-                      child: Text(
-                        songId.toString(),
+        body: PageView.builder(
+          itemCount: 5,
+          itemBuilder: (BuildContext context, int itemIndex) {
+            return Scrollbar(
+              thumbVisibility: true,
+              child: SingleChildScrollView(
+                child: Center(
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(kDefaultPadding),
+                        child: CircleAvatar(
+                          child: Text(
+                            songId.toString(),
+                          ),
+                        ),
                       ),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: kDefaultPadding),
-                    child: Text(
-                      songTitle,
-                      style: const TextStyle(fontSize: 22.0),
-                      textAlign: TextAlign.left,
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(
-                      left: kDefaultPadding,
-                      right: kDefaultPadding,
-                      bottom: kDefaultPadding * 7,
-                    ),
-                    child: HtmlWidget(
-                      songText,
-                      textStyle: TextStyle(
-                        fontSize: textSize,
-                        height: textHeight,
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: kDefaultPadding),
+                        child: Text(
+                          songTitle,
+                          style: const TextStyle(fontSize: 22.0),
+                          textAlign: TextAlign.left,
+                        ),
                       ),
-                    ),
+                      Padding(
+                        padding: const EdgeInsets.only(
+                          left: kDefaultPadding,
+                          right: kDefaultPadding,
+                          bottom: kDefaultPadding * 7,
+                        ),
+                        child: HtmlWidget(
+                          songText,
+                          textStyle: TextStyle(
+                            fontSize: textSize,
+                            height: textHeight,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                ],
+                ),
               ),
-            ),
-          ),
+            );
+          },
         ),
         bottomNavigationBar: BottomAppBar(
           shape: const CircularNotchedRectangle(),
