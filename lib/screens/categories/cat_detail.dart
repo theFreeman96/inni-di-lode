@@ -45,7 +45,7 @@ class _CatDetailState extends State<CatDetail> {
           builder: (context, snapshot) {
             return snapshot.hasData
                 ? Scrollbar(
-                    isAlwaysShown: true,
+                    thumbVisibility: true,
                     child: ListView.separated(
                       physics: const ScrollPhysics(),
                       shrinkWrap: true,
