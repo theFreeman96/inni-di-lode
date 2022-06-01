@@ -203,12 +203,7 @@ class _SongsBodyState extends State<SongsBody> {
           context,
           MaterialPageRoute(
             builder: (context) {
-              return PageView.builder(
-                itemCount: 5,
-                itemBuilder: (BuildContext context, int itemIndex) {
-                  return SongsDetail(songId, songTitle, songText);
-                },
-              );
+              return SongsDetail(songId, songTitle, songText);
             },
           ),
         );
