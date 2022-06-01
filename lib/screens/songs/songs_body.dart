@@ -153,7 +153,7 @@ class _SongsBodyState extends State<SongsBody> {
             return snapshot.hasData
                 ? Expanded(
                     child: Scrollbar(
-                      isAlwaysShown: true,
+                      thumbVisibility: true,
                       child: ListView.separated(
                         physics: const ScrollPhysics(),
                         shrinkWrap: true,
@@ -203,7 +203,12 @@ class _SongsBodyState extends State<SongsBody> {
           context,
           MaterialPageRoute(
             builder: (context) {
-              return SongsDetail(songId, songTitle, songText);
+              return PageView.builder(
+                itemCount: 5,
+                itemBuilder: (BuildContext context, int itemIndex) {
+                  return SongsDetail(songId, songTitle, songText);
+                },
+              );
             },
           ),
         );
