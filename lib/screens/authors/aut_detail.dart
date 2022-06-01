@@ -29,7 +29,7 @@ class _AutDetailState extends State<AutDetail> {
       child: Scaffold(
         appBar: AppBar(
           elevation: 0.0,
-          title: Text('Testi di ' + autName),
+          title: Text('Testi di $autName'),
           leading: IconButton(
             tooltip: 'Indietro',
             icon: const Icon(Icons.arrow_back),
@@ -45,7 +45,7 @@ class _AutDetailState extends State<AutDetail> {
           builder: (context, snapshot) {
             return snapshot.hasData
                 ? Scrollbar(
-                    isAlwaysShown: true,
+                    thumbVisibility: true,
                     child: ListView.separated(
                       physics: const ScrollPhysics(),
                       shrinkWrap: true,
