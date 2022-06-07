@@ -14,9 +14,9 @@ class MyTheme {
       scaffoldBackgroundColor: kWhite,
       cardColor: kWhite,
       toggleableActiveColor: kWhite,
-      accentColor: kPrimaryColor,
       progressIndicatorTheme:
-          const ProgressIndicatorThemeData(color: kPrimaryColor)
+          const ProgressIndicatorThemeData(color: kPrimaryColor),
+      colorScheme: ColorScheme.fromSwatch().copyWith(secondary: kPrimaryColor)
       // colorScheme: ColorScheme.fromSwatch().copyWith(secondary: kPrimaryColor),
       );
 
@@ -30,7 +30,6 @@ class MyTheme {
     scaffoldBackgroundColor: kBlack,
     cardColor: kBlack,
     toggleableActiveColor: kWhite,
-    accentColor: kWhite,
     progressIndicatorTheme: const ProgressIndicatorThemeData(color: kWhite),
     floatingActionButtonTheme: const FloatingActionButtonThemeData(
         foregroundColor: kPrimaryLightColor, backgroundColor: kWhite),
