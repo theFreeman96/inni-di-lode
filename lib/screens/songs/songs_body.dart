@@ -70,80 +70,75 @@ class _SongsBodyState extends State<SongsBody> {
     final themeProvider = Provider.of<ThemeProvider>(context);
     return Column(
       children: <Widget>[
-        Stack(
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(kDefaultPadding),
-              child: TextField(
-                focusNode: myFocusNode,
-                autofocus: false,
-                onChanged: (value) {
-                  _runFilter(value);
-                },
-                decoration: InputDecoration(
-                  prefixIcon: const Icon(
-                    Icons.search,
-                    color: kLightGrey,
-                  ),
-                  contentPadding: const EdgeInsets.symmetric(
-                    vertical: kDefaultPadding * 0.8,
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: const BorderRadius.all(
-                      Radius.circular(25.0),
-                    ),
-                    borderSide: BorderSide(
-                        color: themeProvider.isDarkMode ? kWhite : kLightGrey,
-                        width: 1.0),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: const BorderRadius.all(
-                      Radius.circular(25.0),
-                    ),
-                    borderSide: BorderSide(
-                        color: themeProvider.isDarkMode
-                            ? kPrimaryLightColor
-                            : kPrimaryColor,
-                        width: 2.0),
-                  ),
-                  prefixIconColor: kPrimaryColor,
-                  labelText: 'Cerca per numero, titolo o testo',
-                  labelStyle: const TextStyle(color: kLightGrey),
-                  hintText: 'Cerca un Cantico',
-                ),
+        Padding(
+          padding: const EdgeInsets.all(kDefaultPadding),
+          child: TextField(
+            focusNode: myFocusNode,
+            autofocus: false,
+            onChanged: (value) {
+              _runFilter(value);
+            },
+            decoration: InputDecoration(
+              prefixIcon: const Icon(
+                Icons.search,
+                color: kLightGrey,
               ),
-            ),
-            Visibility(
-              visible: isVisible,
-              child: Center(
-                child: Padding(
-                  padding: const EdgeInsets.only(
-                    top: kDefaultPadding * 4,
-                    left: kDefaultPadding,
-                    right: kDefaultPadding,
-                    bottom: kDefaultPadding,
-                  ),
-                  child: NumberPaginator(
-                    numberPages: 7,
-                    onPageChange: (int index) {
-                      setState(() {
-                        currentPage = index;
-                      });
-                    },
-                    buttonSelectedForegroundColor: Colors.white,
-                    buttonUnselectedForegroundColor:
-                        themeProvider.isDarkMode ? Colors.white : kBlack,
-                    buttonSelectedBackgroundColor: themeProvider.isDarkMode
+              contentPadding: const EdgeInsets.symmetric(
+                vertical: kDefaultPadding * 0.8,
+              ),
+              enabledBorder: OutlineInputBorder(
+                borderRadius: const BorderRadius.all(
+                  Radius.circular(25.0),
+                ),
+                borderSide: BorderSide(
+                    color: themeProvider.isDarkMode ? kWhite : kLightGrey,
+                    width: 1.0),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: const BorderRadius.all(
+                  Radius.circular(25.0),
+                ),
+                borderSide: BorderSide(
+                    color: themeProvider.isDarkMode
                         ? kPrimaryLightColor
                         : kPrimaryColor,
-                    buttonUnselectedBackgroundColor: themeProvider.isDarkMode
-                        ? kWhite.withOpacity(0.2)
-                        : kBlack.withOpacity(0.1),
-                  ),
-                ),
+                    width: 2.0),
+              ),
+              prefixIconColor: kPrimaryColor,
+              labelText: 'Cerca per numero, titolo o testo',
+              labelStyle: const TextStyle(color: kLightGrey),
+              hintText: 'Cerca un Cantico',
+            ),
+          ),
+        ),
+        Visibility(
+          visible: isVisible,
+          child: Center(
+            child: Padding(
+              padding: const EdgeInsets.only(
+                left: kDefaultPadding,
+                right: kDefaultPadding,
+                bottom: kDefaultPadding,
+              ),
+              child: NumberPaginator(
+                numberPages: 7,
+                onPageChange: (int index) {
+                  setState(() {
+                    currentPage = index;
+                  });
+                },
+                buttonSelectedForegroundColor: Colors.white,
+                buttonUnselectedForegroundColor:
+                    themeProvider.isDarkMode ? Colors.white : kBlack,
+                buttonSelectedBackgroundColor: themeProvider.isDarkMode
+                    ? kPrimaryLightColor
+                    : kPrimaryColor,
+                buttonUnselectedBackgroundColor: themeProvider.isDarkMode
+                    ? kWhite.withOpacity(0.2)
+                    : kBlack.withOpacity(0.1),
               ),
             ),
-          ],
+          ),
         ),
         const Divider(height: 0.0),
         FutureBuilder<List?>(
@@ -153,7 +148,7 @@ class _SongsBodyState extends State<SongsBody> {
             return snapshot.hasData
                 ? Expanded(
                     child: Scrollbar(
-                      isAlwaysShown: true,
+                      thumbVisibility: true,
                       child: ListView.separated(
                         physics: const ScrollPhysics(),
                         shrinkWrap: true,

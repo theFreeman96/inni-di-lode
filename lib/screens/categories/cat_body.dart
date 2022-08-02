@@ -98,7 +98,7 @@ class _CatBodyState extends State<CatBody> {
             return snapshot.hasData
                 ? Expanded(
                     child: Scrollbar(
-                      isAlwaysShown: true,
+                      thumbVisibility: true,
                       child: ListView.separated(
                         physics: const ScrollPhysics(),
                         shrinkWrap: true,
