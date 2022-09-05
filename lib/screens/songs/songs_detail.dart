@@ -16,6 +16,7 @@ import 'package:share_plus/share_plus.dart';
 
 import '/theme/constants.dart';
 import '/theme/provider.dart';
+import '/assets/data/queries.dart';
 
 class SongsDetail extends StatefulWidget {
   final int songId;
@@ -176,7 +177,7 @@ class _SongsDetailState extends State<SongsDetail> {
   Widget build(BuildContext context) {
     final themeProvider = Provider.of<ThemeProvider>(context);
 
-    PageController pageController = PageController(initialPage: songId - 1);
+    PageController pageController = PageController(initialPage: songId);
 
     return SafeArea(
       child: Scaffold(
@@ -222,52 +223,70 @@ class _SongsDetailState extends State<SongsDetail> {
           onPressed: () {},
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
-        body: PageView.builder(
-          controller: pageController,
-          itemCount: 700,
-          itemBuilder: (BuildContext context, int itemIndex) {
-            return Scrollbar(
-              thumbVisibility: true,
-              controller: pageController,
-              child: SingleChildScrollView(
-                child: Center(
-                  child: Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(kDefaultPadding),
-                        child: CircleAvatar(
-                          child: Text(
-                            songId.toString(),
+        body: FutureBuilder<List?>(
+          future: QueryCtr().getAllSongs(),
+          initialData: const [],
+          builder: (context, snapshot) {
+            return snapshot.hasData
+                ? PageView.builder(
+                    controller: pageController,
+                    itemCount: snapshot.data!.length,
+                    itemBuilder: (context, i) {
+                      return Scrollbar(
+                        thumbVisibility: true,
+                        controller: pageController,
+                        child: SingleChildScrollView(
+                          child: Center(
+                            child: Column(
+                              children: [
+                                Padding(
+                                  padding:
+                                      const EdgeInsets.all(kDefaultPadding),
+                                  child: CircleAvatar(
+                                    child: Text(
+                                      songId.toString(),
+                                    ),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                      bottom: kDefaultPadding),
+                                  child: Text(
+                                    songTitle,
+                                    style: const TextStyle(fontSize: 22.0),
+                                    textAlign: TextAlign.left,
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                    left: kDefaultPadding,
+                                    right: kDefaultPadding,
+                                    bottom: kDefaultPadding * 7,
+                                  ),
+                                  child: HtmlWidget(
+                                    songText,
+                                    textStyle: TextStyle(
+                                      fontSize: textSize,
+                                      height: textHeight,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
+                      );
+                    },
+                  )
+                : const Padding(
+                    padding: EdgeInsets.only(top: kDefaultPadding),
+                    child: Center(
+                      child: Text(
+                        'Nessun Cantico trovato',
+                        style: TextStyle(fontSize: 20.0),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.only(bottom: kDefaultPadding),
-                        child: Text(
-                          songTitle,
-                          style: const TextStyle(fontSize: 22.0),
-                          textAlign: TextAlign.left,
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(
-                          left: kDefaultPadding,
-                          right: kDefaultPadding,
-                          bottom: kDefaultPadding * 7,
-                        ),
-                        child: HtmlWidget(
-                          songText,
-                          textStyle: TextStyle(
-                            fontSize: textSize,
-                            height: textHeight,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            );
+                    ),
+                  );
           },
         ),
         bottomNavigationBar: BottomAppBar(
