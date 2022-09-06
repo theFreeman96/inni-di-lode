@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
 
+import '../../assets/data/models.dart';
 import '/theme/constants.dart';
 import '/theme/provider.dart';
 import '/assets/data/queries.dart';
@@ -36,12 +37,12 @@ class _SongsDetailState extends State<SongsDetail> {
   double textHeightMin = 1.0;
   double textHeightMax = 2.0;
 
+  late PageController pageController = PageController(initialPage: songId);
+  ScrollController scrollController = ScrollController();
+
   @override
   Widget build(BuildContext context) {
     final themeProvider = Provider.of<ThemeProvider>(context);
-
-    PageController pageController = PageController(initialPage: songId);
-
     return SafeArea(
       child: Scaffold(
         extendBody: true,
@@ -95,50 +96,7 @@ class _SongsDetailState extends State<SongsDetail> {
                     controller: pageController,
                     itemCount: snapshot.data!.length,
                     itemBuilder: (context, i) {
-                      return Scrollbar(
-                        thumbVisibility: true,
-                        controller: pageController,
-                        child: SingleChildScrollView(
-                          child: Center(
-                            child: Column(
-                              children: [
-                                Padding(
-                                  padding:
-                                      const EdgeInsets.all(kDefaultPadding),
-                                  child: CircleAvatar(
-                                    child: Text(
-                                      songId.toString(),
-                                    ),
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(
-                                      bottom: kDefaultPadding),
-                                  child: Text(
-                                    songTitle,
-                                    style: const TextStyle(fontSize: 22.0),
-                                    textAlign: TextAlign.left,
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(
-                                    left: kDefaultPadding,
-                                    right: kDefaultPadding,
-                                    bottom: kDefaultPadding * 7,
-                                  ),
-                                  child: HtmlWidget(
-                                    songText,
-                                    textStyle: TextStyle(
-                                      fontSize: textSize,
-                                      height: textHeight,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      );
+                      return _buildPage(snapshot.data![i]);
                     },
                   )
                 : const Padding(
@@ -289,6 +247,51 @@ class _SongsDetailState extends State<SongsDetail> {
                 ),
               ],
             ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildPage(Raccolta get) {
+    return Scrollbar(
+      thumbVisibility: true,
+      controller: scrollController,
+      child: SingleChildScrollView(
+        child: Center(
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(kDefaultPadding),
+                child: CircleAvatar(
+                  child: Text(
+                    songId.toString(),
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(bottom: kDefaultPadding),
+                child: Text(
+                  songTitle,
+                  style: const TextStyle(fontSize: 22.0),
+                  textAlign: TextAlign.left,
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(
+                  left: kDefaultPadding,
+                  right: kDefaultPadding,
+                  bottom: kDefaultPadding * 7,
+                ),
+                child: HtmlWidget(
+                  songText,
+                  textStyle: TextStyle(
+                    fontSize: textSize,
+                    height: textHeight,
+                  ),
+                ),
+              ),
+            ],
           ),
         ),
       ),
