@@ -29,6 +29,8 @@ class _SongsDetailState extends State<SongsDetail> {
 
   _SongsDetailState(this.songId, this.songTitle, this.songText);
 
+  late PageController pageController = PageController(initialPage: songId);
+
   double textSize = 16.0;
   double textSizeMin = 16.0;
   double textSizeMax = 20.0;
@@ -36,9 +38,6 @@ class _SongsDetailState extends State<SongsDetail> {
   double textHeight = 1.5;
   double textHeightMin = 1.0;
   double textHeightMax = 2.0;
-
-  late PageController pageController = PageController(initialPage: songId);
-  ScrollController scrollController = ScrollController();
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +47,6 @@ class _SongsDetailState extends State<SongsDetail> {
         extendBody: true,
         appBar: AppBar(
           elevation: 0.0,
-          title: const Text('Dettaglio'),
           leading: IconButton(
             tooltip: 'Indietro',
             icon: const Icon(Icons.arrow_back),
@@ -60,23 +58,13 @@ class _SongsDetailState extends State<SongsDetail> {
           actions: <Widget>[
             Padding(
               padding: const EdgeInsets.only(
-                  left: kDefaultPadding, right: kDefaultPadding),
-              child: Row(
-                children: [
-                  Icon(
-                    themeProvider.isDarkMode
-                        ? Icons.dark_mode
-                        : Icons.light_mode,
-                  ),
-                  Switch(
-                    value: themeProvider.isDarkMode,
-                    onChanged: (value) {
-                      final themeProvider =
-                          Provider.of<ThemeProvider>(context, listen: false);
-                      themeProvider.toggleTheme(value);
-                    },
-                  ),
-                ],
+                  left: kDefaultPadding, right: kDefaultPadding / 2),
+              child: IconButton(
+                tooltip: 'Condividi',
+                icon: const Icon(Icons.share),
+                onPressed: () async {
+                  await buildPDF(songId, songTitle, songText);
+                },
               ),
             ),
           ],
@@ -121,7 +109,7 @@ class _SongsDetailState extends State<SongsDetail> {
                   icon: const Icon(Icons.settings),
                   tooltip: 'Impostazioni',
                   onPressed: () {
-                    showModalBottomSheet<void>(
+                    showModalBottomSheet(
                       context: context,
                       shape: const RoundedRectangleBorder(
                         borderRadius: BorderRadius.only(
@@ -135,9 +123,24 @@ class _SongsDetailState extends State<SongsDetail> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           mainAxisSize: MainAxisSize.min,
                           children: <Widget>[
+                            SwitchListTile(
+                              secondary: Icon(
+                                themeProvider.isDarkMode
+                                    ? Icons.dark_mode
+                                    : Icons.light_mode,
+                              ),
+                              title: const Text('Tema'),
+                              value: themeProvider.isDarkMode,
+                              onChanged: (value) {
+                                final themeProvider =
+                                    Provider.of<ThemeProvider>(context,
+                                        listen: false);
+                                themeProvider.toggleTheme(value);
+                              },
+                            ),
                             ListTile(
                               leading: const Icon(Icons.format_size),
-                              title: const Text('Dimensione Testo'),
+                              title: const Text('Carattere'),
                               trailing: Row(
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
@@ -234,15 +237,35 @@ class _SongsDetailState extends State<SongsDetail> {
                     Icons.play_circle_fill,
                   ),
                   tooltip: 'Riproduci',
-                  onPressed: () {},
-                ),
-                IconButton(
-                  tooltip: 'Condividi',
-                  icon: const Icon(
-                    Icons.share,
-                  ),
-                  onPressed: () async {
-                    await buildPDF(songId, songTitle, songText);
+                  onPressed: () {
+                    showModalBottomSheet(
+                      context: context,
+                      shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(15),
+                          topRight: Radius.circular(15),
+                        ),
+                      ),
+                      isScrollControlled: true,
+                      builder: (BuildContext context) {
+                        return Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          mainAxisSize: MainAxisSize.min,
+                          children: <Widget>[
+                            const Divider(),
+                            ListTile(
+                              title: const Center(
+                                child: Text('Chiudi'),
+                              ),
+                              onTap: () {
+                                FocusScope.of(context).unfocus();
+                                Navigator.pop(context);
+                              },
+                            ),
+                          ],
+                        );
+                      },
+                    );
                   },
                 ),
               ],
@@ -256,7 +279,7 @@ class _SongsDetailState extends State<SongsDetail> {
   Widget _buildPage(Raccolta get) {
     return Scrollbar(
       thumbVisibility: true,
-      controller: scrollController,
+      controller: pageController,
       child: SingleChildScrollView(
         child: Center(
           child: Column(
