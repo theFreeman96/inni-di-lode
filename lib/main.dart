@@ -17,7 +17,6 @@ class Innario extends StatelessWidget {
       create: (context) => ThemeProvider(),
       child: Consumer<ThemeProvider>(
         builder: (context, ThemeProvider themeProvider, child) {
-          final themeProvider = Provider.of<ThemeProvider>(context);
           return GestureDetector(
             onTap: () {
               FocusManager.instance.primaryFocus?.unfocus();

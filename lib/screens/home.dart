@@ -28,25 +28,21 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     final themeProvider = Provider.of<ThemeProvider>(context);
-
     return Scaffold(
       resizeToAvoidBottomInset: false,
       extendBody: false,
       drawer: HamburgerMenu(),
       body: children[currentIndex],
-      floatingActionButton: FloatingActionButton(
-        child: Builder(
-          builder: (BuildContext context) {
-            return IconButton(
-              icon: const Icon(Icons.menu),
-              onPressed: () {
-                Scaffold.of(context).openDrawer();
-              },
-              tooltip: 'Menu',
-            );
-          },
-        ),
-        onPressed: () {},
+      floatingActionButton: Builder(
+        builder: (BuildContext context) {
+          return FloatingActionButton(
+            tooltip: 'Menu',
+            child: const Icon(Icons.menu),
+            onPressed: () {
+              Scaffold.of(context).openDrawer();
+            },
+          );
+        },
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
       bottomNavigationBar: BottomAppBar(

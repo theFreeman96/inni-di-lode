@@ -127,15 +127,18 @@ class _SongsBodyState extends State<SongsBody> {
                     currentPage = index;
                   });
                 },
-                buttonSelectedForegroundColor: Colors.white,
-                buttonUnselectedForegroundColor:
-                    themeProvider.isDarkMode ? Colors.white : kBlack,
-                buttonSelectedBackgroundColor: themeProvider.isDarkMode
-                    ? kPrimaryLightColor
-                    : kPrimaryColor,
-                buttonUnselectedBackgroundColor: themeProvider.isDarkMode
-                    ? kWhite.withOpacity(0.2)
-                    : kBlack.withOpacity(0.1),
+                config: NumberPaginatorUIConfig(
+                  mode: ContentDisplayMode.numbers,
+                  buttonSelectedForegroundColor: Colors.white,
+                  buttonUnselectedForegroundColor:
+                      themeProvider.isDarkMode ? Colors.white : kBlack,
+                  buttonSelectedBackgroundColor: themeProvider.isDarkMode
+                      ? kPrimaryLightColor
+                      : kPrimaryColor,
+                  buttonUnselectedBackgroundColor: themeProvider.isDarkMode
+                      ? kWhite.withOpacity(0.2)
+                      : kBlack.withOpacity(0.1),
+                ),
               ),
             ),
           ),

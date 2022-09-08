@@ -7,7 +7,6 @@ class InfoPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Orientation orientation = MediaQuery.of(context).orientation;
-
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
