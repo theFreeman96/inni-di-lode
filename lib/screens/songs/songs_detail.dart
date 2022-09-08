@@ -29,7 +29,7 @@ class _SongsDetailState extends State<SongsDetail> {
 
   _SongsDetailState(this.songId, this.songTitle, this.songText);
 
-  late PageController pageController = PageController(initialPage: songId);
+  late PageController pageController = PageController(initialPage: songId - 1);
 
   double textSize = 16.0;
   double textSizeMin = 16.0;
@@ -82,7 +82,7 @@ class _SongsDetailState extends State<SongsDetail> {
             return snapshot.hasData
                 ? PageView.builder(
                     controller: pageController,
-                    itemCount: snapshot.data!.length,
+                    itemCount: 700, //TODO: implement snapshot.data!.length
                     itemBuilder: (context, i) {
                       return _buildPage(snapshot.data![i]);
                     },
@@ -288,14 +288,14 @@ class _SongsDetailState extends State<SongsDetail> {
                 padding: const EdgeInsets.all(kDefaultPadding),
                 child: CircleAvatar(
                   child: Text(
-                    songId.toString(),
+                    get.songId.toString(),
                   ),
                 ),
               ),
               Padding(
                 padding: const EdgeInsets.only(bottom: kDefaultPadding),
                 child: Text(
-                  songTitle,
+                  get.songTitle,
                   style: const TextStyle(fontSize: 22.0),
                   textAlign: TextAlign.left,
                 ),
@@ -307,7 +307,7 @@ class _SongsDetailState extends State<SongsDetail> {
                   bottom: kDefaultPadding * 7,
                 ),
                 child: HtmlWidget(
-                  songText,
+                  get.songText,
                   textStyle: TextStyle(
                     fontSize: textSize,
                     height: textHeight,
