@@ -9,7 +9,7 @@ The new Inni di Lode app, including all 700 songs from our Songbook.
 ## Features
 
 - Search a song by typing its number, title or lyrics;
-- Songs by categories and authors;
+- Songs sorted by categories and authors;
 - Rest your eyes using the dark mode;
 - Adjust font size and line spacing;
 - Share songs with whoever you want.
@@ -27,7 +27,7 @@ The new Inni di Lode app, including all 700 songs from our Songbook.
 
 ## OS Compatibility
 
-The is available on:
+Currently available on:
 - Mobile: Android, iOS.
 
 Soon available on
