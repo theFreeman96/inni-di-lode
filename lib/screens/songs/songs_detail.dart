@@ -82,9 +82,11 @@ class _SongsDetailState extends State<SongsDetail> {
             return snapshot.hasData
                 ? PageView.builder(
                     controller: pageController,
-                    itemCount: 700, //TODO: implement snapshot.data!.length
                     itemBuilder: (context, i) {
-                      return _buildPage(snapshot.data![i]);
+                      return Center(
+                        child: _buildPage(
+                            snapshot.data![i % snapshot.data!.length]),
+                      );
                     },
                   )
                 : const Padding(
