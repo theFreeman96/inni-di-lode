@@ -20,7 +20,6 @@ class _HamburgerMenuState extends State<HamburgerMenu> {
   @override
   Widget build(BuildContext context) {
     final themeProvider = Provider.of<ThemeProvider>(context);
-
     return Drawer(
       child: ListView(
         physics: const ScrollPhysics(),
