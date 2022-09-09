@@ -41,249 +41,68 @@ class _SongsDetailState extends State<SongsDetail> {
 
   @override
   Widget build(BuildContext context) {
-    final themeProvider = Provider.of<ThemeProvider>(context);
     return SafeArea(
-      child: Scaffold(
-        extendBody: true,
-        appBar: AppBar(
-          elevation: 0.0,
-          leading: IconButton(
-            tooltip: 'Indietro',
-            icon: const Icon(Icons.arrow_back),
-            onPressed: () {
-              FocusScope.of(context).unfocus();
-              Navigator.of(context).pop();
+      child: FutureBuilder<List?>(
+        future: QueryCtr().getAllSongs(),
+        initialData: const [],
+        builder: (context, snapshot) {
+          return PageView.builder(
+            controller: pageController,
+            itemBuilder: (context, i) {
+              return _buildPage(snapshot.data![i % snapshot.data!.length]);
             },
-          ),
-          actions: <Widget>[
-            Padding(
-              padding: const EdgeInsets.only(
-                  left: kDefaultPadding, right: kDefaultPadding / 2),
-              child: IconButton(
-                tooltip: 'Condividi',
-                icon: const Icon(Icons.share),
-                onPressed: () async {
-                  await buildPDF(songId, songTitle, songText);
-                },
-              ),
-            ),
-          ],
-        ),
-        floatingActionButton: FloatingActionButton(
-          tooltip: 'Preferito',
-          child: const Icon(Icons.favorite_border),
-          onPressed: () {},
-        ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
-        body: FutureBuilder<List?>(
-          future: QueryCtr().getAllSongs(),
-          initialData: const [],
-          builder: (context, snapshot) {
-            return snapshot.hasData
-                ? PageView.builder(
-                    controller: pageController,
-                    itemBuilder: (context, i) {
-                      return Center(
-                        child: _buildPage(
-                            snapshot.data![i % snapshot.data!.length]),
-                      );
-                    },
-                  )
-                : const Padding(
-                    padding: EdgeInsets.only(top: kDefaultPadding),
-                    child: Center(
-                      child: Text(
-                        'Nessun Cantico trovato',
-                        style: TextStyle(fontSize: 20.0),
-                      ),
-                    ),
-                  );
-          },
-        ),
-        bottomNavigationBar: BottomAppBar(
-          shape: const CircularNotchedRectangle(),
-          notchMargin: 8.0,
-          child: Padding(
-            padding: const EdgeInsets.only(left: kDefaultPadding),
-            child: Row(
-              children: [
-                IconButton(
-                  icon: const Icon(Icons.settings),
-                  tooltip: 'Impostazioni',
-                  onPressed: () {
-                    showModalBottomSheet(
-                      context: context,
-                      shape: const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(15),
-                          topRight: Radius.circular(15),
-                        ),
-                      ),
-                      isScrollControlled: true,
-                      builder: (BuildContext context) {
-                        return Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          mainAxisSize: MainAxisSize.min,
-                          children: <Widget>[
-                            SwitchListTile(
-                              secondary: Icon(
-                                themeProvider.isDarkMode
-                                    ? Icons.dark_mode
-                                    : Icons.light_mode,
-                              ),
-                              title: const Text('Tema'),
-                              value: themeProvider.isDarkMode,
-                              onChanged: (value) {
-                                final themeProvider =
-                                    Provider.of<ThemeProvider>(context,
-                                        listen: false);
-                                themeProvider.toggleTheme(value);
-                              },
-                            ),
-                            ListTile(
-                              leading: const Icon(Icons.format_size),
-                              title: const Text('Carattere'),
-                              trailing: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  IconButton(
-                                    icon: const Icon(Icons.text_decrease),
-                                    tooltip: 'Testo più Piccolo',
-                                    onPressed: () {
-                                      if (textSize > textSizeMin) {
-                                        textSize = textSize - 2.0;
-                                      } else {
-                                        log('Dimensione minima del testo: $textSize');
-                                      }
-                                      setState(
-                                        () {},
-                                      );
-                                    },
-                                  ),
-                                  IconButton(
-                                    icon: const Icon(Icons.text_increase),
-                                    tooltip: 'Testo più Grande',
-                                    onPressed: () {
-                                      if (textSize < textSizeMax) {
-                                        textSize = textSize + 2.0;
-                                      } else {
-                                        log('Dimensione massima del testo: $textSize');
-                                      }
-                                      setState(
-                                        () {},
-                                      );
-                                    },
-                                  ),
-                                ],
-                              ),
-                            ),
-                            ListTile(
-                              leading: const Icon(Icons.format_line_spacing),
-                              title: const Text('Interlinea'),
-                              trailing: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  IconButton(
-                                    icon: const Icon(
-                                      Icons.density_small,
-                                    ),
-                                    tooltip: 'Diminuisci Interlinea',
-                                    onPressed: () {
-                                      if (textHeight > textHeightMin) {
-                                        textHeight = textHeight - 0.5;
-                                      } else {
-                                        log('Interlinea minima: $textHeight');
-                                      }
-                                      setState(
-                                        () {},
-                                      );
-                                    },
-                                  ),
-                                  IconButton(
-                                    icon: const Icon(
-                                      Icons.density_medium,
-                                    ),
-                                    tooltip: 'Aumenta Interlinea',
-                                    onPressed: () {
-                                      if (textHeight < textHeightMax) {
-                                        textHeight = textHeight + 0.5;
-                                      } else {
-                                        log('Interlinea massima: $textHeight');
-                                      }
-                                      setState(
-                                        () {},
-                                      );
-                                    },
-                                  ),
-                                ],
-                              ),
-                            ),
-                            const Divider(),
-                            ListTile(
-                              title: const Center(
-                                child: Text('Chiudi'),
-                              ),
-                              onTap: () {
-                                FocusScope.of(context).unfocus();
-                                Navigator.pop(context);
-                              },
-                            ),
-                          ],
-                        );
-                      },
-                    );
-                  },
-                ),
-                IconButton(
-                  icon: const Icon(
-                    Icons.play_circle_fill,
-                  ),
-                  tooltip: 'Riproduci',
-                  onPressed: () {
-                    showModalBottomSheet(
-                      context: context,
-                      shape: const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(15),
-                          topRight: Radius.circular(15),
-                        ),
-                      ),
-                      isScrollControlled: true,
-                      builder: (BuildContext context) {
-                        return Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          mainAxisSize: MainAxisSize.min,
-                          children: <Widget>[
-                            const Divider(),
-                            ListTile(
-                              title: const Center(
-                                child: Text('Chiudi'),
-                              ),
-                              onTap: () {
-                                FocusScope.of(context).unfocus();
-                                Navigator.pop(context);
-                              },
-                            ),
-                          ],
-                        );
-                      },
-                    );
-                  },
-                ),
-              ],
-            ),
-          ),
-        ),
+          );
+        },
       ),
     );
   }
 
   Widget _buildPage(Raccolta get) {
-    return Scrollbar(
-      thumbVisibility: true,
-      controller: pageController,
-      child: SingleChildScrollView(
-        child: Center(
+    final themeProvider = Provider.of<ThemeProvider>(context);
+    return Scaffold(
+      extendBody: true,
+      extendBodyBehindAppBar: true,
+      appBar: AppBar(
+        elevation: 0.0,
+        backgroundColor: Colors.transparent,
+        leading: IconButton(
+          tooltip: 'Indietro',
+          icon: Icon(
+            Icons.arrow_back,
+            color: themeProvider.isDarkMode ? kWhite : kGrey,
+          ),
+          onPressed: () {
+            FocusScope.of(context).unfocus();
+            Navigator.of(context).pop();
+          },
+        ),
+        actions: <Widget>[
+          Padding(
+            padding: const EdgeInsets.only(
+                left: kDefaultPadding, right: kDefaultPadding / 2),
+            child: IconButton(
+              tooltip: 'Condividi',
+              icon: Icon(
+                Icons.share,
+                color: themeProvider.isDarkMode ? kWhite : kGrey,
+              ),
+              onPressed: () async {
+                await buildPDF(get.songId, get.songTitle, get.songText);
+              },
+            ),
+          ),
+        ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        tooltip: 'Preferito',
+        child: const Icon(Icons.favorite_border),
+        onPressed: () {},
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
+      body: Scrollbar(
+        thumbVisibility: true,
+        controller: pageController,
+        child: SingleChildScrollView(
           child: Column(
             children: [
               Padding(
@@ -304,8 +123,8 @@ class _SongsDetailState extends State<SongsDetail> {
               ),
               Padding(
                 padding: const EdgeInsets.only(
-                  left: kDefaultPadding,
-                  right: kDefaultPadding,
+                  left: kDefaultPadding * 2,
+                  right: kDefaultPadding * 2,
                   bottom: kDefaultPadding * 7,
                 ),
                 child: HtmlWidget(
@@ -315,6 +134,180 @@ class _SongsDetailState extends State<SongsDetail> {
                     height: textHeight,
                   ),
                 ),
+              ),
+            ],
+          ),
+        ),
+      ),
+      bottomNavigationBar: BottomAppBar(
+        shape: const CircularNotchedRectangle(),
+        notchMargin: 8.0,
+        child: Padding(
+          padding: const EdgeInsets.only(left: kDefaultPadding),
+          child: Row(
+            children: [
+              IconButton(
+                icon: const Icon(Icons.settings),
+                tooltip: 'Impostazioni',
+                onPressed: () {
+                  showModalBottomSheet(
+                    context: context,
+                    shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(15),
+                        topRight: Radius.circular(15),
+                      ),
+                    ),
+                    isScrollControlled: true,
+                    builder: (BuildContext context) {
+                      return Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
+                          SwitchListTile(
+                            secondary: Icon(
+                              themeProvider.isDarkMode
+                                  ? Icons.dark_mode
+                                  : Icons.light_mode,
+                            ),
+                            title: const Text('Tema'),
+                            value: themeProvider.isDarkMode,
+                            onChanged: (value) {
+                              final themeProvider = Provider.of<ThemeProvider>(
+                                  context,
+                                  listen: false);
+                              themeProvider.toggleTheme(value);
+                            },
+                          ),
+                          ListTile(
+                            leading: const Icon(Icons.format_size),
+                            title: const Text('Carattere'),
+                            trailing: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                IconButton(
+                                  icon: const Icon(Icons.text_decrease),
+                                  tooltip: 'Testo più Piccolo',
+                                  onPressed: () {
+                                    if (textSize > textSizeMin) {
+                                      textSize = textSize - 2.0;
+                                    } else {
+                                      log('Dimensione minima del testo: $textSize');
+                                    }
+                                    setState(
+                                      () {},
+                                    );
+                                  },
+                                ),
+                                IconButton(
+                                  icon: const Icon(Icons.text_increase),
+                                  tooltip: 'Testo più Grande',
+                                  onPressed: () {
+                                    if (textSize < textSizeMax) {
+                                      textSize = textSize + 2.0;
+                                    } else {
+                                      log('Dimensione massima del testo: $textSize');
+                                    }
+                                    setState(
+                                      () {},
+                                    );
+                                  },
+                                ),
+                              ],
+                            ),
+                          ),
+                          ListTile(
+                            leading: const Icon(Icons.format_line_spacing),
+                            title: const Text('Interlinea'),
+                            trailing: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                IconButton(
+                                  icon: const Icon(
+                                    Icons.density_small,
+                                  ),
+                                  tooltip: 'Diminuisci Interlinea',
+                                  onPressed: () {
+                                    if (textHeight > textHeightMin) {
+                                      textHeight = textHeight - 0.5;
+                                    } else {
+                                      log('Interlinea minima: $textHeight');
+                                    }
+                                    setState(
+                                      () {},
+                                    );
+                                  },
+                                ),
+                                IconButton(
+                                  icon: const Icon(
+                                    Icons.density_medium,
+                                  ),
+                                  tooltip: 'Aumenta Interlinea',
+                                  onPressed: () {
+                                    if (textHeight < textHeightMax) {
+                                      textHeight = textHeight + 0.5;
+                                    } else {
+                                      log('Interlinea massima: $textHeight');
+                                    }
+                                    setState(
+                                      () {},
+                                    );
+                                  },
+                                ),
+                              ],
+                            ),
+                          ),
+                          const Divider(),
+                          ListTile(
+                            title: const Center(
+                              child: Text('Chiudi'),
+                            ),
+                            onTap: () {
+                              FocusScope.of(context).unfocus();
+                              Navigator.pop(context);
+                            },
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                },
+              ),
+              IconButton(
+                icon: const Icon(
+                  Icons.play_circle_fill,
+                ),
+                tooltip: 'Riproduci',
+                onPressed: () {
+                  showModalBottomSheet(
+                    context: context,
+                    shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(15),
+                        topRight: Radius.circular(15),
+                      ),
+                    ),
+                    isScrollControlled: true,
+                    builder: (BuildContext context) {
+                      return Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
+                          const Divider(),
+                          ListTile(
+                            title: const Center(
+                              child: Text('Chiudi'),
+                            ),
+                            onTap: () {
+                              FocusScope.of(context).unfocus();
+                              Navigator.pop(context);
+                            },
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                },
               ),
             ],
           ),
