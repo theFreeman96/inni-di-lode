@@ -89,34 +89,6 @@ buildPDF(songId, songTitle, songText) async {
           pw.Paragraph(
             padding: const pw.EdgeInsets.only(top: 5.0 * PdfPageFormat.mm),
             text: html2md.convert(songText, rules: [
-              html2md.Rule('listItem', filters: ['li'],
-                  replacement: (content, node) {
-                var convertContent = content
-                    .replaceAll(RegExp(r'^\n+'), '')
-                    .replaceAll(RegExp(r'\n+$'), '\n')
-                    .replaceAll(RegExp('\n', multiLine: true), '\n    ');
-                var prefix = 'bulletListMarker   ';
-                if (node.parentElName == 'ol') {
-                  var start = -1;
-                  var startAttr = node.getParentAttribute('start');
-                  if (startAttr != null && startAttr.isNotEmpty) {
-                    try {
-                      start = int.parse(startAttr);
-                    } catch (e) {
-                      log('listItem parse start error $e');
-                    }
-                  }
-                  var index = (start > -1)
-                      ? start + node.parentChildIndex
-                      : node.parentChildIndex + 1;
-                  prefix = '$index. ';
-                }
-                var postfix = ((node.nextSibling != null) &&
-                        !RegExp(r'\n$').hasMatch(convertContent))
-                    ? '\n'
-                    : '';
-                return '$prefix$convertContent$postfix';
-              }),
               html2md.Rule('emphasis', filters: ['em', 'i'],
                   replacement: (content, node) {
                 if (content.trim().isEmpty) return '';
