@@ -23,13 +23,13 @@ class SongsDetail extends StatefulWidget {
 }
 
 class _SongsDetailState extends State<SongsDetail> {
-  final int songId;
+  late int songId;
   final String songTitle;
   final String songText;
 
   _SongsDetailState(this.songId, this.songTitle, this.songText);
 
-  late PageController pageController = PageController(initialPage: songId - 1);
+  late PageController pageController = PageController(initialPage: --songId);
 
   double textSize = 16.0;
   double textSizeMin = 16.0;
