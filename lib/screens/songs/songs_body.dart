@@ -4,8 +4,8 @@ import 'package:number_paginator/number_paginator.dart';
 
 import '/theme/provider.dart';
 import '/theme/constants.dart';
-import '/assets/data/queries.dart';
 import '/assets/data/models.dart';
+import '/assets/data/queries.dart';
 
 import 'songs_detail.dart';
 
