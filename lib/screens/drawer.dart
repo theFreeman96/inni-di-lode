@@ -1,8 +1,11 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '/theme/provider.dart';
 import '/theme/constants.dart';
+import '/assets/data/queries.dart';
 
 import '/screens/songs/songs_detail.dart';
 import '/screens/info/info_page.dart';
@@ -13,10 +16,6 @@ class HamburgerMenu extends StatefulWidget {
 }
 
 class _HamburgerMenuState extends State<HamburgerMenu> {
-  int get songId => 1;
-  String get songTitle => 'Titolo cantico casuale';
-  String get songText => 'Testo cantico casuale';
-
   @override
   Widget build(BuildContext context) {
     final themeProvider = Provider.of<ThemeProvider>(context);
@@ -48,7 +47,26 @@ class _HamburgerMenuState extends State<HamburgerMenu> {
                 context,
                 MaterialPageRoute(
                   builder: (context) {
-                    return SongsDetail(songId, songTitle, songText);
+                    return FutureBuilder<List?>(
+                      future: QueryCtr().getAllSongs(),
+                      initialData: const [],
+                      builder: (context, snapshot) {
+                        int songId = Random().nextInt(snapshot.data!.length);
+                        String songTitle = 'Testo';
+                        String songText = 'Testo';
+                        return snapshot.hasData
+                            ? SongsDetail(songId, songTitle, songText)
+                            : const Padding(
+                                padding: EdgeInsets.only(top: kDefaultPadding),
+                                child: Center(
+                                  child: Text(
+                                    'Nessun Cantico trovato',
+                                    style: TextStyle(fontSize: 20.0),
+                                  ),
+                                ),
+                              );
+                      },
+                    );
                   },
                 ),
               );
