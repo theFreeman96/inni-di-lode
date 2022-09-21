@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
 
-import '../../assets/data/models.dart';
+import '/assets/data/models.dart';
 import '/theme/constants.dart';
 import '/theme/provider.dart';
 import '/assets/data/queries.dart';
