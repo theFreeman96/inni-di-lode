@@ -25,14 +25,14 @@ class _SongsBodyState extends State<SongsBody> {
     });
   }
 
-  late List<Future<List?>> queries = [
-    QueryCtr().getSongsFrom1To100(),
-    QueryCtr().getSongsFrom101To200(),
-    QueryCtr().getSongsFrom201To300(),
-    QueryCtr().getSongsFrom301To400(),
-    QueryCtr().getSongsFrom401To500(),
-    QueryCtr().getSongsFrom501To600(),
-    QueryCtr().getSongsFrom601To700(),
+  late List<Future<List?>> songRange = [
+    QueryCtr().getSongsFromRange(1, 100),
+    QueryCtr().getSongsFromRange(101, 200),
+    QueryCtr().getSongsFromRange(201, 300),
+    QueryCtr().getSongsFromRange(301, 400),
+    QueryCtr().getSongsFromRange(401, 500),
+    QueryCtr().getSongsFromRange(501, 600),
+    QueryCtr().getSongsFromRange(601, 700),
   ];
 
   late Future<List?> future;
@@ -41,7 +41,7 @@ class _SongsBodyState extends State<SongsBody> {
 
   @override
   void initState() {
-    future = queries[currentPage];
+    future = songRange[currentPage];
     super.initState();
   }
 
@@ -51,7 +51,7 @@ class _SongsBodyState extends State<SongsBody> {
       results = future;
 
       setState(() {
-        queries[currentPage] = future;
+        songRange[currentPage] = future;
         isVisible = true;
       });
     } else {
@@ -59,7 +59,7 @@ class _SongsBodyState extends State<SongsBody> {
 
       setState(() {
         currentPage = 0;
-        queries[currentPage] = results;
+        songRange[currentPage] = results;
         isVisible = false;
       });
     }
@@ -145,7 +145,7 @@ class _SongsBodyState extends State<SongsBody> {
         ),
         const Divider(height: 0.0),
         FutureBuilder<List?>(
-          future: queries[currentPage],
+          future: songRange[currentPage],
           initialData: const [],
           builder: (context, snapshot) {
             return snapshot.hasData
