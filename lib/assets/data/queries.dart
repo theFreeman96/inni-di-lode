@@ -89,6 +89,17 @@ class QueryCtr {
     return list;
   }
 
+  Future<List<Raccolta>?> getAllFav() async {
+    final dbClient = await con.db;
+    final res = await dbClient!.query('view_raccolta',
+        where: 'isFav = ?', whereArgs: [1], groupBy: 'songId');
+
+    List<Raccolta>? list =
+        res.isNotEmpty ? res.map((c) => Raccolta.fromMap(c)).toList() : null;
+
+    return list;
+  }
+
   Future<List<Raccolta>?> searchSong(String keyword) async {
     final dbClient = await con.db;
     final res = await dbClient!.rawQuery(
