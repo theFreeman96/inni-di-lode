@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
 
-import '../../assets/data/models.dart';
 import '/theme/constants.dart';
 import '/theme/provider.dart';
+import '/assets/data/models.dart';
 import '/assets/data/queries.dart';
 
 import 'songs_pdf.dart';
@@ -23,13 +23,13 @@ class SongsDetail extends StatefulWidget {
 }
 
 class _SongsDetailState extends State<SongsDetail> {
-  final int songId;
+  late int songId;
   final String songTitle;
   final String songText;
 
   _SongsDetailState(this.songId, this.songTitle, this.songText);
 
-  late PageController pageController = PageController(initialPage: songId - 1);
+  late PageController pageController = PageController(initialPage: --songId);
 
   double textSize = 16.0;
   double textSizeMin = 16.0;

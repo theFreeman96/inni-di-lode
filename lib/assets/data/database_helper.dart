@@ -4,35 +4,34 @@ import 'package:flutter/services.dart';
 import 'package:path/path.dart';
 
 class DatabaseHelper {
-  static final DatabaseHelper _instance = DatabaseHelper.internal();
-  factory DatabaseHelper() => _instance;
+  final dbName = "innario.db";
+  final dbVersion = 1;
 
+  // Make this a singleton class
+  DatabaseHelper.privateConstructor();
+  static final DatabaseHelper instance = DatabaseHelper.privateConstructor();
+
+  // Only have a single app-wide reference to the database
   static Database? _db;
-
   Future<Database?> get db async {
-    if (_db != null) {
-      return _db;
-    } else {
-      _db = await initDb();
-      return _db;
-    }
+    if (_db != null) return _db;
+    _db = await initDb();
+    return _db;
   }
-
-  DatabaseHelper.internal();
 
   initDb() async {
     // Search database
     var dbDir = await getDatabasesPath();
-    var dbPath = join(dbDir, "innario.db");
+    var dbPath = join(dbDir, dbName);
 
     // Create the writable database file from the bundled demo database file:
-    ByteData data = await rootBundle.load("lib/assets/data/innario.db");
+    ByteData data = await rootBundle.load("lib/assets/data/$dbName");
     List<int> bytes =
         data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
     await File(dbPath).writeAsBytes(bytes);
 
     // Save copied asset to documents
-    var db = await openDatabase(dbPath);
+    var db = await openDatabase(dbPath, version: dbVersion);
     return db;
   }
 }
