@@ -27,6 +27,7 @@ dependencies:
   # Layout
   font_awesome_flutter: ^10.1.0
   number_paginator: ^0.2.0
+  audioplayers: ^1.0.1
 
   # Data
   sqflite: any
