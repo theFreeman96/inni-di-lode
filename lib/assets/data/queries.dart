@@ -2,7 +2,7 @@ import 'database_helper.dart';
 import 'models.dart';
 
 class QueryCtr {
-  DatabaseHelper con = DatabaseHelper();
+  DatabaseHelper con = DatabaseHelper.privateConstructor();
 
   Future<List<Raccolta>?> getAllSongs() async {
     final dbClient = await con.db;
