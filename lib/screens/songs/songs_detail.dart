@@ -3,7 +3,6 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
-import 'package:audioplayers/audioplayers.dart';
 
 import '/theme/constants.dart';
 import '/theme/provider.dart';
@@ -11,6 +10,7 @@ import '/assets/data/models.dart';
 import '/assets/data/queries.dart';
 
 import 'songs_pdf.dart';
+import 'songs_player.dart';
 
 class SongsDetail extends StatefulWidget {
   final int songId;
@@ -39,56 +39,6 @@ class _SongsDetailState extends State<SongsDetail> {
   double textHeight = 1.5;
   double textHeightMin = 1.0;
   double textHeightMax = 2.0;
-
-  final audioPlayer = AudioPlayer();
-  bool isPlaying = false;
-  Duration duration = Duration.zero;
-  Duration position = Duration.zero;
-
-  @override
-  void initState() {
-    super.initState();
-
-    // Listen to states: playing, paused, stopped
-    audioPlayer.onPlayerStateChanged.listen((state) {
-      setState(() {
-        isPlaying = state == PlayerState.playing;
-      });
-    });
-
-    // Listen to audio duration
-    audioPlayer.onDurationChanged.listen((newDuration) {
-      setState(() {
-        duration = newDuration;
-      });
-    });
-
-    // Listen to audio position
-    audioPlayer.onPositionChanged.listen((newPosition) {
-      setState(() {
-        position = newPosition;
-      });
-    });
-  }
-
-  @override
-  void dispose() {
-    audioPlayer.dispose();
-    super.dispose();
-  }
-
-  String formatTime(Duration duration) {
-    String twoDigits(int n) => n.toString().padLeft(2, '0');
-    final hours = twoDigits(duration.inHours);
-    final minutes = twoDigits(duration.inMinutes.remainder(60));
-    final seconds = twoDigits(duration.inSeconds.remainder(60));
-
-    return [
-      if (duration.inHours > 0) hours,
-      minutes,
-      seconds,
-    ].join(':');
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -340,102 +290,7 @@ class _SongsDetailState extends State<SongsDetail> {
                     ),
                     isScrollControlled: true,
                     builder: (BuildContext context) {
-                      return Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        mainAxisSize: MainAxisSize.min,
-                        children: <Widget>[
-                          Slider(
-                            min: 0,
-                            max: duration.inSeconds.toDouble(),
-                            value: position.inSeconds.toDouble(),
-                            onChanged: (value) async {
-                              final position = Duration(seconds: value.toInt());
-                              await audioPlayer.seek(position);
-                              // Play audio if it was paused
-                              await audioPlayer.resume();
-                            },
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: kDefaultPadding),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(formatTime(position)),
-                                Text(formatTime(duration - position))
-                              ],
-                            ),
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              CircleAvatar(
-                                radius: kDefaultPadding,
-                                child: IconButton(
-                                  icon: const Icon(Icons.replay_10),
-                                  iconSize: kDefaultPadding,
-                                  onPressed: () async {
-                                    if (isPlaying) {
-                                      await audioPlayer.pause();
-                                    } else {
-                                      Source url =
-                                          'https://www.youtube.com/watch?v=dQw4w9WgXcQ'
-                                              as Source;
-                                      await audioPlayer.play(url);
-                                    }
-                                  },
-                                ),
-                              ),
-                              CircleAvatar(
-                                radius: kDefaultPadding * 1.5,
-                                child: IconButton(
-                                  icon: Icon(isPlaying
-                                      ? Icons.pause
-                                      : Icons.play_arrow),
-                                  iconSize: kDefaultPadding * 1.5,
-                                  onPressed: () async {
-                                    if (isPlaying) {
-                                      await audioPlayer.pause();
-                                    } else {
-                                      Source url =
-                                          'https://www.youtube.com/watch?v=dQw4w9WgXcQ'
-                                              as Source;
-                                      await audioPlayer.play(url);
-                                    }
-                                  },
-                                ),
-                              ),
-                              CircleAvatar(
-                                radius: kDefaultPadding,
-                                child: IconButton(
-                                  icon: const Icon(Icons.forward_10),
-                                  iconSize: kDefaultPadding,
-                                  onPressed: () async {
-                                    if (isPlaying) {
-                                      await audioPlayer.pause();
-                                    } else {
-                                      Source url =
-                                          'https://www.youtube.com/watch?v=dQw4w9WgXcQ'
-                                              as Source;
-                                      await audioPlayer.play(url);
-                                    }
-                                  },
-                                ),
-                              ),
-                            ],
-                          ),
-                          const Divider(),
-                          ListTile(
-                            title: const Center(
-                              child: Text('Chiudi'),
-                            ),
-                            onTap: () {
-                              FocusScope.of(context).unfocus();
-                              Navigator.pop(context);
-                            },
-                          ),
-                        ],
-                      );
+                      return SongsPlayer();
                     },
                   );
                 },
