@@ -35,7 +35,7 @@ class Innario extends StatelessWidget {
                   child: SizedBox(child: child),
                 );
               },
-              home: SafeArea(
+              home: const SafeArea(
                 child: Home(),
               ),
             ),

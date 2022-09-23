@@ -21,13 +21,13 @@ class AutPage extends StatelessWidget {
               collapsedHeight: 0.0,
               automaticallyImplyLeading: false,
               backgroundColor: Colors.transparent,
-              flexibleSpace: FlexibleSpaceBar(
+              flexibleSpace: const FlexibleSpaceBar(
                 background: AutHeader(),
               ),
             ),
           ];
         },
-        body: AutBody(),
+        body: const AutBody(),
       );
     } else {
       return Row(
@@ -35,9 +35,9 @@ class AutPage extends StatelessWidget {
           SizedBox(
             width: MediaQuery.of(context).size.width * 0.35,
             height: MediaQuery.of(context).size.height,
-            child: AutHeader(),
+            child: const AutHeader(),
           ),
-          Expanded(
+          const Expanded(
             child: AutBody(),
           ),
         ],

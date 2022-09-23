@@ -21,13 +21,13 @@ class FavPage extends StatelessWidget {
               collapsedHeight: 0.0,
               automaticallyImplyLeading: false,
               backgroundColor: Colors.transparent,
-              flexibleSpace: FlexibleSpaceBar(
+              flexibleSpace: const FlexibleSpaceBar(
                 background: FavHeader(),
               ),
             ),
           ];
         },
-        body: FavBody(),
+        body: const FavBody(),
       );
     } else {
       return Row(
@@ -35,9 +35,9 @@ class FavPage extends StatelessWidget {
           SizedBox(
             width: MediaQuery.of(context).size.width * 0.35,
             height: MediaQuery.of(context).size.height,
-            child: FavHeader(),
+            child: const FavHeader(),
           ),
-          Expanded(
+          const Expanded(
             child: FavBody(),
           ),
         ],

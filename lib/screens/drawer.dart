@@ -82,7 +82,7 @@ class _HamburgerMenuState extends State<HamburgerMenu> {
                 context,
                 MaterialPageRoute(
                   builder: (context) {
-                    return InfoPage();
+                    return const InfoPage();
                   },
                 ),
               );

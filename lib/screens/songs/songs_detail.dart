@@ -282,7 +282,7 @@ class _SongsDetailState extends State<SongsDetail> {
                     ),
                     isScrollControlled: true,
                     builder: (BuildContext context) {
-                      return SongsPlayer();
+                      return const SongsPlayer();
                     },
                   );
                 },
