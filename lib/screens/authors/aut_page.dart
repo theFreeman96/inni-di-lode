@@ -4,6 +4,8 @@ import 'aut_header.dart';
 import 'aut_body.dart';
 
 class AutPage extends StatelessWidget {
+  const AutPage({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     Orientation orientation = MediaQuery.of(context).orientation;

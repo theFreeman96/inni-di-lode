@@ -9,6 +9,8 @@ import '/assets/data/queries.dart';
 import '../songs/songs_detail.dart';
 
 class FavBody extends StatefulWidget {
+  const FavBody({Key? key}) : super(key: key);
+
   @override
   State<FavBody> createState() => _FavBodyState();
 }

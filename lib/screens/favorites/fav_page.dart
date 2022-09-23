@@ -4,6 +4,8 @@ import 'fav_header.dart';
 import 'fav_body.dart';
 
 class FavPage extends StatelessWidget {
+  const FavPage({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     Orientation orientation = MediaQuery.of(context).orientation;

@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import '/theme/constants.dart';
 
 class InfoBody extends StatefulWidget {
+  const InfoBody({Key? key}) : super(key: key);
+
   @override
   State<InfoBody> createState() => _InfoBodyState();
 }

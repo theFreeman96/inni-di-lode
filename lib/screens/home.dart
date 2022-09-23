@@ -12,6 +12,8 @@ import '/screens/authors/aut_page.dart';
 import '/screens/favorites/fav_page.dart';
 
 class Home extends StatefulWidget {
+  const Home({Key? key}) : super(key: key);
+
   @override
   State<Home> createState() => _HomeState();
 }

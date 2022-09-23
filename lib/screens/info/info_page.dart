@@ -4,6 +4,8 @@ import 'info_header.dart';
 import 'info_body.dart';
 
 class InfoPage extends StatelessWidget {
+  const InfoPage({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     Orientation orientation = MediaQuery.of(context).orientation;

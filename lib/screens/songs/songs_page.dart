@@ -4,6 +4,8 @@ import 'songs_header.dart';
 import 'songs_body.dart';
 
 class SongsPage extends StatelessWidget {
+  const SongsPage({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     Orientation orientation = MediaQuery.of(context).orientation;

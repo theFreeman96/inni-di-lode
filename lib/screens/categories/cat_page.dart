@@ -4,6 +4,8 @@ import 'cat_header.dart';
 import 'cat_body.dart';
 
 class CatPage extends StatelessWidget {
+  const CatPage({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     Orientation orientation = MediaQuery.of(context).orientation;

@@ -10,6 +10,8 @@ import '/assets/data/queries.dart';
 import 'songs_detail.dart';
 
 class SongsBody extends StatefulWidget {
+  const SongsBody({Key? key}) : super(key: key);
+
   @override
   State<SongsBody> createState() => _SongsBodyState();
 }

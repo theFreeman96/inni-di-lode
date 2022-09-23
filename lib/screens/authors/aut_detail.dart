@@ -9,7 +9,7 @@ import '/screens/songs/songs_detail.dart';
 class AutDetail extends StatefulWidget {
   final int autId;
   final String autName;
-  const AutDetail(this.autId, this.autName);
+  const AutDetail(this.autId, this.autName, {Key? key}) : super(key: key);
   @override
   State<AutDetail> createState() => _AutDetailState(autId, autName);
 }

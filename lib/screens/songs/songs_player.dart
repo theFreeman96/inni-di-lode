@@ -4,6 +4,8 @@ import 'package:audioplayers/audioplayers.dart';
 import '/theme/constants.dart';
 
 class SongsPlayer extends StatefulWidget {
+  const SongsPlayer({Key? key}) : super(key: key);
+
   @override
   State<SongsPlayer> createState() => SongsPlayerState();
 }

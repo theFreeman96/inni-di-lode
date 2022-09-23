@@ -11,6 +11,8 @@ import '/screens/songs/songs_detail.dart';
 import '/screens/info/info_page.dart';
 
 class HamburgerMenu extends StatefulWidget {
+  const HamburgerMenu({Key? key}) : super(key: key);
+
   @override
   State<HamburgerMenu> createState() => _HamburgerMenuState();
 }

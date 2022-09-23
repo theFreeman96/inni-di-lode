@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import '/theme/constants.dart';
 
 class SongsHeader extends StatelessWidget {
+  const SongsHeader({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Container(
