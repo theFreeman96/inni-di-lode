@@ -106,7 +106,11 @@ class SongsPlayerState extends State<SongsPlayer> {
                 child: IconButton(
                   icon: const Icon(Icons.replay_10),
                   iconSize: kDefaultPadding,
-                  onPressed: () async {},
+                  onPressed: () async {
+                    await audioPlayer
+                        .seek(Duration(seconds: position.inSeconds - 10));
+                    setState(() {});
+                  },
                 ),
               ),
               CircleAvatar(
@@ -129,7 +133,15 @@ class SongsPlayerState extends State<SongsPlayer> {
                 child: IconButton(
                   icon: const Icon(Icons.forward_10),
                   iconSize: kDefaultPadding,
-                  onPressed: () {},
+                  onPressed: () async {
+                    if (position.inSeconds < duration.inSeconds - 10) {
+                      audioPlayer
+                          .seek(Duration(seconds: position.inSeconds + 10));
+                    } else {
+                      await audioPlayer.resume();
+                    }
+                    setState(() {});
+                  },
                 ),
               ),
             ],
