@@ -89,6 +89,17 @@ class QueryCtr {
     return list;
   }
 
+  Future<List<Raccolta>?> updateFav(value, songId) async {
+    final dbClient = await con.db;
+    await dbClient!.update(
+      'Songs',
+      {'fav': value},
+      where: 'id = ?',
+      whereArgs: [songId],
+    );
+    return null;
+  }
+
   Future<List<Raccolta>?> getAllFav() async {
     final dbClient = await con.db;
     final res = await dbClient!.query('view_raccolta',
