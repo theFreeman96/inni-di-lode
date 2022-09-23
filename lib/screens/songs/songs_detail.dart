@@ -88,8 +88,16 @@ class _SongsDetailState extends State<SongsDetail> {
       ),
       floatingActionButton: FloatingActionButton(
         tooltip: 'Preferito',
-        child: const Icon(Icons.favorite_border),
-        onPressed: () {},
+        child: Icon(get.isFav == 1 ? Icons.favorite : Icons.favorite_border),
+        onPressed: () {
+          if (get.isFav == 0) {
+            QueryCtr().updateFav(1, get.songId);
+            setState(() {});
+          } else {
+            QueryCtr().updateFav(0, get.songId);
+            setState(() {});
+          }
+        },
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
       body: Scrollbar(
