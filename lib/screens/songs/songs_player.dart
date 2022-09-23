@@ -5,7 +5,7 @@ import '/theme/constants.dart';
 
 class SongsPlayer extends StatefulWidget {
   @override
-  SongsPlayerState createState() => SongsPlayerState();
+  State<SongsPlayer> createState() => SongsPlayerState();
 }
 
 class SongsPlayerState extends State<SongsPlayer> {

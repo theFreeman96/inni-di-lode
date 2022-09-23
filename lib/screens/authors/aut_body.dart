@@ -10,7 +10,7 @@ import 'aut_detail.dart';
 
 class AutBody extends StatefulWidget {
   @override
-  _AutBodyState createState() => _AutBodyState();
+  State<AutBody> createState() => _AutBodyState();
 }
 
 class _AutBodyState extends State<AutBody> {
