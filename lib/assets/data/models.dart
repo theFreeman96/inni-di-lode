@@ -35,3 +35,11 @@ class Autori {
     songText = obj['songText'];
   }
 }
+
+class Songs {
+  late int fav;
+
+  Songs.fromMap(dynamic obj) {
+    fav = obj['fav'];
+  }
+}
