@@ -12,7 +12,7 @@ import '/screens/info/info_page.dart';
 
 class HamburgerMenu extends StatefulWidget {
   @override
-  _HamburgerMenuState createState() => _HamburgerMenuState();
+  State<HamburgerMenu> createState() => _HamburgerMenuState();
 }
 
 class _HamburgerMenuState extends State<HamburgerMenu> {

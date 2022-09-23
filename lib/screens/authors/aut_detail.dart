@@ -11,7 +11,7 @@ class AutDetail extends StatefulWidget {
   final String autName;
   const AutDetail(this.autId, this.autName);
   @override
-  _AutDetailState createState() => _AutDetailState(autId, autName);
+  State<AutDetail> createState() => _AutDetailState(autId, autName);
 }
 
 class _AutDetailState extends State<AutDetail> {

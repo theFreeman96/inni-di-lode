@@ -17,7 +17,7 @@ class SongsDetail extends StatefulWidget {
   const SongsDetail(this.songId);
 
   @override
-  _SongsDetailState createState() => _SongsDetailState(songId);
+  State<SongsDetail> createState() => _SongsDetailState(songId);
 }
 
 class _SongsDetailState extends State<SongsDetail> {

@@ -11,7 +11,7 @@ import 'songs_detail.dart';
 
 class SongsBody extends StatefulWidget {
   @override
-  _SongsBodyState createState() => _SongsBodyState();
+  State<SongsBody> createState() => _SongsBodyState();
 }
 
 class _SongsBodyState extends State<SongsBody> {

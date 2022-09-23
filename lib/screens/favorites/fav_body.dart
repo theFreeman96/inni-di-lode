@@ -10,7 +10,7 @@ import '../songs/songs_detail.dart';
 
 class FavBody extends StatefulWidget {
   @override
-  _FavBodyState createState() => _FavBodyState();
+  State<FavBody> createState() => _FavBodyState();
 }
 
 class _FavBodyState extends State<FavBody> {

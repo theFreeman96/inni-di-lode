@@ -11,7 +11,7 @@ class CatDetail extends StatefulWidget {
   final String catName;
   const CatDetail(this.catId, this.catName);
   @override
-  _CatDetailState createState() => _CatDetailState(catId, catName);
+  State<CatDetail> createState() => _CatDetailState(catId, catName);
 }
 
 class _CatDetailState extends State<CatDetail> {
