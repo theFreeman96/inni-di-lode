@@ -13,18 +13,16 @@ import 'songs_pdf.dart';
 import 'songs_player.dart';
 
 class SongsDetail extends StatefulWidget {
-  final int songId;
-  const SongsDetail(this.songId);
+  int songId;
+  SongsDetail({Key? key, required this.songId}) : super(key: key);
 
   @override
-  State<SongsDetail> createState() => _SongsDetailState(songId);
+  State<SongsDetail> createState() => _SongsDetailState();
 }
 
 class _SongsDetailState extends State<SongsDetail> {
-  late int songId;
-  _SongsDetailState(this.songId);
-
-  late PageController pageController = PageController(initialPage: --songId);
+  late PageController pageController =
+      PageController(initialPage: --widget.songId);
 
   double textSize = 16.0;
   double textSizeMin = 16.0;

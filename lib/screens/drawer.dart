@@ -53,7 +53,7 @@ class _HamburgerMenuState extends State<HamburgerMenu> {
                       builder: (context, snapshot) {
                         int songId = Random().nextInt(snapshot.data!.length);
                         return snapshot.hasData
-                            ? SongsDetail(songId)
+                            ? SongsDetail(songId: songId)
                             : const Padding(
                                 padding: EdgeInsets.only(top: kDefaultPadding),
                                 child: Center(
