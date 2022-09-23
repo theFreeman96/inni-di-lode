@@ -38,7 +38,7 @@ class _HamburgerMenuState extends State<HamburgerMenu> {
             },
           ),
           ListTile(
-            leading: const Icon(Icons.help),
+            leading: const Icon(Icons.shuffle),
             title: const Text('Cantico casuale'),
             onTap: () {
               FocusScope.of(context).unfocus();
