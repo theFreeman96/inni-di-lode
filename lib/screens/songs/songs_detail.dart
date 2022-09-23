@@ -14,21 +14,15 @@ import 'songs_player.dart';
 
 class SongsDetail extends StatefulWidget {
   final int songId;
-  final String songTitle;
-  final String songText;
-  const SongsDetail(this.songId, this.songTitle, this.songText);
+  const SongsDetail(this.songId);
 
   @override
-  _SongsDetailState createState() =>
-      _SongsDetailState(songId, songTitle, songText);
+  _SongsDetailState createState() => _SongsDetailState(songId);
 }
 
 class _SongsDetailState extends State<SongsDetail> {
   late int songId;
-  final String songTitle;
-  final String songText;
-
-  _SongsDetailState(this.songId, this.songTitle, this.songText);
+  _SongsDetailState(this.songId);
 
   late PageController pageController = PageController(initialPage: --songId);
 

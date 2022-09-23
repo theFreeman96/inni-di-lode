@@ -85,14 +85,11 @@ class _AutDetailState extends State<AutDetail> {
       ),
       onTap: () {
         FocusScope.of(context).unfocus();
-        int songId = get.songId;
-        String songTitle = get.songTitle;
-        String songText = get.songText;
         Navigator.push(
           context,
           MaterialPageRoute(
             builder: (context) {
-              return SongsDetail(songId, songTitle, songText);
+              return SongsDetail(get.songId);
             },
           ),
         );

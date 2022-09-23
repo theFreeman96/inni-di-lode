@@ -194,14 +194,11 @@ class _SongsBodyState extends State<SongsBody> {
       ),
       onTap: () {
         FocusScope.of(context).unfocus();
-        int songId = get.songId;
-        String songTitle = get.songTitle;
-        String songText = get.songText;
         Navigator.push(
           context,
           MaterialPageRoute(
             builder: (context) {
-              return SongsDetail(songId, songTitle, songText);
+              return SongsDetail(get.songId);
             },
           ),
         );
