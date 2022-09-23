@@ -12,16 +12,18 @@ import '/screens/authors/aut_page.dart';
 import '/screens/favorites/fav_page.dart';
 
 class Home extends StatefulWidget {
+  const Home({Key? key}) : super(key: key);
+
   @override
-  _HomeState createState() => _HomeState();
+  State<Home> createState() => _HomeState();
 }
 
 class _HomeState extends State<Home> {
   final List<Widget> children = [
-    SongsPage(),
-    CatPage(),
-    AutPage(),
-    FavPage(),
+    const SongsPage(),
+    const CatPage(),
+    const AutPage(),
+    const FavPage(),
   ];
   int currentIndex = 0;
 
@@ -31,7 +33,7 @@ class _HomeState extends State<Home> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       extendBody: false,
-      drawer: HamburgerMenu(),
+      drawer: const HamburgerMenu(),
       body: children[currentIndex],
       floatingActionButton: Builder(
         builder: (BuildContext context) {

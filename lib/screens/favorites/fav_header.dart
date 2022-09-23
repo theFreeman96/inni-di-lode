@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import '/theme/constants.dart';
 
 class FavHeader extends StatelessWidget {
+  const FavHeader({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Container(

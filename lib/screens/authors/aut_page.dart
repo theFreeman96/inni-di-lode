@@ -4,6 +4,8 @@ import 'aut_header.dart';
 import 'aut_body.dart';
 
 class AutPage extends StatelessWidget {
+  const AutPage({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     Orientation orientation = MediaQuery.of(context).orientation;
@@ -19,13 +21,13 @@ class AutPage extends StatelessWidget {
               collapsedHeight: 0.0,
               automaticallyImplyLeading: false,
               backgroundColor: Colors.transparent,
-              flexibleSpace: FlexibleSpaceBar(
+              flexibleSpace: const FlexibleSpaceBar(
                 background: AutHeader(),
               ),
             ),
           ];
         },
-        body: AutBody(),
+        body: const AutBody(),
       );
     } else {
       return Row(
@@ -33,9 +35,9 @@ class AutPage extends StatelessWidget {
           SizedBox(
             width: MediaQuery.of(context).size.width * 0.35,
             height: MediaQuery.of(context).size.height,
-            child: AutHeader(),
+            child: const AutHeader(),
           ),
-          Expanded(
+          const Expanded(
             child: AutBody(),
           ),
         ],

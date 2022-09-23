@@ -9,9 +9,9 @@ import '/screens/songs/songs_detail.dart';
 class AutDetail extends StatefulWidget {
   final int autId;
   final String autName;
-  const AutDetail(this.autId, this.autName);
+  const AutDetail(this.autId, this.autName, {Key? key}) : super(key: key);
   @override
-  _AutDetailState createState() => _AutDetailState(autId, autName);
+  State<AutDetail> createState() => _AutDetailState(autId, autName);
 }
 
 class _AutDetailState extends State<AutDetail> {
@@ -85,14 +85,11 @@ class _AutDetailState extends State<AutDetail> {
       ),
       onTap: () {
         FocusScope.of(context).unfocus();
-        int songId = get.songId;
-        String songTitle = get.songTitle;
-        String songText = get.songText;
         Navigator.push(
           context,
           MaterialPageRoute(
             builder: (context) {
-              return SongsDetail(songId, songTitle, songText);
+              return SongsDetail(songId: get.songId);
             },
           ),
         );

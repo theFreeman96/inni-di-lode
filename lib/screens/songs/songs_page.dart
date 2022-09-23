@@ -4,6 +4,8 @@ import 'songs_header.dart';
 import 'songs_body.dart';
 
 class SongsPage extends StatelessWidget {
+  const SongsPage({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     Orientation orientation = MediaQuery.of(context).orientation;
@@ -19,13 +21,13 @@ class SongsPage extends StatelessWidget {
               collapsedHeight: 0.0,
               automaticallyImplyLeading: false,
               backgroundColor: Colors.transparent,
-              flexibleSpace: FlexibleSpaceBar(
+              flexibleSpace: const FlexibleSpaceBar(
                 background: SongsHeader(),
               ),
             ),
           ];
         },
-        body: SongsBody(),
+        body: const SongsBody(),
       );
     } else {
       return Row(
@@ -33,9 +35,9 @@ class SongsPage extends StatelessWidget {
           SizedBox(
             width: MediaQuery.of(context).size.width * 0.35,
             height: MediaQuery.of(context).size.height,
-            child: SongsHeader(),
+            child: const SongsHeader(),
           ),
-          Expanded(
+          const Expanded(
             child: SongsBody(),
           ),
         ],

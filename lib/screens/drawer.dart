@@ -11,8 +11,10 @@ import '/screens/songs/songs_detail.dart';
 import '/screens/info/info_page.dart';
 
 class HamburgerMenu extends StatefulWidget {
+  const HamburgerMenu({Key? key}) : super(key: key);
+
   @override
-  _HamburgerMenuState createState() => _HamburgerMenuState();
+  State<HamburgerMenu> createState() => _HamburgerMenuState();
 }
 
 class _HamburgerMenuState extends State<HamburgerMenu> {
@@ -38,7 +40,7 @@ class _HamburgerMenuState extends State<HamburgerMenu> {
             },
           ),
           ListTile(
-            leading: const Icon(Icons.help),
+            leading: const Icon(Icons.shuffle),
             title: const Text('Cantico casuale'),
             onTap: () {
               FocusScope.of(context).unfocus();
@@ -52,10 +54,8 @@ class _HamburgerMenuState extends State<HamburgerMenu> {
                       initialData: const [],
                       builder: (context, snapshot) {
                         int songId = Random().nextInt(snapshot.data!.length);
-                        String songTitle = 'Testo';
-                        String songText = 'Testo';
                         return snapshot.hasData
-                            ? SongsDetail(songId, songTitle, songText)
+                            ? SongsDetail(songId: songId)
                             : const Padding(
                                 padding: EdgeInsets.only(top: kDefaultPadding),
                                 child: Center(
@@ -82,7 +82,7 @@ class _HamburgerMenuState extends State<HamburgerMenu> {
                 context,
                 MaterialPageRoute(
                   builder: (context) {
-                    return InfoPage();
+                    return const InfoPage();
                   },
                 ),
               );

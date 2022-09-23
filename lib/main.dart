@@ -7,10 +7,12 @@ import '/theme/themes.dart';
 import '/screens/home.dart';
 
 void main() {
-  runApp(Innario());
+  runApp(const Innario());
 }
 
 class Innario extends StatelessWidget {
+  const Innario({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
@@ -33,7 +35,7 @@ class Innario extends StatelessWidget {
                   child: SizedBox(child: child),
                 );
               },
-              home: SafeArea(
+              home: const SafeArea(
                 child: Home(),
               ),
             ),

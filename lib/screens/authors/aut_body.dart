@@ -9,8 +9,10 @@ import '/assets/data/models.dart';
 import 'aut_detail.dart';
 
 class AutBody extends StatefulWidget {
+  const AutBody({Key? key}) : super(key: key);
+
   @override
-  _AutBodyState createState() => _AutBodyState();
+  State<AutBody> createState() => _AutBodyState();
 }
 
 class _AutBodyState extends State<AutBody> {

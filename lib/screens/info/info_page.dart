@@ -4,6 +4,8 @@ import 'info_header.dart';
 import 'info_body.dart';
 
 class InfoPage extends StatelessWidget {
+  const InfoPage({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     Orientation orientation = MediaQuery.of(context).orientation;
@@ -27,9 +29,9 @@ class InfoPage extends StatelessWidget {
                 children: <Widget>[
                   SizedBox(
                     height: MediaQuery.of(context).size.height * 0.25,
-                    child: InfoHeader(),
+                    child: const InfoHeader(),
                   ),
-                  Expanded(
+                  const Expanded(
                     child: InfoBody(),
                   ),
                 ],
@@ -39,9 +41,9 @@ class InfoPage extends StatelessWidget {
                   SizedBox(
                     width: MediaQuery.of(context).size.width * 0.35,
                     height: MediaQuery.of(context).size.height,
-                    child: InfoHeader(),
+                    child: const InfoHeader(),
                   ),
-                  Expanded(
+                  const Expanded(
                     child: InfoBody(),
                   ),
                 ],

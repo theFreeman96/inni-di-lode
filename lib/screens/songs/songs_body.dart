@@ -10,8 +10,10 @@ import '/assets/data/queries.dart';
 import 'songs_detail.dart';
 
 class SongsBody extends StatefulWidget {
+  const SongsBody({Key? key}) : super(key: key);
+
   @override
-  _SongsBodyState createState() => _SongsBodyState();
+  State<SongsBody> createState() => _SongsBodyState();
 }
 
 class _SongsBodyState extends State<SongsBody> {
@@ -194,14 +196,11 @@ class _SongsBodyState extends State<SongsBody> {
       ),
       onTap: () {
         FocusScope.of(context).unfocus();
-        int songId = get.songId;
-        String songTitle = get.songTitle;
-        String songText = get.songText;
         Navigator.push(
           context,
           MaterialPageRoute(
             builder: (context) {
-              return SongsDetail(songId, songTitle, songText);
+              return SongsDetail(songId: get.songId);
             },
           ),
         );

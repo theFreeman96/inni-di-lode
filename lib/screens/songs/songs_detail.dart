@@ -10,26 +10,19 @@ import '/assets/data/models.dart';
 import '/assets/data/queries.dart';
 
 import 'songs_pdf.dart';
+import 'songs_player.dart';
 
 class SongsDetail extends StatefulWidget {
-  final int songId;
-  final String songTitle;
-  final String songText;
-  const SongsDetail(this.songId, this.songTitle, this.songText);
+  int songId;
+  SongsDetail({Key? key, required this.songId}) : super(key: key);
 
   @override
-  _SongsDetailState createState() =>
-      _SongsDetailState(songId, songTitle, songText);
+  State<SongsDetail> createState() => _SongsDetailState();
 }
 
 class _SongsDetailState extends State<SongsDetail> {
-  late int songId;
-  final String songTitle;
-  final String songText;
-
-  _SongsDetailState(this.songId, this.songTitle, this.songText);
-
-  late PageController pageController = PageController(initialPage: --songId);
+  late PageController pageController =
+      PageController(initialPage: --widget.songId);
 
   double textSize = 16.0;
   double textSizeMin = 16.0;
@@ -289,22 +282,7 @@ class _SongsDetailState extends State<SongsDetail> {
                     ),
                     isScrollControlled: true,
                     builder: (BuildContext context) {
-                      return Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        mainAxisSize: MainAxisSize.min,
-                        children: <Widget>[
-                          const Divider(),
-                          ListTile(
-                            title: const Center(
-                              child: Text('Chiudi'),
-                            ),
-                            onTap: () {
-                              FocusScope.of(context).unfocus();
-                              Navigator.pop(context);
-                            },
-                          ),
-                        ],
-                      );
+                      return const SongsPlayer();
                     },
                   );
                 },

@@ -10,8 +10,10 @@ import '/assets/data/models.dart';
 import 'cat_detail.dart';
 
 class CatBody extends StatefulWidget {
+  const CatBody({Key? key}) : super(key: key);
+
   @override
-  _CatBodyState createState() => _CatBodyState();
+  State<CatBody> createState() => _CatBodyState();
 }
 
 class _CatBodyState extends State<CatBody> {

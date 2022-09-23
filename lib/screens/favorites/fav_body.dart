@@ -9,8 +9,10 @@ import '/assets/data/queries.dart';
 import '../songs/songs_detail.dart';
 
 class FavBody extends StatefulWidget {
+  const FavBody({Key? key}) : super(key: key);
+
   @override
-  _FavBodyState createState() => _FavBodyState();
+  State<FavBody> createState() => _FavBodyState();
 }
 
 class _FavBodyState extends State<FavBody> {
@@ -140,14 +142,11 @@ class _FavBodyState extends State<FavBody> {
       ),
       onTap: () {
         FocusScope.of(context).unfocus();
-        int songId = get.songId;
-        String songTitle = get.songTitle;
-        String songText = get.songText;
         Navigator.push(
           context,
           MaterialPageRoute(
             builder: (context) {
-              return SongsDetail(songId, songTitle, songText);
+              return SongsDetail(songId: get.songId);
             },
           ),
         );

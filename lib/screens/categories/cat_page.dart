@@ -4,6 +4,8 @@ import 'cat_header.dart';
 import 'cat_body.dart';
 
 class CatPage extends StatelessWidget {
+  const CatPage({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     Orientation orientation = MediaQuery.of(context).orientation;
@@ -19,13 +21,13 @@ class CatPage extends StatelessWidget {
               collapsedHeight: 0.0,
               automaticallyImplyLeading: false,
               backgroundColor: Colors.transparent,
-              flexibleSpace: FlexibleSpaceBar(
+              flexibleSpace: const FlexibleSpaceBar(
                 background: CatHeader(),
               ),
             ),
           ];
         },
-        body: CatBody(),
+        body: const CatBody(),
       );
     } else {
       return Row(
@@ -33,9 +35,9 @@ class CatPage extends StatelessWidget {
           SizedBox(
             width: MediaQuery.of(context).size.width * 0.35,
             height: MediaQuery.of(context).size.height,
-            child: CatHeader(),
+            child: const CatHeader(),
           ),
-          Expanded(
+          const Expanded(
             child: CatBody(),
           ),
         ],
