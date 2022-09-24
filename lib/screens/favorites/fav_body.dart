@@ -20,8 +20,6 @@ class _FavBodyState extends State<FavBody> {
 
   late Future<List?> future;
 
-  bool isVisible = true;
-
   @override
   void initState() {
     future = QueryCtr().getAllFav();
@@ -34,10 +32,10 @@ class _FavBodyState extends State<FavBody> {
       results = future;
 
       setState(() {
-        future = future;
+        future = QueryCtr().getAllFav();
       });
     } else {
-      results = QueryCtr().searchSong(keyword);
+      results = QueryCtr().searchFav(1, keyword);
 
       setState(() {
         future = results;
@@ -93,7 +91,7 @@ class _FavBodyState extends State<FavBody> {
         ),
         const Divider(height: 0.0),
         FutureBuilder<List?>(
-          future: QueryCtr().getAllFav(),
+          future: future,
           initialData: const [],
           builder: (context, snapshot) {
             return snapshot.hasData
