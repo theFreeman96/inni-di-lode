@@ -111,6 +111,7 @@ class SongsPlayerState extends State<SongsPlayer> {
                   onPressed: () async {
                     await audioPlayer
                         .seek(Duration(seconds: position.inSeconds - 10));
+                    await audioPlayer.resume();
                     setState(() {});
                   },
                 ),
@@ -139,6 +140,7 @@ class SongsPlayerState extends State<SongsPlayer> {
                     if (position.inSeconds < duration.inSeconds - 10) {
                       audioPlayer
                           .seek(Duration(seconds: position.inSeconds + 10));
+                      await audioPlayer.resume();
                     } else {
                       await audioPlayer.resume();
                     }
