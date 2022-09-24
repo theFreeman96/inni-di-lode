@@ -115,7 +115,7 @@ class _FavBodyState extends State<FavBody> {
                     padding: EdgeInsets.only(top: kDefaultPadding),
                     child: Center(
                       child: Text(
-                        'Lista Preferiti vuota',
+                        'Nessun Preferito trovato',
                         style: TextStyle(fontSize: 20.0),
                       ),
                     ),
