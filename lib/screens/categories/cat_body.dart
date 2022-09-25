@@ -38,7 +38,7 @@ class _CatBodyState extends State<CatBody> {
         future = QueryCtr().getAllMacroCat();
       });
     } else {
-      results = QueryCtr().searchMacroCat(keyword);
+      results = QueryCtr().searchCat(keyword);
 
       setState(() {
         future = results;
