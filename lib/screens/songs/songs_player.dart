@@ -28,6 +28,14 @@ class SongsPlayerState extends State<SongsPlayer> {
       });
     });
 
+    // Listen to completion
+    audioPlayer.onPlayerComplete.listen((event) {
+      setState(() {
+        isPlaying = false;
+        position = Duration.zero;
+      });
+    });
+
     // Listen to audio duration
     audioPlayer.onDurationChanged.listen((newDuration) {
       setState(() {
