@@ -2,7 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
+import 'package:flutter_html/flutter_html.dart';
 
 import '/theme/constants.dart';
 import '/theme/theme_provider.dart';
@@ -51,19 +51,13 @@ class _SongsDetailState extends State<SongsDetail> {
   }
 
   Widget _buildPage(Raccolta get) {
-    final themeProvider = Provider.of<ThemeProvider>(context);
     return Scaffold(
       extendBody: true,
-      extendBodyBehindAppBar: true,
       appBar: AppBar(
         elevation: 0.0,
-        backgroundColor: Colors.transparent,
         leading: IconButton(
           tooltip: 'Indietro',
-          icon: Icon(
-            Icons.arrow_back,
-            color: themeProvider.isDarkMode ? kWhite : kGrey,
-          ),
+          icon: const Icon(Icons.arrow_back),
           onPressed: () {
             FocusScope.of(context).unfocus();
             Navigator.of(context).pop();
@@ -75,16 +69,56 @@ class _SongsDetailState extends State<SongsDetail> {
                 left: kDefaultPadding, right: kDefaultPadding / 2),
             child: IconButton(
               tooltip: 'Condividi',
-              icon: Icon(
-                Icons.share,
-                color: themeProvider.isDarkMode ? kWhite : kGrey,
-              ),
+              icon: const Icon(Icons.share),
               onPressed: () async {
                 await buildPDF(get.songId, get.songTitle, get.songText);
               },
             ),
           ),
         ],
+      ),
+      body: Scrollbar(
+        thumbVisibility: true,
+        controller: pageController,
+        child: SingleChildScrollView(
+          child: Align(
+            alignment: Alignment.center,
+            child: Column(
+              children: [
+                Padding(
+                  padding:
+                      const EdgeInsets.symmetric(vertical: kDefaultPadding),
+                  child: CircleAvatar(
+                    child: Text(
+                      get.songId.toString(),
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(bottom: kDefaultPadding),
+                  child: Text(
+                    get.songTitle,
+                    style: const TextStyle(fontSize: 22.0),
+                    textAlign: TextAlign.left,
+                  ),
+                ),
+                Html(
+                  data: get.songText,
+                  style: {
+                    'ol': Style(
+                      textAlign: TextAlign.center,
+                      fontSize: FontSize(textSize),
+                      lineHeight: LineHeight(textHeight),
+                      listStylePosition: ListStylePosition.INSIDE,
+                      padding:
+                          const EdgeInsets.only(bottom: kDefaultPadding * 7),
+                    ),
+                  },
+                ),
+              ],
+            ),
+          ),
+        ),
       ),
       floatingActionButton: FloatingActionButton(
         tooltip: 'Preferito',
@@ -100,46 +134,6 @@ class _SongsDetailState extends State<SongsDetail> {
         },
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
-      body: Scrollbar(
-        thumbVisibility: true,
-        controller: pageController,
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(kDefaultPadding),
-                child: CircleAvatar(
-                  child: Text(
-                    get.songId.toString(),
-                  ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(bottom: kDefaultPadding),
-                child: Text(
-                  get.songTitle,
-                  style: const TextStyle(fontSize: 22.0),
-                  textAlign: TextAlign.left,
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(
-                  left: kDefaultPadding * 2,
-                  right: kDefaultPadding * 2,
-                  bottom: kDefaultPadding * 7,
-                ),
-                child: HtmlWidget(
-                  get.songText,
-                  textStyle: TextStyle(
-                    fontSize: textSize,
-                    height: textHeight,
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
       bottomNavigationBar: BottomAppBar(
         shape: const CircularNotchedRectangle(),
         notchMargin: 8.0,
