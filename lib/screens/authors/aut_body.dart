@@ -28,7 +28,7 @@ class _AutBodyState extends State<AutBody> {
     super.initState();
   }
 
-  void _runFilter(String keyword) {
+  void runFilter(String keyword) {
     Future<List?> results;
     if (keyword.isEmpty) {
       results = future;
@@ -56,7 +56,7 @@ class _AutBodyState extends State<AutBody> {
             focusNode: myFocusNode,
             autofocus: false,
             onChanged: (value) {
-              _runFilter(value);
+              runFilter(value);
             },
             decoration: InputDecoration(
               prefixIcon: const Icon(

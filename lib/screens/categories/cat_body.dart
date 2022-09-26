@@ -29,7 +29,7 @@ class _CatBodyState extends State<CatBody> {
     super.initState();
   }
 
-  void _runFilter(String keyword) {
+  void runFilter(String keyword) {
     Future<List?> results;
     if (keyword.isEmpty) {
       results = future;
@@ -57,7 +57,7 @@ class _CatBodyState extends State<CatBody> {
             focusNode: myFocusNode,
             autofocus: false,
             onChanged: (value) {
-              _runFilter(value);
+              runFilter(value);
             },
             decoration: InputDecoration(
               prefixIcon: const Icon(
