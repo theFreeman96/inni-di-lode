@@ -28,6 +28,15 @@ class _FavBodyState extends State<FavBody> {
     super.initState();
   }
 
+  void refreshFavList() {
+    future = QueryCtr().getAllFav();
+  }
+
+  FutureOr onGoBack(dynamic value) {
+    refreshFavList();
+    setState(() {});
+  }
+
   void runFilter(String keyword) {
     Future<List?> results;
     if (keyword.isEmpty) {
@@ -149,7 +158,7 @@ class _FavBodyState extends State<FavBody> {
               return SongsDetail(songId: get.songId);
             },
           ),
-        );
+        ).then(onGoBack);
       },
     );
   }
