@@ -81,42 +81,37 @@ class _SongsDetailState extends State<SongsDetail> {
         thumbVisibility: true,
         controller: pageController,
         child: SingleChildScrollView(
-          child: Align(
-            alignment: Alignment.center,
-            child: Column(
-              children: [
-                Padding(
-                  padding:
-                      const EdgeInsets.symmetric(vertical: kDefaultPadding),
-                  child: CircleAvatar(
-                    child: Text(
-                      get.songId.toString(),
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(bottom: kDefaultPadding),
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: kDefaultPadding),
+                child: CircleAvatar(
                   child: Text(
-                    get.songTitle,
-                    style: const TextStyle(fontSize: 22.0),
-                    textAlign: TextAlign.left,
+                    get.songId.toString(),
                   ),
                 ),
-                Html(
-                  data: get.songText,
-                  style: {
-                    'ol': Style(
-                      textAlign: TextAlign.center,
-                      fontSize: FontSize(textSize),
-                      lineHeight: LineHeight(textHeight),
-                      listStylePosition: ListStylePosition.INSIDE,
-                      padding:
-                          const EdgeInsets.only(bottom: kDefaultPadding * 7),
-                    ),
-                  },
+              ),
+              Padding(
+                padding: const EdgeInsets.only(bottom: kDefaultPadding),
+                child: Text(
+                  get.songTitle,
+                  style: const TextStyle(fontSize: 22.0),
+                  textAlign: TextAlign.left,
                 ),
-              ],
-            ),
+              ),
+              Html(
+                data: get.songText,
+                style: {
+                  'ol': Style(
+                    textAlign: TextAlign.center,
+                    fontSize: FontSize(textSize),
+                    lineHeight: LineHeight(textHeight),
+                    listStylePosition: ListStylePosition.INSIDE,
+                    padding: const EdgeInsets.only(bottom: kDefaultPadding * 7),
+                  ),
+                },
+              ),
+            ],
           ),
         ),
       ),
