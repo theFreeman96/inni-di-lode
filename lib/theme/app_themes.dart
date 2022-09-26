@@ -3,8 +3,8 @@ import 'package:flutter/services.dart';
 
 import '/theme/constants.dart';
 
-class MyTheme {
-  static final lightTheme = ThemeData(
+class AppTheme {
+  static final light = ThemeData(
     brightness: Brightness.light,
     primaryColor: kPrimaryColor,
     primaryColorDark: kPrimaryColor,
@@ -29,7 +29,7 @@ class MyTheme {
     ),
   );
 
-  static final darkTheme = ThemeData(
+  static final dark = ThemeData(
     brightness: Brightness.dark,
     primaryColor: kGrey,
     primaryColorDark: kPrimaryLightColor,

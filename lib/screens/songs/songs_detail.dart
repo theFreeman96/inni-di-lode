@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
 
 import '/theme/constants.dart';
-import '/theme/provider.dart';
+import '/theme/theme_provider.dart';
 import '/assets/data/models.dart';
 import '/assets/data/queries.dart';
 
@@ -165,20 +165,20 @@ class _SongsDetailState extends State<SongsDetail> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         mainAxisSize: MainAxisSize.min,
                         children: <Widget>[
-                          SwitchListTile(
-                            secondary: Icon(
-                              themeProvider.isDarkMode
-                                  ? Icons.dark_mode
-                                  : Icons.light_mode,
+                          Consumer<ThemeProvider>(
+                            builder: (context, themeProvider, child) =>
+                                SwitchListTile(
+                              secondary: Icon(
+                                themeProvider.isDarkMode
+                                    ? Icons.dark_mode
+                                    : Icons.light_mode,
+                              ),
+                              title: const Text('Tema'),
+                              onChanged: (value) {
+                                themeProvider.toggleTheme();
+                              },
+                              value: themeProvider.isDarkMode,
                             ),
-                            title: const Text('Tema'),
-                            value: themeProvider.isDarkMode,
-                            onChanged: (value) {
-                              final themeProvider = Provider.of<ThemeProvider>(
-                                  context,
-                                  listen: false);
-                              themeProvider.toggleTheme(value);
-                            },
                           ),
                           ListTile(
                             leading: const Icon(Icons.format_size),

@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '/theme/provider.dart';
+import '/theme/theme_provider.dart';
 import '/theme/constants.dart';
 import '/assets/data/models.dart';
 import '/assets/data/queries.dart';

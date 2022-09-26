@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-import '/theme/provider.dart';
+import '/theme/theme_provider.dart';
 import '/theme/constants.dart';
 import '/assets/data/queries.dart';
 import '/assets/data/models.dart';

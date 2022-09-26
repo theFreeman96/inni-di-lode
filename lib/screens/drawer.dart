@@ -3,7 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '/theme/provider.dart';
+import '/theme/theme_provider.dart';
 import '/theme/constants.dart';
 import '/assets/data/queries.dart';
 
@@ -20,24 +20,23 @@ class HamburgerMenu extends StatefulWidget {
 class _HamburgerMenuState extends State<HamburgerMenu> {
   @override
   Widget build(BuildContext context) {
-    final themeProvider = Provider.of<ThemeProvider>(context);
     return Drawer(
       child: ListView(
         physics: const ScrollPhysics(),
         padding: EdgeInsets.zero,
         children: <Widget>[
           createDrawerHeader(),
-          SwitchListTile(
-            secondary: Icon(
-              themeProvider.isDarkMode ? Icons.dark_mode : Icons.light_mode,
+          Consumer<ThemeProvider>(
+            builder: (context, themeProvider, child) => SwitchListTile(
+              secondary: Icon(
+                themeProvider.isDarkMode ? Icons.dark_mode : Icons.light_mode,
+              ),
+              title: const Text('Tema'),
+              onChanged: (value) {
+                themeProvider.toggleTheme();
+              },
+              value: themeProvider.isDarkMode,
             ),
-            title: const Text('Tema'),
-            value: themeProvider.isDarkMode,
-            onChanged: (value) {
-              final themeProvider =
-                  Provider.of<ThemeProvider>(context, listen: false);
-              themeProvider.toggleTheme(value);
-            },
           ),
           ListTile(
             leading: const Icon(Icons.shuffle),

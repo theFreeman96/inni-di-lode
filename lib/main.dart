@@ -1,8 +1,8 @@
 import "package:flutter/material.dart";
 import 'package:provider/provider.dart';
 
-import '/theme/provider.dart';
-import '/theme/themes.dart';
+import '/theme/theme_provider.dart';
+import '/theme/app_themes.dart';
 
 import '/screens/home.dart';
 
@@ -25,9 +25,7 @@ class Innario extends StatelessWidget {
             },
             child: MaterialApp(
               debugShowCheckedModeBanner: false,
-              theme: themeProvider.isDarkMode
-                  ? MyTheme.darkTheme
-                  : MyTheme.lightTheme,
+              theme: themeProvider.isDarkMode ? AppTheme.dark : AppTheme.light,
               title: 'Inni di Lode',
               builder: (context, child) {
                 return ScrollConfiguration(
