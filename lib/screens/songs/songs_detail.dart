@@ -166,19 +166,20 @@ class _SongsDetailState extends State<SongsDetail> {
                         mainAxisSize: MainAxisSize.min,
                         children: <Widget>[
                           Consumer<ThemeProvider>(
-                            builder: (context, themeProvider, child) =>
-                                SwitchListTile(
-                              secondary: Icon(
-                                themeProvider.isDarkMode
-                                    ? Icons.dark_mode
-                                    : Icons.light_mode,
-                              ),
-                              title: const Text('Tema'),
-                              onChanged: (value) {
-                                themeProvider.toggleTheme();
-                              },
-                              value: themeProvider.isDarkMode,
-                            ),
+                            builder: (context, themeProvider, child) {
+                              return SwitchListTile(
+                                secondary: Icon(
+                                  themeProvider.isDarkMode
+                                      ? Icons.dark_mode
+                                      : Icons.light_mode,
+                                ),
+                                title: const Text('Tema'),
+                                onChanged: (value) {
+                                  themeProvider.toggleTheme();
+                                },
+                                value: themeProvider.isDarkMode,
+                              );
+                            },
                           ),
                           ListTile(
                             leading: const Icon(Icons.format_size),
