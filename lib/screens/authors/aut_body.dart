@@ -104,7 +104,7 @@ class _AutBodyState extends State<AutBody> {
                         shrinkWrap: true,
                         itemCount: snapshot.data!.length,
                         itemBuilder: (context, i) {
-                          return _buildRow(snapshot.data![i]);
+                          return buildRow(snapshot.data![i]);
                         },
                         separatorBuilder: (context, index) {
                           return const Divider();
@@ -128,7 +128,7 @@ class _AutBodyState extends State<AutBody> {
     );
   }
 
-  Widget _buildRow(Autori get) {
+  Widget buildRow(Autori get) {
     return ListTile(
       leading: const CircleAvatar(
         child: Icon(

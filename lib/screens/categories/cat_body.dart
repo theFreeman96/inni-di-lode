@@ -106,7 +106,7 @@ class _CatBodyState extends State<CatBody> {
                         shrinkWrap: true,
                         itemCount: snapshot.data!.length,
                         itemBuilder: (context, i) {
-                          return _buildRow(snapshot.data![i], i);
+                          return buildRow(snapshot.data![i], i);
                         },
                         separatorBuilder: (context, index) {
                           return const Divider();
@@ -130,7 +130,7 @@ class _CatBodyState extends State<CatBody> {
     );
   }
 
-  Widget _buildRow(Raccolta get, i) {
+  Widget buildRow(Raccolta get, i) {
     return ExpansionPanelList(
       elevation: 0.0,
       children: [
@@ -161,7 +161,7 @@ class _CatBodyState extends State<CatBody> {
                       ),
                       itemCount: snapshot.data!.length,
                       itemBuilder: (context, i) {
-                        return _buildCatRow(snapshot.data![i]);
+                        return buildCatRow(snapshot.data![i]);
                       },
                     )
                   : const Center(
@@ -181,7 +181,7 @@ class _CatBodyState extends State<CatBody> {
     );
   }
 
-  Widget _buildCatRow(Raccolta get) {
+  Widget buildCatRow(Raccolta get) {
     return ListTile(
       leading: const Padding(
         padding: EdgeInsets.only(left: kDefaultPadding),

@@ -158,7 +158,7 @@ class _SongsBodyState extends State<SongsBody> {
                         shrinkWrap: true,
                         itemCount: snapshot.data!.length,
                         itemBuilder: (context, i) {
-                          return _buildRow(snapshot.data![i]);
+                          return buildRow(snapshot.data![i]);
                         },
                         separatorBuilder: (context, index) {
                           return const Divider();
@@ -182,7 +182,7 @@ class _SongsBodyState extends State<SongsBody> {
     );
   }
 
-  Widget _buildRow(Raccolta get) {
+  Widget buildRow(Raccolta get) {
     return ListTile(
       leading: CircleAvatar(
         child: Text(
