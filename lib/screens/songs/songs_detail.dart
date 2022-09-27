@@ -26,7 +26,7 @@ class _SongsDetailState extends State<SongsDetail> {
 
   late double textScaleFactor = MediaQuery.of(context).textScaleFactor;
 
-  late double fontSize = 16.0 * textScaleFactor;
+  late double fontSize = 18.0 * textScaleFactor;
   late double fontSizeMin = 16.0 * textScaleFactor;
   late double fontSizeMax = 20.0 * textScaleFactor;
 
@@ -196,7 +196,7 @@ class _SongsDetailState extends State<SongsDetail> {
                                   icon: const Icon(Icons.replay),
                                   tooltip: 'Ripristina dimensione testo',
                                   onPressed: () {
-                                    fontSize = 16.0 * textScaleFactor;
+                                    fontSize = 18.0 * textScaleFactor;
                                     log('Dimensione default del testo: $fontSize');
                                     setState(
                                       () {},
