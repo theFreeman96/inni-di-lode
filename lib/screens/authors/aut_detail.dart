@@ -55,7 +55,7 @@ class _AutDetailState extends State<AutDetail> {
                       ),
                       itemCount: snapshot.data!.length,
                       itemBuilder: (context, i) {
-                        return _buildRow(snapshot.data![i]);
+                        return buildRow(snapshot.data![i]);
                       },
                       separatorBuilder: (context, index) {
                         return const Divider();
@@ -71,7 +71,7 @@ class _AutDetailState extends State<AutDetail> {
     );
   }
 
-  Widget _buildRow(Autori get) {
+  Widget buildRow(Autori get) {
     return ListTile(
       leading: CircleAvatar(
         child: Text(

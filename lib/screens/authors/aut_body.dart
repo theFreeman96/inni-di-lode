@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '/theme/provider.dart';
+import '/theme/theme_provider.dart';
 import '/theme/constants.dart';
 import '/assets/data/queries.dart';
 import '/assets/data/models.dart';
@@ -16,28 +16,27 @@ class AutBody extends StatefulWidget {
 }
 
 class _AutBodyState extends State<AutBody> {
-  TextEditingController editingController = TextEditingController();
+  late double textScaleFactor = MediaQuery.of(context).textScaleFactor;
   FocusNode myFocusNode = FocusNode();
   final QueryCtr query = QueryCtr();
 
   late Future<List?> future;
-
   @override
   void initState() {
-    future = QueryCtr().getAllAut();
+    future = query.getAllAut();
     super.initState();
   }
 
-  void _runFilter(String keyword) {
+  void runFilter(String keyword) {
     Future<List?> results;
     if (keyword.isEmpty) {
       results = future;
 
       setState(() {
-        future = QueryCtr().getAllAut();
+        future = query.getAllAut();
       });
     } else {
-      results = QueryCtr().searchAut(keyword);
+      results = query.searchAut(keyword);
 
       setState(() {
         future = results;
@@ -56,7 +55,7 @@ class _AutBodyState extends State<AutBody> {
             focusNode: myFocusNode,
             autofocus: false,
             onChanged: (value) {
-              _runFilter(value);
+              runFilter(value);
             },
             decoration: InputDecoration(
               prefixIcon: const Icon(
@@ -105,7 +104,7 @@ class _AutBodyState extends State<AutBody> {
                         shrinkWrap: true,
                         itemCount: snapshot.data!.length,
                         itemBuilder: (context, i) {
-                          return _buildRow(snapshot.data![i]);
+                          return buildRow(snapshot.data![i]);
                         },
                         separatorBuilder: (context, index) {
                           return const Divider();
@@ -113,12 +112,13 @@ class _AutBodyState extends State<AutBody> {
                       ),
                     ),
                   )
-                : const Padding(
-                    padding: EdgeInsets.only(top: kDefaultPadding),
+                : Padding(
+                    padding: const EdgeInsets.only(top: kDefaultPadding),
                     child: Center(
                       child: Text(
                         'Nessun Autore trovato',
-                        style: TextStyle(fontSize: 20.0),
+                        style: TextStyle(fontSize: 20.0 * textScaleFactor),
+                        textAlign: TextAlign.center,
                       ),
                     ),
                   );
@@ -128,7 +128,7 @@ class _AutBodyState extends State<AutBody> {
     );
   }
 
-  Widget _buildRow(Autori get) {
+  Widget buildRow(Autori get) {
     return ListTile(
       leading: const CircleAvatar(
         child: Icon(

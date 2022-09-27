@@ -1,7 +1,9 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '/theme/provider.dart';
+import '/theme/theme_provider.dart';
 import '/theme/constants.dart';
 import '/assets/data/models.dart';
 import '/assets/data/queries.dart';
@@ -16,28 +18,32 @@ class FavBody extends StatefulWidget {
 }
 
 class _FavBodyState extends State<FavBody> {
+  late double textScaleFactor = MediaQuery.of(context).textScaleFactor;
   FocusNode myFocusNode = FocusNode();
+  final QueryCtr query = QueryCtr();
 
   late Future<List?> future;
-
-  bool isVisible = true;
-
   @override
   void initState() {
-    future = QueryCtr().getAllFav();
+    future = query.getAllFav();
     super.initState();
   }
 
-  void _runFilter(String keyword) {
+  FutureOr refreshOnGoBack(dynamic value) {
+    initState();
+    setState(() {});
+  }
+
+  void runFilter(String keyword) {
     Future<List?> results;
     if (keyword.isEmpty) {
       results = future;
 
       setState(() {
-        future = future;
+        future = query.getAllFav();
       });
     } else {
-      results = QueryCtr().searchSong(keyword);
+      results = query.searchFav(1, keyword);
 
       setState(() {
         future = results;
@@ -56,7 +62,7 @@ class _FavBodyState extends State<FavBody> {
             focusNode: myFocusNode,
             autofocus: false,
             onChanged: (value) {
-              _runFilter(value);
+              runFilter(value);
             },
             decoration: InputDecoration(
               prefixIcon: const Icon(
@@ -93,7 +99,7 @@ class _FavBodyState extends State<FavBody> {
         ),
         const Divider(height: 0.0),
         FutureBuilder<List?>(
-          future: QueryCtr().getAllFav(),
+          future: future,
           initialData: const [],
           builder: (context, snapshot) {
             return snapshot.hasData
@@ -105,7 +111,7 @@ class _FavBodyState extends State<FavBody> {
                         shrinkWrap: true,
                         itemCount: snapshot.data!.length,
                         itemBuilder: (context, i) {
-                          return _buildRow(snapshot.data![i]);
+                          return buildRow(snapshot.data![i]);
                         },
                         separatorBuilder: (context, index) {
                           return const Divider();
@@ -113,12 +119,13 @@ class _FavBodyState extends State<FavBody> {
                       ),
                     ),
                   )
-                : const Padding(
-                    padding: EdgeInsets.only(top: kDefaultPadding),
+                : Padding(
+                    padding: const EdgeInsets.only(top: kDefaultPadding),
                     child: Center(
                       child: Text(
-                        'Lista Preferiti vuota',
-                        style: TextStyle(fontSize: 20.0),
+                        'Nessun Preferito trovato',
+                        style: TextStyle(fontSize: 20.0 * textScaleFactor),
+                        textAlign: TextAlign.center,
                       ),
                     ),
                   );
@@ -128,7 +135,7 @@ class _FavBodyState extends State<FavBody> {
     );
   }
 
-  Widget _buildRow(Raccolta get) {
+  Widget buildRow(Raccolta get) {
     return ListTile(
       leading: CircleAvatar(
         child: Text(
@@ -149,7 +156,7 @@ class _FavBodyState extends State<FavBody> {
               return SongsDetail(songId: get.songId);
             },
           ),
-        );
+        ).then(refreshOnGoBack);
       },
     );
   }

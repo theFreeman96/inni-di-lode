@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-import '/theme/provider.dart';
+import '/theme/theme_provider.dart';
 import '/theme/constants.dart';
 import '/assets/data/queries.dart';
 import '/assets/data/models.dart';
@@ -17,28 +17,28 @@ class CatBody extends StatefulWidget {
 }
 
 class _CatBodyState extends State<CatBody> {
+  late double textScaleFactor = MediaQuery.of(context).textScaleFactor;
   FocusNode myFocusNode = FocusNode();
   final QueryCtr query = QueryCtr();
   int? expansionIndex;
 
   late Future<List?> future;
-
   @override
   void initState() {
-    future = QueryCtr().getAllMacroCat();
+    future = query.getAllMacroCat();
     super.initState();
   }
 
-  void _runFilter(String keyword) {
+  void runFilter(String keyword) {
     Future<List?> results;
     if (keyword.isEmpty) {
       results = future;
 
       setState(() {
-        future = QueryCtr().getAllMacroCat();
+        future = query.getAllMacroCat();
       });
     } else {
-      results = QueryCtr().searchMacroCat(keyword);
+      results = query.searchCat(keyword);
 
       setState(() {
         future = results;
@@ -57,7 +57,7 @@ class _CatBodyState extends State<CatBody> {
             focusNode: myFocusNode,
             autofocus: false,
             onChanged: (value) {
-              _runFilter(value);
+              runFilter(value);
             },
             decoration: InputDecoration(
               prefixIcon: const Icon(
@@ -106,7 +106,7 @@ class _CatBodyState extends State<CatBody> {
                         shrinkWrap: true,
                         itemCount: snapshot.data!.length,
                         itemBuilder: (context, i) {
-                          return _buildRow(snapshot.data![i], i);
+                          return buildRow(snapshot.data![i], i);
                         },
                         separatorBuilder: (context, index) {
                           return const Divider();
@@ -114,12 +114,13 @@ class _CatBodyState extends State<CatBody> {
                       ),
                     ),
                   )
-                : const Padding(
-                    padding: EdgeInsets.only(top: kDefaultPadding),
+                : Padding(
+                    padding: const EdgeInsets.only(top: kDefaultPadding),
                     child: Center(
                       child: Text(
                         'Nessuna Categoria trovata',
-                        style: TextStyle(fontSize: 20.0),
+                        style: TextStyle(fontSize: 20.0 * textScaleFactor),
+                        textAlign: TextAlign.center,
                       ),
                     ),
                   );
@@ -129,7 +130,7 @@ class _CatBodyState extends State<CatBody> {
     );
   }
 
-  Widget _buildRow(Raccolta get, i) {
+  Widget buildRow(Raccolta get, i) {
     return ExpansionPanelList(
       elevation: 0.0,
       children: [
@@ -142,10 +143,7 @@ class _CatBodyState extends State<CatBody> {
                   size: 15,
                 ),
               ),
-              title: Text(
-                get.macroName,
-                style: const TextStyle(fontSize: 16.0),
-              ),
+              title: Text(get.macroName),
             );
           },
           canTapOnHeader: true,
@@ -163,7 +161,7 @@ class _CatBodyState extends State<CatBody> {
                       ),
                       itemCount: snapshot.data!.length,
                       itemBuilder: (context, i) {
-                        return _buildCatRow(snapshot.data![i]);
+                        return buildCatRow(snapshot.data![i]);
                       },
                     )
                   : const Center(
@@ -183,7 +181,7 @@ class _CatBodyState extends State<CatBody> {
     );
   }
 
-  Widget _buildCatRow(Raccolta get) {
+  Widget buildCatRow(Raccolta get) {
     return ListTile(
       leading: const Padding(
         padding: EdgeInsets.only(left: kDefaultPadding),
@@ -191,10 +189,7 @@ class _CatBodyState extends State<CatBody> {
           FontAwesomeIcons.tag,
         ),
       ),
-      title: Text(
-        get.catName,
-        style: const TextStyle(fontSize: 16.0),
-      ),
+      title: Text(get.catName),
       trailing: const Padding(
         padding: EdgeInsets.only(right: kDefaultPadding),
         child: Icon(

@@ -8,7 +8,8 @@ class InfoPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Orientation orientation = MediaQuery.of(context).orientation;
+    final mediaQuery = MediaQuery.of(context);
+    Orientation orientation = mediaQuery.orientation;
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
@@ -24,23 +25,31 @@ class InfoPage extends StatelessWidget {
           ),
         ),
         body: orientation == Orientation.portrait
-            ? Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.25,
-                    child: const InfoHeader(),
-                  ),
-                  const Expanded(
-                    child: InfoBody(),
-                  ),
-                ],
+            ? NestedScrollView(
+                headerSliverBuilder:
+                    (BuildContext context, bool innerBoxIsScrolled) {
+                  return [
+                    SliverAppBar(
+                      expandedHeight: mediaQuery.size.height * 0.25,
+                      floating: false,
+                      pinned: false,
+                      toolbarHeight: 0.0,
+                      collapsedHeight: 0.0,
+                      automaticallyImplyLeading: false,
+                      backgroundColor: Colors.transparent,
+                      flexibleSpace: const FlexibleSpaceBar(
+                        background: InfoHeader(),
+                      ),
+                    ),
+                  ];
+                },
+                body: const InfoBody(),
               )
             : Row(
                 children: <Widget>[
                   SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.35,
-                    height: MediaQuery.of(context).size.height,
+                    width: mediaQuery.size.width * 0.35,
+                    height: mediaQuery.size.height,
                     child: const InfoHeader(),
                   ),
                   const Expanded(

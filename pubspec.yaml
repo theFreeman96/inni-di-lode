@@ -28,6 +28,7 @@ dependencies:
   font_awesome_flutter: ^10.1.0
   number_paginator: ^0.2.0
   audioplayers: ^1.0.1
+  url_launcher: ^6.1.5
 
   # Data
   sqflite: any
@@ -35,7 +36,7 @@ dependencies:
   shared_preferences: ^2.0.13
 
   # HTML renderers
-  flutter_widget_from_html_core: ^0.8.5+1
+  flutter_html: ^2.2.1
   html2md: ^1.2.5
 
   # PDF sharing

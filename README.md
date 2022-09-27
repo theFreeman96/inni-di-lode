@@ -10,19 +10,19 @@ The new Inni di Lode app, including all 700 songs from our Songbook.
 
 - Search a song by typing its number, title or lyrics;
 - Songs sorted by categories and authors;
+- Set songs as favorites (currently not persistent!);
+- Random song button;
 - Rest your eyes using the dark mode;
 - Adjust font size and line spacing;
 - Share songs with whoever you want.
 
 ## Currently working on...
 
-- Set songs as favorites;
-- Keep theme and favorites preferences;
-- Random song button.
+- Persistent favorites list;
+- Play audio for each song.
 
 ## Coming soon
 
-- Play audio for each song;
 - Hide/show chords.
 
 ## OS Compatibility

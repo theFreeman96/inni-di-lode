@@ -3,8 +3,8 @@ import 'package:flutter/services.dart';
 
 import '/theme/constants.dart';
 
-class MyTheme {
-  static final lightTheme = ThemeData(
+class AppTheme {
+  static final light = ThemeData(
     brightness: Brightness.light,
     primaryColor: kPrimaryColor,
     primaryColorDark: kPrimaryColor,
@@ -19,9 +19,9 @@ class MyTheme {
     colorScheme: ColorScheme.fromSwatch().copyWith(secondary: kPrimaryColor),
     sliderTheme: SliderThemeData(
       thumbColor: kPrimaryColor,
-      inactiveTrackColor: kLightGrey,
-      activeTrackColor: kPrimaryLightColor.withOpacity(0.8),
-      overlayColor: kPrimaryLightColor.withOpacity(0.4),
+      inactiveTrackColor: kLightGrey.withOpacity(0.4),
+      activeTrackColor: kPrimaryColor.withOpacity(0.8),
+      overlayColor: kPrimaryColor.withOpacity(0.4),
       thumbShape: const RoundSliderThumbShape(
           enabledThumbRadius: kDefaultPadding * 0.75),
       overlayShape:
@@ -29,7 +29,7 @@ class MyTheme {
     ),
   );
 
-  static final darkTheme = ThemeData(
+  static final dark = ThemeData(
     brightness: Brightness.dark,
     primaryColor: kGrey,
     primaryColorDark: kPrimaryLightColor,
@@ -41,11 +41,11 @@ class MyTheme {
     toggleableActiveColor: kWhite,
     progressIndicatorTheme: const ProgressIndicatorThemeData(color: kWhite),
     floatingActionButtonTheme: const FloatingActionButtonThemeData(
-        foregroundColor: kPrimaryLightColor, backgroundColor: kWhite),
+        foregroundColor: kWhite, backgroundColor: kPrimaryLightColor),
     sliderTheme: SliderThemeData(
       thumbColor: kPrimaryLightColor,
       inactiveTrackColor: kLightGrey,
-      activeTrackColor: kPrimaryLightColor.withOpacity(0.6),
+      activeTrackColor: kPrimaryLightColor.withOpacity(0.8),
       overlayColor: kPrimaryLightColor.withOpacity(0.3),
       thumbShape: const RoundSliderThumbShape(
           enabledThumbRadius: kDefaultPadding * 0.75),

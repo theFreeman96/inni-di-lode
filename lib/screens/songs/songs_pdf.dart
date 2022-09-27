@@ -11,8 +11,8 @@ import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
 
 buildPDF(songId, songTitle, songText) async {
-  double textSize = 16.0;
-  double textHeight = 1.5;
+  double fontSize = 16.0;
+  double lineHeight = 1.5;
 
   final songNumber = songId.toString().padLeft(3, '0');
 
@@ -100,7 +100,7 @@ buildPDF(songId, songTitle, songText) async {
                 return content;
               })
             ]),
-            style: pw.TextStyle(fontSize: textSize, lineSpacing: textHeight),
+            style: pw.TextStyle(fontSize: fontSize, lineSpacing: lineHeight),
           ),
         ];
       },

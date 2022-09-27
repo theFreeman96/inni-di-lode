@@ -4,6 +4,7 @@ import 'models.dart';
 class QueryCtr {
   DatabaseHelper con = DatabaseHelper.privateConstructor();
 
+  // Song list queries
   Future<List<Raccolta>?> getAllSongs() async {
     final dbClient = await con.db;
     final res = await dbClient!.query('view_raccolta', groupBy: 'songId');
@@ -25,9 +26,10 @@ class QueryCtr {
     return list;
   }
 
-  Future<List<Raccolta>?> getAllMacroCat() async {
+  Future<List<Raccolta>?> searchSong(String keyword) async {
     final dbClient = await con.db;
-    final res = await dbClient!.query('view_raccolta', groupBy: 'macroId');
+    final res = await dbClient!.rawQuery(
+        'SELECT * FROM View_Raccolta WHERE songId LIKE "%$keyword%" OR  songTitle LIKE "%$keyword%" OR songText LIKE "%$keyword%" group by songId order by songId');
 
     List<Raccolta>? list =
         res.isNotEmpty ? res.map((c) => Raccolta.fromMap(c)).toList() : null;
@@ -35,9 +37,10 @@ class QueryCtr {
     return list;
   }
 
-  Future<List<Raccolta>?> getAllCat() async {
+  // Category related queries
+  Future<List<Raccolta>?> getAllMacroCat() async {
     final dbClient = await con.db;
-    final res = await dbClient!.query('view_raccolta', groupBy: 'catId');
+    final res = await dbClient!.query('view_raccolta', groupBy: 'macroId');
 
     List<Raccolta>? list =
         res.isNotEmpty ? res.map((c) => Raccolta.fromMap(c)).toList() : null;
@@ -56,6 +59,17 @@ class QueryCtr {
     return list;
   }
 
+  Future<List<Raccolta>?> searchCat(String keyword) async {
+    final dbClient = await con.db;
+    final res = await dbClient!.rawQuery(
+        'SELECT * FROM View_Raccolta WHERE macroName LIKE "%$keyword%" OR catName LIKE "%$keyword%" group by macroId order by macroName');
+
+    List<Raccolta>? list =
+        res.isNotEmpty ? res.map((c) => Raccolta.fromMap(c)).toList() : null;
+
+    return list;
+  }
+
   Future<List<Raccolta>?> getSongsByCat(id) async {
     final dbClient = await con.db;
     final res = await dbClient!.query('view_raccolta',
@@ -67,10 +81,22 @@ class QueryCtr {
     return list;
   }
 
+  // Author related queries
   Future<List<Autori>?> getAllAut() async {
     final dbClient = await con.db;
     final res = await dbClient!
         .query('view_autori', orderBy: 'autName', groupBy: 'autId');
+
+    List<Autori>? list =
+        res.isNotEmpty ? res.map((c) => Autori.fromMap(c)).toList() : null;
+
+    return list;
+  }
+
+  Future<List<Autori>?> searchAut(String keyword) async {
+    final dbClient = await con.db;
+    final res = await dbClient!.rawQuery(
+        'SELECT * FROM View_Autori WHERE autName LIKE "%$keyword%" group by autId order by autName');
 
     List<Autori>? list =
         res.isNotEmpty ? res.map((c) => Autori.fromMap(c)).toList() : null;
@@ -89,6 +115,7 @@ class QueryCtr {
     return list;
   }
 
+  // Favorite related queries
   Future<List<Raccolta>?> updateFav(value, songId) async {
     final dbClient = await con.db;
     await dbClient!.update(
@@ -111,35 +138,13 @@ class QueryCtr {
     return list;
   }
 
-  Future<List<Raccolta>?> searchSong(String keyword) async {
+  Future<List<Raccolta>?> searchFav(int value, String keyword) async {
     final dbClient = await con.db;
     final res = await dbClient!.rawQuery(
-        'SELECT * FROM View_Raccolta WHERE songId LIKE "%$keyword%" OR  songTitle LIKE "%$keyword%" OR songText LIKE "%$keyword%" group by songId order by songId');
+        'SELECT * FROM View_Raccolta WHERE isFav = "$value" AND (songId LIKE "%$keyword%" OR  songTitle LIKE "%$keyword%" OR songText LIKE "%$keyword%") group by songId order by songId');
 
     List<Raccolta>? list =
         res.isNotEmpty ? res.map((c) => Raccolta.fromMap(c)).toList() : null;
-
-    return list;
-  }
-
-  Future<List<Raccolta>?> searchMacroCat(String keyword) async {
-    final dbClient = await con.db;
-    final res = await dbClient!.rawQuery(
-        'SELECT * FROM View_Raccolta WHERE macroName LIKE "%$keyword%" OR catName LIKE "%$keyword%" group by macroId order by macroName');
-
-    List<Raccolta>? list =
-        res.isNotEmpty ? res.map((c) => Raccolta.fromMap(c)).toList() : null;
-
-    return list;
-  }
-
-  Future<List<Autori>?> searchAut(String keyword) async {
-    final dbClient = await con.db;
-    final res = await dbClient!.rawQuery(
-        'SELECT * FROM View_Autori WHERE autName LIKE "%$keyword%" group by autId order by autName');
-
-    List<Autori>? list =
-        res.isNotEmpty ? res.map((c) => Autori.fromMap(c)).toList() : null;
 
     return list;
   }

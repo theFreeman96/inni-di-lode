@@ -28,6 +28,14 @@ class SongsPlayerState extends State<SongsPlayer> {
       });
     });
 
+    // Listen to completion
+    audioPlayer.onPlayerComplete.listen((event) {
+      setState(() {
+        isPlaying = false;
+        position = Duration.zero;
+      });
+    });
+
     // Listen to audio duration
     audioPlayer.onDurationChanged.listen((newDuration) {
       setState(() {
@@ -45,8 +53,8 @@ class SongsPlayerState extends State<SongsPlayer> {
 
   Future setAudio() async {
     // Load audio from url
-    audioPlayer.setSourceUrl(
-        'https://api.whatda.fit/sample-audios/MP%20Clapping%20Crunches%2045.mp3');
+    audioPlayer
+        .setSourceUrl('https://samplelib.com/lib/preview/mp3/sample-15s.mp3');
   }
 
   @override
@@ -111,6 +119,7 @@ class SongsPlayerState extends State<SongsPlayer> {
                   onPressed: () async {
                     await audioPlayer
                         .seek(Duration(seconds: position.inSeconds - 10));
+                    await audioPlayer.resume();
                     setState(() {});
                   },
                 ),
@@ -139,6 +148,7 @@ class SongsPlayerState extends State<SongsPlayer> {
                     if (position.inSeconds < duration.inSeconds - 10) {
                       audioPlayer
                           .seek(Duration(seconds: position.inSeconds + 10));
+                      await audioPlayer.resume();
                     } else {
                       await audioPlayer.resume();
                     }
