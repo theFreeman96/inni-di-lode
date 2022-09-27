@@ -118,6 +118,7 @@ class _AutBodyState extends State<AutBody> {
                       child: Text(
                         'Nessun Autore trovato',
                         style: TextStyle(fontSize: 20.0 * textScaleFactor),
+                        textAlign: TextAlign.center,
                       ),
                     ),
                   );

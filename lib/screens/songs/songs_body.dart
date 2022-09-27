@@ -172,6 +172,7 @@ class _SongsBodyState extends State<SongsBody> {
                       child: Text(
                         'Nessun Cantico trovato',
                         style: TextStyle(fontSize: 20.0 * textScaleFactor),
+                        textAlign: TextAlign.center,
                       ),
                     ),
                   );

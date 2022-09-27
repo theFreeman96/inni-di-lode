@@ -120,6 +120,7 @@ class _CatBodyState extends State<CatBody> {
                       child: Text(
                         'Nessuna Categoria trovata',
                         style: TextStyle(fontSize: 20.0 * textScaleFactor),
+                        textAlign: TextAlign.center,
                       ),
                     ),
                   );

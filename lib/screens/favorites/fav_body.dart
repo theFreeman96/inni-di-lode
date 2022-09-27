@@ -125,6 +125,7 @@ class _FavBodyState extends State<FavBody> {
                       child: Text(
                         'Nessun Preferito trovato',
                         style: TextStyle(fontSize: 20.0 * textScaleFactor),
+                        textAlign: TextAlign.center,
                       ),
                     ),
                   );
