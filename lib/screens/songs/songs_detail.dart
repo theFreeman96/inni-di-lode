@@ -24,13 +24,13 @@ class _SongsDetailState extends State<SongsDetail> {
   late PageController pageController =
       PageController(initialPage: --widget.songId);
 
-  double textSize = 16.0;
-  double textSizeMin = 16.0;
-  double textSizeMax = 20.0;
+  double fontSize = 16.0;
+  double fontSizeMin = 16.0;
+  double fontSizeMax = 20.0;
 
-  double textHeight = 1.5;
-  double textHeightMin = 1.0;
-  double textHeightMax = 2.0;
+  double lineHeight = 1.5;
+  double lineHeightMin = 1.0;
+  double lineHeightMax = 2.0;
 
   @override
   Widget build(BuildContext context) {
@@ -104,8 +104,8 @@ class _SongsDetailState extends State<SongsDetail> {
                 style: {
                   'ol': Style(
                     textAlign: TextAlign.center,
-                    fontSize: FontSize(textSize),
-                    lineHeight: LineHeight(textHeight),
+                    fontSize: FontSize(fontSize),
+                    lineHeight: LineHeight(lineHeight),
                     listStylePosition: ListStylePosition.INSIDE,
                     padding: const EdgeInsets.only(bottom: kDefaultPadding * 7),
                   ),
@@ -180,11 +180,22 @@ class _SongsDetailState extends State<SongsDetail> {
                                   icon: const Icon(Icons.text_decrease),
                                   tooltip: 'Testo più Piccolo',
                                   onPressed: () {
-                                    if (textSize > textSizeMin) {
-                                      textSize = textSize - 2.0;
+                                    if (fontSize > fontSizeMin) {
+                                      fontSize = fontSize - 2.0;
                                     } else {
-                                      log('Dimensione minima del testo: $textSize');
+                                      log('Dimensione minima del testo: $fontSize');
                                     }
+                                    setState(
+                                      () {},
+                                    );
+                                  },
+                                ),
+                                IconButton(
+                                  icon: const Icon(Icons.replay),
+                                  tooltip: 'Ripristina dimensione testo',
+                                  onPressed: () {
+                                    fontSize = 16.0;
+                                    log('Dimensione default del testo: $fontSize');
                                     setState(
                                       () {},
                                     );
@@ -194,10 +205,10 @@ class _SongsDetailState extends State<SongsDetail> {
                                   icon: const Icon(Icons.text_increase),
                                   tooltip: 'Testo più Grande',
                                   onPressed: () {
-                                    if (textSize < textSizeMax) {
-                                      textSize = textSize + 2.0;
+                                    if (fontSize < fontSizeMax) {
+                                      fontSize = fontSize + 2.0;
                                     } else {
-                                      log('Dimensione massima del testo: $textSize');
+                                      log('Dimensione massima del testo: $fontSize');
                                     }
                                     setState(
                                       () {},
@@ -219,11 +230,22 @@ class _SongsDetailState extends State<SongsDetail> {
                                   ),
                                   tooltip: 'Diminuisci Interlinea',
                                   onPressed: () {
-                                    if (textHeight > textHeightMin) {
-                                      textHeight = textHeight - 0.5;
+                                    if (lineHeight > lineHeightMin) {
+                                      lineHeight = lineHeight - 0.5;
                                     } else {
-                                      log('Interlinea minima: $textHeight');
+                                      log('Interlinea minima: $lineHeight');
                                     }
+                                    setState(
+                                      () {},
+                                    );
+                                  },
+                                ),
+                                IconButton(
+                                  icon: const Icon(Icons.replay),
+                                  tooltip: 'Ripristina dimensione testo',
+                                  onPressed: () {
+                                    lineHeight = 1.5;
+                                    log('Interlinea di default: $lineHeight');
                                     setState(
                                       () {},
                                     );
@@ -235,10 +257,10 @@ class _SongsDetailState extends State<SongsDetail> {
                                   ),
                                   tooltip: 'Aumenta Interlinea',
                                   onPressed: () {
-                                    if (textHeight < textHeightMax) {
-                                      textHeight = textHeight + 0.5;
+                                    if (lineHeight < lineHeightMax) {
+                                      lineHeight = lineHeight + 0.5;
                                     } else {
-                                      log('Interlinea massima: $textHeight');
+                                      log('Interlinea massima: $lineHeight');
                                     }
                                     setState(
                                       () {},
