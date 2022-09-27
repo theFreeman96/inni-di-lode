@@ -16,15 +16,14 @@ class AutBody extends StatefulWidget {
 }
 
 class _AutBodyState extends State<AutBody> {
-  TextEditingController editingController = TextEditingController();
+  late double textScaleFactor = MediaQuery.of(context).textScaleFactor;
   FocusNode myFocusNode = FocusNode();
   final QueryCtr query = QueryCtr();
 
   late Future<List?> future;
-
   @override
   void initState() {
-    future = QueryCtr().getAllAut();
+    future = query.getAllAut();
     super.initState();
   }
 
@@ -34,10 +33,10 @@ class _AutBodyState extends State<AutBody> {
       results = future;
 
       setState(() {
-        future = QueryCtr().getAllAut();
+        future = query.getAllAut();
       });
     } else {
-      results = QueryCtr().searchAut(keyword);
+      results = query.searchAut(keyword);
 
       setState(() {
         future = results;
@@ -113,12 +112,12 @@ class _AutBodyState extends State<AutBody> {
                       ),
                     ),
                   )
-                : const Padding(
-                    padding: EdgeInsets.only(top: kDefaultPadding),
+                : Padding(
+                    padding: const EdgeInsets.only(top: kDefaultPadding),
                     child: Center(
                       child: Text(
                         'Nessun Autore trovato',
-                        style: TextStyle(fontSize: 20.0),
+                        style: TextStyle(fontSize: 20.0 * textScaleFactor),
                       ),
                     ),
                   );

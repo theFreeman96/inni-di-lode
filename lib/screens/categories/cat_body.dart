@@ -17,15 +17,15 @@ class CatBody extends StatefulWidget {
 }
 
 class _CatBodyState extends State<CatBody> {
+  late double textScaleFactor = MediaQuery.of(context).textScaleFactor;
   FocusNode myFocusNode = FocusNode();
   final QueryCtr query = QueryCtr();
   int? expansionIndex;
 
   late Future<List?> future;
-
   @override
   void initState() {
-    future = QueryCtr().getAllMacroCat();
+    future = query.getAllMacroCat();
     super.initState();
   }
 
@@ -35,10 +35,10 @@ class _CatBodyState extends State<CatBody> {
       results = future;
 
       setState(() {
-        future = QueryCtr().getAllMacroCat();
+        future = query.getAllMacroCat();
       });
     } else {
-      results = QueryCtr().searchCat(keyword);
+      results = query.searchCat(keyword);
 
       setState(() {
         future = results;
@@ -114,12 +114,12 @@ class _CatBodyState extends State<CatBody> {
                       ),
                     ),
                   )
-                : const Padding(
-                    padding: EdgeInsets.only(top: kDefaultPadding),
+                : Padding(
+                    padding: const EdgeInsets.only(top: kDefaultPadding),
                     child: Center(
                       child: Text(
                         'Nessuna Categoria trovata',
-                        style: TextStyle(fontSize: 20.0),
+                        style: TextStyle(fontSize: 20.0 * textScaleFactor),
                       ),
                     ),
                   );
@@ -142,10 +142,7 @@ class _CatBodyState extends State<CatBody> {
                   size: 15,
                 ),
               ),
-              title: Text(
-                get.macroName,
-                style: const TextStyle(fontSize: 16.0),
-              ),
+              title: Text(get.macroName),
             );
           },
           canTapOnHeader: true,
@@ -191,10 +188,7 @@ class _CatBodyState extends State<CatBody> {
           FontAwesomeIcons.tag,
         ),
       ),
-      title: Text(
-        get.catName,
-        style: const TextStyle(fontSize: 16.0),
-      ),
+      title: Text(get.catName),
       trailing: const Padding(
         padding: EdgeInsets.only(right: kDefaultPadding),
         child: Icon(

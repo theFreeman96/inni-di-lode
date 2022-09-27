@@ -24,13 +24,15 @@ class _SongsDetailState extends State<SongsDetail> {
   late PageController pageController =
       PageController(initialPage: --widget.songId);
 
-  double fontSize = 16.0;
-  double fontSizeMin = 16.0;
-  double fontSizeMax = 20.0;
+  late double textScaleFactor = MediaQuery.of(context).textScaleFactor;
 
-  double lineHeight = 1.5;
-  double lineHeightMin = 1.0;
-  double lineHeightMax = 2.0;
+  late double fontSize = 16.0 * textScaleFactor;
+  late double fontSizeMin = 16.0 * textScaleFactor;
+  late double fontSizeMax = 20.0 * textScaleFactor;
+
+  late double lineHeight = 1.5 * textScaleFactor;
+  late double lineHeightMin = 1.0 * textScaleFactor;
+  late double lineHeightMax = 2.0 * textScaleFactor;
 
   @override
   Widget build(BuildContext context) {
@@ -95,7 +97,7 @@ class _SongsDetailState extends State<SongsDetail> {
                 padding: const EdgeInsets.only(bottom: kDefaultPadding),
                 child: Text(
                   get.songTitle,
-                  style: const TextStyle(fontSize: 22.0),
+                  style: TextStyle(fontSize: 22.0 * textScaleFactor),
                   textAlign: TextAlign.left,
                 ),
               ),
@@ -194,7 +196,7 @@ class _SongsDetailState extends State<SongsDetail> {
                                   icon: const Icon(Icons.replay),
                                   tooltip: 'Ripristina dimensione testo',
                                   onPressed: () {
-                                    fontSize = 16.0;
+                                    fontSize = 16.0 * textScaleFactor;
                                     log('Dimensione default del testo: $fontSize');
                                     setState(
                                       () {},
@@ -244,7 +246,7 @@ class _SongsDetailState extends State<SongsDetail> {
                                   icon: const Icon(Icons.replay),
                                   tooltip: 'Ripristina dimensione testo',
                                   onPressed: () {
-                                    lineHeight = 1.5;
+                                    lineHeight = 1.5 * textScaleFactor;
                                     log('Interlinea di default: $lineHeight');
                                     setState(
                                       () {},

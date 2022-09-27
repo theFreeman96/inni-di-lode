@@ -18,13 +18,14 @@ class FavBody extends StatefulWidget {
 }
 
 class _FavBodyState extends State<FavBody> {
+  late double textScaleFactor = MediaQuery.of(context).textScaleFactor;
   FocusNode myFocusNode = FocusNode();
+  final QueryCtr query = QueryCtr();
 
   late Future<List?> future;
-
   @override
   void initState() {
-    future = QueryCtr().getAllFav();
+    future = query.getAllFav();
     super.initState();
   }
 
@@ -39,10 +40,10 @@ class _FavBodyState extends State<FavBody> {
       results = future;
 
       setState(() {
-        future = QueryCtr().getAllFav();
+        future = query.getAllFav();
       });
     } else {
-      results = QueryCtr().searchFav(1, keyword);
+      results = query.searchFav(1, keyword);
 
       setState(() {
         future = results;
@@ -118,12 +119,12 @@ class _FavBodyState extends State<FavBody> {
                       ),
                     ),
                   )
-                : const Padding(
-                    padding: EdgeInsets.only(top: kDefaultPadding),
+                : Padding(
+                    padding: const EdgeInsets.only(top: kDefaultPadding),
                     child: Center(
                       child: Text(
                         'Nessun Preferito trovato',
-                        style: TextStyle(fontSize: 20.0),
+                        style: TextStyle(fontSize: 20.0 * textScaleFactor),
                       ),
                     ),
                   );

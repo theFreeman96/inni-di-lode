@@ -18,6 +18,8 @@ class HamburgerMenu extends StatefulWidget {
 }
 
 class _HamburgerMenuState extends State<HamburgerMenu> {
+  late double textScaleFactor = MediaQuery.of(context).textScaleFactor;
+
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -57,12 +59,14 @@ class _HamburgerMenuState extends State<HamburgerMenu> {
                         int songId = Random().nextInt(snapshot.data!.length);
                         return snapshot.hasData
                             ? SongsDetail(songId: songId)
-                            : const Padding(
-                                padding: EdgeInsets.only(top: kDefaultPadding),
+                            : Padding(
+                                padding:
+                                    const EdgeInsets.only(top: kDefaultPadding),
                                 child: Center(
                                   child: Text(
                                     'Nessun Cantico trovato',
-                                    style: TextStyle(fontSize: 20.0),
+                                    style: TextStyle(
+                                        fontSize: 20.0 * textScaleFactor),
                                   ),
                                 ),
                               );
@@ -93,48 +97,48 @@ class _HamburgerMenuState extends State<HamburgerMenu> {
       ),
     );
   }
-}
 
-Widget createDrawerHeader() {
-  return DrawerHeader(
-    margin: EdgeInsets.zero,
-    padding: EdgeInsets.zero,
-    decoration: const BoxDecoration(
-      image: DecorationImage(
-        fit: BoxFit.cover,
-        image: AssetImage('lib/assets/images/drawer_header.png'),
-      ),
-    ),
-    child: Stack(
-      children: <Widget>[
-        Builder(
-          builder: (BuildContext context) {
-            return IconButton(
-              icon: const Icon(
-                Icons.clear,
-                color: kWhite,
-              ),
-              onPressed: () {
-                FocusScope.of(context).unfocus();
-                Navigator.of(context).pop();
-              },
-              tooltip: 'Chiudi',
-            );
-          },
+  Widget createDrawerHeader() {
+    return DrawerHeader(
+      margin: EdgeInsets.zero,
+      padding: EdgeInsets.zero,
+      decoration: const BoxDecoration(
+        image: DecorationImage(
+          fit: BoxFit.cover,
+          image: AssetImage('lib/assets/images/drawer_header.png'),
         ),
-        const Positioned(
-          bottom: 12.0,
-          left: 16.0,
-          child: Text(
-            'Menu',
-            style: TextStyle(
-              color: kWhite,
-              fontSize: 20.0,
-              fontWeight: FontWeight.w500,
+      ),
+      child: Stack(
+        children: <Widget>[
+          Builder(
+            builder: (BuildContext context) {
+              return IconButton(
+                icon: const Icon(
+                  Icons.clear,
+                  color: kWhite,
+                ),
+                onPressed: () {
+                  FocusScope.of(context).unfocus();
+                  Navigator.of(context).pop();
+                },
+                tooltip: 'Chiudi',
+              );
+            },
+          ),
+          Positioned(
+            bottom: 12.0 * MediaQuery.of(context).size.height,
+            left: 16.0 * MediaQuery.of(context).size.width,
+            child: Text(
+              'Menu',
+              style: TextStyle(
+                color: kWhite,
+                fontSize: 20.0 * textScaleFactor,
+                fontWeight: FontWeight.w500,
+              ),
             ),
           ),
-        ),
-      ],
-    ),
-  );
+        ],
+      ),
+    );
+  }
 }

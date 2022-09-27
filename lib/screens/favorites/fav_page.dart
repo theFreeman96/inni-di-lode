@@ -8,13 +8,14 @@ class FavPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Orientation orientation = MediaQuery.of(context).orientation;
+    final mediaQuery = MediaQuery.of(context);
+    Orientation orientation = mediaQuery.orientation;
     if (orientation == Orientation.portrait) {
       return NestedScrollView(
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
           return [
             SliverAppBar(
-              expandedHeight: MediaQuery.of(context).size.height * 0.25,
+              expandedHeight: mediaQuery.size.height * 0.25,
               floating: false,
               pinned: false,
               toolbarHeight: 0.0,
@@ -33,8 +34,8 @@ class FavPage extends StatelessWidget {
       return Row(
         children: <Widget>[
           SizedBox(
-            width: MediaQuery.of(context).size.width * 0.35,
-            height: MediaQuery.of(context).size.height,
+            width: mediaQuery.size.width * 0.35,
+            height: mediaQuery.size.height,
             child: const FavHeader(),
           ),
           const Expanded(

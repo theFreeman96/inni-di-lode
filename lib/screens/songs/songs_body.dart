@@ -17,8 +17,9 @@ class SongsBody extends StatefulWidget {
 }
 
 class _SongsBodyState extends State<SongsBody> {
+  late double textScaleFactor = MediaQuery.of(context).textScaleFactor;
   FocusNode myFocusNode = FocusNode();
-
+  final QueryCtr query = QueryCtr();
   int currentPage = 0;
 
   void onValueChanged(newValue) {
@@ -28,19 +29,17 @@ class _SongsBodyState extends State<SongsBody> {
   }
 
   late List<Future<List?>> songRange = [
-    QueryCtr().getSongsFromRange(1, 100),
-    QueryCtr().getSongsFromRange(101, 200),
-    QueryCtr().getSongsFromRange(201, 300),
-    QueryCtr().getSongsFromRange(301, 400),
-    QueryCtr().getSongsFromRange(401, 500),
-    QueryCtr().getSongsFromRange(501, 600),
-    QueryCtr().getSongsFromRange(601, 700),
+    query.getSongsFromRange(1, 100),
+    query.getSongsFromRange(101, 200),
+    query.getSongsFromRange(201, 300),
+    query.getSongsFromRange(301, 400),
+    query.getSongsFromRange(401, 500),
+    query.getSongsFromRange(501, 600),
+    query.getSongsFromRange(601, 700),
   ];
 
   late Future<List?> future;
-
   bool isVisible = true;
-
   @override
   void initState() {
     future = songRange[currentPage];
@@ -57,7 +56,7 @@ class _SongsBodyState extends State<SongsBody> {
         isVisible = true;
       });
     } else {
-      results = QueryCtr().searchSong(keyword);
+      results = query.searchSong(keyword);
 
       setState(() {
         currentPage = 0;
@@ -167,12 +166,12 @@ class _SongsBodyState extends State<SongsBody> {
                       ),
                     ),
                   )
-                : const Padding(
-                    padding: EdgeInsets.only(top: kDefaultPadding),
+                : Padding(
+                    padding: const EdgeInsets.only(top: kDefaultPadding),
                     child: Center(
                       child: Text(
                         'Nessun Cantico trovato',
-                        style: TextStyle(fontSize: 20.0),
+                        style: TextStyle(fontSize: 20.0 * textScaleFactor),
                       ),
                     ),
                   );

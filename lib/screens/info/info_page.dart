@@ -8,7 +8,8 @@ class InfoPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Orientation orientation = MediaQuery.of(context).orientation;
+    final mediaQuery = MediaQuery.of(context);
+    Orientation orientation = mediaQuery.orientation;
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
@@ -28,7 +29,7 @@ class InfoPage extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.25,
+                    height: mediaQuery.size.height * 0.25,
                     child: const InfoHeader(),
                   ),
                   const Expanded(
@@ -39,8 +40,8 @@ class InfoPage extends StatelessWidget {
             : Row(
                 children: <Widget>[
                   SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.35,
-                    height: MediaQuery.of(context).size.height,
+                    width: mediaQuery.size.width * 0.35,
+                    height: mediaQuery.size.height,
                     child: const InfoHeader(),
                   ),
                   const Expanded(
