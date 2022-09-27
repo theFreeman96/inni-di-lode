@@ -45,12 +45,11 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    final themeProvider = Provider.of<ThemeProvider>(context);
     return Scaffold(
       resizeToAvoidBottomInset: false,
       extendBody: false,
       drawer: const HamburgerMenu(),
-      body: _buildPage(context),
+      body: buildPage(),
       floatingActionButton: Builder(
         builder: (BuildContext context) {
           return FloatingActionButton(
@@ -63,56 +62,11 @@ class _HomeState extends State<Home> {
         },
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
-      bottomNavigationBar: BottomAppBar(
-        elevation: 0.0,
-        shape: const CircularNotchedRectangle(),
-        notchMargin: 6,
-        clipBehavior: Clip.antiAlias,
-        color: themeProvider.isDarkMode ? kGrey : kPrimaryColor,
-        child: Padding(
-          padding: const EdgeInsets.only(right: kDefaultPadding * 4),
-          child: BottomNavigationBar(
-            elevation: 0.0,
-            landscapeLayout: BottomNavigationBarLandscapeLayout.centered,
-            type: BottomNavigationBarType.shifting,
-            backgroundColor: themeProvider.isDarkMode ? kGrey : kPrimaryColor,
-            currentIndex: currentIndex,
-            onTap: onTabTapped,
-            selectedItemColor: kWhite,
-            unselectedItemColor: kWhite.withOpacity(0.6),
-            items: [
-              BottomNavigationBarItem(
-                icon: const Icon(Icons.library_music),
-                label: 'Cantici',
-                backgroundColor:
-                    themeProvider.isDarkMode ? kGrey : kPrimaryColor,
-              ),
-              BottomNavigationBarItem(
-                icon: const FaIcon(FontAwesomeIcons.tags, size: 18),
-                label: 'Categorie',
-                backgroundColor:
-                    themeProvider.isDarkMode ? kGrey : kPrimaryColor,
-              ),
-              BottomNavigationBarItem(
-                icon: const Icon(Icons.people_alt),
-                label: 'Autori',
-                backgroundColor:
-                    themeProvider.isDarkMode ? kGrey : kPrimaryColor,
-              ),
-              BottomNavigationBarItem(
-                icon: const Icon(Icons.favorite),
-                label: 'Preferiti',
-                backgroundColor:
-                    themeProvider.isDarkMode ? kGrey : kPrimaryColor,
-              )
-            ],
-          ),
-        ),
-      ),
+      bottomNavigationBar: buildBottomBar(),
     );
   }
 
-  Widget _buildPage(BuildContext context) {
+  Widget buildPage() {
     final mediaQuery = MediaQuery.of(context);
     Orientation orientation = mediaQuery.orientation;
     return orientation == Orientation.portrait
@@ -148,5 +102,51 @@ class _HomeState extends State<Home> {
               ),
             ],
           );
+  }
+
+  Widget buildBottomBar() {
+    final themeProvider = Provider.of<ThemeProvider>(context);
+    return BottomAppBar(
+      elevation: 0.0,
+      shape: const CircularNotchedRectangle(),
+      notchMargin: 6,
+      clipBehavior: Clip.antiAlias,
+      color: themeProvider.isDarkMode ? kGrey : kPrimaryColor,
+      child: Padding(
+        padding: const EdgeInsets.only(right: kDefaultPadding * 4),
+        child: BottomNavigationBar(
+          elevation: 0.0,
+          landscapeLayout: BottomNavigationBarLandscapeLayout.centered,
+          type: BottomNavigationBarType.shifting,
+          backgroundColor: themeProvider.isDarkMode ? kGrey : kPrimaryColor,
+          currentIndex: currentIndex,
+          onTap: onTabTapped,
+          selectedItemColor: kWhite,
+          unselectedItemColor: kWhite.withOpacity(0.6),
+          items: [
+            BottomNavigationBarItem(
+              icon: const Icon(Icons.library_music),
+              label: 'Cantici',
+              backgroundColor: themeProvider.isDarkMode ? kGrey : kPrimaryColor,
+            ),
+            BottomNavigationBarItem(
+              icon: const FaIcon(FontAwesomeIcons.tags, size: 18),
+              label: 'Categorie',
+              backgroundColor: themeProvider.isDarkMode ? kGrey : kPrimaryColor,
+            ),
+            BottomNavigationBarItem(
+              icon: const Icon(Icons.people_alt),
+              label: 'Autori',
+              backgroundColor: themeProvider.isDarkMode ? kGrey : kPrimaryColor,
+            ),
+            BottomNavigationBarItem(
+              icon: const Icon(Icons.favorite),
+              label: 'Preferiti',
+              backgroundColor: themeProvider.isDarkMode ? kGrey : kPrimaryColor,
+            )
+          ],
+        ),
+      ),
+    );
   }
 }
