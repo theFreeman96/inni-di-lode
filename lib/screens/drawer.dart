@@ -126,8 +126,8 @@ class _HamburgerMenuState extends State<HamburgerMenu> {
             },
           ),
           Positioned(
-            bottom: 12.0 * MediaQuery.of(context).size.height,
-            left: 16.0 * MediaQuery.of(context).size.width,
+            bottom: kDefaultPadding - 8.0,
+            left: kDefaultPadding - 4.0,
             child: Text(
               'Menu',
               style: TextStyle(
