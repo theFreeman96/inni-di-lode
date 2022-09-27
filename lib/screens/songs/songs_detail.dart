@@ -53,6 +53,9 @@ class _SongsDetailState extends State<SongsDetail> {
   }
 
   Widget buildPage(Raccolta get) {
+    String text = get.songText;
+    String parsedSongText = text.replaceAll('<li>', '<li><br>');
+
     return Scaffold(
       extendBody: true,
       appBar: AppBar(
@@ -102,7 +105,7 @@ class _SongsDetailState extends State<SongsDetail> {
                 ),
               ),
               Html(
-                data: get.songText,
+                data: parsedSongText,
                 style: {
                   'ol': Style(
                     textAlign: TextAlign.center,
