@@ -25,17 +25,25 @@ class InfoPage extends StatelessWidget {
           ),
         ),
         body: orientation == Orientation.portrait
-            ? Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  SizedBox(
-                    height: mediaQuery.size.height * 0.25,
-                    child: const InfoHeader(),
-                  ),
-                  const Expanded(
-                    child: InfoBody(),
-                  ),
-                ],
+            ? NestedScrollView(
+                headerSliverBuilder:
+                    (BuildContext context, bool innerBoxIsScrolled) {
+                  return [
+                    SliverAppBar(
+                      expandedHeight: mediaQuery.size.height * 0.25,
+                      floating: false,
+                      pinned: false,
+                      toolbarHeight: 0.0,
+                      collapsedHeight: 0.0,
+                      automaticallyImplyLeading: false,
+                      backgroundColor: Colors.transparent,
+                      flexibleSpace: const FlexibleSpaceBar(
+                        background: InfoHeader(),
+                      ),
+                    ),
+                  ];
+                },
+                body: const InfoBody(),
               )
             : Row(
                 children: <Widget>[
