@@ -98,7 +98,7 @@ class _SongsDetailState extends State<SongsDetail> {
                 child: Text(
                   get.songTitle,
                   style: TextStyle(fontSize: 22.0 * textScaleFactor),
-                  textAlign: TextAlign.left,
+                  textAlign: TextAlign.center,
                 ),
               ),
               Html(
