@@ -27,9 +27,11 @@ The new Inni di Lode app, including all 700 songs from our Songbook.
 
 ## OS Compatibility
 
-Currently available on:
-- Mobile: Android, iOS.
+Mobile:
+- Android;
+- iOS.
 
-Soon available on
-- Desktop: Windows, MacOS, Linux;
-- Web.
+Desktop:
+- Windows;
+- MacOS;
+- Linux.
