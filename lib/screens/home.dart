@@ -45,24 +45,26 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      extendBody: false,
-      drawer: const HamburgerMenu(),
-      body: buildPage(),
-      floatingActionButton: Builder(
-        builder: (BuildContext context) {
-          return FloatingActionButton(
-            tooltip: 'Menu',
-            child: const Icon(Icons.menu),
-            onPressed: () {
-              Scaffold.of(context).openDrawer();
-            },
-          );
-        },
+    return SafeArea(
+      child: Scaffold(
+        resizeToAvoidBottomInset: false,
+        extendBody: false,
+        drawer: const HamburgerMenu(),
+        body: buildPage(),
+        floatingActionButton: Builder(
+          builder: (BuildContext context) {
+            return FloatingActionButton(
+              tooltip: 'Menu',
+              child: const Icon(Icons.menu),
+              onPressed: () {
+                Scaffold.of(context).openDrawer();
+              },
+            );
+          },
+        ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
+        bottomNavigationBar: buildBottomBar(),
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
-      bottomNavigationBar: buildBottomBar(),
     );
   }
 
