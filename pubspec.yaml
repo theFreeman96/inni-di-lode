@@ -32,6 +32,11 @@ dependencies:
 
   # Data
   sqflite: any
+  sqflite_common_ffi: ^2.1.1+1
+  sqlite3_flutter_libs: ^0.5.10
+  path_provider: ^2.0.9
+
+  # Persistence
   provider: ^6.0.1
   shared_preferences: ^2.0.13
 
@@ -41,7 +46,6 @@ dependencies:
 
   # PDF sharing
   share_plus: ^4.0.4
-  path_provider: ^2.0.9
   pdf: ^3.7.3
 
   # The following adds the Cupertino Icons font to your application.
