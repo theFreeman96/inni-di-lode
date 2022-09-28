@@ -17,8 +17,11 @@ class QueryCtr {
 
   Future<List<Raccolta>?> getSongsFromRange(firstId, secondId) async {
     final dbClient = await con.db;
-    final res = await dbClient!.rawQuery(
-        'SELECT * FROM View_Raccolta WHERE songId BETWEEN "$firstId" and "$secondId" GROUP BY songId');
+    final res = await dbClient!.query('view_raccolta',
+        where: 'songId BETWEEN ? AND ?',
+        whereArgs: ['$firstId', '$secondId'],
+        groupBy: 'songId',
+        orderBy: 'songId');
 
     List<Raccolta>? list =
         res.isNotEmpty ? res.map((c) => Raccolta.fromMap(c)).toList() : null;
@@ -28,8 +31,11 @@ class QueryCtr {
 
   Future<List<Raccolta>?> searchSong(String keyword) async {
     final dbClient = await con.db;
-    final res = await dbClient!.rawQuery(
-        'SELECT * FROM View_Raccolta WHERE songId LIKE "%$keyword%" OR  songTitle LIKE "%$keyword%" OR songText LIKE "%$keyword%" group by songId order by songId');
+    final res = await dbClient!.query('view_raccolta',
+        where: 'songId LIKE ? OR songTitle LIKE ? OR songText LIKE ?',
+        whereArgs: ['%$keyword%', '%$keyword%', '%$keyword%'],
+        groupBy: 'songId',
+        orderBy: 'songId');
 
     List<Raccolta>? list =
         res.isNotEmpty ? res.map((c) => Raccolta.fromMap(c)).toList() : null;
@@ -61,8 +67,11 @@ class QueryCtr {
 
   Future<List<Raccolta>?> searchCat(String keyword) async {
     final dbClient = await con.db;
-    final res = await dbClient!.rawQuery(
-        'SELECT * FROM View_Raccolta WHERE macroName LIKE "%$keyword%" OR catName LIKE "%$keyword%" group by macroId order by macroName');
+    final res = await dbClient!.query('view_raccolta',
+        where: 'macroName LIKE ? OR catName LIKE ?',
+        whereArgs: ['%$keyword%', '%$keyword%'],
+        groupBy: 'macroId',
+        orderBy: 'macroName');
 
     List<Raccolta>? list =
         res.isNotEmpty ? res.map((c) => Raccolta.fromMap(c)).toList() : null;
@@ -95,8 +104,11 @@ class QueryCtr {
 
   Future<List<Autori>?> searchAut(String keyword) async {
     final dbClient = await con.db;
-    final res = await dbClient!.rawQuery(
-        'SELECT * FROM View_Autori WHERE autName LIKE "%$keyword%" group by autId order by autName');
+    final res = await dbClient!.query('view_autori',
+        where: 'autName LIKE ?',
+        whereArgs: ['%$keyword%'],
+        groupBy: 'autId',
+        orderBy: 'autName');
 
     List<Autori>? list =
         res.isNotEmpty ? res.map((c) => Autori.fromMap(c)).toList() : null;
@@ -140,8 +152,12 @@ class QueryCtr {
 
   Future<List<Raccolta>?> searchFav(int value, String keyword) async {
     final dbClient = await con.db;
-    final res = await dbClient!.rawQuery(
-        'SELECT * FROM View_Raccolta WHERE isFav = "$value" AND (songId LIKE "%$keyword%" OR  songTitle LIKE "%$keyword%" OR songText LIKE "%$keyword%") group by songId order by songId');
+    final res = await dbClient!.query('view_raccolta',
+        where:
+            'isFav = ? AND (songId LIKE ? OR songTitle LIKE ? OR songText LIKE ?)',
+        whereArgs: ['$value', '%$keyword%', '%$keyword%', '%$keyword%'],
+        groupBy: 'songId',
+        orderBy: 'songId');
 
     List<Raccolta>? list =
         res.isNotEmpty ? res.map((c) => Raccolta.fromMap(c)).toList() : null;
