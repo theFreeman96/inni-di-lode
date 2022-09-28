@@ -1,12 +1,22 @@
+import 'dart:io';
+
 import "package:flutter/material.dart";
 import 'package:provider/provider.dart';
+
+import 'package:sqflite_common_ffi/sqflite_ffi.dart';
+import 'package:sqflite/sqflite.dart';
 
 import '/theme/theme_provider.dart';
 import '/theme/themes.dart';
 
 import '/screens/home.dart';
 
-void main() {
+Future main() async {
+  if (Platform.isWindows || Platform.isLinux) {
+    // Initialize FFI
+    sqfliteFfiInit();
+  }
+  databaseFactory = databaseFactoryFfi;
   runApp(const Innario());
 }
 
