@@ -2,7 +2,7 @@ import "package:flutter/material.dart";
 import 'package:provider/provider.dart';
 
 import '/theme/theme_provider.dart';
-import '/theme/app_themes.dart';
+import '/theme/themes.dart';
 
 import '/screens/home.dart';
 
