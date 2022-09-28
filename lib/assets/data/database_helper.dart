@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:sqflite/sqflite.dart';
 import 'package:flutter/services.dart';
 import 'package:path/path.dart';
+import 'package:path_provider/path_provider.dart';
 
 class DatabaseHelper {
   final dbName = "innario.db";
@@ -21,8 +22,8 @@ class DatabaseHelper {
 
   initDb() async {
     // Search database
-    var dbDir = await getDatabasesPath();
-    var dbPath = join(dbDir, dbName);
+    Directory dbDir = await getApplicationDocumentsDirectory();
+    String dbPath = join(dbDir.path, dbName);
 
     // Create the writable database file from the bundled demo database file:
     ByteData data = await rootBundle.load("lib/assets/data/$dbName");
