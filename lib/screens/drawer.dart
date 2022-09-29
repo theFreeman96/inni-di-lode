@@ -8,6 +8,7 @@ import '/theme/constants.dart';
 import '/assets/data/queries.dart';
 
 import '/screens/songs/songs_detail.dart';
+import 'new_song/new_song_page.dart';
 import '/screens/info/info_page.dart';
 
 class HamburgerMenu extends StatefulWidget {
@@ -72,6 +73,22 @@ class _HamburgerMenuState extends State<HamburgerMenu> {
                               );
                       },
                     );
+                  },
+                ),
+              );
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.add_circle),
+            title: const Text('Aggiungi Cantico'),
+            onTap: () {
+              FocusScope.of(context).unfocus();
+              Navigator.pop(context);
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) {
+                    return const NewSongPage();
                   },
                 ),
               );
