@@ -35,6 +35,8 @@ dependencies:
   sqflite_common_ffi: ^2.1.1+1
   sqlite3_flutter_libs: ^0.5.10
   path_provider: ^2.0.9
+  form_bloc: ^0.30.0 # Mobile, Desktop, Web
+  flutter_form_bloc: ^0.30.1 # No Desktop!!
 
   # Persistence
   provider: ^6.0.1
