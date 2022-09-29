@@ -55,7 +55,6 @@ class _SongsDetailState extends State<SongsDetail> {
   Widget buildPage(Raccolta get) {
     String text = get.songText;
     String parsedSongText = text.replaceAll('<li>', '<li><br>');
-
     return Scaffold(
       extendBody: true,
       appBar: AppBar(
@@ -69,16 +68,24 @@ class _SongsDetailState extends State<SongsDetail> {
           },
         ),
         actions: <Widget>[
-          Padding(
-            padding: const EdgeInsets.only(
-                left: kDefaultPadding, right: kDefaultPadding / 2),
-            child: IconButton(
-              tooltip: 'Condividi',
-              icon: const Icon(Icons.share),
-              onPressed: () async {
-                await buildPDF(get.songId, get.songTitle, get.songText);
-              },
-            ),
+          Consumer<ThemeProvider>(
+            builder: (context, themeProvider, child) {
+              return Row(
+                children: [
+                  Icon(
+                    themeProvider.isDarkMode
+                        ? Icons.dark_mode
+                        : Icons.light_mode,
+                  ),
+                  Switch(
+                    onChanged: (value) {
+                      themeProvider.toggleTheme();
+                    },
+                    value: themeProvider.isDarkMode,
+                  ),
+                ],
+              );
+            },
           ),
         ],
       ),
@@ -134,190 +141,175 @@ class _SongsDetailState extends State<SongsDetail> {
         },
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
-      bottomNavigationBar: buildBottomBar(),
-    );
-  }
-
-  Widget buildBottomBar() {
-    return BottomAppBar(
-      shape: const CircularNotchedRectangle(),
-      notchMargin: 8.0,
-      child: Padding(
-        padding: const EdgeInsets.only(left: kDefaultPadding),
-        child: Row(
-          children: [
-            IconButton(
-              icon: const Icon(Icons.settings),
-              tooltip: 'Impostazioni',
-              onPressed: () {
-                showModalBottomSheet(
-                  context: context,
-                  shape: const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(15),
-                      topRight: Radius.circular(15),
+      bottomNavigationBar: BottomAppBar(
+        shape: const CircularNotchedRectangle(),
+        notchMargin: 8.0,
+        child: Padding(
+          padding: const EdgeInsets.only(left: kDefaultPadding),
+          child: Row(
+            children: [
+              IconButton(
+                icon: const Icon(Icons.settings),
+                tooltip: 'Impostazioni',
+                onPressed: () {
+                  showModalBottomSheet(
+                    context: context,
+                    shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(15),
+                        topRight: Radius.circular(15),
+                      ),
                     ),
-                  ),
-                  isScrollControlled: true,
-                  builder: (BuildContext context) {
-                    return Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      mainAxisSize: MainAxisSize.min,
-                      children: <Widget>[
-                        Consumer<ThemeProvider>(
-                          builder: (context, themeProvider, child) {
-                            return SwitchListTile(
-                              secondary: Icon(
-                                themeProvider.isDarkMode
-                                    ? Icons.dark_mode
-                                    : Icons.light_mode,
-                              ),
-                              title: const Text('Tema'),
-                              onChanged: (value) {
-                                themeProvider.toggleTheme();
-                              },
-                              value: themeProvider.isDarkMode,
-                            );
-                          },
-                        ),
-                        ListTile(
-                          leading: const Icon(Icons.format_size),
-                          title: const Text('Carattere'),
-                          trailing: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              IconButton(
-                                icon: const Icon(Icons.text_decrease),
-                                tooltip: 'Testo più Piccolo',
-                                onPressed: () {
-                                  if (fontSize > fontSizeMin) {
-                                    fontSize = fontSize - 2.0;
-                                  } else {
-                                    log('Dimensione minima del testo: $fontSize');
-                                  }
-                                  setState(
-                                    () {},
-                                  );
-                                },
-                              ),
-                              IconButton(
-                                icon: const Icon(Icons.replay),
-                                tooltip: 'Ripristina dimensione testo',
-                                onPressed: () {
-                                  fontSize = 18.0 * textScaleFactor;
-                                  log('Dimensione default del testo: $fontSize');
-                                  setState(
-                                    () {},
-                                  );
-                                },
-                              ),
-                              IconButton(
-                                icon: const Icon(Icons.text_increase),
-                                tooltip: 'Testo più Grande',
-                                onPressed: () {
-                                  if (fontSize < fontSizeMax) {
-                                    fontSize = fontSize + 2.0;
-                                  } else {
-                                    log('Dimensione massima del testo: $fontSize');
-                                  }
-                                  setState(
-                                    () {},
-                                  );
-                                },
-                              ),
-                            ],
-                          ),
-                        ),
-                        ListTile(
-                          leading: const Icon(Icons.format_line_spacing),
-                          title: const Text('Interlinea'),
-                          trailing: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              IconButton(
-                                icon: const Icon(
-                                  Icons.density_small,
+                    isScrollControlled: true,
+                    builder: (BuildContext context) {
+                      return Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
+                          ListTile(
+                            leading: const Icon(Icons.format_size),
+                            title: const Text('Carattere'),
+                            trailing: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                IconButton(
+                                  icon: const Icon(Icons.text_decrease),
+                                  tooltip: 'Testo più Piccolo',
+                                  onPressed: () {
+                                    if (fontSize > fontSizeMin) {
+                                      fontSize = fontSize - 2.0;
+                                    } else {
+                                      log('Dimensione minima del testo: $fontSize');
+                                    }
+                                    setState(
+                                      () {},
+                                    );
+                                  },
                                 ),
-                                tooltip: 'Diminuisci Interlinea',
-                                onPressed: () {
-                                  if (lineHeight > lineHeightMin) {
-                                    lineHeight = lineHeight - 0.5;
-                                  } else {
-                                    log('Interlinea minima: $lineHeight');
-                                  }
-                                  setState(
-                                    () {},
-                                  );
-                                },
-                              ),
-                              IconButton(
-                                icon: const Icon(Icons.replay),
-                                tooltip: 'Ripristina dimensione testo',
-                                onPressed: () {
-                                  lineHeight = 1.5 * textScaleFactor;
-                                  log('Interlinea di default: $lineHeight');
-                                  setState(
-                                    () {},
-                                  );
-                                },
-                              ),
-                              IconButton(
-                                icon: const Icon(
-                                  Icons.density_medium,
+                                IconButton(
+                                  icon: const Icon(Icons.replay),
+                                  tooltip: 'Ripristina dimensione testo',
+                                  onPressed: () {
+                                    fontSize = 18.0 * textScaleFactor;
+                                    log('Dimensione default del testo: $fontSize');
+                                    setState(
+                                      () {},
+                                    );
+                                  },
                                 ),
-                                tooltip: 'Aumenta Interlinea',
-                                onPressed: () {
-                                  if (lineHeight < lineHeightMax) {
-                                    lineHeight = lineHeight + 0.5;
-                                  } else {
-                                    log('Interlinea massima: $lineHeight');
-                                  }
-                                  setState(
-                                    () {},
-                                  );
-                                },
-                              ),
-                            ],
+                                IconButton(
+                                  icon: const Icon(Icons.text_increase),
+                                  tooltip: 'Testo più Grande',
+                                  onPressed: () {
+                                    if (fontSize < fontSizeMax) {
+                                      fontSize = fontSize + 2.0;
+                                    } else {
+                                      log('Dimensione massima del testo: $fontSize');
+                                    }
+                                    setState(
+                                      () {},
+                                    );
+                                  },
+                                ),
+                              ],
+                            ),
                           ),
-                        ),
-                        const Divider(),
-                        ListTile(
-                          title: const Center(
-                            child: Text('Chiudi'),
+                          ListTile(
+                            leading: const Icon(Icons.format_line_spacing),
+                            title: const Text('Interlinea'),
+                            trailing: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                IconButton(
+                                  icon: const Icon(
+                                    Icons.density_small,
+                                  ),
+                                  tooltip: 'Diminuisci Interlinea',
+                                  onPressed: () {
+                                    if (lineHeight > lineHeightMin) {
+                                      lineHeight = lineHeight - 0.5;
+                                    } else {
+                                      log('Interlinea minima: $lineHeight');
+                                    }
+                                    setState(
+                                      () {},
+                                    );
+                                  },
+                                ),
+                                IconButton(
+                                  icon: const Icon(Icons.replay),
+                                  tooltip: 'Ripristina dimensione testo',
+                                  onPressed: () {
+                                    lineHeight = 1.5 * textScaleFactor;
+                                    log('Interlinea di default: $lineHeight');
+                                    setState(
+                                      () {},
+                                    );
+                                  },
+                                ),
+                                IconButton(
+                                  icon: const Icon(
+                                    Icons.density_medium,
+                                  ),
+                                  tooltip: 'Aumenta Interlinea',
+                                  onPressed: () {
+                                    if (lineHeight < lineHeightMax) {
+                                      lineHeight = lineHeight + 0.5;
+                                    } else {
+                                      log('Interlinea massima: $lineHeight');
+                                    }
+                                    setState(
+                                      () {},
+                                    );
+                                  },
+                                ),
+                              ],
+                            ),
                           ),
-                          onTap: () {
-                            FocusScope.of(context).unfocus();
-                            Navigator.pop(context);
-                          },
-                        ),
-                      ],
-                    );
-                  },
-                );
-              },
-            ),
-            IconButton(
-              icon: const Icon(
-                Icons.play_circle_fill,
+                          const Divider(),
+                          ListTile(
+                            title: const Center(
+                              child: Text('Chiudi'),
+                            ),
+                            onTap: () {
+                              FocusScope.of(context).unfocus();
+                              Navigator.pop(context);
+                            },
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                },
               ),
-              tooltip: 'Riproduci',
-              onPressed: () {
-                showModalBottomSheet(
-                  context: context,
-                  shape: const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(15),
-                      topRight: Radius.circular(15),
+              IconButton(
+                icon: const Icon(Icons.play_circle_fill),
+                tooltip: 'Riproduci',
+                onPressed: () {
+                  showModalBottomSheet(
+                    context: context,
+                    shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(15),
+                        topRight: Radius.circular(15),
+                      ),
                     ),
-                  ),
-                  isScrollControlled: true,
-                  builder: (BuildContext context) {
-                    return const SongsPlayer();
-                  },
-                );
-              },
-            ),
-          ],
+                    isScrollControlled: true,
+                    builder: (BuildContext context) {
+                      return const SongsPlayer();
+                    },
+                  );
+                },
+              ),
+              IconButton(
+                tooltip: 'Condividi',
+                icon: const Icon(Icons.share),
+                onPressed: () async {
+                  await buildPDF(get.songId, get.songTitle, get.songText);
+                },
+              ),
+            ],
+          ),
         ),
       ),
     );
