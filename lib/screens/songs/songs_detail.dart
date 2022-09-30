@@ -301,6 +301,14 @@ class _SongsDetailState extends State<SongsDetail> {
                   );
                 },
               ),
+              Visibility(
+                visible: get.songId > 700 ? true : false,
+                child: IconButton(
+                  icon: const Icon(Icons.edit),
+                  tooltip: 'Modifica Cantico',
+                  onPressed: () {},
+                ),
+              ),
               IconButton(
                 tooltip: 'Condividi',
                 icon: const Icon(Icons.share),
