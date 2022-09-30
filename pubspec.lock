@@ -269,7 +269,7 @@ packages:
     source: hosted
     version: "10.1.0"
   form_bloc:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: form_bloc
       url: "https://pub.dartlang.org"
