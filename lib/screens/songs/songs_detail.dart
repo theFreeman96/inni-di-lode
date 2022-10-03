@@ -121,6 +121,9 @@ class _SongsDetailState extends State<SongsDetail> {
                     listStylePosition: ListStylePosition.INSIDE,
                     padding: const EdgeInsets.only(bottom: kDefaultPadding * 7),
                   ),
+                  'li': Style(
+                      padding:
+                          const EdgeInsets.only(right: kDefaultPadding / 2)),
                 },
               ),
             ],
