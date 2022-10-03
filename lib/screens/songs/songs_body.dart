@@ -117,9 +117,10 @@ class _SongsBodyState extends State<SongsBody> {
           child: Center(
             child: Padding(
               padding: const EdgeInsets.only(
+                top: 2,
                 left: kDefaultPadding,
                 right: kDefaultPadding,
-                bottom: kDefaultPadding,
+                bottom: kDefaultPadding + 2,
               ),
               child: NumberPaginator(
                 numberPages: 7,
