@@ -37,9 +37,17 @@ class Autori {
 }
 
 class Songs {
+  late int id;
+  late String title;
+  late String text;
+  late int cat_id;
   late int fav;
 
   Songs.fromMap(dynamic obj) {
+    id = obj['id'];
+    title = obj['title'];
+    text = obj['text'];
+    cat_id = obj['cat_id'];
     fav = obj['fav'];
   }
 }
