@@ -27,6 +27,9 @@ class AppTheme {
       overlayShape:
           const RoundSliderOverlayShape(overlayRadius: kDefaultPadding * 1.25),
     ),
+    elevatedButtonTheme: ElevatedButtonThemeData(
+      style: ElevatedButton.styleFrom(backgroundColor: kPrimaryColor),
+    ),
   );
 
   static final dark = ThemeData(
@@ -51,6 +54,9 @@ class AppTheme {
           enabledThumbRadius: kDefaultPadding * 0.75),
       overlayShape:
           const RoundSliderOverlayShape(overlayRadius: kDefaultPadding * 1.25),
+    ),
+    elevatedButtonTheme: ElevatedButtonThemeData(
+      style: ElevatedButton.styleFrom(backgroundColor: kPrimaryLightColor),
     ),
   );
 }
