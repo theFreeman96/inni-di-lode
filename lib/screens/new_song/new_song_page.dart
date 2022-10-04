@@ -231,10 +231,13 @@ class NewSongPage extends StatelessWidget {
                             return Container();
                           },
                         ),
-                        ElevatedButton.icon(
-                          icon: const Icon(Icons.add_circle),
-                          label: const Text('Aggiungi Testo'),
-                          onPressed: formBloc.addVerse,
+                        Padding(
+                          padding: const EdgeInsets.all(kDefaultPadding),
+                          child: ElevatedButton.icon(
+                            icon: const Icon(Icons.add_circle),
+                            label: const Text('Aggiungi Testo'),
+                            onPressed: formBloc.addVerse,
+                          ),
                         ),
                       ],
                     ),
@@ -265,20 +268,20 @@ class VerseCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      margin: const EdgeInsets.all(kDefaultPadding),
+      elevation: 0.0,
+      margin: const EdgeInsets.symmetric(
+          vertical: kDefaultPadding / 3, horizontal: kDefaultPadding),
       child: Padding(
-        padding: const EdgeInsets.all(kDefaultPadding),
+        padding: const EdgeInsets.only(
+            right: kDefaultPadding, left: kDefaultPadding),
         child: Column(
           children: <Widget>[
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.all(kDefaultPadding),
-                  child: Text(
-                    'Strofa #${verseIndex + 1}',
-                    style: const TextStyle(fontSize: 20),
-                  ),
+                Text(
+                  'Strofa #${verseIndex + 1}',
+                  style: const TextStyle(fontSize: 20),
                 ),
                 IconButton(
                   icon: const Icon(Icons.delete),
