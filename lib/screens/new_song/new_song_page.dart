@@ -8,8 +8,8 @@ import '/theme/constants.dart';
 import '/theme/theme_provider.dart';
 
 class ListFieldFormBloc extends FormBloc<String, String> {
-  final newSongTitle = TextFieldBloc(name: 'newSongTitle');
-  final newVerses = ListFieldBloc<VerseFieldBloc, dynamic>(name: 'newVerses');
+  final newSongTitle = TextFieldBloc(name: 'Titolo');
+  final newVerses = ListFieldBloc<VerseFieldBloc, dynamic>(name: 'Testo');
 
   ListFieldFormBloc() {
     addFieldBlocs(
@@ -19,8 +19,8 @@ class ListFieldFormBloc extends FormBloc<String, String> {
 
   void addVerse() {
     newVerses.addFieldBloc(VerseFieldBloc(
-      name: 'verse',
-      text: TextFieldBloc(name: 'text'),
+      name: 'Testo',
+      text: TextFieldBloc(name: 'Strofa'),
     ));
   }
 
@@ -74,10 +74,10 @@ class NewSong {
   NewSong({this.newSongTitle, this.newVerses});
 
   NewSong.fromJson(Map<String, dynamic> json) {
-    newSongTitle = json['newSongTitle'];
-    if (json['newVerses'] != null) {
+    newSongTitle = json['Titolo'];
+    if (json['Testo'] != null) {
       newVerses = <Verse>[];
-      json['newVerses'].forEach((v) {
+      json['Testo'].forEach((v) {
         newVerses!.add(Verse.fromJson(v));
       });
     }
@@ -85,18 +85,12 @@ class NewSong {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['newSongTitle'] = newSongTitle;
+    data['Titolo'] = newSongTitle;
     if (newVerses != null) {
-      data['newVerses'] = newVerses!.map((v) => v.toJson()).toList();
+      data['Testo'] = newVerses!.map((v) => v.toJson()).toList();
     }
     return data;
   }
-
-  @override
-  String toString() => '''NewSong {
-  newSongTitle: $newSongTitle,
-  newVerses: $newVerses
-}''';
 }
 
 class Verse {
@@ -105,19 +99,14 @@ class Verse {
   Verse({this.text});
 
   Verse.fromJson(Map<String, dynamic> json) {
-    text = json['text'];
+    text = json['Strofa'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['text'] = text;
+    data['Strofa'] = text;
     return data;
   }
-
-  @override
-  String toString() => '''Strofa {
-  text: $text,
-}''';
 }
 
 class NewSongPage extends StatelessWidget {
