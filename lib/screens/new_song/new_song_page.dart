@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_form_bloc/flutter_form_bloc.dart';
@@ -30,8 +28,7 @@ class ListFieldFormBloc extends FormBloc<String, String> {
 
   @override
   void onSubmitting() async {
-    // Without serialization
-    final newSongV1 = NewSong(
+    final output = NewSong(
       newSongTitle: newSongTitle.value,
       newVerses: newVerses.value.map<Verse>((verseField) {
         return Verse(
@@ -40,21 +37,8 @@ class ListFieldFormBloc extends FormBloc<String, String> {
       }).toList(),
     );
 
-    debugPrint('newSongV1');
-    debugPrint(newSongV1.toJson().toString());
-
-    // With Serialization
-    final newSongV2 = NewSong.fromJson(state.toJson());
-
-    debugPrint('newSongV2');
-    debugPrint(newSongV2.toJson().toString());
-
-    emitSuccess(
-      canSubmitAgain: true,
-      successResponse: const JsonEncoder.withIndent('    ').convert(
-        state.toJson(),
-      ),
-    );
+    debugPrint('output');
+    debugPrint(output.toMap().toString());
   }
 }
 
@@ -83,11 +67,11 @@ class NewSong {
     }
   }
 
-  Map<String, dynamic> toJson() {
+  Map<String, dynamic> toMap() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['Titolo'] = newSongTitle;
     if (newVerses != null) {
-      data['Testo'] = newVerses!.map((v) => v.toJson()).toList();
+      data['Testo'] = newVerses!.map((v) => v).toList();
     }
     return data;
   }
@@ -102,7 +86,7 @@ class Verse {
     text = json['Strofa'];
   }
 
-  Map<String, dynamic> toJson() {
+  Map<String, dynamic> toMap() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['Strofa'] = text;
     return data;
