@@ -8,46 +8,45 @@ import '/theme/constants.dart';
 import '/theme/theme_provider.dart';
 
 class ListFieldFormBloc extends FormBloc<String, String> {
-  final newSongTitle = TextFieldBloc(name: 'Titolo');
-  final newVerses = ListFieldBloc<VerseFieldBloc, dynamic>(name: 'Testo');
+  final title = TextFieldBloc(name: 'Titolo');
+  final text = ListFieldBloc<VerseFieldBloc, dynamic>(name: 'Testo');
 
   ListFieldFormBloc() {
     addFieldBlocs(
-      fieldBlocs: [newSongTitle, newVerses],
+      fieldBlocs: [title, text],
     );
   }
 
   void addVerse() {
-    newVerses.addFieldBloc(VerseFieldBloc(
+    text.addFieldBloc(VerseFieldBloc(
       name: 'Testo',
-      text: TextFieldBloc(name: 'Strofa'),
+      newText: TextFieldBloc(name: 'Strofa'),
     ));
   }
 
   void removeVerse(int index) {
-    newVerses.removeFieldBlocAt(index);
+    text.removeFieldBlocAt(index);
   }
 
   @override
   void onSubmitting() async {
-    // Without serialization
-    final newSongV1 = NewSong(
-      newSongTitle: newSongTitle.value,
-      newVerses: newVerses.value.map<Verse>((verseField) {
+    final newSongV1 = Songs(
+      title: title.value,
+      text: text.value.map<Verse>((verseField) {
         return Verse(
-          text: verseField.text.value,
+          text: verseField.newText.value,
         );
       }).toList(),
     );
 
     debugPrint('newSongV1');
-    debugPrint(newSongV1.toJson().toString());
+    debugPrint(newSongV1.toMap().toString());
 
     // With Serialization
-    final newSongV2 = NewSong.fromJson(state.toJson());
+    final newSongV2 = Songs.fromMap(state.toJson());
 
     debugPrint('newSongV2');
-    debugPrint(newSongV2.toJson().toString());
+    debugPrint(newSongV2.toMap().toString());
 
     emitSuccess(
       canSubmitAgain: true,
@@ -59,35 +58,35 @@ class ListFieldFormBloc extends FormBloc<String, String> {
 }
 
 class VerseFieldBloc extends GroupFieldBloc {
-  final TextFieldBloc text;
+  final TextFieldBloc newText;
 
   VerseFieldBloc({
-    required this.text,
+    required this.newText,
     String? name,
-  }) : super(name: name, fieldBlocs: [text]);
+  }) : super(name: name, fieldBlocs: [newText]);
 }
 
-class NewSong {
-  String? newSongTitle;
-  List<Verse>? newVerses;
+class Songs {
+  String? title;
+  List<Verse>? text;
 
-  NewSong({this.newSongTitle, this.newVerses});
+  Songs({this.title, this.text});
 
-  NewSong.fromJson(Map<String, dynamic> json) {
-    newSongTitle = json['Titolo'];
-    if (json['Testo'] != null) {
-      newVerses = <Verse>[];
-      json['Testo'].forEach((v) {
-        newVerses!.add(Verse.fromJson(v));
+  Songs.fromMap(Map<String, dynamic> map) {
+    title = map['Titolo'];
+    if (map['Testo'] != null) {
+      text = <Verse>[];
+      map['Testo'].forEach((v) {
+        text!.add(Verse.fromMap(v));
       });
     }
   }
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['Titolo'] = newSongTitle;
-    if (newVerses != null) {
-      data['Testo'] = newVerses!.map((v) => v.toJson()).toList();
+  Map<String, dynamic> toMap() {
+    final data = <String, dynamic>{};
+    data['Titolo'] = title;
+    if (text != null) {
+      data['Testo'] = text!.map((v) => v.toMap()).toList();
     }
     return data;
   }
@@ -98,12 +97,12 @@ class Verse {
 
   Verse({this.text});
 
-  Verse.fromJson(Map<String, dynamic> json) {
-    text = json['Strofa'];
+  Verse.fromMap(Map<String, dynamic> map) {
+    text = map['Strofa'];
   }
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
+  Map<String, dynamic> toMap() {
+    final data = <String, dynamic>{};
     data['Strofa'] = text;
     return data;
   }
@@ -211,14 +210,14 @@ class NewSongPage extends StatelessWidget {
                       children: <Widget>[
                         TextFieldBlocBuilder(
                           padding: const EdgeInsets.all(kDefaultPadding),
-                          textFieldBloc: formBloc.newSongTitle,
+                          textFieldBloc: formBloc.title,
                           decoration: const InputDecoration(
                             labelText: 'Titolo del Cantico',
                           ),
                         ),
                         BlocBuilder<ListFieldBloc<VerseFieldBloc, dynamic>,
                             ListFieldBlocState<VerseFieldBloc, dynamic>>(
-                          bloc: formBloc.newVerses,
+                          bloc: formBloc.text,
                           builder: (context, state) {
                             if (state.fieldBlocs.isNotEmpty) {
                               return ListView.builder(
@@ -297,7 +296,7 @@ class VerseCard extends StatelessWidget {
               ],
             ),
             TextFieldBlocBuilder(
-              textFieldBloc: verseField.text,
+              textFieldBloc: verseField.newText,
               keyboardType: TextInputType.multiline,
               minLines: 2,
               maxLines: 10,
