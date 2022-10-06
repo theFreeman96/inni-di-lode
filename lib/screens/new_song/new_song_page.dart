@@ -114,6 +114,7 @@ class NewSongPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context);
     return BlocProvider(
       create: (context) => ListFieldFormBloc(),
       child: Builder(
@@ -123,9 +124,26 @@ class NewSongPage extends StatelessWidget {
           return Theme(
             data: Theme.of(context).copyWith(
               inputDecorationTheme: InputDecorationTheme(
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(20),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: const BorderRadius.all(
+                    Radius.circular(25.0),
+                  ),
+                  borderSide: BorderSide(
+                      color: themeProvider.isDarkMode ? kWhite : kLightGrey,
+                      width: 1.0),
                 ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: const BorderRadius.all(
+                    Radius.circular(25.0),
+                  ),
+                  borderSide: BorderSide(
+                      color: themeProvider.isDarkMode
+                          ? kPrimaryLightColor
+                          : kPrimaryColor,
+                      width: 2.0),
+                ),
+                labelStyle: TextStyle(
+                    color: themeProvider.isDarkMode ? kWhite : kLightGrey),
               ),
             ),
             child: SafeArea(
@@ -282,7 +300,7 @@ class VerseCard extends StatelessWidget {
               textFieldBloc: verseField.text,
               keyboardType: TextInputType.multiline,
               minLines: 2,
-              maxLines: 20,
+              maxLines: 10,
               decoration: const InputDecoration(
                 labelText: 'Testo',
               ),
