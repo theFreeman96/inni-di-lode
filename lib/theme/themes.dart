@@ -76,7 +76,7 @@ class AppTheme {
         borderSide: BorderSide(color: kPrimaryLightColor, width: 2.0),
       ),
       prefixIconColor: kPrimaryColor,
-      labelStyle: TextStyle(color: kLightGrey),
+      labelStyle: TextStyle(color: kWhite),
     ),
     cardColor: kBlack,
     toggleableActiveColor: kWhite,
