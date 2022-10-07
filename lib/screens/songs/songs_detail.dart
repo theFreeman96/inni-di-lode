@@ -312,6 +312,17 @@ class _SongsDetailState extends State<SongsDetail> {
                   onPressed: () {},
                 ),
               ),
+              Visibility(
+                visible: get.songId > 700 ? true : false,
+                child: IconButton(
+                  icon: const Icon(Icons.delete),
+                  tooltip: 'Elimina Cantico',
+                  onPressed: () {
+                    QueryCtr().deleteSong(get.songId);
+                    setState(() {});
+                  },
+                ),
+              ),
               IconButton(
                 tooltip: 'Condividi',
                 icon: const Icon(Icons.share),
