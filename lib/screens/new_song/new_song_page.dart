@@ -1,8 +1,11 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:inni_di_lode/assets/data/queries.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_form_bloc/flutter_form_bloc.dart';
 
+import '/assets/data/models.dart';
 import '/theme/constants.dart';
 import '/theme/theme_provider.dart';
 
@@ -29,13 +32,33 @@ class ListFieldFormBloc extends FormBloc<String, String> {
 
   @override
   void onSubmitting() async {
-    QueryCtr().insertSong(
-      title.value,
-      text.value.map<Verse>((verseField) {
+    // Insert into database
+    QueryCtr().insertSong(title.value, 'Testo', 1, 1);
+
+    // Without serialization
+    final newSongsV1 = NewSongs(
+      title: title.value,
+      text: text.value.map<Verse>((memberField) {
         return Verse(
-          text: verseField.newText.value,
+          text: memberField.newText.value,
         );
       }).toList(),
+    );
+
+    debugPrint('newSongsV1');
+    debugPrint(newSongsV1.toMap().toString());
+
+    // With Serialization
+    final newSongsV2 = NewSongs.fromMap(state.toJson());
+
+    debugPrint('newSongsV2');
+    debugPrint(newSongsV2.toMap().toString());
+
+    emitSuccess(
+      canSubmitAgain: true,
+      successResponse: const JsonEncoder.withIndent('    ').convert(
+        state.toJson(),
+      ),
     );
   }
 }
