@@ -128,13 +128,13 @@ class QueryCtr {
   }
 
   // Favorite related queries
-  Future<List<Raccolta>?> updateFav(value, songId) async {
+  Future<List<Raccolta>?> updateFav(value, id) async {
     final dbClient = await con.db;
     await dbClient!.update(
       'Songs',
       {'fav': value},
       where: 'id = ?',
-      whereArgs: [songId],
+      whereArgs: [id],
     );
     return null;
   }
@@ -163,5 +163,30 @@ class QueryCtr {
         res.isNotEmpty ? res.map((c) => Raccolta.fromMap(c)).toList() : null;
 
     return list;
+  }
+
+  // New Songs
+  Future<List<NewSongs>?> insertSong(title, text) async {
+    final dbClient = await con.db;
+    await dbClient!.rawInsert(
+        'INSERT INTO Songs(id, title, text, cat_id, fav) VALUES("701", $title, $text, "1", "1")');
+    return null;
+  }
+
+  Future<List<NewSongs>?> updateSong(title, text, id) async {
+    final dbClient = await con.db;
+    await dbClient!.update(
+      'Songs',
+      {'title': title, 'text': text},
+      where: 'id = ?',
+      whereArgs: [id],
+    );
+    return null;
+  }
+
+  Future<List<NewSongs>?> deleteSong(id) async {
+    final dbClient = await con.db;
+    await dbClient!.delete('Songs', where: 'songId = ?', whereArgs: [id]);
+    return null;
   }
 }
