@@ -1,3 +1,5 @@
+import '../../screens/new_song/new_song_page.dart';
+
 class Raccolta {
   late int songId;
   late String songTitle;
@@ -49,5 +51,31 @@ class Songs {
     text = obj['text'];
     cat_id = obj['cat_id'];
     fav = obj['fav'];
+  }
+}
+
+class NewSongs {
+  String? title;
+  List<Verse>? text;
+
+  NewSongs({this.title, this.text});
+
+  NewSongs.fromMap(Map<String, dynamic> map) {
+    title = map['Titolo'];
+    if (map['Testo'] != null) {
+      text = <Verse>[];
+      map['Testo'].forEach((v) {
+        text!.add(Verse.fromMap(v));
+      });
+    }
+  }
+
+  Map<String, dynamic> toMap() {
+    final data = <String, dynamic>{};
+    data['Titolo'] = title;
+    if (text != null) {
+      data['Testo'] = text!.map((v) => v.toMap()).toList();
+    }
+    return data;
   }
 }
