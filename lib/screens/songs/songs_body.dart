@@ -36,6 +36,7 @@ class _SongsBodyState extends State<SongsBody> {
     query.getSongsFromRange(401, 500),
     query.getSongsFromRange(501, 600),
     query.getSongsFromRange(601, 700),
+    query.getSongsFromRange(701, 800),
   ];
 
   late Future<List?> future;
