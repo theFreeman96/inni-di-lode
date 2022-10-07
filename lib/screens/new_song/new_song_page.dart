@@ -1,6 +1,5 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
+import 'package:inni_di_lode/assets/data/queries.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_form_bloc/flutter_form_bloc.dart';
 
@@ -30,29 +29,13 @@ class ListFieldFormBloc extends FormBloc<String, String> {
 
   @override
   void onSubmitting() async {
-    final newSongV1 = Songs(
-      title: title.value,
-      text: text.value.map<Verse>((verseField) {
+    QueryCtr().insertSong(
+      title.value,
+      text.value.map<Verse>((verseField) {
         return Verse(
           text: verseField.newText.value,
         );
       }).toList(),
-    );
-
-    debugPrint('newSongV1');
-    debugPrint(newSongV1.toMap().toString());
-
-    // With Serialization
-    final newSongV2 = Songs.fromMap(state.toJson());
-
-    debugPrint('newSongV2');
-    debugPrint(newSongV2.toMap().toString());
-
-    emitSuccess(
-      canSubmitAgain: true,
-      successResponse: const JsonEncoder.withIndent('    ').convert(
-        state.toJson(),
-      ),
     );
   }
 }
@@ -64,32 +47,6 @@ class VerseFieldBloc extends GroupFieldBloc {
     required this.newText,
     String? name,
   }) : super(name: name, fieldBlocs: [newText]);
-}
-
-class Songs {
-  String? title;
-  List<Verse>? text;
-
-  Songs({this.title, this.text});
-
-  Songs.fromMap(Map<String, dynamic> map) {
-    title = map['Titolo'];
-    if (map['Testo'] != null) {
-      text = <Verse>[];
-      map['Testo'].forEach((v) {
-        text!.add(Verse.fromMap(v));
-      });
-    }
-  }
-
-  Map<String, dynamic> toMap() {
-    final data = <String, dynamic>{};
-    data['Titolo'] = title;
-    if (text != null) {
-      data['Testo'] = text!.map((v) => v.toMap()).toList();
-    }
-    return data;
-  }
 }
 
 class Verse {
