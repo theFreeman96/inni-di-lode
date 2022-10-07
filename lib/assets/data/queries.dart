@@ -166,18 +166,20 @@ class QueryCtr {
   }
 
   // New Songs
-  Future<List<NewSongs>?> insertSong(title, text) async {
+  Future<List<NewSongs>?> insertSong(title, text, cat, fav) async {
     final dbClient = await con.db;
-    await dbClient!.rawInsert(
-        'INSERT INTO Songs(id, title, text, cat_id, fav) VALUES("701", $title, $text, "1", "1")');
+    await dbClient!.insert(
+      'Songs',
+      {'title': title, 'text': text, 'cat_id': cat, 'fav': fav},
+    );
     return null;
   }
 
-  Future<List<NewSongs>?> updateSong(title, text, id) async {
+  Future<List<NewSongs>?> updateSong(title, text, cat_id, id) async {
     final dbClient = await con.db;
     await dbClient!.update(
       'Songs',
-      {'title': title, 'text': text},
+      {'title': title, 'text': text, 'cat_id': cat_id},
       where: 'id = ?',
       whereArgs: [id],
     );
@@ -186,7 +188,7 @@ class QueryCtr {
 
   Future<List<NewSongs>?> deleteSong(id) async {
     final dbClient = await con.db;
-    await dbClient!.delete('Songs', where: 'songId = ?', whereArgs: [id]);
+    await dbClient!.delete('Songs', where: 'id = ?', whereArgs: [id]);
     return null;
   }
 }
