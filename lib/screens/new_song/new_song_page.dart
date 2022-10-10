@@ -12,20 +12,16 @@ import '/theme/theme_provider.dart';
 class ListFieldFormBloc extends FormBloc<String, String> {
   final title = TextFieldBloc(name: 'Titolo');
   final text = ListFieldBloc<VerseFieldBloc, dynamic>(name: 'Testo');
-  final cat = SelectFieldBloc(
-    items: [
-      'Categoria 1',
-      'Categoria 2',
-      'Categoria 3',
-    ],
-  );
-  final aut = SelectFieldBloc(
-    items: [
-      'Autore 1',
-      'Autore 2',
-      'Autore 3',
-    ],
-  );
+  final cat = SelectFieldBloc(items: [
+    'Categoria 1',
+    'Categoria 2',
+    'Categoria 3',
+  ], name: 'Categoria');
+  final aut = SelectFieldBloc(items: [
+    'Autore 1',
+    'Autore 2',
+    'Autore 3',
+  ], name: 'Autori');
 
   ListFieldFormBloc() {
     addFieldBlocs(
@@ -274,7 +270,7 @@ class NewSongPage extends StatelessWidget {
                           padding: const EdgeInsets.all(kDefaultPadding),
                           selectFieldBloc: formBloc.aut,
                           decoration: const InputDecoration(
-                            labelText: 'Autore',
+                            labelText: 'Autori',
                             prefixIcon: Icon(
                               Icons.person,
                               color: kLightGrey,
