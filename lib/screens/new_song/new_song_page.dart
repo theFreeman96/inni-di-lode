@@ -33,7 +33,20 @@ class ListFieldFormBloc extends FormBloc<String, String> {
   @override
   void onSubmitting() async {
     // Insert into database
-    QueryCtr().insertSong(title.value, 'Testo', 1, 1);
+    QueryCtr().insertSong(
+        title.value,
+        text.value
+            .map<Verse>((memberField) {
+              return Verse(
+                text: memberField.newText.value,
+              );
+            })
+            .map((e) => e.text)
+            .toList()
+            .join('<br><br>')
+            .replaceAll('\n', '<br>'),
+        1,
+        0);
 
     // Without serialization
     final newSongsV1 = NewSongs(
