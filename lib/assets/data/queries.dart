@@ -65,6 +65,16 @@ class QueryCtr {
     return list;
   }
 
+  Future<List<Raccolta>?> getAllCat() async {
+    final dbClient = await con.db;
+    final res = await dbClient!.query('view_raccolta', groupBy: 'catId');
+
+    List<Raccolta>? list =
+        res.isNotEmpty ? res.map((c) => Raccolta.fromMap(c)).toList() : null;
+
+    return list;
+  }
+
   Future<List<Raccolta>?> searchCat(String keyword) async {
     final dbClient = await con.db;
     final res = await dbClient!.query('view_raccolta',
