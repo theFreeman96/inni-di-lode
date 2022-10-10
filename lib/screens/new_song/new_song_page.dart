@@ -265,12 +265,19 @@ class _NewSongPageState extends State<NewSongPage> {
                                     padding:
                                         const EdgeInsets.all(kDefaultPadding),
                                     child: DropdownButtonFormField<String>(
-                                      icon: const Icon(Icons.arrow_drop_down),
+                                      icon: const Padding(
+                                        padding: EdgeInsets.only(
+                                            right: kDefaultPadding / 3),
+                                        child: Icon(Icons.arrow_drop_down),
+                                      ),
                                       borderRadius: const BorderRadius.all(
                                         Radius.circular(25.0),
                                       ),
                                       hint: Text(catHint),
                                       decoration: const InputDecoration(
+                                        contentPadding: EdgeInsets.symmetric(
+                                          vertical: kDefaultPadding,
+                                        ),
                                         prefixIcon: Icon(
                                           Icons.sell,
                                           color: kLightGrey,
@@ -342,59 +349,56 @@ class _VerseCardState extends State<VerseCard> {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      elevation: 0.0,
-      margin: const EdgeInsets.symmetric(
-          vertical: kDefaultPadding / 3, horizontal: kDefaultPadding),
-      child: Padding(
-        padding: const EdgeInsets.only(
-            right: kDefaultPadding, left: kDefaultPadding),
-        child: Column(
-          children: <Widget>[
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                DropdownButton<String>(
-                  icon: const Icon(Icons.arrow_drop_down),
-                  borderRadius: const BorderRadius.all(
-                    Radius.circular(25.0),
-                  ),
-                  hint: Text(typeHint),
-                  items: textType.map<DropdownMenuItem<String>>((value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(value),
-                    );
-                  }).toList(),
-                  onChanged: (value) {
-                    setState(() {
-                      typeHint = value!;
-                      log(value);
-                    });
-                  },
+    return Padding(
+      padding: const EdgeInsets.only(
+          left: kDefaultPadding * 2,
+          right: kDefaultPadding * 2,
+          bottom: kDefaultPadding),
+      child: Column(
+        children: <Widget>[
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              DropdownButton<String>(
+                icon: const Icon(Icons.arrow_drop_down),
+                borderRadius: const BorderRadius.all(
+                  Radius.circular(25.0),
                 ),
-                IconButton(
-                  icon: const Icon(Icons.delete),
-                  onPressed: widget.onRemoveVerse,
-                ),
-              ],
-            ),
-            TextFieldBlocBuilder(
-              textFieldBloc: widget.verseField.newText,
-              textCapitalization: TextCapitalization.sentences,
-              keyboardType: TextInputType.multiline,
-              minLines: 2,
-              maxLines: 10,
-              decoration: const InputDecoration(
-                labelText: 'Testo',
-                prefixIcon: Icon(
-                  Icons.notes,
-                  color: kLightGrey,
-                ),
+                hint: Text(typeHint),
+                items: textType.map<DropdownMenuItem<String>>((value) {
+                  return DropdownMenuItem<String>(
+                    value: value,
+                    child: Text(value),
+                  );
+                }).toList(),
+                onChanged: (value) {
+                  setState(() {
+                    typeHint = value!;
+                    log(value);
+                  });
+                },
+              ),
+              IconButton(
+                icon: const Icon(Icons.delete),
+                onPressed: widget.onRemoveVerse,
+              ),
+            ],
+          ),
+          TextFieldBlocBuilder(
+            textFieldBloc: widget.verseField.newText,
+            textCapitalization: TextCapitalization.sentences,
+            keyboardType: TextInputType.multiline,
+            minLines: 2,
+            maxLines: 10,
+            decoration: const InputDecoration(
+              labelText: 'Testo',
+              prefixIcon: Icon(
+                Icons.notes,
+                color: kLightGrey,
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
