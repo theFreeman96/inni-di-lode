@@ -76,7 +76,7 @@ class ListFieldFormBloc extends FormBloc<String, String> {
 }
 
 class VerseFieldBloc extends GroupFieldBloc {
-  final TextFieldBloc newText;
+  TextFieldBloc newText;
 
   VerseFieldBloc({
     required this.newText,
@@ -319,7 +319,7 @@ class _NewSongPageState extends State<NewSongPage> {
   }
 }
 
-class VerseCard extends StatelessWidget {
+class VerseCard extends StatefulWidget {
   final int verseIndex;
   final VerseFieldBloc verseField;
 
@@ -331,6 +331,14 @@ class VerseCard extends StatelessWidget {
     required this.verseField,
     required this.onRemoveVerse,
   }) : super(key: key);
+
+  @override
+  State<VerseCard> createState() => _VerseCardState();
+}
+
+class _VerseCardState extends State<VerseCard> {
+  late List textType = ['Strofa', 'Coro', 'Bridge', 'Finale'];
+  String typeHint = 'Strofa';
 
   @override
   Widget build(BuildContext context) {
@@ -346,18 +354,33 @@ class VerseCard extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
-                Text(
-                  'Strofa #${verseIndex + 1}',
-                  style: const TextStyle(fontSize: 20),
+                DropdownButton<String>(
+                  icon: const Icon(Icons.arrow_drop_down),
+                  borderRadius: const BorderRadius.all(
+                    Radius.circular(25.0),
+                  ),
+                  hint: Text(typeHint),
+                  items: textType.map<DropdownMenuItem<String>>((value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(value),
+                    );
+                  }).toList(),
+                  onChanged: (value) {
+                    setState(() {
+                      typeHint = value!;
+                      log(value);
+                    });
+                  },
                 ),
                 IconButton(
                   icon: const Icon(Icons.delete),
-                  onPressed: onRemoveVerse,
+                  onPressed: widget.onRemoveVerse,
                 ),
               ],
             ),
             TextFieldBlocBuilder(
-              textFieldBloc: verseField.newText,
+              textFieldBloc: widget.verseField.newText,
               textCapitalization: TextCapitalization.sentences,
               keyboardType: TextInputType.multiline,
               minLines: 2,
