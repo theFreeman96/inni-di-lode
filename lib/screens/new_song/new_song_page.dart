@@ -35,16 +35,11 @@ class ListFieldFormBloc extends FormBloc<String, String> {
     // Insert into database
     QueryCtr().insertSong(
         title.value,
-        text.value
-            .map<Verse>((memberField) {
+        '<ol>${text.value.map<Verse>((memberField) {
               return Verse(
                 text: memberField.newText.value,
               );
-            })
-            .map((e) => e.text)
-            .toList()
-            .join('<br><br>')
-            .replaceAll('\n', '<br>'),
+            }).map((e) => e.text).toList().join('<br><br>').replaceAll('\n', '<br>')}</ol>',
         1,
         0);
 
