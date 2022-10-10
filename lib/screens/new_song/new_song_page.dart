@@ -218,6 +218,7 @@ class _NewSongPageState extends State<NewSongPage> {
                         TextFieldBlocBuilder(
                           padding: const EdgeInsets.all(kDefaultPadding),
                           textFieldBloc: formBloc.title,
+                          textCapitalization: TextCapitalization.sentences,
                           decoration: const InputDecoration(
                             labelText: 'Titolo del Cantico',
                             prefixIcon: Icon(
@@ -357,6 +358,7 @@ class VerseCard extends StatelessWidget {
             ),
             TextFieldBlocBuilder(
               textFieldBloc: verseField.newText,
+              textCapitalization: TextCapitalization.sentences,
               keyboardType: TextInputType.multiline,
               minLines: 2,
               maxLines: 10,
