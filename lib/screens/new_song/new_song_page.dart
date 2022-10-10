@@ -201,6 +201,10 @@ class NewSongPage extends StatelessWidget {
                           textFieldBloc: formBloc.title,
                           decoration: const InputDecoration(
                             labelText: 'Titolo del Cantico',
+                            prefixIcon: Icon(
+                              Icons.edit,
+                              color: kLightGrey,
+                            ),
                           ),
                         ),
                         BlocBuilder<ListFieldBloc<VerseFieldBloc, dynamic>,
@@ -290,6 +294,10 @@ class VerseCard extends StatelessWidget {
               maxLines: 10,
               decoration: const InputDecoration(
                 labelText: 'Testo',
+                prefixIcon: Icon(
+                  Icons.notes,
+                  color: kLightGrey,
+                ),
               ),
             ),
           ],
