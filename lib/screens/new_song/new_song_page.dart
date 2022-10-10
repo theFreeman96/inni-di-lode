@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:inni_di_lode/assets/data/queries.dart';
@@ -12,24 +13,12 @@ import '/theme/theme_provider.dart';
 class ListFieldFormBloc extends FormBloc<String, String> {
   final title = TextFieldBloc(name: 'Titolo');
   final text = ListFieldBloc<VerseFieldBloc, dynamic>(name: 'Testo');
-  final cat = SelectFieldBloc(items: [
-    'Categoria 1',
-    'Categoria 2',
-    'Categoria 3',
-  ], name: 'Categoria');
-  final aut = SelectFieldBloc(items: [
-    'Autore 1',
-    'Autore 2',
-    'Autore 3',
-  ], name: 'Autori');
 
   ListFieldFormBloc() {
     addFieldBlocs(
       fieldBlocs: [
         title,
         text,
-        cat,
-        aut,
       ],
     );
   }
@@ -55,7 +44,7 @@ class ListFieldFormBloc extends FormBloc<String, String> {
                 text: memberField.newText.value,
               );
             }).map((e) => e.text).toList().join('<br><br>').replaceAll('\n', '<br>')}</ol>',
-        1,
+        cat,
         0);
 
     // Without serialization
@@ -111,8 +100,23 @@ class Verse {
   }
 }
 
-class NewSongPage extends StatelessWidget {
+class NewSongPage extends StatefulWidget {
   const NewSongPage({Key? key}) : super(key: key);
+
+  @override
+  State<NewSongPage> createState() => _NewSongPageState();
+}
+
+int cat = 0;
+String catHint = 'Seleziona una Categoria';
+
+class _NewSongPageState extends State<NewSongPage> {
+  @override
+  void initState() {
+    cat = 0;
+    catHint = 'Seleziona una Categoria';
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -252,33 +256,54 @@ class NewSongPage extends StatelessWidget {
                             onPressed: formBloc.addVerse,
                           ),
                         ),
-                        DropdownFieldBlocBuilder<String>(
-                          padding: const EdgeInsets.all(kDefaultPadding),
-                          selectFieldBloc: formBloc.cat,
-                          decoration: const InputDecoration(
-                            labelText: 'Categoria',
-                            prefixIcon: Icon(
-                              Icons.sell,
-                              color: kLightGrey,
-                            ),
-                          ),
-                          itemBuilder: (context, value) => FieldItem(
-                            child: Text(value),
-                          ),
-                        ),
-                        DropdownFieldBlocBuilder<String>(
-                          padding: const EdgeInsets.all(kDefaultPadding),
-                          selectFieldBloc: formBloc.aut,
-                          decoration: const InputDecoration(
-                            labelText: 'Autori',
-                            prefixIcon: Icon(
-                              Icons.person,
-                              color: kLightGrey,
-                            ),
-                          ),
-                          itemBuilder: (context, value) => FieldItem(
-                            child: Text(value),
-                          ),
+                        FutureBuilder(
+                          future: QueryCtr().getAllCat(),
+                          builder: (context, AsyncSnapshot snapshot) {
+                            return snapshot.hasData
+                                ? Padding(
+                                    padding:
+                                        const EdgeInsets.all(kDefaultPadding),
+                                    child: DropdownButtonFormField<String>(
+                                      icon: const Icon(Icons.arrow_drop_down),
+                                      borderRadius: const BorderRadius.all(
+                                        Radius.circular(25.0),
+                                      ),
+                                      hint: Text(catHint),
+                                      decoration: const InputDecoration(
+                                        prefixIcon: Icon(
+                                          Icons.sell,
+                                          color: kLightGrey,
+                                        ),
+                                        labelText: 'Categoria',
+                                      ),
+                                      items: snapshot.data!
+                                          .map<DropdownMenuItem<String>>((get) {
+                                        return DropdownMenuItem<String>(
+                                          value: get.catName,
+                                          onTap: () {
+                                            cat = get.catId;
+                                          },
+                                          child: Text(get.catName),
+                                        );
+                                      }).toList(),
+                                      onChanged: (value) {
+                                        setState(() {
+                                          catHint = value!;
+                                          log(value);
+                                        });
+                                      },
+                                    ),
+                                  )
+                                : const Padding(
+                                    padding:
+                                        EdgeInsets.only(top: kDefaultPadding),
+                                    child: Text(
+                                      'Nessuna Categoria trovata',
+                                      style: TextStyle(),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  );
+                          },
                         ),
                       ],
                     ),
