@@ -12,10 +12,29 @@ import '/theme/theme_provider.dart';
 class ListFieldFormBloc extends FormBloc<String, String> {
   final title = TextFieldBloc(name: 'Titolo');
   final text = ListFieldBloc<VerseFieldBloc, dynamic>(name: 'Testo');
+  final cat = SelectFieldBloc(
+    items: [
+      'Categoria 1',
+      'Categoria 2',
+      'Categoria 3',
+    ],
+  );
+  final aut = SelectFieldBloc(
+    items: [
+      'Autore 1',
+      'Autore 2',
+      'Autore 3',
+    ],
+  );
 
   ListFieldFormBloc() {
     addFieldBlocs(
-      fieldBlocs: [title, text],
+      fieldBlocs: [
+        title,
+        text,
+        cat,
+        aut,
+      ],
     );
   }
 
@@ -235,6 +254,34 @@ class NewSongPage extends StatelessWidget {
                             icon: const Icon(Icons.add_circle),
                             label: const Text('Aggiungi Testo'),
                             onPressed: formBloc.addVerse,
+                          ),
+                        ),
+                        DropdownFieldBlocBuilder<String>(
+                          padding: const EdgeInsets.all(kDefaultPadding),
+                          selectFieldBloc: formBloc.cat,
+                          decoration: const InputDecoration(
+                            labelText: 'Categoria',
+                            prefixIcon: Icon(
+                              Icons.sell,
+                              color: kLightGrey,
+                            ),
+                          ),
+                          itemBuilder: (context, value) => FieldItem(
+                            child: Text(value),
+                          ),
+                        ),
+                        DropdownFieldBlocBuilder<String>(
+                          padding: const EdgeInsets.all(kDefaultPadding),
+                          selectFieldBloc: formBloc.aut,
+                          decoration: const InputDecoration(
+                            labelText: 'Autore',
+                            prefixIcon: Icon(
+                              Icons.person,
+                              color: kLightGrey,
+                            ),
+                          ),
+                          itemBuilder: (context, value) => FieldItem(
+                            child: Text(value),
                           ),
                         ),
                       ],
