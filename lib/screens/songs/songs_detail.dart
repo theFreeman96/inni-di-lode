@@ -118,7 +118,7 @@ class _SongsDetailState extends State<SongsDetail> {
                     textAlign: TextAlign.center,
                     fontSize: FontSize(fontSize),
                     lineHeight: LineHeight(lineHeight),
-                    listStylePosition: ListStylePosition.INSIDE,
+                    listStylePosition: ListStylePosition.inside,
                     padding: const EdgeInsets.only(bottom: kDefaultPadding * 7),
                   ),
                   'li': Style(

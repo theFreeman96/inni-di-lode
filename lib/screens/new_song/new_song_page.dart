@@ -346,6 +346,7 @@ class VerseCard extends StatefulWidget {
 class _VerseCardState extends State<VerseCard> {
   late List textType = ['Strofa', 'Coro', 'Bridge', 'Finale'];
   String typeHint = 'Strofa';
+  late dynamic textFieldBloc = widget.verseField.newText;
 
   @override
   Widget build(BuildContext context) {
@@ -375,6 +376,23 @@ class _VerseCardState extends State<VerseCard> {
                   setState(() {
                     typeHint = value!;
                     log(value);
+                    switch (value) {
+                      case 'Strofa':
+                        textFieldBloc = '<li>${widget.verseField.newText}';
+                        break;
+                      case 'Coro':
+                        textFieldBloc =
+                            '<i><b>Coro:</b>${widget.verseField.newText}</i>';
+                        break;
+                      case 'Bridge':
+                        textFieldBloc =
+                            '<i><b>Bridge:</b>${widget.verseField.newText}</i>';
+                        break;
+                      case 'Finale':
+                        textFieldBloc =
+                            '<i><b>Finale:</b>${widget.verseField.newText}</i>';
+                        break;
+                    }
                   });
                 },
               ),
@@ -385,7 +403,7 @@ class _VerseCardState extends State<VerseCard> {
             ],
           ),
           TextFieldBlocBuilder(
-            textFieldBloc: widget.verseField.newText,
+            textFieldBloc: textFieldBloc,
             textCapitalization: TextCapitalization.sentences,
             keyboardType: TextInputType.multiline,
             minLines: 2,

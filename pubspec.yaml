@@ -42,11 +42,11 @@ dependencies:
   shared_preferences: ^2.0.13
 
   # HTML renderers
-  flutter_html: ^2.2.1
+  flutter_html: ^3.0.0-alpha.6
   html2md: ^1.2.5
 
   # PDF sharing
-  share_plus: ^4.0.4
+  share_plus: ^5.0.0
   pdf: ^3.7.3
 
   # The following adds the Cupertino Icons font to your application.
