@@ -376,23 +376,6 @@ class _VerseCardState extends State<VerseCard> {
                   setState(() {
                     typeHint = value!;
                     log(value);
-                    switch (value) {
-                      case 'Strofa':
-                        textFieldBloc = '<li>${widget.verseField.newText}';
-                        break;
-                      case 'Coro':
-                        textFieldBloc =
-                            '<i><b>Coro:</b>${widget.verseField.newText}</i>';
-                        break;
-                      case 'Bridge':
-                        textFieldBloc =
-                            '<i><b>Bridge:</b>${widget.verseField.newText}</i>';
-                        break;
-                      case 'Finale':
-                        textFieldBloc =
-                            '<i><b>Finale:</b>${widget.verseField.newText}</i>';
-                        break;
-                    }
                   });
                 },
               ),
@@ -403,7 +386,7 @@ class _VerseCardState extends State<VerseCard> {
             ],
           ),
           TextFieldBlocBuilder(
-            textFieldBloc: textFieldBloc,
+            textFieldBloc: widget.verseField.newText,
             textCapitalization: TextCapitalization.sentences,
             keyboardType: TextInputType.multiline,
             minLines: 2,
@@ -414,6 +397,11 @@ class _VerseCardState extends State<VerseCard> {
                 Icons.notes,
                 color: kLightGrey,
               ),
+            ),
+            suffixButton: SuffixButton.clearText,
+            clearTextIcon: const Icon(
+              Icons.cancel,
+              color: kLightGrey,
             ),
           ),
         ],
