@@ -344,14 +344,8 @@ class VerseCard extends StatefulWidget {
 }
 
 class _VerseCardState extends State<VerseCard> {
-  late List textType = [
-    'Strofa non numerata',
-    'Strofa numerata',
-    'Coro',
-    'Bridge',
-    'Finale'
-  ];
-  String typeHint = 'Strofa non numerata';
+  late List textType = ['Strofa', 'Coro', 'Bridge', 'Finale'];
+  String typeHint = 'Strofa';
 
   @override
   Widget build(BuildContext context) {
@@ -380,7 +374,7 @@ class _VerseCardState extends State<VerseCard> {
                 onChanged: (value) {
                   setState(() {
                     typeHint = value!;
-                    if (typeHint == 'Strofa numerata') {
+                    if (typeHint == 'Strofa') {
                       // TEXT HERE = '<li>${TEXT HERE}';
                     } else if (typeHint == 'Coro') {
                       // TEXT HERE = '<i><b>Coro:</b>${TEXT HERE}</i><br>';
