@@ -39,9 +39,9 @@ class ListFieldFormBloc extends FormBloc<String, String> {
     // Insert into database
     QueryCtr().insertSong(
         title.value,
-        '<ol>${text.value.map<Verse>((memberField) {
+        '<ol>${text.value.map<Verse>((verseField) {
               return Verse(
-                text: memberField.newText.value,
+                text: verseField.newText.value,
               );
             }).map((e) => e.text).toList().join('<br><br>').replaceAll('\n', '<br>')}</ol>',
         cat,
@@ -50,9 +50,9 @@ class ListFieldFormBloc extends FormBloc<String, String> {
     // Without serialization
     final newSongsV1 = NewSongs(
       title: title.value,
-      text: text.value.map<Verse>((memberField) {
+      text: text.value.map<Verse>((verseField) {
         return Verse(
-          text: memberField.newText.value,
+          text: verseField.newText.value,
         );
       }).toList(),
     );
