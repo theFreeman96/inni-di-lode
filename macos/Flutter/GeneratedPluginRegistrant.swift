@@ -7,7 +7,7 @@ import Foundation
 
 import audioplayers_darwin
 import path_provider_macos
-import share_plus_macos
+import share_plus
 import shared_preferences_macos
 import sqflite
 import sqlite3_flutter_libs

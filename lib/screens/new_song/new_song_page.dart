@@ -10,6 +10,8 @@ import '/assets/data/models.dart';
 import '/theme/constants.dart';
 import '/theme/theme_provider.dart';
 
+String typeHint = 'Strofa'; // late?
+
 class ListFieldFormBloc extends FormBloc<String, String> {
   final title = TextFieldBloc(name: 'Titolo');
   final text = ListFieldBloc<VerseFieldBloc, dynamic>(name: 'Testo');
@@ -41,7 +43,15 @@ class ListFieldFormBloc extends FormBloc<String, String> {
         title.value,
         '<ol>${text.value.map<Verse>((verseField) {
               return Verse(
-                text: verseField.newText.value,
+                text: typeHint == 'Strofa'
+                    ? '<li>${verseField.newText.value}'
+                    : typeHint == 'Coro'
+                        ? '<i><b>Coro:</b><br>${verseField.newText.value}</i>'
+                        : typeHint == 'Bridge'
+                            ? '<i><b>Bridge:</b><br>${verseField.newText.value}</i>'
+                            : typeHint == 'Finale'
+                                ? '<i><b>Finale:</b><br>${verseField.newText.value}</i>'
+                                : verseField.newText.value,
               );
             }).map((e) => e.text).toList().join('<br><br>').replaceAll('\n', '<br>')}</ol>',
         cat,
@@ -344,8 +354,7 @@ class VerseCard extends StatefulWidget {
 }
 
 class _VerseCardState extends State<VerseCard> {
-  late List textType = ['Strofa', 'Coro', 'Bridge', 'Finale'];
-  String typeHint = 'Strofa';
+  List textType = ['Strofa', 'Coro', 'Bridge', 'Finale'];
 
   @override
   Widget build(BuildContext context) {
@@ -374,17 +383,6 @@ class _VerseCardState extends State<VerseCard> {
                 onChanged: (value) {
                   setState(() {
                     typeHint = value!;
-                    if (typeHint == 'Strofa') {
-                      // TEXT HERE = '<li>${TEXT HERE}';
-                    } else if (typeHint == 'Coro') {
-                      // TEXT HERE = '<i><b>Coro:</b>${TEXT HERE}</i><br>';
-                    } else if (typeHint == 'Bridge') {
-                      // TEXT HERE = '<i><b>Bridge:</b>${TEXT HERE}</i><br>';
-                    } else if (typeHint == 'Finale') {
-                      // TEXT HERE = '<i><b>Finale:</b>${TEXT HERE}</i><br>';
-                    } else {
-                      // TEXT HERE = TEXT HERE;
-                    }
                     log(value);
                   });
                 },
