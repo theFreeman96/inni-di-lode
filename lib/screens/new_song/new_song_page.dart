@@ -164,7 +164,7 @@ class _NewSongPageState extends State<NewSongPage> {
             ),
             child: SafeArea(
               child: Scaffold(
-                resizeToAvoidBottomInset: false,
+                resizeToAvoidBottomInset: true,
                 appBar: AppBar(
                   elevation: 0.0,
                   title: const Text('Nuovo Cantico'),
