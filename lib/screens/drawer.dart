@@ -9,6 +9,7 @@ import '/assets/data/queries.dart';
 
 import '/screens/songs/songs_detail.dart';
 import 'editor/new_song_page.dart';
+import 'editor/new_song_page2.dart';
 import '/screens/info/info_page.dart';
 
 class HamburgerMenu extends StatefulWidget {
@@ -89,6 +90,22 @@ class _HamburgerMenuState extends State<HamburgerMenu> {
                 MaterialPageRoute(
                   builder: (context) {
                     return const NewSongPage();
+                  },
+                ),
+              );
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.add_circle),
+            title: const Text('Aggiungi Cantico 2'),
+            onTap: () {
+              FocusScope.of(context).unfocus();
+              Navigator.pop(context);
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) {
+                    return const NewSongPage2();
                   },
                 ),
               );
