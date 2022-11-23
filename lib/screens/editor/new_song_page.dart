@@ -417,22 +417,6 @@ class _NewSongPageState extends State<NewSongPage> {
                         const SizedBox(
                           height: kDefaultPadding * 5,
                         ),
-
-                        /// Dropdown del package
-                        /*DropdownFieldBlocBuilder<String>(
-                              isExpanded: true,
-                              emptyItemLabel: 'Seleziona una Categoria',
-                              selectFieldBloc: formBloc.cats,
-                              decoration: const InputDecoration(
-                                labelText: 'Seleziona una Categoria',
-                                prefixIcon: Icon(Icons.sell),
-                              ),
-                              itemBuilder: (context, value) {
-                                return FieldItem(
-                                  child: Text(value),
-                                );
-                              },
-                            ),*/
                       ],
                     ),
                   ),
