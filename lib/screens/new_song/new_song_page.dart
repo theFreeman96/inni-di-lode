@@ -2,38 +2,23 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:inni_di_lode/assets/data/queries.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_form_bloc/flutter_form_bloc.dart';
 
+import '/assets/data/queries.dart';
 import '/assets/data/models.dart';
+
 import '/theme/constants.dart';
 import '/theme/theme_provider.dart';
 
-String typeHint = 'Strofa'; // late?
-
-class ListFieldFormBloc extends FormBloc<String, String> {
+class NewSongForm extends FormBloc<String, String> {
   final title = TextFieldBloc(name: 'Titolo');
-  final text = ListFieldBloc<VerseFieldBloc, dynamic>(name: 'Testo');
+  final text = TextFieldBloc(name: 'Testo');
 
-  ListFieldFormBloc() {
+  NewSongForm() : super(isLoading: true) {
     addFieldBlocs(
-      fieldBlocs: [
-        title,
-        text,
-      ],
+      fieldBlocs: [title, text],
     );
-  }
-
-  void addVerse() {
-    text.addFieldBloc(VerseFieldBloc(
-      name: 'Testo',
-      newText: TextFieldBloc(name: 'Strofa'),
-    ));
-  }
-
-  void removeVerse(int index) {
-    text.removeFieldBlocAt(index);
   }
 
   @override
@@ -41,31 +26,12 @@ class ListFieldFormBloc extends FormBloc<String, String> {
     // Insert into database
     QueryCtr().insertSong(
         title.value,
-        '<ol>${text.value.map<Verse>((verseField) {
-              return Verse(
-                text: typeHint == 'Strofa'
-                    ? '<li>${verseField.newText.value}'
-                    : typeHint == 'Coro'
-                        ? '<i><b>Coro:</b><br>${verseField.newText.value}</i>'
-                        : typeHint == 'Bridge'
-                            ? '<i><b>Bridge:</b><br>${verseField.newText.value}</i>'
-                            : typeHint == 'Finale'
-                                ? '<i><b>Finale:</b><br>${verseField.newText.value}</i>'
-                                : verseField.newText.value,
-              );
-            }).map((e) => e.text).toList().join('<br><br>').replaceAll('\n', '<br>')}</ol>',
+        '<ol>${text.value.replaceAll('---Strofa---\n', '<li>').replaceAll('---Fine Strofa---', '</li>').replaceAll('---Coro---', '<i><b>Coro:</b>').replaceAll('---Fine Coro---', '</i>').replaceAll('---Bridge---', '<i><b>Bridge:</b>').replaceAll('---Fine Bridge---', '</i>').replaceAll('---Finale---', '<i><b>Finale:</b>').replaceAll('---Fine---', '</i>').replaceAll('\n', '<br>')}</ol>',
         cat,
         0);
 
     // Without serialization
-    final newSongsV1 = NewSongs(
-      title: title.value,
-      text: text.value.map<Verse>((verseField) {
-        return Verse(
-          text: verseField.newText.value,
-        );
-      }).toList(),
-    );
+    final newSongsV1 = NewSongs(title: title.value, text: text.value);
 
     debugPrint('newSongsV1');
     debugPrint(newSongsV1.toMap().toString());
@@ -85,31 +51,6 @@ class ListFieldFormBloc extends FormBloc<String, String> {
   }
 }
 
-class VerseFieldBloc extends GroupFieldBloc {
-  TextFieldBloc newText;
-
-  VerseFieldBloc({
-    required this.newText,
-    String? name,
-  }) : super(name: name, fieldBlocs: [newText]);
-}
-
-class Verse {
-  String? text;
-
-  Verse({this.text});
-
-  Verse.fromMap(Map<String, dynamic> map) {
-    text = map['Strofa'];
-  }
-
-  Map<String, dynamic> toMap() {
-    final data = <String, dynamic>{};
-    data['Strofa'] = text;
-    return data;
-  }
-}
-
 class NewSongPage extends StatefulWidget {
   const NewSongPage({Key? key}) : super(key: key);
 
@@ -119,23 +60,30 @@ class NewSongPage extends StatefulWidget {
 
 int cat = 0;
 String catHint = 'Seleziona una Categoria';
+int aut = 0;
+String autHint = 'Seleziona uno o più Autori';
 
 class _NewSongPageState extends State<NewSongPage> {
   @override
   void initState() {
     cat = 0;
     catHint = 'Seleziona una Categoria';
+    aut = 0;
+    autHint = 'Seleziona uno o più Autori';
     super.initState();
   }
+
+  List verseType = ['Strofa', 'Coro', 'Bridge', 'Finale'];
+  String verseHint = 'Strofa';
 
   @override
   Widget build(BuildContext context) {
     final themeProvider = Provider.of<ThemeProvider>(context);
     return BlocProvider(
-      create: (context) => ListFieldFormBloc(),
+      create: (context) => NewSongForm(),
       child: Builder(
         builder: (context) {
-          final formBloc = context.read<ListFieldFormBloc>();
+          final formBloc = context.read<NewSongForm>();
 
           return Theme(
             data: Theme.of(context).copyWith(
@@ -202,7 +150,7 @@ class _NewSongPageState extends State<NewSongPage> {
                   onPressed: formBloc.submit,
                   child: const Icon(Icons.send),
                 ),
-                body: FormBlocListener<ListFieldFormBloc, String, String>(
+                body: FormBlocListener<NewSongForm, String, String>(
                   onSubmitting: (context, state) {
                     LoadingDialog.show(context);
                   },
@@ -237,92 +185,254 @@ class _NewSongPageState extends State<NewSongPage> {
                             ),
                           ),
                         ),
-                        BlocBuilder<ListFieldBloc<VerseFieldBloc, dynamic>,
-                            ListFieldBlocState<VerseFieldBloc, dynamic>>(
-                          bloc: formBloc.text,
-                          builder: (context, state) {
-                            if (state.fieldBlocs.isNotEmpty) {
-                              return ListView.builder(
-                                shrinkWrap: true,
-                                physics: const NeverScrollableScrollPhysics(),
-                                itemCount: state.fieldBlocs.length,
-                                itemBuilder: (context, i) {
-                                  return VerseCard(
-                                    verseIndex: i,
-                                    verseField: state.fieldBlocs[i],
-                                    onRemoveVerse: () =>
-                                        formBloc.removeVerse(i),
-                                  );
-                                },
-                              );
-                            }
-                            return Container();
-                          },
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const Text('Aggiungi     '),
+                            DropdownButton<String>(
+                              icon: const Icon(Icons.arrow_drop_down),
+                              borderRadius: const BorderRadius.all(
+                                Radius.circular(25.0),
+                              ),
+                              hint: Text(verseHint),
+                              items: verseType
+                                  .map<DropdownMenuItem<String>>((value) {
+                                return DropdownMenuItem<String>(
+                                  value: value,
+                                  child: Text(value),
+                                );
+                              }).toList(),
+                              onChanged: (value) {
+                                setState(() {
+                                  verseHint = value!;
+                                  if (formBloc.text.value.isEmpty) {
+                                    switch (value) {
+                                      case 'Strofa':
+                                        formBloc.text.updateValue(
+                                            '---Strofa---\n\n---Fine Strofa---\n');
+                                        break;
+                                      case 'Coro':
+                                        formBloc.text.updateValue(
+                                            '---Coro---\n\n---Fine Coro---\n');
+                                        break;
+                                      case 'Bridge':
+                                        formBloc.text.updateValue(
+                                            '---Bridge---\n\n---Fine Bridge---\n');
+                                        break;
+                                      case 'Finale':
+                                        formBloc.text.updateValue(
+                                            '---Finale---\n\n---Fine---');
+                                        break;
+                                    }
+                                  } else {
+                                    switch (value) {
+                                      case 'Strofa':
+                                        formBloc.text.updateValue(
+                                            '${formBloc.text.value}\n---Strofa---\n\n---Fine Strofa---\n');
+                                        break;
+                                      case 'Coro':
+                                        formBloc.text.updateValue(
+                                            '${formBloc.text.value}\n---Coro---\n\n---Fine Coro---\n');
+                                        break;
+                                      case 'Bridge':
+                                        formBloc.text.updateValue(
+                                            '${formBloc.text.value}\n---Bridge---\n\n---Fine Bridge---\n');
+                                        break;
+                                      case 'Finale':
+                                        formBloc.text.updateValue(
+                                            '${formBloc.text.value}\n---Finale---\n\n---Fine---');
+                                        break;
+                                    }
+                                  }
+                                });
+                              },
+                            ),
+                          ],
                         ),
-                        Padding(
+                        TextFieldBlocBuilder(
                           padding: const EdgeInsets.all(kDefaultPadding),
-                          child: ElevatedButton.icon(
-                            icon: const Icon(Icons.add_circle),
-                            label: const Text('Aggiungi Testo'),
-                            onPressed: formBloc.addVerse,
+                          textFieldBloc: formBloc.text,
+                          textCapitalization: TextCapitalization.sentences,
+                          keyboardType: TextInputType.multiline,
+                          minLines: 15,
+                          maxLines: 15,
+                          decoration: const InputDecoration(
+                            alignLabelWithHint: true,
+                            labelText: 'Testo',
+                            prefix: Icon(
+                              Icons.notes,
+                              color: kLightGrey,
+                            ),
                           ),
                         ),
-                        FutureBuilder(
-                          future: QueryCtr().getAllCat(),
-                          builder: (context, AsyncSnapshot snapshot) {
-                            return snapshot.hasData
-                                ? Padding(
-                                    padding:
-                                        const EdgeInsets.all(kDefaultPadding),
-                                    child: DropdownButtonFormField<String>(
-                                      icon: const Padding(
-                                        padding: EdgeInsets.only(
-                                            right: kDefaultPadding / 3),
-                                        child: Icon(Icons.arrow_drop_down),
-                                      ),
-                                      borderRadius: const BorderRadius.all(
-                                        Radius.circular(25.0),
-                                      ),
-                                      hint: Text(catHint),
-                                      decoration: const InputDecoration(
-                                        contentPadding: EdgeInsets.symmetric(
-                                          vertical: kDefaultPadding,
-                                        ),
-                                        prefixIcon: Icon(
-                                          Icons.sell,
-                                          color: kLightGrey,
-                                        ),
-                                        labelText: 'Categoria',
-                                      ),
-                                      items: snapshot.data!
-                                          .map<DropdownMenuItem<String>>((get) {
-                                        return DropdownMenuItem<String>(
-                                          value: get.catName,
-                                          onTap: () {
-                                            cat = get.catId;
-                                          },
-                                          child: Text(get.catName),
-                                        );
-                                      }).toList(),
-                                      onChanged: (value) {
-                                        setState(() {
-                                          catHint = value!;
-                                          log(value);
-                                        });
-                                      },
-                                    ),
-                                  )
-                                : const Padding(
-                                    padding:
-                                        EdgeInsets.only(top: kDefaultPadding),
-                                    child: Text(
-                                      'Nessuna Categoria trovata',
-                                      style: TextStyle(),
-                                      textAlign: TextAlign.center,
-                                    ),
-                                  );
-                          },
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: kDefaultPadding),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Expanded(
+                                child: FutureBuilder(
+                                  future: QueryCtr().getAllCat(),
+                                  builder: (context, AsyncSnapshot snapshot) {
+                                    return snapshot.hasData
+                                        ? DropdownButtonFormField<String>(
+                                            isExpanded: true,
+                                            icon: const Padding(
+                                              padding: EdgeInsets.only(
+                                                  right: kDefaultPadding / 3),
+                                              child:
+                                                  Icon(Icons.arrow_drop_down),
+                                            ),
+                                            borderRadius:
+                                                const BorderRadius.all(
+                                              Radius.circular(25.0),
+                                            ),
+                                            hint: Text(catHint),
+                                            decoration: const InputDecoration(
+                                              contentPadding:
+                                                  EdgeInsets.symmetric(
+                                                vertical: kDefaultPadding,
+                                              ),
+                                              prefixIcon: Icon(
+                                                Icons.sell,
+                                                color: kLightGrey,
+                                              ),
+                                              labelText: 'Categoria',
+                                            ),
+                                            items: snapshot.data!
+                                                .map<DropdownMenuItem<String>>(
+                                                    (get) {
+                                              return DropdownMenuItem<String>(
+                                                value: get.catName,
+                                                onTap: () {
+                                                  cat = get.catId;
+                                                },
+                                                child: Text(get.catName),
+                                              );
+                                            }).toList(),
+                                            onChanged: (value) {
+                                              setState(() {
+                                                catHint = value!;
+                                                log(value);
+                                              });
+                                            },
+                                          )
+                                        : const Padding(
+                                            padding: EdgeInsets.only(
+                                                top: kDefaultPadding),
+                                            child: Text(
+                                              'Nessuna Categoria trovata',
+                                              style: TextStyle(),
+                                              textAlign: TextAlign.center,
+                                            ),
+                                          );
+                                  },
+                                ),
+                              ),
+                              IconButton(
+                                onPressed: () {},
+                                icon: const Icon(Icons.add_circle),
+                              ),
+                            ],
+                          ),
                         ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: kDefaultPadding),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Expanded(
+                                child: FutureBuilder(
+                                  future: QueryCtr().getAllAut(),
+                                  builder: (context, AsyncSnapshot snapshot) {
+                                    return snapshot.hasData
+                                        ? Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                vertical: kDefaultPadding),
+                                            child:
+                                                DropdownButtonFormField<String>(
+                                              isExpanded: true,
+                                              icon: const Padding(
+                                                padding: EdgeInsets.only(
+                                                    right: kDefaultPadding / 3),
+                                                child:
+                                                    Icon(Icons.arrow_drop_down),
+                                              ),
+                                              borderRadius:
+                                                  const BorderRadius.all(
+                                                Radius.circular(25.0),
+                                              ),
+                                              hint: Text(autHint),
+                                              decoration: const InputDecoration(
+                                                contentPadding:
+                                                    EdgeInsets.symmetric(
+                                                  vertical: kDefaultPadding,
+                                                ),
+                                                prefixIcon: Icon(
+                                                  Icons.people,
+                                                  color: kLightGrey,
+                                                ),
+                                                labelText: 'Autore',
+                                              ),
+                                              items: snapshot.data!.map<
+                                                      DropdownMenuItem<String>>(
+                                                  (get) {
+                                                return DropdownMenuItem<String>(
+                                                  value: get.autName,
+                                                  onTap: () {
+                                                    aut = get.autId;
+                                                  },
+                                                  child: Text(get.autName),
+                                                );
+                                              }).toList(),
+                                              onChanged: (value) {
+                                                setState(() {
+                                                  autHint = value!;
+                                                  log(value);
+                                                });
+                                              },
+                                            ),
+                                          )
+                                        : const Padding(
+                                            padding: EdgeInsets.only(
+                                                top: kDefaultPadding),
+                                            child: Text(
+                                              'Nessun Autore trovato',
+                                              style: TextStyle(),
+                                              textAlign: TextAlign.center,
+                                            ),
+                                          );
+                                  },
+                                ),
+                              ),
+                              IconButton(
+                                onPressed: () {},
+                                icon: const Icon(Icons.add_circle),
+                              ),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(
+                          height: kDefaultPadding * 5,
+                        ),
+
+                        /// Dropdown del package
+                        /*DropdownFieldBlocBuilder<String>(
+                              isExpanded: true,
+                              emptyItemLabel: 'Seleziona una Categoria',
+                              selectFieldBloc: formBloc.cats,
+                              decoration: const InputDecoration(
+                                labelText: 'Seleziona una Categoria',
+                                prefixIcon: Icon(Icons.sell),
+                              ),
+                              itemBuilder: (context, value) {
+                                return FieldItem(
+                                  child: Text(value),
+                                );
+                              },
+                            ),*/
                       ],
                     ),
                   ),
@@ -331,88 +441,6 @@ class _NewSongPageState extends State<NewSongPage> {
             ),
           );
         },
-      ),
-    );
-  }
-}
-
-class VerseCard extends StatefulWidget {
-  final int verseIndex;
-  final VerseFieldBloc verseField;
-
-  final VoidCallback onRemoveVerse;
-
-  const VerseCard({
-    Key? key,
-    required this.verseIndex,
-    required this.verseField,
-    required this.onRemoveVerse,
-  }) : super(key: key);
-
-  @override
-  State<VerseCard> createState() => _VerseCardState();
-}
-
-class _VerseCardState extends State<VerseCard> {
-  List textType = ['Strofa', 'Coro', 'Bridge', 'Finale'];
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(
-          left: kDefaultPadding * 2,
-          right: kDefaultPadding * 2,
-          bottom: kDefaultPadding),
-      child: Column(
-        children: <Widget>[
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              DropdownButton<String>(
-                icon: const Icon(Icons.arrow_drop_down),
-                borderRadius: const BorderRadius.all(
-                  Radius.circular(25.0),
-                ),
-                hint: Text(typeHint),
-                items: textType.map<DropdownMenuItem<String>>((value) {
-                  return DropdownMenuItem<String>(
-                    value: value,
-                    child: Text(value),
-                  );
-                }).toList(),
-                onChanged: (value) {
-                  setState(() {
-                    typeHint = value!;
-                    log(value);
-                  });
-                },
-              ),
-              IconButton(
-                icon: const Icon(Icons.delete),
-                onPressed: widget.onRemoveVerse,
-              ),
-            ],
-          ),
-          TextFieldBlocBuilder(
-            textFieldBloc: widget.verseField.newText,
-            textCapitalization: TextCapitalization.sentences,
-            keyboardType: TextInputType.multiline,
-            minLines: 2,
-            maxLines: 10,
-            decoration: const InputDecoration(
-              labelText: 'Testo',
-              prefixIcon: Icon(
-                Icons.notes,
-                color: kLightGrey,
-              ),
-            ),
-            suffixButton: SuffixButton.clearText,
-            clearTextIcon: const Icon(
-              Icons.cancel,
-              color: kLightGrey,
-            ),
-          ),
-        ],
       ),
     );
   }
