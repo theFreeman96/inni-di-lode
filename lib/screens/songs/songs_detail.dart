@@ -53,6 +53,7 @@ class _SongsDetailState extends State<SongsDetail> {
   }
 
   Widget buildPage(Raccolta get) {
+    final themeProvider = Provider.of<ThemeProvider>(context);
     String text = get.songText;
     String parsedSongText = text.replaceAll('<li>', '<li><br>');
     return Scaffold(
@@ -318,8 +319,56 @@ class _SongsDetailState extends State<SongsDetail> {
                   icon: const Icon(Icons.delete),
                   tooltip: 'Elimina Cantico',
                   onPressed: () {
-                    QueryCtr().deleteSong(get.songId);
-                    setState(() {});
+                    showDialog<String>(
+                      context: context,
+                      builder: (BuildContext context) => AlertDialog(
+                        title: const Text('Conferma eliminazione'),
+                        content: RichText(
+                          text: TextSpan(
+                            style: TextStyle(
+                              color: themeProvider.isDarkMode ? kWhite : kBlack,
+                            ),
+                            children: <TextSpan>[
+                              const TextSpan(text: 'Il cantico '),
+                              TextSpan(
+                                text: '${get.songId}. ${get.songTitle} ',
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              const TextSpan(
+                                  text:
+                                      'sarà eliminato definitivamente. Confermi?.')
+                            ],
+                          ),
+                        ),
+                        actions: <Widget>[
+                          TextButton(
+                            onPressed: () {
+                              Navigator.pop(context, 'Annulla');
+                            },
+                            child: const Text(
+                              'Annulla',
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                          TextButton(
+                            onPressed: () {
+                              QueryCtr().deleteSong(get.songId);
+                              setState(() {});
+                              Navigator.pop(context, 'Elimina');
+                            },
+                            child: Text(
+                              'Elimina',
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: themeProvider.isDarkMode
+                                      ? Colors.redAccent
+                                      : Colors.red),
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
                   },
                 ),
               ),
