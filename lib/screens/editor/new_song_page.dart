@@ -25,6 +25,8 @@ class NewSongPageState extends State<NewSongPage> {
   final titleController = TextEditingController();
   final textController = TextEditingController();
   late FocusNode textFocusNode;
+  final newCatKey = GlobalKey<FormState>();
+  final newAutKey = GlobalKey<FormState>();
 
   @override
   void initState() {
@@ -411,7 +413,206 @@ class NewSongPageState extends State<NewSongPage> {
                           ),
                         ),
                         IconButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return Theme(
+                                  data: Theme.of(context).copyWith(
+                                    inputDecorationTheme: InputDecorationTheme(
+                                      enabledBorder: OutlineInputBorder(
+                                        borderRadius: const BorderRadius.all(
+                                          Radius.circular(25.0),
+                                        ),
+                                        borderSide: BorderSide(
+                                            color: themeProvider.isDarkMode
+                                                ? kWhite
+                                                : kLightGrey,
+                                            width: 1.0),
+                                      ),
+                                      focusedBorder: OutlineInputBorder(
+                                        borderRadius: const BorderRadius.all(
+                                          Radius.circular(25.0),
+                                        ),
+                                        borderSide: BorderSide(
+                                            color: themeProvider.isDarkMode
+                                                ? kPrimaryLightColor
+                                                : kPrimaryColor,
+                                            width: 2.0),
+                                      ),
+                                      errorStyle: TextStyle(
+                                          color: themeProvider.isDarkMode
+                                              ? Colors.redAccent
+                                              : Colors.red,
+                                          fontWeight: FontWeight.bold),
+                                      errorBorder: OutlineInputBorder(
+                                        borderRadius: const BorderRadius.all(
+                                          Radius.circular(25.0),
+                                        ),
+                                        borderSide: BorderSide(
+                                            color: themeProvider.isDarkMode
+                                                ? Colors.redAccent
+                                                : Colors.red,
+                                            width: 1.0),
+                                      ),
+                                      focusedErrorBorder: OutlineInputBorder(
+                                        borderRadius: const BorderRadius.all(
+                                          Radius.circular(25.0),
+                                        ),
+                                        borderSide: BorderSide(
+                                            color: themeProvider.isDarkMode
+                                                ? Colors.redAccent
+                                                : Colors.red,
+                                            width: 2.0),
+                                      ),
+                                      labelStyle: TextStyle(
+                                          color: themeProvider.isDarkMode
+                                              ? kWhite
+                                              : kLightGrey),
+                                    ),
+                                  ),
+                                  child: AlertDialog(
+                                    scrollable: true,
+                                    title: const Text('Nuova Categoria'),
+                                    content: Form(
+                                      key: newCatKey,
+                                      child: Column(
+                                        children: <Widget>[
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                bottom: kDefaultPadding),
+                                            child: TextFormField(
+                                              decoration: const InputDecoration(
+                                                labelText: 'Nome Categoria',
+                                                prefixIcon: Icon(
+                                                  Icons.edit,
+                                                  color: kLightGrey,
+                                                ),
+                                              ),
+                                              validator: (value) {
+                                                if (value == null ||
+                                                    value.isEmpty) {
+                                                  return 'Inserisci il Nome!';
+                                                }
+                                                return null;
+                                              },
+                                            ),
+                                          ),
+                                          FutureBuilder(
+                                            future: QueryCtr().getAllMacroCat(),
+                                            builder: (context,
+                                                AsyncSnapshot snapshot) {
+                                              return snapshot.hasData
+                                                  ? DropdownButtonFormField<
+                                                      String>(
+                                                      isExpanded: true,
+                                                      icon: const Padding(
+                                                        padding: EdgeInsets.only(
+                                                            right:
+                                                                kDefaultPadding /
+                                                                    3),
+                                                        child: Icon(Icons
+                                                            .arrow_drop_down),
+                                                      ),
+                                                      borderRadius:
+                                                          const BorderRadius
+                                                              .all(
+                                                        Radius.circular(25.0),
+                                                      ),
+                                                      hint: const Text(
+                                                          'Seleziona'),
+                                                      decoration:
+                                                          const InputDecoration(
+                                                        contentPadding:
+                                                            EdgeInsets
+                                                                .symmetric(
+                                                          vertical:
+                                                              kDefaultPadding,
+                                                        ),
+                                                        prefixIcon: Icon(
+                                                          Icons.sell,
+                                                          color: kLightGrey,
+                                                        ),
+                                                        labelText:
+                                                            'Macrocategoria',
+                                                      ),
+                                                      items: snapshot.data!.map<
+                                                          DropdownMenuItem<
+                                                              String>>((get) {
+                                                        return DropdownMenuItem<
+                                                            String>(
+                                                          value: get.macroName,
+                                                          onTap: () {
+                                                            aut = get.macroId;
+                                                          },
+                                                          child: Text(
+                                                              get.macroName),
+                                                        );
+                                                      }).toList(),
+                                                      onChanged: (value) {},
+                                                      validator: (value) {
+                                                        if (value == null ||
+                                                            value.isEmpty) {
+                                                          return 'Seleziona una Macrocategoria!';
+                                                        }
+                                                        return null;
+                                                      },
+                                                    )
+                                                  : const Padding(
+                                                      padding: EdgeInsets.only(
+                                                          top: kDefaultPadding),
+                                                      child: Text(
+                                                        'Nessun Autore trovato',
+                                                        style: TextStyle(),
+                                                        textAlign:
+                                                            TextAlign.center,
+                                                      ),
+                                                    );
+                                            },
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    actions: [
+                                      TextButton(
+                                        onPressed: () {
+                                          Navigator.pop(context, 'Annulla');
+                                        },
+                                        child: const Text(
+                                          'Annulla',
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                      ),
+                                      TextButton(
+                                        onPressed: () {
+                                          if (newCatKey.currentState!
+                                              .validate()) {
+                                            ScaffoldMessenger.of(context)
+                                                .showSnackBar(
+                                              const SnackBar(
+                                                content:
+                                                    Text('Categoria aggiunta!'),
+                                              ),
+                                            );
+                                            Navigator.pop(context, 'Conferma');
+                                          }
+                                        },
+                                        child: Text(
+                                          'Conferma',
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              color: themeProvider.isDarkMode
+                                                  ? Colors.greenAccent
+                                                  : Colors.green),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              },
+                            );
+                          },
                           icon: const Icon(Icons.add_circle),
                         ),
                       ],
@@ -484,7 +685,147 @@ class NewSongPageState extends State<NewSongPage> {
                             ),
                           ),
                           IconButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return Theme(
+                                    data: Theme.of(context).copyWith(
+                                      inputDecorationTheme:
+                                          InputDecorationTheme(
+                                        enabledBorder: OutlineInputBorder(
+                                          borderRadius: const BorderRadius.all(
+                                            Radius.circular(25.0),
+                                          ),
+                                          borderSide: BorderSide(
+                                              color: themeProvider.isDarkMode
+                                                  ? kWhite
+                                                  : kLightGrey,
+                                              width: 1.0),
+                                        ),
+                                        focusedBorder: OutlineInputBorder(
+                                          borderRadius: const BorderRadius.all(
+                                            Radius.circular(25.0),
+                                          ),
+                                          borderSide: BorderSide(
+                                              color: themeProvider.isDarkMode
+                                                  ? kPrimaryLightColor
+                                                  : kPrimaryColor,
+                                              width: 2.0),
+                                        ),
+                                        errorStyle: TextStyle(
+                                            color: themeProvider.isDarkMode
+                                                ? Colors.redAccent
+                                                : Colors.red,
+                                            fontWeight: FontWeight.bold),
+                                        errorBorder: OutlineInputBorder(
+                                          borderRadius: const BorderRadius.all(
+                                            Radius.circular(25.0),
+                                          ),
+                                          borderSide: BorderSide(
+                                              color: themeProvider.isDarkMode
+                                                  ? Colors.redAccent
+                                                  : Colors.red,
+                                              width: 1.0),
+                                        ),
+                                        focusedErrorBorder: OutlineInputBorder(
+                                          borderRadius: const BorderRadius.all(
+                                            Radius.circular(25.0),
+                                          ),
+                                          borderSide: BorderSide(
+                                              color: themeProvider.isDarkMode
+                                                  ? Colors.redAccent
+                                                  : Colors.red,
+                                              width: 2.0),
+                                        ),
+                                        labelStyle: TextStyle(
+                                            color: themeProvider.isDarkMode
+                                                ? kWhite
+                                                : kLightGrey),
+                                      ),
+                                    ),
+                                    child: AlertDialog(
+                                      scrollable: true,
+                                      title: const Text('Nuovo Autore'),
+                                      content: Form(
+                                        key: newAutKey,
+                                        child: Column(
+                                          children: <Widget>[
+                                            Padding(
+                                              padding: const EdgeInsets.only(
+                                                  bottom: kDefaultPadding),
+                                              child: TextFormField(
+                                                decoration:
+                                                    const InputDecoration(
+                                                  labelText: 'Nome',
+                                                  prefixIcon: Icon(
+                                                    Icons.edit,
+                                                    color: kLightGrey,
+                                                  ),
+                                                ),
+                                                validator: (value) {
+                                                  if (value == null ||
+                                                      value.isEmpty) {
+                                                    return 'Inserisci il Nome!';
+                                                  }
+                                                  return null;
+                                                },
+                                              ),
+                                            ),
+                                            TextFormField(
+                                              decoration: const InputDecoration(
+                                                labelText:
+                                                    'Cognome (facoltativo)',
+                                                prefixIcon: Icon(
+                                                  Icons.edit,
+                                                  color: kLightGrey,
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      actions: [
+                                        TextButton(
+                                          onPressed: () {
+                                            Navigator.pop(context, 'Annulla');
+                                          },
+                                          child: const Text(
+                                            'Annulla',
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                        ),
+                                        TextButton(
+                                          onPressed: () {
+                                            if (newAutKey.currentState!
+                                                .validate()) {
+                                              ScaffoldMessenger.of(context)
+                                                  .showSnackBar(
+                                                const SnackBar(
+                                                  content:
+                                                      Text('Autore aggiunto!'),
+                                                ),
+                                              );
+                                              Navigator.pop(
+                                                  context, 'Conferma');
+                                            }
+                                          },
+                                          child: Text(
+                                            'Conferma',
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                color: themeProvider.isDarkMode
+                                                    ? Colors.greenAccent
+                                                    : Colors.green),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  );
+                                },
+                              );
+                            },
                             icon: const Icon(Icons.add_circle),
                           ),
                         ],
