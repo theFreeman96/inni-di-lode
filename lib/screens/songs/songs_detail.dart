@@ -347,7 +347,7 @@ class _SongsDetailState extends State<SongsDetail> {
                                     ),
                                     const TextSpan(
                                         text:
-                                            'sarà eliminato definitivamente. Confermi?.')
+                                            'sarà eliminato definitivamente.\nConfermi?')
                                   ],
                                 ),
                               ),
