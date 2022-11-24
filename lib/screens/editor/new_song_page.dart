@@ -69,6 +69,25 @@ class NewSongPageState extends State<NewSongPage> {
                     : kPrimaryColor,
                 width: 2.0),
           ),
+          errorStyle: TextStyle(
+              color: themeProvider.isDarkMode ? Colors.redAccent : Colors.red,
+              fontWeight: FontWeight.bold),
+          errorBorder: OutlineInputBorder(
+            borderRadius: const BorderRadius.all(
+              Radius.circular(25.0),
+            ),
+            borderSide: BorderSide(
+                color: themeProvider.isDarkMode ? Colors.redAccent : Colors.red,
+                width: 1.0),
+          ),
+          focusedErrorBorder: OutlineInputBorder(
+            borderRadius: const BorderRadius.all(
+              Radius.circular(25.0),
+            ),
+            borderSide: BorderSide(
+                color: themeProvider.isDarkMode ? Colors.redAccent : Colors.red,
+                width: 2.0),
+          ),
           labelStyle:
               TextStyle(color: themeProvider.isDarkMode ? kWhite : kLightGrey),
         ),
