@@ -305,79 +305,82 @@ class _SongsDetailState extends State<SongsDetail> {
                   );
                 },
               ),
-              Visibility(
-                visible: get.songId > 700 ? true : false,
-                child: IconButton(
-                  icon: const Icon(Icons.edit),
-                  tooltip: 'Modifica Cantico',
-                  onPressed: () {},
-                ),
-              ),
-              Visibility(
-                visible: get.songId > 700 ? true : false,
-                child: IconButton(
-                  icon: const Icon(Icons.delete),
-                  tooltip: 'Elimina Cantico',
-                  onPressed: () {
-                    showDialog<String>(
-                      context: context,
-                      builder: (BuildContext context) => AlertDialog(
-                        title: const Text('Conferma eliminazione'),
-                        content: RichText(
-                          text: TextSpan(
-                            style: TextStyle(
-                              color: themeProvider.isDarkMode ? kWhite : kBlack,
-                            ),
-                            children: <TextSpan>[
-                              const TextSpan(text: 'Il cantico '),
-                              TextSpan(
-                                text: '${get.songId}. ${get.songTitle} ',
-                                style: const TextStyle(
-                                    fontWeight: FontWeight.bold),
-                              ),
-                              const TextSpan(
-                                  text:
-                                      'sarà eliminato definitivamente. Confermi?.')
-                            ],
-                          ),
-                        ),
-                        actions: <Widget>[
-                          TextButton(
-                            onPressed: () {
-                              Navigator.pop(context, 'Annulla');
-                            },
-                            child: const Text(
-                              'Annulla',
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                          ),
-                          TextButton(
-                            onPressed: () {
-                              QueryCtr().deleteSong(get.songId);
-                              setState(() {});
-                              Navigator.pop(context, 'Elimina');
-                            },
-                            child: Text(
-                              'Elimina',
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: themeProvider.isDarkMode
-                                      ? Colors.redAccent
-                                      : Colors.red),
-                            ),
-                          ),
-                        ],
-                      ),
-                    );
-                  },
-                ),
-              ),
               IconButton(
                 tooltip: 'Condividi',
                 icon: const Icon(Icons.share),
                 onPressed: () async {
                   await buildPDF(get.songId, get.songTitle, get.songText);
                 },
+              ),
+              Visibility(
+                visible: get.songId > 700 ? true : false,
+                child: Row(
+                  children: [
+                    IconButton(
+                      icon: const Icon(Icons.edit_note),
+                      tooltip: 'Modifica Cantico',
+                      onPressed: () {},
+                    ),
+                    IconButton(
+                      icon: const Icon(Icons.delete),
+                      tooltip: 'Elimina Cantico',
+                      onPressed: () {
+                        showDialog<String>(
+                          context: context,
+                          builder: (BuildContext context) => AlertDialog(
+                            title: const Text('Conferma eliminazione'),
+                            content: RichText(
+                              text: TextSpan(
+                                style: TextStyle(
+                                  color: themeProvider.isDarkMode
+                                      ? kWhite
+                                      : kBlack,
+                                ),
+                                children: <TextSpan>[
+                                  const TextSpan(text: 'Il cantico '),
+                                  TextSpan(
+                                    text: '${get.songId}. ${get.songTitle} ',
+                                    style: const TextStyle(
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  const TextSpan(
+                                      text:
+                                          'sarà eliminato definitivamente. Confermi?.')
+                                ],
+                              ),
+                            ),
+                            actions: <Widget>[
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.pop(context, 'Annulla');
+                                },
+                                child: const Text(
+                                  'Annulla',
+                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                              TextButton(
+                                onPressed: () {
+                                  QueryCtr().deleteSong(get.songId);
+                                  setState(() {});
+                                  Navigator.pop(context, 'Elimina');
+                                },
+                                child: Text(
+                                  'Elimina',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: themeProvider.isDarkMode
+                                          ? Colors.redAccent
+                                          : Colors.red),
+                                ),
+                              ),
+                            ],
+                          ),
+                        );
+                      },
+                    ),
+                  ],
+                ),
               ),
             ],
           ),
