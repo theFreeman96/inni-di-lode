@@ -14,15 +14,17 @@ import 'songs_player.dart';
 
 class SongsDetail extends StatefulWidget {
   int songId;
-  SongsDetail({Key? key, required this.songId}) : super(key: key);
+  String from;
+  SongsDetail({Key? key, required this.songId, required this.from})
+      : super(key: key);
 
   @override
   State<SongsDetail> createState() => _SongsDetailState();
 }
 
 class _SongsDetailState extends State<SongsDetail> {
-  late PageController pageController =
-      PageController(initialPage: --widget.songId);
+  late PageController pageController;
+  final QueryCtr query = QueryCtr();
 
   late double textScaleFactor = MediaQuery.of(context).textScaleFactor;
 
@@ -35,10 +37,22 @@ class _SongsDetailState extends State<SongsDetail> {
   late double lineHeightMax = 2.0 * textScaleFactor;
 
   @override
+  initState() {
+    pageController = PageController(initialPage: --widget.songId);
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: FutureBuilder<List?>(
-        future: QueryCtr().getAllSongs(),
+        future: widget.from == 'Cantici'
+            ? query.getAllSongs()
+            : widget.from == 'Categoria'
+                ? query.getAllSongs()
+                : widget.from == 'Preferiti'
+                    ? query.getAllFav()
+                    : query.getAllSongs(),
         initialData: const [],
         builder: (context, snapshot) {
           return PageView.builder(
