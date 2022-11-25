@@ -35,38 +35,3 @@ class Autori {
     songText = obj['songText'];
   }
 }
-
-class Songs {
-  late int id;
-  late String title;
-  late String text;
-  late int cat_id;
-  late int fav;
-
-  Songs.fromMap(dynamic obj) {
-    id = obj['id'];
-    title = obj['title'];
-    text = obj['text'];
-    cat_id = obj['cat_id'];
-    fav = obj['fav'];
-  }
-}
-
-class NewSongs {
-  String? title;
-  String? text;
-
-  NewSongs({this.title, this.text});
-
-  NewSongs.fromMap(Map<String, dynamic> map) {
-    title = map['Titolo'];
-    text = map['Testo'];
-  }
-
-  Map<String, dynamic> toMap() {
-    final data = <String, dynamic>{};
-    data['Titolo'] = title;
-    data['Testo'] = text;
-    return data;
-  }
-}
