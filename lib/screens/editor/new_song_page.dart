@@ -135,7 +135,7 @@ class NewSongPageState extends State<NewSongPage> {
               if (formKey.currentState!.validate()) {
                 QueryCtr().insertSong(
                     titleController.text,
-                    '<ol>${textController.text.replaceAll('---Strofa---\n', '<li>').replaceAll('---Coro---', '<b>Coro:</b>').replaceAll('---Bridge---', '<b>Bridge:</b>').replaceAll('---Finale---', '<b>Finale:</b>').replaceAll('\n\n\n\n', '\n').replaceAll('\n\n\n', '\n').replaceAll('\n\n', '\n').replaceAll('\n', '<br>')}</ol>',
+                    '<ol>${textController.text.replaceAll('---Strofa---\n', '<li>').replaceAll('---Coro---', '<b>Coro:</b>').replaceAll('---Bridge---', '<b>Bridge:</b>').replaceAll('---Finale---', '<b>Finale:</b>').replaceAll('\n\n\n\n', '\n\n').replaceAll('\n\n\n', '\n\n').replaceAll('\n', '<br>')}</ol>',
                     cat,
                     0);
                 ScaffoldMessenger.of(context).showSnackBar(
