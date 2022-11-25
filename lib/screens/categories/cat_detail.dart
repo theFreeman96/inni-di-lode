@@ -89,7 +89,7 @@ class _CatDetailState extends State<CatDetail> {
           context,
           MaterialPageRoute(
             builder: (context) {
-              return SongsDetail(songId: get.songId);
+              return SongsDetail(songId: get.songId, from: 'Categoria');
             },
           ),
         );
