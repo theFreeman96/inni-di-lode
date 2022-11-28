@@ -51,7 +51,7 @@ class _SongsDetailState extends State<SongsDetail> {
             : widget.from == 'Categoria'
                 ? query.getAllSongs()
                 : widget.from == 'Preferiti'
-                    ? query.getAllFav()
+                    ? query.getAllSongs()
                     : query.getAllSongs(),
         initialData: const [],
         builder: (context, snapshot) {
