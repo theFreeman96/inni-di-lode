@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter/gestures.dart';
 import "package:flutter/material.dart";
 import 'package:provider/provider.dart';
 
@@ -39,7 +40,7 @@ class Innario extends StatelessWidget {
               title: 'Inni di Lode',
               builder: (context, child) {
                 return ScrollConfiguration(
-                  behavior: MyBehavior(),
+                  behavior: MyScrollBehavior(),
                   child: SizedBox(child: child),
                 );
               },
@@ -52,7 +53,16 @@ class Innario extends StatelessWidget {
   }
 }
 
-class MyBehavior extends ScrollBehavior {
+class MyScrollBehavior extends ScrollBehavior {
+  @override
+  Set<PointerDeviceKind> get dragDevices {
+    return {
+      PointerDeviceKind.touch,
+      PointerDeviceKind.mouse,
+      PointerDeviceKind.trackpad,
+    };
+  }
+
   @override
   Widget buildOverscrollIndicator(
       BuildContext context, Widget child, ScrollableDetails details) {
