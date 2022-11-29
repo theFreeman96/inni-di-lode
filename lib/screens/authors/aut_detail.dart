@@ -74,7 +74,7 @@ class _AutDetailState extends State<AutDetail> {
     );
   }
 
-  Widget buildRow(Autori get) {
+  Widget buildRow(Raccolta get) {
     return ListTile(
       leading: CircleAvatar(
         child: Text(
