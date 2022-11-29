@@ -15,6 +15,7 @@ class AutDetail extends StatefulWidget {
 }
 
 class _AutDetailState extends State<AutDetail> {
+  late ScrollController scrollController = ScrollController();
   final QueryCtr query = QueryCtr();
   final int autId;
   final String autName;
@@ -46,7 +47,9 @@ class _AutDetailState extends State<AutDetail> {
             return snapshot.hasData
                 ? Scrollbar(
                     thumbVisibility: true,
+                    controller: scrollController,
                     child: ListView.separated(
+                      controller: scrollController,
                       physics: const ScrollPhysics(),
                       shrinkWrap: true,
                       padding: const EdgeInsets.only(

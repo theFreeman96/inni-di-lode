@@ -15,6 +15,7 @@ class CatDetail extends StatefulWidget {
 }
 
 class _CatDetailState extends State<CatDetail> {
+  late ScrollController scrollController = ScrollController();
   final QueryCtr query = QueryCtr();
   final int catId;
   final String catName;
@@ -46,7 +47,9 @@ class _CatDetailState extends State<CatDetail> {
             return snapshot.hasData
                 ? Scrollbar(
                     thumbVisibility: true,
+                    controller: scrollController,
                     child: ListView.separated(
+                      controller: scrollController,
                       physics: const ScrollPhysics(),
                       shrinkWrap: true,
                       padding: const EdgeInsets.only(
