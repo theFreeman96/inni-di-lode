@@ -102,7 +102,7 @@ class _AutBodyState extends State<AutBody> {
     );
   }
 
-  Widget buildRow(Raccolta get) {
+  Widget buildRow(Autori get) {
     return ListTile(
       leading: const CircleAvatar(
         child: Icon(
