@@ -27,8 +27,12 @@ class _FavBodyState extends State<FavBody> {
     super.initState();
   }
 
-  FutureOr refreshOnGoBack(dynamic value) {
-    initState();
+  void refreshFavList() {
+    future = query.getAllFav();
+  }
+
+  FutureOr onGoBack(dynamic value) {
+    refreshFavList();
     setState(() {});
   }
 
@@ -130,7 +134,7 @@ class _FavBodyState extends State<FavBody> {
               return SongsDetail(songId: get.songId, from: 'Preferiti');
             },
           ),
-        ).then(refreshOnGoBack);
+        ).then(onGoBack);
       },
     );
   }
