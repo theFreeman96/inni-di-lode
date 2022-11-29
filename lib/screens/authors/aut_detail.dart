@@ -92,7 +92,7 @@ class _AutDetailState extends State<AutDetail> {
           context,
           MaterialPageRoute(
             builder: (context) {
-              return SongsDetail(songId: get.songId, from: 'Autore');
+              return SongsDetail(songId: get.songId);
             },
           ),
         );
