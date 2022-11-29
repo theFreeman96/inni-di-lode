@@ -150,10 +150,10 @@ class _SongsDetailState extends State<SongsDetail> {
         child: Icon(get.isFav == 1 ? Icons.favorite : Icons.favorite_border),
         onPressed: () {
           if (get.isFav == 0) {
-            QueryCtr().updateFav(1, get.songId);
+            query.updateFav(1, get.songId);
             setState(() {});
           } else {
-            QueryCtr().updateFav(0, get.songId);
+            query.updateFav(0, get.songId);
             setState(() {});
           }
         },
@@ -378,7 +378,7 @@ class _SongsDetailState extends State<SongsDetail> {
                                 ),
                                 TextButton(
                                   onPressed: () {
-                                    QueryCtr().deleteSong(get.songId);
+                                    query.deleteSong(get.songId);
                                     setState(() {});
                                     Navigator.pop(context, 'Elimina');
                                   },
