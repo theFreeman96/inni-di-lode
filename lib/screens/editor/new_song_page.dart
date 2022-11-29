@@ -17,6 +17,8 @@ class NewSongPage extends StatefulWidget {
 
 late int cat;
 late String catHint;
+late int mac;
+late String macHint;
 late int aut;
 late String autHint;
 
@@ -32,6 +34,8 @@ class NewSongPageState extends State<NewSongPage> {
   void initState() {
     cat = 0;
     catHint = 'Seleziona una Categoria';
+    mac = 0;
+    macHint = 'Seleziona una Categoria';
     aut = 0;
     autHint = 'Seleziona uno o più Autori';
     textFocusNode = FocusNode();
@@ -543,13 +547,17 @@ class NewSongPageState extends State<NewSongPage> {
                                                             String>(
                                                           value: get.macroName,
                                                           onTap: () {
-                                                            aut = get.macroId;
+                                                            mac = get.macroId;
                                                           },
                                                           child: Text(
                                                               get.macroName),
                                                         );
                                                       }).toList(),
-                                                      onChanged: (value) {},
+                                                      onChanged: (value) {
+                                                        setState(() {
+                                                          macHint = value!;
+                                                        });
+                                                      },
                                                       validator: (value) {
                                                         if (value == null ||
                                                             value.isEmpty) {
@@ -562,7 +570,7 @@ class NewSongPageState extends State<NewSongPage> {
                                                       padding: EdgeInsets.only(
                                                           top: kDefaultPadding),
                                                       child: Text(
-                                                        'Nessun Autore trovato',
+                                                        'Nessuna Macrocategoria trovata',
                                                         style: TextStyle(),
                                                         textAlign:
                                                             TextAlign.center,
