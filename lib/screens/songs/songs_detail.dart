@@ -46,13 +46,7 @@ class _SongsDetailState extends State<SongsDetail> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: FutureBuilder<List?>(
-        future: widget.from == 'Cantici'
-            ? query.getAllSongs()
-            : widget.from == 'Categoria'
-                ? query.getAllSongs()
-                : widget.from == 'Preferiti'
-                    ? query.getAllSongs()
-                    : query.getAllSongs(),
+        future: query.getAllSongs(),
         initialData: const [],
         builder: (context, snapshot) {
           return PageView.builder(
