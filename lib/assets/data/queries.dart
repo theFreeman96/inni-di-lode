@@ -176,11 +176,16 @@ class QueryCtr {
   }
 
   // New Songs
-  Future<List<Raccolta>?> insertSong(title, text, cat, fav) async {
+  Future<List<Raccolta>?> insertSong(
+      title, text, cat, fav, song_id, aut_id, song_title) async {
     final dbClient = await con.db;
     await dbClient!.insert(
       'Songs',
       {'title': title, 'text': text, 'cat_id': cat, 'fav': fav},
+    );
+    await dbClient.insert(
+      'Songs_Authors',
+      {'song_id': song_id, 'aut_id': aut_id, 'song_title': song_title},
     );
     return null;
   }
