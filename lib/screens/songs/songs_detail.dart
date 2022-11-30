@@ -10,6 +10,7 @@ import '/assets/data/models.dart';
 import '/assets/data/queries.dart';
 
 import '../categories/cat_detail.dart';
+import '../authors/aut_detail.dart';
 
 import 'songs_pdf.dart';
 import 'songs_player.dart';
@@ -168,6 +169,28 @@ class _SongsDetailState extends State<SongsDetail> {
                           MaterialPageRoute(
                             builder: (context) {
                               return CatDetail(catId, catName);
+                            },
+                          ),
+                        );
+                      },
+                    ),
+                    TextButton.icon(
+                      icon: const Icon(Icons.person, color: kLightGrey),
+                      label: Text(
+                        get.autName,
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: themeProvider.isDarkMode ? kWhite : kBlack),
+                      ),
+                      onPressed: () {
+                        FocusScope.of(context).unfocus();
+                        int autId = get.autId;
+                        String autName = get.autName;
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) {
+                              return AutDetail(autId, autName);
                             },
                           ),
                         );
