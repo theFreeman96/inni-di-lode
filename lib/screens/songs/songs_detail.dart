@@ -407,8 +407,9 @@ class _SongsDetailState extends State<SongsDetail> {
                                   },
                                   child: const Text(
                                     'Annulla',
-                                    style:
-                                        TextStyle(fontWeight: FontWeight.bold),
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color: kLightGrey),
                                   ),
                                 ),
                                 TextButton(

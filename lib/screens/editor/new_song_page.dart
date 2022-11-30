@@ -636,7 +636,8 @@ class NewSongPageState extends State<NewSongPage> {
                                           child: const Text(
                                             'Annulla',
                                             style: TextStyle(
-                                                fontWeight: FontWeight.bold),
+                                                fontWeight: FontWeight.bold,
+                                                color: kLightGrey),
                                           ),
                                         ),
                                         TextButton(
@@ -857,7 +858,8 @@ class NewSongPageState extends State<NewSongPage> {
                                             child: const Text(
                                               'Annulla',
                                               style: TextStyle(
-                                                  fontWeight: FontWeight.bold),
+                                                  fontWeight: FontWeight.bold,
+                                                  color: kLightGrey),
                                             ),
                                           ),
                                           TextButton(
