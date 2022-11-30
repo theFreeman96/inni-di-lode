@@ -50,9 +50,9 @@ class _SongsDetailState extends State<SongsDetail> {
         future: widget.from == 'Songs'
             ? query.getAllSongs()
             : widget.from == 'Category'
-                ? query.getSongsByCat(widget.id)
+                ? query.getSongsByCat(widget.id!)
                 : widget.from == 'Author'
-                    ? query.getSongsByAut(widget.id)
+                    ? query.getSongsByAut(widget.id!)
                     : widget.from == 'Favorites'
                         ? query.getAllFav()
                         : query.getAllSongs(),
@@ -61,7 +61,7 @@ class _SongsDetailState extends State<SongsDetail> {
           return PageView.builder(
             controller: pageController,
             itemBuilder: (context, i) {
-              return buildPage(snapshot.data![i]);
+              return buildPage(snapshot.data![i % snapshot.data!.length]);
             },
           );
         },
