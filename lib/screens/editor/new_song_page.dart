@@ -157,6 +157,8 @@ class NewSongPageState extends State<NewSongPage> {
                       content: Text('Cantico aggiunto!'),
                     ),
                   );
+                  titleController.clear();
+                  textController.clear();
                 }
               },
               child: const Icon(Icons.send),
