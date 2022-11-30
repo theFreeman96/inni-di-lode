@@ -42,7 +42,7 @@ class _SongsDetailState extends State<SongsDetail> {
 
   @override
   initState() {
-    pageController = PageController(initialPage: --widget.songId);
+    pageController = PageController(initialPage: widget.songId - 1);
     super.initState();
   }
 
@@ -50,7 +50,7 @@ class _SongsDetailState extends State<SongsDetail> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: FutureBuilder<List?>(
-        future: widget.from == 'Songs'
+        future: /*widget.from == 'Songs'
             ? query.getAllSongs()
             : widget.from == 'Category'
                 ? query.getSongsByCat(widget.id!)
@@ -58,7 +58,8 @@ class _SongsDetailState extends State<SongsDetail> {
                     ? query.getSongsByAut(widget.id!)
                     : widget.from == 'Favorites'
                         ? query.getAllFav()
-                        : query.getAllSongs(),
+                        :*/
+            query.getAllSongs(),
         initialData: const [],
         builder: (context, snapshot) {
           return PageView.builder(
@@ -147,58 +148,60 @@ class _SongsDetailState extends State<SongsDetail> {
                           const EdgeInsets.only(right: kDefaultPadding / 2)),
                 },
               ),
-              Padding(
-                padding: const EdgeInsets.only(bottom: kDefaultPadding * 3),
-                child: Column(
-                  children: [
-                    const Divider(),
-                    TextButton.icon(
-                      icon: const Icon(Icons.sell, color: kLightGrey),
-                      label: Text(
-                        get.catName,
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: themeProvider.isDarkMode ? kWhite : kBlack),
-                      ),
-                      onPressed: () {
-                        FocusScope.of(context).unfocus();
-                        int catId = get.catId;
-                        String catName = get.catName;
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) {
-                              return CatDetail(catId, catName);
-                            },
+              const Divider(),
+              FutureBuilder<List?>(
+                future: QueryCtr().getCatBySongId(widget.songId),
+                initialData: const [],
+                builder: (context, snapshot) {
+                  return snapshot.hasData
+                      ? ListView.builder(
+                          physics: const ScrollPhysics(),
+                          shrinkWrap: true,
+                          padding: const EdgeInsets.only(
+                              bottom: kDefaultPadding * 0.4),
+                          itemCount: snapshot.data!.length,
+                          itemBuilder: (context, i) {
+                            return buildCatInfo(snapshot.data![i]);
+                          },
+                        )
+                      : Padding(
+                          padding: const EdgeInsets.only(top: kDefaultPadding),
+                          child: Center(
+                            child: Text(
+                              'Nessuna Categoria trovata',
+                              style:
+                                  TextStyle(fontSize: 20.0 * textScaleFactor),
+                            ),
                           ),
                         );
-                      },
-                    ),
-                    TextButton.icon(
-                      icon: const Icon(Icons.person, color: kLightGrey),
-                      label: Text(
-                        get.autName,
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: themeProvider.isDarkMode ? kWhite : kBlack),
-                      ),
-                      onPressed: () {
-                        FocusScope.of(context).unfocus();
-                        int autId = get.autId;
-                        String autName = get.autName;
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) {
-                              return AutDetail(autId, autName);
-                            },
-                          ),
-                        );
-                      },
-                    ),
-                  ],
-                ),
+                },
               ),
+              FutureBuilder<List?>(
+                future: QueryCtr().getAutBySongId(widget.songId),
+                initialData: const [],
+                builder: (context, snapshot) {
+                  return snapshot.hasData
+                      ? ListView.builder(
+                          physics: const ScrollPhysics(),
+                          shrinkWrap: true,
+                          itemCount: snapshot.data!.length,
+                          itemBuilder: (context, i) {
+                            return buildAutInfo(snapshot.data![i]);
+                          },
+                        )
+                      : Padding(
+                          padding: const EdgeInsets.only(top: kDefaultPadding),
+                          child: Center(
+                            child: Text(
+                              'Nessun Autore trovato',
+                              style:
+                                  TextStyle(fontSize: 20.0 * textScaleFactor),
+                            ),
+                          ),
+                        );
+                },
+              ),
+              const SizedBox(height: kDefaultPadding * 3)
             ],
           ),
         ),
@@ -463,6 +466,62 @@ class _SongsDetailState extends State<SongsDetail> {
           ),
         ),
       ),
+    );
+  }
+
+  Widget buildCatInfo(Raccolta get) {
+    final themeProvider = Provider.of<ThemeProvider>(context);
+    return Column(
+      children: [
+        TextButton.icon(
+          icon: const Icon(Icons.sell, color: kLightGrey),
+          label: Text(
+            get.catName,
+            style: TextStyle(color: themeProvider.isDarkMode ? kWhite : kBlack),
+          ),
+          onPressed: () {
+            FocusScope.of(context).unfocus();
+            int catId = get.catId;
+            String catName = get.catName;
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) {
+                  return CatDetail(catId, catName);
+                },
+              ),
+            );
+          },
+        ),
+      ],
+    );
+  }
+
+  Widget buildAutInfo(Raccolta get) {
+    final themeProvider = Provider.of<ThemeProvider>(context);
+    return Column(
+      children: [
+        TextButton.icon(
+          icon: const Icon(Icons.person, color: kLightGrey),
+          label: Text(
+            get.autName,
+            style: TextStyle(color: themeProvider.isDarkMode ? kWhite : kBlack),
+          ),
+          onPressed: () {
+            FocusScope.of(context).unfocus();
+            int autId = get.autId;
+            String autName = get.autName;
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) {
+                  return AutDetail(autId, autName);
+                },
+              ),
+            );
+          },
+        ),
+      ],
     );
   }
 }
