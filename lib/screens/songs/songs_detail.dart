@@ -14,7 +14,9 @@ import 'songs_player.dart';
 
 class SongsDetail extends StatefulWidget {
   int songId;
-  SongsDetail({Key? key, required this.songId}) : super(key: key);
+  String from;
+  SongsDetail({Key? key, required this.songId, required this.from})
+      : super(key: key);
 
   @override
   State<SongsDetail> createState() => _SongsDetailState();
@@ -44,13 +46,22 @@ class _SongsDetailState extends State<SongsDetail> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: FutureBuilder<List?>(
-        future: query.getAllSongs(),
+        future: widget.from == 'Songs'
+            ? query.getAllSongs()
+            : widget.from == 'Category'
+                ? query.getSongsByCat(1)
+                : widget.from == 'Author'
+                    ? query.getSongsByAut(1)
+                    : widget.from == 'Favorites'
+                        ? query.getAllFav()
+                        : query.getAllSongs(),
         initialData: const [],
         builder: (context, snapshot) {
           return PageView.builder(
             controller: pageController,
+            itemCount: snapshot.data!.length,
             itemBuilder: (context, i) {
-              return buildPage(snapshot.data![i % snapshot.data!.length]);
+              return buildPage(snapshot.data![i]);
             },
           );
         },

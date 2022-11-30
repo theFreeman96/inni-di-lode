@@ -179,7 +179,7 @@ class _SongsBodyState extends State<SongsBody> {
           context,
           MaterialPageRoute(
             builder: (context) {
-              return SongsDetail(songId: get.songId);
+              return SongsDetail(songId: get.songId, from: 'Songs');
             },
           ),
         );

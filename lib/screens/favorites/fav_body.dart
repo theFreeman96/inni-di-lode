@@ -131,7 +131,7 @@ class _FavBodyState extends State<FavBody> {
           context,
           MaterialPageRoute(
             builder: (context) {
-              return SongsDetail(songId: get.songId);
+              return SongsDetail(songId: get.songId, from: 'Favorites');
             },
           ),
         ).then(onGoBack);
