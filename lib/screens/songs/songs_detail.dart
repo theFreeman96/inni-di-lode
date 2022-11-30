@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_html/flutter_html.dart';
 
+import '../categories/cat_detail.dart';
 import '/theme/constants.dart';
 import '/theme/theme_provider.dart';
 import '/assets/data/models.dart';
@@ -137,12 +138,42 @@ class _SongsDetailState extends State<SongsDetail> {
                     fontSize: FontSize(fontSize),
                     lineHeight: LineHeight(lineHeight),
                     listStylePosition: ListStylePosition.inside,
-                    padding: const EdgeInsets.only(bottom: kDefaultPadding * 7),
+                    padding: const EdgeInsets.only(bottom: kDefaultPadding),
                   ),
                   'li': Style(
                       padding:
                           const EdgeInsets.only(right: kDefaultPadding / 2)),
                 },
+              ),
+              Padding(
+                padding: const EdgeInsets.only(bottom: kDefaultPadding * 3),
+                child: Column(
+                  children: [
+                    const Divider(),
+                    TextButton.icon(
+                      icon: const Icon(Icons.sell, color: kLightGrey),
+                      label: Text(
+                        get.catName,
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: themeProvider.isDarkMode ? kWhite : kBlack),
+                      ),
+                      onPressed: () {
+                        FocusScope.of(context).unfocus();
+                        int catId = get.catId;
+                        String catName = get.catName;
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) {
+                              return CatDetail(catId, catName);
+                            },
+                          ),
+                        );
+                      },
+                    ),
+                  ],
+                ),
               ),
             ],
           ),
