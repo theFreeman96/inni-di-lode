@@ -4,11 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_html/flutter_html.dart';
 
-import '../categories/cat_detail.dart';
 import '/theme/constants.dart';
 import '/theme/theme_provider.dart';
 import '/assets/data/models.dart';
 import '/assets/data/queries.dart';
+
+import '../categories/cat_detail.dart';
 
 import 'songs_pdf.dart';
 import 'songs_player.dart';
