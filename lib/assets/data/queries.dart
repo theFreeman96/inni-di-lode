@@ -100,6 +100,17 @@ class QueryCtr {
     return list;
   }
 
+  Future<List<Raccolta>?> getCatBySongId(id) async {
+    final dbClient = await con.db;
+    final res = await dbClient!.query('View_Raccolta',
+        where: 'songId = ?', whereArgs: [id], groupBy: 'catId');
+
+    List<Raccolta>? list =
+        res.isNotEmpty ? res.map((c) => Raccolta.fromMap(c)).toList() : null;
+
+    return list;
+  }
+
   // Author related queries
   Future<List<Raccolta>?> getAllAut() async {
     final dbClient = await con.db;
@@ -130,6 +141,17 @@ class QueryCtr {
     final dbClient = await con.db;
     final res = await dbClient!.query('View_Raccolta',
         where: 'autId = ?', whereArgs: [id], groupBy: 'songId');
+
+    List<Raccolta>? list =
+        res.isNotEmpty ? res.map((c) => Raccolta.fromMap(c)).toList() : null;
+
+    return list;
+  }
+
+  Future<List<Raccolta>?> getAutBySongId(id) async {
+    final dbClient = await con.db;
+    final res = await dbClient!.query('View_Raccolta',
+        where: 'songId = ?', whereArgs: [id], groupBy: 'autId');
 
     List<Raccolta>? list =
         res.isNotEmpty ? res.map((c) => Raccolta.fromMap(c)).toList() : null;
