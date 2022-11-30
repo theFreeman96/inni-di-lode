@@ -31,6 +31,8 @@ class NewSongPageState extends State<NewSongPage> {
   final newCatKey = GlobalKey<FormState>();
   final newAutKey = GlobalKey<FormState>();
 
+  final QueryCtr query = QueryCtr();
+
   @override
   void initState() {
     cat = 0;
@@ -101,7 +103,7 @@ class NewSongPageState extends State<NewSongPage> {
       ),
       child: SafeArea(
           child: FutureBuilder(
-        future: QueryCtr().getAllSongs(),
+        future: query.getAllSongs(),
         builder: (context, AsyncSnapshot snapshot) {
           final newSongId = snapshot.data!.length + 1;
           return Scaffold(
@@ -142,7 +144,7 @@ class NewSongPageState extends State<NewSongPage> {
             floatingActionButton: FloatingActionButton(
               onPressed: () {
                 if (newSongKey.currentState!.validate()) {
-                  QueryCtr().insertSong(
+                  query.insertSong(
                       titleController.text,
                       '<ol>${textController.text.replaceAll('---Strofa---\n', '<li>').replaceAll('---Coro---', '<b>Coro:</b>').replaceAll('---Bridge---', '<b>Bridge:</b>').replaceAll('---Finale---', '<b>Finale:</b>').replaceAll('\n\n\n\n', '\n\n').replaceAll('\n\n\n', '\n\n').replaceAll('\n', '<br>')}</ol>',
                       cat,
@@ -396,7 +398,7 @@ class NewSongPageState extends State<NewSongPage> {
                         children: [
                           Expanded(
                             child: FutureBuilder(
-                              future: QueryCtr().getAllCat(),
+                              future: query.getAllCat(),
                               builder: (context, AsyncSnapshot snapshot) {
                                 return snapshot.hasData
                                     ? DropdownButtonFormField<String>(
@@ -544,8 +546,7 @@ class NewSongPageState extends State<NewSongPage> {
                                               ),
                                             ),
                                             FutureBuilder(
-                                              future:
-                                                  QueryCtr().getAllMacroCat(),
+                                              future: query.getAllMacroCat(),
                                               builder: (context,
                                                   AsyncSnapshot snapshot) {
                                                 return snapshot.hasData
@@ -678,7 +679,7 @@ class NewSongPageState extends State<NewSongPage> {
                           children: [
                             Expanded(
                               child: FutureBuilder(
-                                future: QueryCtr().getAllAut(),
+                                future: query.getAllAut(),
                                 builder: (context, AsyncSnapshot snapshot) {
                                   return snapshot.hasData
                                       ? DropdownButtonFormField<String>(
