@@ -101,38 +101,38 @@ class QueryCtr {
   }
 
   // Author related queries
-  Future<List<Autori>?> getAllAut() async {
+  Future<List<Raccolta>?> getAllAut() async {
     final dbClient = await con.db;
     final res = await dbClient!
-        .query('view_autori', orderBy: 'autName', groupBy: 'autId');
+        .query('view_raccolta', orderBy: 'autName', groupBy: 'autId');
 
-    List<Autori>? list =
-        res.isNotEmpty ? res.map((c) => Autori.fromMap(c)).toList() : null;
+    List<Raccolta>? list =
+        res.isNotEmpty ? res.map((c) => Raccolta.fromMap(c)).toList() : null;
 
     return list;
   }
 
-  Future<List<Autori>?> searchAut(String keyword) async {
+  Future<List<Raccolta>?> searchAut(String keyword) async {
     final dbClient = await con.db;
-    final res = await dbClient!.query('view_autori',
+    final res = await dbClient!.query('view_raccolta',
         where: 'autName LIKE ?',
         whereArgs: ['%$keyword%'],
         groupBy: 'autId',
         orderBy: 'autName');
 
-    List<Autori>? list =
-        res.isNotEmpty ? res.map((c) => Autori.fromMap(c)).toList() : null;
+    List<Raccolta>? list =
+        res.isNotEmpty ? res.map((c) => Raccolta.fromMap(c)).toList() : null;
 
     return list;
   }
 
-  Future<List<Autori>?> getSongsByAut(id) async {
+  Future<List<Raccolta>?> getSongsByAut(id) async {
     final dbClient = await con.db;
-    final res = await dbClient!.query('view_autori',
+    final res = await dbClient!.query('view_raccolta',
         where: 'autId = ?', whereArgs: [id], groupBy: 'songId');
 
-    List<Autori>? list =
-        res.isNotEmpty ? res.map((c) => Autori.fromMap(c)).toList() : null;
+    List<Raccolta>? list =
+        res.isNotEmpty ? res.map((c) => Raccolta.fromMap(c)).toList() : null;
 
     return list;
   }
