@@ -15,7 +15,8 @@ import 'songs_player.dart';
 class SongsDetail extends StatefulWidget {
   int songId;
   String from;
-  SongsDetail({Key? key, required this.songId, required this.from})
+  int? id;
+  SongsDetail({Key? key, required this.songId, required this.from, this.id})
       : super(key: key);
 
   @override
@@ -49,9 +50,9 @@ class _SongsDetailState extends State<SongsDetail> {
         future: widget.from == 'Songs'
             ? query.getAllSongs()
             : widget.from == 'Category'
-                ? query.getSongsByCat(1)
+                ? query.getSongsByCat(widget.id)
                 : widget.from == 'Author'
-                    ? query.getSongsByAut(1)
+                    ? query.getSongsByAut(widget.id)
                     : widget.from == 'Favorites'
                         ? query.getAllFav()
                         : query.getAllSongs(),
