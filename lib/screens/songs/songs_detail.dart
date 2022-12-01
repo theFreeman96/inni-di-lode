@@ -160,7 +160,34 @@ class _SongsDetailState extends State<SongsDetail> {
                               bottom: kDefaultPadding * 0.4),
                           itemCount: snapshot.data!.length,
                           itemBuilder: (context, i) {
-                            return buildCatInfo(snapshot.data![i]);
+                            return Column(
+                              children: [
+                                TextButton.icon(
+                                  icon:
+                                      const Icon(Icons.sell, color: kLightGrey),
+                                  label: Text(
+                                    get.catName,
+                                    style: TextStyle(
+                                        color: themeProvider.isDarkMode
+                                            ? kWhite
+                                            : kBlack),
+                                  ),
+                                  onPressed: () {
+                                    FocusScope.of(context).unfocus();
+                                    int catId = get.catId;
+                                    String catName = get.catName;
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) {
+                                          return CatDetail(catId, catName);
+                                        },
+                                      ),
+                                    );
+                                  },
+                                ),
+                              ],
+                            );
                           },
                         )
                       : Padding(
@@ -185,7 +212,34 @@ class _SongsDetailState extends State<SongsDetail> {
                           shrinkWrap: true,
                           itemCount: snapshot.data!.length,
                           itemBuilder: (context, i) {
-                            return buildAutInfo(snapshot.data![i]);
+                            return Column(
+                              children: [
+                                TextButton.icon(
+                                  icon: const Icon(Icons.person,
+                                      color: kLightGrey),
+                                  label: Text(
+                                    get.autName,
+                                    style: TextStyle(
+                                        color: themeProvider.isDarkMode
+                                            ? kWhite
+                                            : kBlack),
+                                  ),
+                                  onPressed: () {
+                                    FocusScope.of(context).unfocus();
+                                    int autId = get.autId;
+                                    String autName = get.autName;
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) {
+                                          return AutDetail(autId, autName);
+                                        },
+                                      ),
+                                    );
+                                  },
+                                ),
+                              ],
+                            );
                           },
                         )
                       : Padding(
@@ -465,62 +519,6 @@ class _SongsDetailState extends State<SongsDetail> {
           ),
         ),
       ),
-    );
-  }
-
-  Widget buildCatInfo(Raccolta get) {
-    final themeProvider = Provider.of<ThemeProvider>(context);
-    return Column(
-      children: [
-        TextButton.icon(
-          icon: const Icon(Icons.sell, color: kLightGrey),
-          label: Text(
-            get.catName,
-            style: TextStyle(color: themeProvider.isDarkMode ? kWhite : kBlack),
-          ),
-          onPressed: () {
-            FocusScope.of(context).unfocus();
-            int catId = get.catId;
-            String catName = get.catName;
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) {
-                  return CatDetail(catId, catName);
-                },
-              ),
-            );
-          },
-        ),
-      ],
-    );
-  }
-
-  Widget buildAutInfo(Raccolta get) {
-    final themeProvider = Provider.of<ThemeProvider>(context);
-    return Column(
-      children: [
-        TextButton.icon(
-          icon: const Icon(Icons.person, color: kLightGrey),
-          label: Text(
-            get.autName,
-            style: TextStyle(color: themeProvider.isDarkMode ? kWhite : kBlack),
-          ),
-          onPressed: () {
-            FocusScope.of(context).unfocus();
-            int autId = get.autId;
-            String autName = get.autName;
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) {
-                  return AutDetail(autId, autName);
-                },
-              ),
-            );
-          },
-        ),
-      ],
     );
   }
 }
