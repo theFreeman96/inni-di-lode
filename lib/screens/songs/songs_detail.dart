@@ -18,8 +18,7 @@ import 'songs_player.dart';
 class SongsDetail extends StatefulWidget {
   int songId;
   String from;
-  int? id;
-  SongsDetail({Key? key, required this.songId, required this.from, this.id})
+  SongsDetail({Key? key, required this.songId, required this.from})
       : super(key: key);
 
   @override
