@@ -149,7 +149,7 @@ class _SongsDetailState extends State<SongsDetail> {
               ),
               const Divider(),
               FutureBuilder<List?>(
-                future: query.getCatBySongId(widget.songId),
+                future: query.getCatBySongId(get.songId),
                 initialData: const [],
                 builder: (context, snapshot) {
                   return snapshot.hasData
@@ -180,7 +180,7 @@ class _SongsDetailState extends State<SongsDetail> {
                 },
               ),
               FutureBuilder<List?>(
-                future: query.getAutBySongId(widget.songId),
+                future: query.getAutBySongId(get.songId),
                 initialData: const [],
                 builder: (context, snapshot) {
                   return snapshot.hasData
