@@ -114,15 +114,6 @@ class QueryCtr {
     return list;
   }
 
-  Future<List<Raccolta>?> insertCat(name, macro_id) async {
-    final dbClient = await con.db;
-    await dbClient!.insert(
-      'Categories',
-      {'name': name, 'macro_id': macro_id},
-    );
-    return null;
-  }
-
   // Author related queries
   Future<List<Raccolta>?> getAllAut() async {
     final dbClient = await con.db;
@@ -174,15 +165,6 @@ class QueryCtr {
     return list;
   }
 
-  Future<List<Raccolta>?> insertAut(name, surname) async {
-    final dbClient = await con.db;
-    await dbClient!.insert(
-      'Authors',
-      {'name': name, 'surname': surname},
-    );
-    return null;
-  }
-
   // Favorite related queries
   Future<List<Raccolta>?> updateFav(value, id) async {
     final dbClient = await con.db;
@@ -221,7 +203,7 @@ class QueryCtr {
     return list;
   }
 
-  // New Songs
+  // Insert queries
   Future<List<Raccolta>?> insertSong(
       title, text, cat, fav, song_id, aut_id, song_title) async {
     final dbClient = await con.db;
@@ -236,6 +218,25 @@ class QueryCtr {
     return null;
   }
 
+  Future<List<Raccolta>?> insertCat(name, macro_id) async {
+    final dbClient = await con.db;
+    await dbClient!.insert(
+      'Categories',
+      {'name': name, 'macro_id': macro_id},
+    );
+    return null;
+  }
+
+  Future<List<Raccolta>?> insertAut(name, surname) async {
+    final dbClient = await con.db;
+    await dbClient!.insert(
+      'Authors',
+      {'name': name, 'surname': surname},
+    );
+    return null;
+  }
+
+  //Update queries
   Future<List<Raccolta>?> updateSong(
       title, text, cat_id, id, song_id, aut_id, song_title) async {
     final dbClient = await con.db;
@@ -252,9 +253,44 @@ class QueryCtr {
     return null;
   }
 
+  Future<List<Raccolta>?> updateCat(name, macro_id, id) async {
+    final dbClient = await con.db;
+    await dbClient!.update(
+      'Categories',
+      {'name': name, 'macro_id': macro_id},
+      where: 'id = ?',
+      whereArgs: [id],
+    );
+    return null;
+  }
+
+  Future<List<Raccolta>?> updateAut(name, surname, id) async {
+    final dbClient = await con.db;
+    await dbClient!.update(
+      'Authors',
+      {'name': name, 'surname': surname},
+      where: 'id = ?',
+      whereArgs: [id],
+    );
+    return null;
+  }
+
+  //Delete queries
   Future<List<Raccolta>?> deleteSong(id) async {
     final dbClient = await con.db;
     await dbClient!.delete('Songs', where: 'id = ?', whereArgs: [id]);
+    return null;
+  }
+
+  Future<List<Raccolta>?> deleteCat(id) async {
+    final dbClient = await con.db;
+    await dbClient!.delete('Categories', where: 'id = ?', whereArgs: [id]);
+    return null;
+  }
+
+  Future<List<Raccolta>?> deleteAut(id) async {
+    final dbClient = await con.db;
+    await dbClient!.delete('Authors', where: 'id = ?', whereArgs: [id]);
     return null;
   }
 }
