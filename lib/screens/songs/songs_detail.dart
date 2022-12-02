@@ -64,7 +64,7 @@ class _SongsDetailState extends State<SongsDetail> {
           return PageView.builder(
             controller: pageController,
             itemBuilder: (context, i) {
-              return buildPage(snapshot.data![i]);
+              return buildPage(snapshot.data![i % snapshot.data!.length]);
             },
           );
         },
