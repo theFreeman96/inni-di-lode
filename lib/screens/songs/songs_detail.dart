@@ -64,7 +64,7 @@ class _SongsDetailState extends State<SongsDetail> {
           return PageView.builder(
             controller: pageController,
             itemBuilder: (context, i) {
-              return buildPage(snapshot.data![i % snapshot.data!.length]);
+              return buildPage(snapshot.data![i]);
             },
           );
         },
@@ -149,7 +149,7 @@ class _SongsDetailState extends State<SongsDetail> {
               ),
               const Divider(),
               FutureBuilder<List?>(
-                future: QueryCtr().getCatBySongId(widget.songId),
+                future: query.getCatBySongId(widget.songId),
                 initialData: const [],
                 builder: (context, snapshot) {
                   return snapshot.hasData
@@ -162,30 +162,7 @@ class _SongsDetailState extends State<SongsDetail> {
                           itemBuilder: (context, i) {
                             return Column(
                               children: [
-                                TextButton.icon(
-                                  icon:
-                                      const Icon(Icons.sell, color: kLightGrey),
-                                  label: Text(
-                                    get.catName,
-                                    style: TextStyle(
-                                        color: themeProvider.isDarkMode
-                                            ? kWhite
-                                            : kBlack),
-                                  ),
-                                  onPressed: () {
-                                    FocusScope.of(context).unfocus();
-                                    int catId = get.catId;
-                                    String catName = get.catName;
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) {
-                                          return CatDetail(catId, catName);
-                                        },
-                                      ),
-                                    );
-                                  },
-                                ),
+                                buildCatInfo(snapshot.data![i]),
                               ],
                             );
                           },
@@ -203,7 +180,7 @@ class _SongsDetailState extends State<SongsDetail> {
                 },
               ),
               FutureBuilder<List?>(
-                future: QueryCtr().getAutBySongId(widget.songId),
+                future: query.getAutBySongId(widget.songId),
                 initialData: const [],
                 builder: (context, snapshot) {
                   return snapshot.hasData
@@ -214,30 +191,7 @@ class _SongsDetailState extends State<SongsDetail> {
                           itemBuilder: (context, i) {
                             return Column(
                               children: [
-                                TextButton.icon(
-                                  icon: const Icon(Icons.person,
-                                      color: kLightGrey),
-                                  label: Text(
-                                    get.autName,
-                                    style: TextStyle(
-                                        color: themeProvider.isDarkMode
-                                            ? kWhite
-                                            : kBlack),
-                                  ),
-                                  onPressed: () {
-                                    FocusScope.of(context).unfocus();
-                                    int autId = get.autId;
-                                    String autName = get.autName;
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) {
-                                          return AutDetail(autId, autName);
-                                        },
-                                      ),
-                                    );
-                                  },
-                                ),
+                                buildAutInfo(snapshot.data![i]),
                               ],
                             );
                           },
@@ -519,6 +473,54 @@ class _SongsDetailState extends State<SongsDetail> {
           ),
         ),
       ),
+    );
+  }
+
+  Widget buildCatInfo(Raccolta get) {
+    final themeProvider = Provider.of<ThemeProvider>(context);
+    return TextButton.icon(
+      icon: const Icon(Icons.sell, color: kLightGrey),
+      label: Text(
+        get.catName,
+        style: TextStyle(color: themeProvider.isDarkMode ? kWhite : kBlack),
+      ),
+      onPressed: () {
+        FocusScope.of(context).unfocus();
+        int catId = get.catId;
+        String catName = get.catName;
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) {
+              return CatDetail(catId, catName);
+            },
+          ),
+        );
+      },
+    );
+  }
+
+  Widget buildAutInfo(Raccolta get) {
+    final themeProvider = Provider.of<ThemeProvider>(context);
+    return TextButton.icon(
+      icon: const Icon(Icons.person, color: kLightGrey),
+      label: Text(
+        get.autName,
+        style: TextStyle(color: themeProvider.isDarkMode ? kWhite : kBlack),
+      ),
+      onPressed: () {
+        FocusScope.of(context).unfocus();
+        int autId = get.autId;
+        String autName = get.autName;
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) {
+              return AutDetail(autId, autName);
+            },
+          ),
+        );
+      },
     );
   }
 }
