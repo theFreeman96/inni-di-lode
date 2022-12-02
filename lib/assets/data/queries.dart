@@ -103,7 +103,10 @@ class QueryCtr {
   Future<List<Raccolta>?> getCatBySongId(id) async {
     final dbClient = await con.db;
     final res = await dbClient!.query('View_Raccolta',
-        where: 'songId = ?', whereArgs: [id], groupBy: 'catId');
+        where: 'songId = ?',
+        whereArgs: [id],
+        groupBy: 'catId',
+        orderBy: 'catName');
 
     List<Raccolta>? list =
         res.isNotEmpty ? res.map((c) => Raccolta.fromMap(c)).toList() : null;
@@ -151,7 +154,10 @@ class QueryCtr {
   Future<List<Raccolta>?> getAutBySongId(id) async {
     final dbClient = await con.db;
     final res = await dbClient!.query('View_Raccolta',
-        where: 'songId = ?', whereArgs: [id], groupBy: 'autId');
+        where: 'songId = ?',
+        whereArgs: [id],
+        groupBy: 'autId',
+        orderBy: 'autName');
 
     List<Raccolta>? list =
         res.isNotEmpty ? res.map((c) => Raccolta.fromMap(c)).toList() : null;
