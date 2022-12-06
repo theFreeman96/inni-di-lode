@@ -7,7 +7,8 @@ class QueryCtr {
   // Song list queries
   Future<List<Raccolta>?> getAllSongs() async {
     final dbClient = await con.db;
-    final res = await dbClient!.query('View_Raccolta', groupBy: 'songId');
+    final res = await dbClient!
+        .query('View_Raccolta', orderBy: 'songId', groupBy: 'songId');
 
     List<Raccolta>? list =
         res.isNotEmpty ? res.map((c) => Raccolta.fromMap(c)).toList() : null;
@@ -46,7 +47,8 @@ class QueryCtr {
   // Category related queries
   Future<List<Raccolta>?> getAllMacroCat() async {
     final dbClient = await con.db;
-    final res = await dbClient!.query('View_Raccolta', groupBy: 'macroId');
+    final res = await dbClient!
+        .query('View_Raccolta', orderBy: 'macroId', groupBy: 'macroId');
 
     List<Raccolta>? list =
         res.isNotEmpty ? res.map((c) => Raccolta.fromMap(c)).toList() : null;
@@ -57,7 +59,10 @@ class QueryCtr {
   Future<List<Raccolta>?> getCatByMacro(id) async {
     final dbClient = await con.db;
     final res = await dbClient!.query('View_Raccolta',
-        where: 'macroId = ?', whereArgs: [id], groupBy: 'catId');
+        where: 'macroId = ?',
+        whereArgs: [id],
+        orderBy: 'catId',
+        groupBy: 'catId');
 
     List<Raccolta>? list =
         res.isNotEmpty ? res.map((c) => Raccolta.fromMap(c)).toList() : null;
@@ -67,7 +72,8 @@ class QueryCtr {
 
   Future<List<Raccolta>?> getAllCat() async {
     final dbClient = await con.db;
-    final res = await dbClient!.query('View_Raccolta', groupBy: 'catId');
+    final res = await dbClient!
+        .query('View_Raccolta', orderBy: 'macroId, catId', groupBy: 'catId');
 
     List<Raccolta>? list =
         res.isNotEmpty ? res.map((c) => Raccolta.fromMap(c)).toList() : null;
@@ -92,7 +98,10 @@ class QueryCtr {
   Future<List<Raccolta>?> getSongsByCat(id) async {
     final dbClient = await con.db;
     final res = await dbClient!.query('View_Raccolta',
-        where: 'catId = ?', whereArgs: [id], groupBy: 'songId');
+        where: 'catId = ?',
+        whereArgs: [id],
+        orderBy: 'songId',
+        groupBy: 'songId');
 
     List<Raccolta>? list =
         res.isNotEmpty ? res.map((c) => Raccolta.fromMap(c)).toList() : null;
@@ -143,7 +152,10 @@ class QueryCtr {
   Future<List<Raccolta>?> getSongsByAut(id) async {
     final dbClient = await con.db;
     final res = await dbClient!.query('View_Raccolta',
-        where: 'autId = ?', whereArgs: [id], groupBy: 'songId');
+        where: 'autId = ?',
+        whereArgs: [id],
+        orderBy: 'songId',
+        groupBy: 'songId');
 
     List<Raccolta>? list =
         res.isNotEmpty ? res.map((c) => Raccolta.fromMap(c)).toList() : null;
@@ -180,7 +192,10 @@ class QueryCtr {
   Future<List<Raccolta>?> getAllFav() async {
     final dbClient = await con.db;
     final res = await dbClient!.query('View_Raccolta',
-        where: 'isFav = ?', whereArgs: [1], groupBy: 'songId');
+        where: 'isFav = ?',
+        whereArgs: [1],
+        orderBy: 'songId',
+        groupBy: 'songId');
 
     List<Raccolta>? list =
         res.isNotEmpty ? res.map((c) => Raccolta.fromMap(c)).toList() : null;
