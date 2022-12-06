@@ -676,6 +676,7 @@ class NewSongPageState extends State<NewSongPage> {
                           ),
                         );
                         Navigator.pop(context, 'Conferma');
+                        catController.clear();
                       }
                     },
                     child: Text(
@@ -819,6 +820,8 @@ class NewSongPageState extends State<NewSongPage> {
                           ),
                         );
                         Navigator.pop(context, 'Conferma');
+                        autNameController.clear();
+                        autSurnameController.clear();
                       }
                     },
                     child: Text(
