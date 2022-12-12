@@ -52,7 +52,7 @@ class _SongsDetailState extends State<SongsDetail> {
       child: Stack(
         children: [
           FutureBuilder<List?>(
-            future: widget.from == 'Songs'
+            future: /*widget.from == 'Songs'
                 ? query.getAllSongs()
                 : widget.from == 'Category'
                     ? query.getSongsByCat(widget.id!)
@@ -60,7 +60,8 @@ class _SongsDetailState extends State<SongsDetail> {
                         ? query.getSongsByAut(widget.id!)
                         : widget.from == 'Favorites'
                             ? query.getAllFav()
-                            : query.getAllSongs(),
+                            : */
+                query.getAllSongs(),
             initialData: const [],
             builder: (context, snapshot) {
               return PageView.builder(
