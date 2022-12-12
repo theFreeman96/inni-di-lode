@@ -48,27 +48,80 @@ class _SongsDetailState extends State<SongsDetail> {
 
   @override
   Widget build(BuildContext context) {
+    final mediaQuery = MediaQuery.of(context);
+    Orientation orientation = mediaQuery.orientation;
     return SafeArea(
-      child: FutureBuilder<List?>(
-        future: /*widget.from == 'Songs'
-            ? query.getAllSongs()
-            : widget.from == 'Category'
-                ? query.getSongsByCat(widget.id!)
-                : widget.from == 'Author'
-                    ? query.getSongsByAut(widget.id!)
-                    : widget.from == 'Favorites'
-                        ? query.getAllFav()
-                        :*/
-            query.getAllSongs(),
-        initialData: const [],
-        builder: (context, snapshot) {
-          return PageView.builder(
-            controller: pageController,
-            itemBuilder: (context, i) {
-              return buildPage(snapshot.data![i % snapshot.data!.length]);
+      child: Stack(
+        children: [
+          FutureBuilder<List?>(
+            future: widget.from == 'Songs'
+                ? query.getAllSongs()
+                : widget.from == 'Category'
+                    ? query.getSongsByCat(widget.id!)
+                    : widget.from == 'Author'
+                        ? query.getSongsByAut(widget.id!)
+                        : widget.from == 'Favorites'
+                            ? query.getAllFav()
+                            : query.getAllSongs(),
+            initialData: const [],
+            builder: (context, snapshot) {
+              return PageView.builder(
+                controller: pageController,
+                itemBuilder: (context, i) {
+                  return buildPage(snapshot.data![i % snapshot.data!.length]);
+                },
+              );
             },
-          );
-        },
+          ),
+          Visibility(
+            visible: orientation == Orientation.portrait ? false : true,
+            child: Center(
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: kDefaultPadding * 2),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Card(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(50),
+                      ),
+                      child: IconButton(
+                        onPressed: () {
+                          if (pageController.hasClients) {
+                            pageController.animateToPage(
+                              pageController.page!.toInt() - 1,
+                              duration: const Duration(milliseconds: 10),
+                              curve: Curves.easeInOut,
+                            );
+                          }
+                        },
+                        icon: const Icon(Icons.arrow_back_ios_new),
+                      ),
+                    ),
+                    Card(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(50),
+                      ),
+                      child: IconButton(
+                        onPressed: () {
+                          if (pageController.hasClients) {
+                            pageController.animateToPage(
+                              pageController.page!.toInt() + 1,
+                              duration: const Duration(milliseconds: 10),
+                              curve: Curves.easeInOut,
+                            );
+                          }
+                        },
+                        icon: const Icon(Icons.arrow_forward_ios),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
