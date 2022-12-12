@@ -11,18 +11,14 @@ class CatDetail extends StatefulWidget {
   final String catName;
   const CatDetail(this.catId, this.catName, {Key? key}) : super(key: key);
   @override
-  State<CatDetail> createState() => _CatDetailState(catId, catName);
+  State<CatDetail> createState() => _CatDetailState();
 }
 
 class _CatDetailState extends State<CatDetail> {
   late ScrollController scrollController = ScrollController();
   final QueryCtr query = QueryCtr();
-  final int catId;
-  final String catName;
 
-  _CatDetailState(this.catId, this.catName);
-
-  get id => catId;
+  get id => widget.catId;
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +26,7 @@ class _CatDetailState extends State<CatDetail> {
       child: Scaffold(
         appBar: AppBar(
           elevation: 0.0,
-          title: Text(catName),
+          title: Text(widget.catName),
           leading: IconButton(
             tooltip: 'Indietro',
             icon: const Icon(Icons.arrow_back),

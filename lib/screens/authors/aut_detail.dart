@@ -11,18 +11,14 @@ class AutDetail extends StatefulWidget {
   final String autName;
   const AutDetail(this.autId, this.autName, {Key? key}) : super(key: key);
   @override
-  State<AutDetail> createState() => _AutDetailState(autId, autName);
+  State<AutDetail> createState() => _AutDetailState();
 }
 
 class _AutDetailState extends State<AutDetail> {
   late ScrollController scrollController = ScrollController();
   final QueryCtr query = QueryCtr();
-  final int autId;
-  final String autName;
 
-  _AutDetailState(this.autId, this.autName);
-
-  get id => autId;
+  get id => widget.autId;
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +26,7 @@ class _AutDetailState extends State<AutDetail> {
       child: Scaffold(
         appBar: AppBar(
           elevation: 0.0,
-          title: Text('Testi di $autName'),
+          title: Text('Testi di $widget.autName'),
           leading: IconButton(
             tooltip: 'Indietro',
             icon: const Icon(Icons.arrow_back),
