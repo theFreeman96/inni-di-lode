@@ -15,7 +15,7 @@ class AutDetail extends StatefulWidget {
 }
 
 class _AutDetailState extends State<AutDetail> {
-  late ScrollController scrollController = ScrollController();
+  final ScrollController scrollController = ScrollController();
   final QueryCtr query = QueryCtr();
 
   get id => widget.autId;

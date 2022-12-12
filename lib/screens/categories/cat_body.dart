@@ -15,9 +15,9 @@ class CatBody extends StatefulWidget {
 }
 
 class _CatBodyState extends State<CatBody> {
-  late ScrollController scrollController = ScrollController();
+  final ScrollController scrollController = ScrollController();
   late double textScaleFactor = MediaQuery.of(context).textScaleFactor;
-  FocusNode myFocusNode = FocusNode();
+  final FocusNode myFocusNode = FocusNode();
   final QueryCtr query = QueryCtr();
   int? expansionIndex;
 

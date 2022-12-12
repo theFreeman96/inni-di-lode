@@ -16,9 +16,8 @@ class FavBody extends StatefulWidget {
 }
 
 class _FavBodyState extends State<FavBody> {
-  late ScrollController scrollController = ScrollController();
-  late double textScaleFactor = MediaQuery.of(context).textScaleFactor;
-  FocusNode myFocusNode = FocusNode();
+  final ScrollController scrollController = ScrollController();
+  final FocusNode myFocusNode = FocusNode();
   final QueryCtr query = QueryCtr();
 
   late Future<List?> future;
@@ -100,12 +99,12 @@ class _FavBodyState extends State<FavBody> {
                       ),
                     ),
                   )
-                : Padding(
-                    padding: const EdgeInsets.only(top: kDefaultPadding),
+                : const Padding(
+                    padding: EdgeInsets.only(top: kDefaultPadding),
                     child: Center(
                       child: Text(
                         'Nessun Preferito trovato',
-                        style: TextStyle(fontSize: 20.0 * textScaleFactor),
+                        style: TextStyle(fontSize: 20.0),
                         textAlign: TextAlign.center,
                       ),
                     ),

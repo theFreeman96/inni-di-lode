@@ -14,7 +14,7 @@ class AutBody extends StatefulWidget {
 }
 
 class _AutBodyState extends State<AutBody> {
-  late ScrollController scrollController = ScrollController();
+  final ScrollController scrollController = ScrollController();
   late double textScaleFactor = MediaQuery.of(context).textScaleFactor;
   FocusNode myFocusNode = FocusNode();
   final QueryCtr query = QueryCtr();

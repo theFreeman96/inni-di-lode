@@ -17,9 +17,9 @@ class SongsBody extends StatefulWidget {
 }
 
 class _SongsBodyState extends State<SongsBody> {
-  late ScrollController scrollController = ScrollController();
+  final ScrollController scrollController = ScrollController();
   late double textScaleFactor = MediaQuery.of(context).textScaleFactor;
-  FocusNode myFocusNode = FocusNode();
+  final FocusNode myFocusNode = FocusNode();
   final QueryCtr query = QueryCtr();
   int currentPage = 0;
 

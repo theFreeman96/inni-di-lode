@@ -15,7 +15,7 @@ class CatDetail extends StatefulWidget {
 }
 
 class _CatDetailState extends State<CatDetail> {
-  late ScrollController scrollController = ScrollController();
+  final ScrollController scrollController = ScrollController();
   final QueryCtr query = QueryCtr();
 
   get id => widget.catId;
