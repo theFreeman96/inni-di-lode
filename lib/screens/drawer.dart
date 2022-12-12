@@ -19,8 +19,6 @@ class HamburgerMenu extends StatefulWidget {
 }
 
 class _HamburgerMenuState extends State<HamburgerMenu> {
-  late double textScaleFactor = MediaQuery.of(context).textScaleFactor;
-
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -60,14 +58,12 @@ class _HamburgerMenuState extends State<HamburgerMenu> {
                         int songId = Random().nextInt(snapshot.data!.length);
                         return snapshot.hasData
                             ? SongsDetail(songId: songId, from: 'Drawer')
-                            : Padding(
-                                padding:
-                                    const EdgeInsets.only(top: kDefaultPadding),
+                            : const Padding(
+                                padding: EdgeInsets.only(top: kDefaultPadding),
                                 child: Center(
                                   child: Text(
                                     'Nessun Cantico trovato',
-                                    style: TextStyle(
-                                        fontSize: 20.0 * textScaleFactor),
+                                    style: TextStyle(fontSize: 20.0),
                                   ),
                                 ),
                               );
@@ -142,14 +138,14 @@ class _HamburgerMenuState extends State<HamburgerMenu> {
               );
             },
           ),
-          Positioned(
+          const Positioned(
             bottom: kDefaultPadding - 8.0,
             left: kDefaultPadding - 4.0,
             child: Text(
               'Menu',
               style: TextStyle(
                 color: kWhite,
-                fontSize: 20.0 * textScaleFactor,
+                fontSize: 20.0,
                 fontWeight: FontWeight.w500,
               ),
             ),

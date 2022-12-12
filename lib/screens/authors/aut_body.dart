@@ -15,8 +15,7 @@ class AutBody extends StatefulWidget {
 
 class _AutBodyState extends State<AutBody> {
   final ScrollController scrollController = ScrollController();
-  late double textScaleFactor = MediaQuery.of(context).textScaleFactor;
-  FocusNode myFocusNode = FocusNode();
+  final FocusNode myFocusNode = FocusNode();
   final QueryCtr query = QueryCtr();
 
   late Future<List?> future;
@@ -89,12 +88,12 @@ class _AutBodyState extends State<AutBody> {
                       ),
                     ),
                   )
-                : Padding(
-                    padding: const EdgeInsets.only(top: kDefaultPadding),
+                : const Padding(
+                    padding: EdgeInsets.only(top: kDefaultPadding),
                     child: Center(
                       child: Text(
                         'Nessun Autore trovato',
-                        style: TextStyle(fontSize: 20.0 * textScaleFactor),
+                        style: TextStyle(fontSize: 20.0),
                         textAlign: TextAlign.center,
                       ),
                     ),

@@ -18,10 +18,9 @@ class SongsBody extends StatefulWidget {
 
 class _SongsBodyState extends State<SongsBody> {
   final ScrollController scrollController = ScrollController();
-  late double textScaleFactor = MediaQuery.of(context).textScaleFactor;
   final FocusNode myFocusNode = FocusNode();
   final QueryCtr query = QueryCtr();
-  int currentPage = 0;
+  late int currentPage = 0;
 
   void onValueChanged(newValue) {
     setState(() {
@@ -148,12 +147,12 @@ class _SongsBodyState extends State<SongsBody> {
                       ),
                     ),
                   )
-                : Padding(
-                    padding: const EdgeInsets.only(top: kDefaultPadding),
+                : const Padding(
+                    padding: EdgeInsets.only(top: kDefaultPadding),
                     child: Center(
                       child: Text(
                         'Nessun Cantico trovato',
-                        style: TextStyle(fontSize: 20.0 * textScaleFactor),
+                        style: TextStyle(fontSize: 20.0),
                         textAlign: TextAlign.center,
                       ),
                     ),

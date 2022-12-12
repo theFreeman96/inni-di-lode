@@ -16,7 +16,6 @@ class CatBody extends StatefulWidget {
 
 class _CatBodyState extends State<CatBody> {
   final ScrollController scrollController = ScrollController();
-  late double textScaleFactor = MediaQuery.of(context).textScaleFactor;
   final FocusNode myFocusNode = FocusNode();
   final QueryCtr query = QueryCtr();
   int? expansionIndex;
@@ -91,12 +90,12 @@ class _CatBodyState extends State<CatBody> {
                       ),
                     ),
                   )
-                : Padding(
-                    padding: const EdgeInsets.only(top: kDefaultPadding),
+                : const Padding(
+                    padding: EdgeInsets.only(top: kDefaultPadding),
                     child: Center(
                       child: Text(
                         'Nessuna Categoria trovata',
-                        style: TextStyle(fontSize: 20.0 * textScaleFactor),
+                        style: TextStyle(fontSize: 20.0),
                         textAlign: TextAlign.center,
                       ),
                     ),
