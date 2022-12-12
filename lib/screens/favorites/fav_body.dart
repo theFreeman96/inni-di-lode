@@ -16,6 +16,7 @@ class FavBody extends StatefulWidget {
 }
 
 class _FavBodyState extends State<FavBody> {
+  late ScrollController scrollController = ScrollController();
   late double textScaleFactor = MediaQuery.of(context).textScaleFactor;
   FocusNode myFocusNode = FocusNode();
   final QueryCtr query = QueryCtr();
@@ -84,7 +85,9 @@ class _FavBodyState extends State<FavBody> {
                 ? Expanded(
                     child: Scrollbar(
                       thumbVisibility: true,
+                      controller: scrollController,
                       child: ListView.separated(
+                        controller: scrollController,
                         physics: const ScrollPhysics(),
                         shrinkWrap: true,
                         itemCount: snapshot.data!.length,

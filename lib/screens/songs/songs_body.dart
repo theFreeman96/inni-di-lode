@@ -17,6 +17,7 @@ class SongsBody extends StatefulWidget {
 }
 
 class _SongsBodyState extends State<SongsBody> {
+  late ScrollController scrollController = ScrollController();
   late double textScaleFactor = MediaQuery.of(context).textScaleFactor;
   FocusNode myFocusNode = FocusNode();
   final QueryCtr query = QueryCtr();
@@ -132,7 +133,9 @@ class _SongsBodyState extends State<SongsBody> {
                 ? Expanded(
                     child: Scrollbar(
                       thumbVisibility: true,
+                      controller: scrollController,
                       child: ListView.separated(
+                        controller: scrollController,
                         physics: const ScrollPhysics(),
                         shrinkWrap: true,
                         itemCount: snapshot.data!.length,
