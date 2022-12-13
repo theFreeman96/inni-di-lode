@@ -23,3 +23,27 @@ class Raccolta {
     autName = obj['autName'];
   }
 }
+
+class Categorie {
+  late int id;
+  late String name;
+  late int macro_id;
+
+  Categorie.fromMap(dynamic obj) {
+    id = obj['id'];
+    name = obj['name'];
+    macro_id = obj['macro_id'];
+  }
+}
+
+class Autori {
+  late int id;
+  late String surname;
+  late String name;
+
+  Autori.fromMap(dynamic obj) {
+    id = obj['id'];
+    surname = obj['surname'];
+    name = obj['name'];
+  }
+}
