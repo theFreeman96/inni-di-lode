@@ -163,6 +163,8 @@ class NewSongPageState extends State<NewSongPage> {
                     );
                     titleController.clear();
                     textController.clear();
+                    FocusScope.of(context).unfocus();
+                    Navigator.of(context).pop();
                   }
                 },
                 child: const Icon(Icons.send),
