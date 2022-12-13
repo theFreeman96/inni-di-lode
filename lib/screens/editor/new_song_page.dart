@@ -396,7 +396,7 @@ class NewSongPageState extends State<NewSongPage> {
 
   Widget catDropDown() {
     return FutureBuilder(
-      future: query.getAllCat(),
+      future: query.getAllCatForDropDown(),
       builder: (context, AsyncSnapshot snapshot) {
         return snapshot.hasData
             ? DropdownButtonFormField<String>(
@@ -421,11 +421,11 @@ class NewSongPageState extends State<NewSongPage> {
                 ),
                 items: snapshot.data!.map<DropdownMenuItem<String>>((get) {
                   return DropdownMenuItem<String>(
-                    value: get.catName,
+                    value: get.name,
                     onTap: () {
-                      cat = get.catId;
+                      cat = get.id;
                     },
-                    child: Text(get.catName),
+                    child: Text(get.name),
                   );
                 }).toList(),
                 onChanged: (value) {
@@ -454,7 +454,7 @@ class NewSongPageState extends State<NewSongPage> {
 
   Widget autDropDown() {
     return FutureBuilder(
-      future: query.getAllAut(),
+      future: query.getAllAutForDropDown(),
       builder: (context, AsyncSnapshot snapshot) {
         return snapshot.hasData
             ? DropdownButtonFormField<String>(
@@ -479,11 +479,11 @@ class NewSongPageState extends State<NewSongPage> {
                 ),
                 items: snapshot.data!.map<DropdownMenuItem<String>>((get) {
                   return DropdownMenuItem<String>(
-                    value: get.autName,
+                    value: '${get.name} ${get.surname}',
                     onTap: () {
-                      aut = get.autId;
+                      aut = get.id;
                     },
-                    child: Text(get.autName),
+                    child: Text('${get.name} ${get.surname}'),
                   );
                 }).toList(),
                 onChanged: (value) {
@@ -678,6 +678,7 @@ class NewSongPageState extends State<NewSongPage> {
                         );
                         Navigator.pop(context, 'Conferma');
                         catController.clear();
+                        setState(() {});
                       }
                     },
                     child: Text(
@@ -823,6 +824,7 @@ class NewSongPageState extends State<NewSongPage> {
                         Navigator.pop(context, 'Conferma');
                         autNameController.clear();
                         autSurnameController.clear();
+                        setState(() {});
                       }
                     },
                     child: Text(
