@@ -14,7 +14,6 @@ class AutBody extends StatefulWidget {
 }
 
 class _AutBodyState extends State<AutBody> {
-  final ScrollController scrollController = ScrollController();
   final FocusNode myFocusNode = FocusNode();
   final QueryCtr query = QueryCtr();
 
@@ -73,9 +72,7 @@ class _AutBodyState extends State<AutBody> {
                 ? Expanded(
                     child: Scrollbar(
                       thumbVisibility: true,
-                      controller: scrollController,
                       child: ListView.separated(
-                        controller: scrollController,
                         physics: const ScrollPhysics(),
                         shrinkWrap: true,
                         itemCount: snapshot.data!.length,

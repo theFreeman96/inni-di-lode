@@ -15,7 +15,6 @@ class CatBody extends StatefulWidget {
 }
 
 class _CatBodyState extends State<CatBody> {
-  final ScrollController scrollController = ScrollController();
   final FocusNode myFocusNode = FocusNode();
   final QueryCtr query = QueryCtr();
   int? expansionIndex;
@@ -75,9 +74,7 @@ class _CatBodyState extends State<CatBody> {
                 ? Expanded(
                     child: Scrollbar(
                       thumbVisibility: true,
-                      controller: scrollController,
                       child: ListView.separated(
-                        controller: scrollController,
                         physics: const ScrollPhysics(),
                         shrinkWrap: true,
                         itemCount: snapshot.data!.length,
