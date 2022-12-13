@@ -14,6 +14,7 @@ import '../authors/aut_detail.dart';
 
 import 'songs_pdf.dart';
 import 'songs_player.dart';
+import '../editor/edit_song_page.dart';
 
 class SongsDetail extends StatefulWidget {
   int songId;
@@ -454,7 +455,25 @@ class _SongsDetailState extends State<SongsDetail> {
                     IconButton(
                       icon: const Icon(Icons.edit_note),
                       tooltip: 'Modifica Cantico',
-                      onPressed: () {},
+                      onPressed: () {
+                        FocusScope.of(context).unfocus();
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) {
+                              return EditSongPage(
+                                songId: get.songId,
+                                songTitle: get.songTitle,
+                                songText: get.songText,
+                                catId: get.catId,
+                                catName: get.catName,
+                                autId: get.autId,
+                                autName: get.autName,
+                              );
+                            },
+                          ),
+                        );
+                      },
                     ),
                     IconButton(
                       icon: const Icon(Icons.delete),
