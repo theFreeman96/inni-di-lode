@@ -275,8 +275,10 @@ class _SongsDetailState extends State<SongsDetail> {
           } else {
             query.updateFav(0, get.songId);
             setState(() {});
-            FocusScope.of(context).unfocus();
-            Navigator.of(context).pop();
+            if (widget.from == 'Favorites') {
+              FocusScope.of(context).unfocus();
+              Navigator.of(context).pop();
+            }
           }
         },
       ),
