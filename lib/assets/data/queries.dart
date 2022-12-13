@@ -274,7 +274,9 @@ class QueryCtr {
     );
     await dbClient.update(
       'Songs_Authors',
-      {'song_id': song_id, 'aut_id': aut_id, 'song_title': song_title},
+      {'aut_id': aut_id, 'song_title': song_title},
+      where: 'song_id = ?',
+      whereArgs: [id],
     );
     return null;
   }
