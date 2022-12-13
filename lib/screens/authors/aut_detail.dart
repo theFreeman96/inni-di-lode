@@ -26,7 +26,7 @@ class _AutDetailState extends State<AutDetail> {
       child: Scaffold(
         appBar: AppBar(
           elevation: 0.0,
-          title: Text('Testi di $widget.autName'),
+          title: Text('Testi di ${widget.autName}'),
           leading: IconButton(
             tooltip: 'Indietro',
             icon: const Icon(Icons.arrow_back),
