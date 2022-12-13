@@ -70,13 +70,13 @@ class QueryCtr {
     return list;
   }
 
-  Future<List<Raccolta>?> getAllCat() async {
+  Future<List<Categorie>?> getAllCatForDropDown() async {
     final dbClient = await con.db;
     final res = await dbClient!
-        .query('View_Raccolta', orderBy: 'macroId, catId', groupBy: 'catId');
+        .query('Categories', orderBy: 'macro_id, id', groupBy: 'id');
 
-    List<Raccolta>? list =
-        res.isNotEmpty ? res.map((c) => Raccolta.fromMap(c)).toList() : null;
+    List<Categorie>? list =
+        res.isNotEmpty ? res.map((c) => Categorie.fromMap(c)).toList() : null;
 
     return list;
   }
@@ -131,6 +131,17 @@ class QueryCtr {
 
     List<Raccolta>? list =
         res.isNotEmpty ? res.map((c) => Raccolta.fromMap(c)).toList() : null;
+
+    return list;
+  }
+
+  Future<List<Autori>?> getAllAutForDropDown() async {
+    final dbClient = await con.db;
+    final res = await dbClient!
+        .query('Authors', orderBy: 'name, surname', groupBy: 'id');
+
+    List<Autori>? list =
+        res.isNotEmpty ? res.map((c) => Autori.fromMap(c)).toList() : null;
 
     return list;
   }
