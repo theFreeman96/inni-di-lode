@@ -24,7 +24,6 @@ late String autHint;
 
 class NewSongPageState extends State<NewSongPage> {
   final newSongKey = GlobalKey<FormState>();
-  final numberController = TextEditingController(text: '0');
   final titleController = TextEditingController();
   final textController = TextEditingController();
   late FocusNode textFocusNode;
