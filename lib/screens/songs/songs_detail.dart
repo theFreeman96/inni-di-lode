@@ -274,6 +274,8 @@ class _SongsDetailState extends State<SongsDetail> {
           } else {
             query.updateFav(0, get.songId);
             setState(() {});
+            FocusScope.of(context).unfocus();
+            Navigator.of(context).pop();
           }
         },
       ),
@@ -501,6 +503,7 @@ class _SongsDetailState extends State<SongsDetail> {
                                     query.deleteSong(get.songId);
                                     setState(() {});
                                     Navigator.pop(context, 'Elimina');
+                                    Navigator.of(context).pop();
                                   },
                                   child: Text(
                                     'Elimina',
