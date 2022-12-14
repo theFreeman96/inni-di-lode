@@ -467,10 +467,13 @@ class _SongsDetailState extends State<SongsDetail> {
                                 songId: get.songId,
                                 songTitle: get.songTitle,
                                 songText: get.songText,
+                                macroId: get.macroId,
+                                macroName: get.macroName,
                                 catId: get.catId,
                                 catName: get.catName,
                                 autId: get.autId,
                                 autName: get.autName,
+                                autSurname: get.autSurname,
                               );
                             },
                           ),
@@ -563,11 +566,12 @@ class _SongsDetailState extends State<SongsDetail> {
         FocusScope.of(context).unfocus();
         int catId = get.catId;
         String catName = get.catName;
+        int macroId = get.macroId;
         Navigator.push(
           context,
           MaterialPageRoute(
             builder: (context) {
-              return CatDetail(catId, catName);
+              return CatDetail(catId, catName, macroId);
             },
           ),
         );
@@ -580,18 +584,19 @@ class _SongsDetailState extends State<SongsDetail> {
     return TextButton.icon(
       icon: const Icon(Icons.person, color: kLightGrey),
       label: Text(
-        get.autName,
+        '${get.autName} ${get.autSurname}',
         style: TextStyle(color: themeProvider.isDarkMode ? kWhite : kBlack),
       ),
       onPressed: () {
         FocusScope.of(context).unfocus();
         int autId = get.autId;
         String autName = get.autName;
+        String autSurname = get.autSurname;
         Navigator.push(
           context,
           MaterialPageRoute(
             builder: (context) {
-              return AutDetail(autId, autName);
+              return AutDetail(autId, autName, autSurname);
             },
           ),
         );
