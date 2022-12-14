@@ -16,6 +16,7 @@ class NewSongPage extends StatefulWidget {
 }
 
 late int cat;
+late int macro;
 late String catHint;
 late int mac;
 late String macHint;
@@ -40,6 +41,7 @@ class NewSongPageState extends State<NewSongPage> {
   @override
   void initState() {
     cat = 0;
+    macro = 0;
     catHint = 'Seleziona una Categoria';
     mac = 0;
     macHint = 'Seleziona una Categoria';
@@ -151,9 +153,10 @@ class NewSongPageState extends State<NewSongPage> {
                     query.insertSong(
                         titleController.text,
                         '<ol>${textController.text.replaceAll('---Strofa---\n', '<li>').replaceAll('---Coro---', '<b>Coro:</b>').replaceAll('---Bridge---', '<b>Bridge:</b>').replaceAll('---Finale---', '<b>Finale:</b>').replaceAll('\n\n\n\n', '\n\n').replaceAll('\n\n\n', '\n\n').replaceAll('\n', '<br>')}</ol>',
-                        cat,
                         0,
                         newSongId,
+                        macro,
+                        cat,
                         aut,
                         titleController.text);
                     ScaffoldMessenger.of(context).showSnackBar(
@@ -396,7 +399,7 @@ class NewSongPageState extends State<NewSongPage> {
 
   Widget catDropDown() {
     return FutureBuilder(
-      future: query.getAllCatForDropDown(),
+      future: query.getAllCat(),
       builder: (context, AsyncSnapshot snapshot) {
         return snapshot.hasData
             ? DropdownButtonFormField<String>(
@@ -424,6 +427,7 @@ class NewSongPageState extends State<NewSongPage> {
                     value: get.name,
                     onTap: () {
                       cat = get.id;
+                      macro = get.macro_id;
                     },
                     child: Text(get.name),
                   );
@@ -454,7 +458,7 @@ class NewSongPageState extends State<NewSongPage> {
 
   Widget autDropDown() {
     return FutureBuilder(
-      future: query.getAllAutForDropDown(),
+      future: query.getAllAut(),
       builder: (context, AsyncSnapshot snapshot) {
         return snapshot.hasData
             ? DropdownButtonFormField<String>(
