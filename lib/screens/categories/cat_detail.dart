@@ -359,8 +359,42 @@ class _CatDetailState extends State<CatDetail> {
                       },
                     ),
                   )
-                : const Center(
-                    child: CircularProgressIndicator(),
+                : Center(
+                    child: id > 32
+                        ? Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const Text('Nessun Cantico trovato',
+                                  style: TextStyle(fontSize: 20.0)),
+                              TextButton.icon(
+                                onPressed: () {
+                                  FocusScope.of(context).unfocus();
+                                  Navigator.pop(context);
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) {
+                                        return const NewSongPage();
+                                      },
+                                    ),
+                                  );
+                                },
+                                icon: Icon(Icons.add_circle,
+                                    color: themeProvider.isDarkMode
+                                        ? kPrimaryLightColor
+                                        : kPrimaryColor),
+                                label: Text(
+                                  'Aggiungi Cantico',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: themeProvider.isDarkMode
+                                          ? kPrimaryLightColor
+                                          : kPrimaryColor),
+                                ),
+                              ),
+                            ],
+                          )
+                        : const CircularProgressIndicator(),
                   );
           },
         ),
