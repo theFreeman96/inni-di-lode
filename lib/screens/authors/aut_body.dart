@@ -101,27 +101,28 @@ class _AutBodyState extends State<AutBody> {
     );
   }
 
-  Widget buildRow(Raccolta get) {
+  Widget buildRow(Autori get) {
     return ListTile(
       leading: const CircleAvatar(
         child: Icon(
           Icons.person,
         ),
       ),
-      title: Text(get.autName),
+      title: Text('${get.name} ${get.surname}'),
       trailing: const Icon(
         Icons.navigate_next,
         color: kLightGrey,
       ),
       onTap: () {
         FocusScope.of(context).unfocus();
-        int autId = get.autId;
-        String autName = get.autName;
+        int autId = get.id;
+        String autName = get.name;
+        String autSurname = get.surname;
         Navigator.push(
           context,
           MaterialPageRoute(
             builder: (context) {
-              return AutDetail(autId, autName);
+              return AutDetail(autId, autName, autSurname);
             },
           ),
         );
