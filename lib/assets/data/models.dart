@@ -9,6 +9,7 @@ class Raccolta {
   late String catName;
   late int autId;
   late String autName;
+  late String autSurname;
 
   Raccolta.fromMap(dynamic obj) {
     songId = obj['songId'];
@@ -21,6 +22,7 @@ class Raccolta {
     catName = obj['catName'];
     autId = obj['autId'];
     autName = obj['autName'];
+    autSurname = obj['autSurname'];
   }
 }
 
