@@ -10,19 +10,25 @@ class EditSongPage extends StatefulWidget {
   int songId;
   String songTitle;
   String songText;
+  int macroId;
+  String macroName;
   int catId;
   String catName;
   int autId;
   String autName;
+  String autSurname;
   EditSongPage({
     Key? key,
     required this.songId,
     required this.songTitle,
     required this.songText,
+    required this.macroId,
+    required this.macroName,
     required this.catId,
     required this.catName,
     required this.autId,
     required this.autName,
+    required this.autSurname,
   }) : super(key: key);
 
   @override
@@ -32,6 +38,7 @@ class EditSongPage extends StatefulWidget {
 }
 
 late int cat;
+late int macro;
 late String catHint;
 late int mac;
 late String macHint;
@@ -67,6 +74,7 @@ class EditSongPageState extends State<EditSongPage> {
           .replaceAll('<br>', '\n'),
     );
     cat = widget.catId;
+    macro = widget.macroId;
     catHint = widget.catName;
     mac = 0;
     macHint = 'Seleziona una Categoria';
@@ -140,7 +148,7 @@ class EditSongPageState extends State<EditSongPage> {
               resizeToAvoidBottomInset: true,
               appBar: AppBar(
                 elevation: 0.0,
-                title: const Text('Nuovo Cantico'),
+                title: const Text('Modifica Cantico'),
                 leading: IconButton(
                   tooltip: 'Indietro',
                   icon: const Icon(Icons.arrow_back),
@@ -177,9 +185,10 @@ class EditSongPageState extends State<EditSongPage> {
                     query.updateSong(
                         titleController.text,
                         '<ol>${textController.text.replaceAll('---Strofa---\n', '<li>').replaceAll('---Coro---', '<b>Coro:</b>').replaceAll('---Bridge---', '<b>Bridge:</b>').replaceAll('---Finale---', '<b>Finale:</b>').replaceAll('\n\n\n\n', '\n\n').replaceAll('\n\n\n', '\n\n').replaceAll('\n', '<br>')}</ol>',
+                        widget.songId,
+                        widget.songId,
+                        macro,
                         cat,
-                        widget.songId,
-                        widget.songId,
                         aut,
                         titleController.text);
                     ScaffoldMessenger.of(context).showSnackBar(
@@ -420,7 +429,7 @@ class EditSongPageState extends State<EditSongPage> {
 
   Widget catDropDown() {
     return FutureBuilder(
-      future: query.getAllCatForDropDown(),
+      future: query.getAllCat(),
       builder: (context, AsyncSnapshot snapshot) {
         return snapshot.hasData
             ? DropdownButtonFormField<String>(
@@ -449,6 +458,7 @@ class EditSongPageState extends State<EditSongPage> {
                     value: get.name,
                     onTap: () {
                       cat = get.id;
+                      macro = get.macro_id;
                     },
                     child: Text(get.name),
                   );
@@ -479,7 +489,7 @@ class EditSongPageState extends State<EditSongPage> {
 
   Widget autDropDown() {
     return FutureBuilder(
-      future: query.getAllAutForDropDown(),
+      future: query.getAllAut(),
       builder: (context, AsyncSnapshot snapshot) {
         return snapshot.hasData
             ? DropdownButtonFormField<String>(
@@ -491,7 +501,7 @@ class EditSongPageState extends State<EditSongPage> {
                 borderRadius: const BorderRadius.all(
                   Radius.circular(25.0),
                 ),
-                value: widget.autName,
+                value: '${widget.autName} ${widget.autSurname}',
                 hint: Text(autHint),
                 decoration: const InputDecoration(
                   contentPadding: EdgeInsets.symmetric(
