@@ -135,16 +135,16 @@ class QueryCtr {
     return list;
   }
 
-  Future<List<Raccolta>?> searchAut(String keyword) async {
+  Future<List<Autori>?> searchAut(String keyword) async {
     final dbClient = await con.db;
-    final res = await dbClient!.query('View_Raccolta',
-        where: 'autName LIKE ?',
-        whereArgs: ['%$keyword%'],
-        groupBy: 'autId',
-        orderBy: 'autName');
+    final res = await dbClient!.query('Authors',
+        where: 'name LIKE ? OR surname LIKE ?',
+        whereArgs: ['%$keyword%', '%$keyword%'],
+        groupBy: 'id',
+        orderBy: 'name, surname');
 
-    List<Raccolta>? list =
-        res.isNotEmpty ? res.map((c) => Raccolta.fromMap(c)).toList() : null;
+    List<Autori>? list =
+        res.isNotEmpty ? res.map((c) => Autori.fromMap(c)).toList() : null;
 
     return list;
   }
