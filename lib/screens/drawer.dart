@@ -8,6 +8,7 @@ import '/theme/constants.dart';
 import '/assets/data/queries.dart';
 
 import '/screens/songs/songs_detail.dart';
+import 'editor/new_song_page.dart';
 import '/screens/info/info_page.dart';
 
 class HamburgerMenu extends StatefulWidget {
@@ -18,8 +19,6 @@ class HamburgerMenu extends StatefulWidget {
 }
 
 class _HamburgerMenuState extends State<HamburgerMenu> {
-  late double textScaleFactor = MediaQuery.of(context).textScaleFactor;
-
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -58,20 +57,34 @@ class _HamburgerMenuState extends State<HamburgerMenu> {
                       builder: (context, snapshot) {
                         int songId = Random().nextInt(snapshot.data!.length);
                         return snapshot.hasData
-                            ? SongsDetail(songId: songId)
-                            : Padding(
-                                padding:
-                                    const EdgeInsets.only(top: kDefaultPadding),
+                            ? SongsDetail(songId: songId, from: 'Drawer')
+                            : const Padding(
+                                padding: EdgeInsets.only(top: kDefaultPadding),
                                 child: Center(
                                   child: Text(
                                     'Nessun Cantico trovato',
-                                    style: TextStyle(
-                                        fontSize: 20.0 * textScaleFactor),
+                                    style: TextStyle(fontSize: 20.0),
                                   ),
                                 ),
                               );
                       },
                     );
+                  },
+                ),
+              );
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.add_circle),
+            title: const Text('Aggiungi Cantico'),
+            onTap: () {
+              FocusScope.of(context).unfocus();
+              Navigator.pop(context);
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) {
+                    return const NewSongPage();
                   },
                 ),
               );
@@ -125,14 +138,14 @@ class _HamburgerMenuState extends State<HamburgerMenu> {
               );
             },
           ),
-          Positioned(
+          const Positioned(
             bottom: kDefaultPadding - 8.0,
             left: kDefaultPadding - 4.0,
             child: Text(
               'Menu',
               style: TextStyle(
                 color: kWhite,
-                fontSize: 20.0 * textScaleFactor,
+                fontSize: 20.0,
                 fontWeight: FontWeight.w500,
               ),
             ),

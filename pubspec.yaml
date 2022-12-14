@@ -31,21 +31,21 @@ dependencies:
   url_launcher: ^6.1.5
 
   # Data
-  sqflite: any
-  sqflite_common_ffi: ^2.1.1+1
-  sqlite3_flutter_libs: ^0.5.10
-  path_provider: ^2.0.9
+  sqflite: ^2.2.0+3
+  sqflite_common_ffi: ^2.2.0+1
+  sqlite3_flutter_libs: ^0.5.12
+  path_provider: ^2.0.11
 
   # Persistence
   provider: ^6.0.1
   shared_preferences: ^2.0.13
 
   # HTML renderers
-  flutter_html: ^2.2.1
+  flutter_html: ^3.0.0-alpha.6
   html2md: ^1.2.5
 
   # PDF sharing
-  share_plus: ^4.0.4
+  share_plus: ^6.3.0
   pdf: ^3.7.3
 
   # The following adds the Cupertino Icons font to your application.

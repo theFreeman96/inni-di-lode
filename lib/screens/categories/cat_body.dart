@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-import '/theme/theme_provider.dart';
 import '/theme/constants.dart';
 import '/assets/data/queries.dart';
 import '/assets/data/models.dart';
@@ -17,8 +15,7 @@ class CatBody extends StatefulWidget {
 }
 
 class _CatBodyState extends State<CatBody> {
-  late double textScaleFactor = MediaQuery.of(context).textScaleFactor;
-  FocusNode myFocusNode = FocusNode();
+  final FocusNode myFocusNode = FocusNode();
   final QueryCtr query = QueryCtr();
   int? expansionIndex;
 
@@ -48,7 +45,6 @@ class _CatBodyState extends State<CatBody> {
 
   @override
   Widget build(BuildContext context) {
-    final themeProvider = Provider.of<ThemeProvider>(context);
     return Column(
       children: [
         Padding(
@@ -59,35 +55,12 @@ class _CatBodyState extends State<CatBody> {
             onChanged: (value) {
               runFilter(value);
             },
-            decoration: InputDecoration(
-              prefixIcon: const Icon(
+            decoration: const InputDecoration(
+              prefixIcon: Icon(
                 Icons.search,
                 color: kLightGrey,
               ),
-              contentPadding: const EdgeInsets.symmetric(
-                vertical: kDefaultPadding * 0.8,
-              ),
-              enabledBorder: OutlineInputBorder(
-                borderRadius: const BorderRadius.all(
-                  Radius.circular(25.0),
-                ),
-                borderSide: BorderSide(
-                    color: themeProvider.isDarkMode ? kWhite : kLightGrey,
-                    width: 1.0),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: const BorderRadius.all(
-                  Radius.circular(25.0),
-                ),
-                borderSide: BorderSide(
-                    color: themeProvider.isDarkMode
-                        ? kPrimaryLightColor
-                        : kPrimaryColor,
-                    width: 2.0),
-              ),
-              prefixIconColor: kPrimaryColor,
               labelText: 'Cerca una Categoria',
-              labelStyle: const TextStyle(color: kLightGrey),
               hintText: 'Cerca',
             ),
           ),
@@ -114,12 +87,12 @@ class _CatBodyState extends State<CatBody> {
                       ),
                     ),
                   )
-                : Padding(
-                    padding: const EdgeInsets.only(top: kDefaultPadding),
+                : const Padding(
+                    padding: EdgeInsets.only(top: kDefaultPadding),
                     child: Center(
                       child: Text(
                         'Nessuna Categoria trovata',
-                        style: TextStyle(fontSize: 20.0 * textScaleFactor),
+                        style: TextStyle(fontSize: 20.0),
                         textAlign: TextAlign.center,
                       ),
                     ),

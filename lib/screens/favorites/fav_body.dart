@@ -1,9 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
-import '/theme/theme_provider.dart';
 import '/theme/constants.dart';
 import '/assets/data/models.dart';
 import '/assets/data/queries.dart';
@@ -18,8 +16,7 @@ class FavBody extends StatefulWidget {
 }
 
 class _FavBodyState extends State<FavBody> {
-  late double textScaleFactor = MediaQuery.of(context).textScaleFactor;
-  FocusNode myFocusNode = FocusNode();
+  final FocusNode myFocusNode = FocusNode();
   final QueryCtr query = QueryCtr();
 
   late Future<List?> future;
@@ -29,8 +26,12 @@ class _FavBodyState extends State<FavBody> {
     super.initState();
   }
 
-  FutureOr refreshOnGoBack(dynamic value) {
-    initState();
+  void refreshFavList() {
+    future = query.getAllFav();
+  }
+
+  FutureOr onGoBack(dynamic value) {
+    refreshFavList();
     setState(() {});
   }
 
@@ -53,7 +54,6 @@ class _FavBodyState extends State<FavBody> {
 
   @override
   Widget build(BuildContext context) {
-    final themeProvider = Provider.of<ThemeProvider>(context);
     return Column(
       children: <Widget>[
         Padding(
@@ -64,35 +64,12 @@ class _FavBodyState extends State<FavBody> {
             onChanged: (value) {
               runFilter(value);
             },
-            decoration: InputDecoration(
-              prefixIcon: const Icon(
+            decoration: const InputDecoration(
+              prefixIcon: Icon(
                 Icons.search,
                 color: kLightGrey,
               ),
-              contentPadding: const EdgeInsets.symmetric(
-                vertical: kDefaultPadding * 0.8,
-              ),
-              enabledBorder: OutlineInputBorder(
-                borderRadius: const BorderRadius.all(
-                  Radius.circular(25.0),
-                ),
-                borderSide: BorderSide(
-                    color: themeProvider.isDarkMode ? kWhite : kLightGrey,
-                    width: 1.0),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: const BorderRadius.all(
-                  Radius.circular(25.0),
-                ),
-                borderSide: BorderSide(
-                    color: themeProvider.isDarkMode
-                        ? kPrimaryLightColor
-                        : kPrimaryColor,
-                    width: 2.0),
-              ),
-              prefixIconColor: kPrimaryColor,
               labelText: 'Cerca per numero, titolo o testo',
-              labelStyle: const TextStyle(color: kLightGrey),
               hintText: 'Cerca un Cantico',
             ),
           ),
@@ -119,12 +96,12 @@ class _FavBodyState extends State<FavBody> {
                       ),
                     ),
                   )
-                : Padding(
-                    padding: const EdgeInsets.only(top: kDefaultPadding),
+                : const Padding(
+                    padding: EdgeInsets.only(top: kDefaultPadding),
                     child: Center(
                       child: Text(
                         'Nessun Preferito trovato',
-                        style: TextStyle(fontSize: 20.0 * textScaleFactor),
+                        style: TextStyle(fontSize: 20.0),
                         textAlign: TextAlign.center,
                       ),
                     ),
@@ -153,10 +130,10 @@ class _FavBodyState extends State<FavBody> {
           context,
           MaterialPageRoute(
             builder: (context) {
-              return SongsDetail(songId: get.songId);
+              return SongsDetail(songId: get.songId, from: 'Favorites');
             },
           ),
-        ).then(refreshOnGoBack);
+        ).then(onGoBack);
       },
     );
   }

@@ -17,10 +17,9 @@ class SongsBody extends StatefulWidget {
 }
 
 class _SongsBodyState extends State<SongsBody> {
-  late double textScaleFactor = MediaQuery.of(context).textScaleFactor;
-  FocusNode myFocusNode = FocusNode();
+  final FocusNode myFocusNode = FocusNode();
   final QueryCtr query = QueryCtr();
-  int currentPage = 0;
+  late int currentPage = 0;
 
   void onValueChanged(newValue) {
     setState(() {
@@ -36,6 +35,7 @@ class _SongsBodyState extends State<SongsBody> {
     query.getSongsFromRange(401, 500),
     query.getSongsFromRange(501, 600),
     query.getSongsFromRange(601, 700),
+    query.getSongsFromRange(701, 800),
   ];
 
   late Future<List?> future;
@@ -79,35 +79,12 @@ class _SongsBodyState extends State<SongsBody> {
             onChanged: (value) {
               runFilter(value);
             },
-            decoration: InputDecoration(
-              prefixIcon: const Icon(
+            decoration: const InputDecoration(
+              prefixIcon: Icon(
                 Icons.search,
                 color: kLightGrey,
               ),
-              contentPadding: const EdgeInsets.symmetric(
-                vertical: kDefaultPadding * 0.8,
-              ),
-              enabledBorder: OutlineInputBorder(
-                borderRadius: const BorderRadius.all(
-                  Radius.circular(25.0),
-                ),
-                borderSide: BorderSide(
-                    color: themeProvider.isDarkMode ? kWhite : kLightGrey,
-                    width: 1.0),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: const BorderRadius.all(
-                  Radius.circular(25.0),
-                ),
-                borderSide: BorderSide(
-                    color: themeProvider.isDarkMode
-                        ? kPrimaryLightColor
-                        : kPrimaryColor,
-                    width: 2.0),
-              ),
-              prefixIconColor: kPrimaryColor,
               labelText: 'Cerca per numero, titolo o testo',
-              labelStyle: const TextStyle(color: kLightGrey),
               hintText: 'Cerca un Cantico',
             ),
           ),
@@ -117,12 +94,13 @@ class _SongsBodyState extends State<SongsBody> {
           child: Center(
             child: Padding(
               padding: const EdgeInsets.only(
+                top: 2,
                 left: kDefaultPadding,
                 right: kDefaultPadding,
-                bottom: kDefaultPadding,
+                bottom: kDefaultPadding + 2,
               ),
               child: NumberPaginator(
-                numberPages: 7,
+                numberPages: songRange.length,
                 onPageChange: (int index) {
                   setState(() {
                     currentPage = index;
@@ -166,12 +144,12 @@ class _SongsBodyState extends State<SongsBody> {
                       ),
                     ),
                   )
-                : Padding(
-                    padding: const EdgeInsets.only(top: kDefaultPadding),
+                : const Padding(
+                    padding: EdgeInsets.only(top: kDefaultPadding),
                     child: Center(
                       child: Text(
                         'Nessun Cantico trovato',
-                        style: TextStyle(fontSize: 20.0 * textScaleFactor),
+                        style: TextStyle(fontSize: 20.0),
                         textAlign: TextAlign.center,
                       ),
                     ),
@@ -200,7 +178,7 @@ class _SongsBodyState extends State<SongsBody> {
           context,
           MaterialPageRoute(
             builder: (context) {
-              return SongsDetail(songId: get.songId);
+              return SongsDetail(songId: get.songId, from: 'Songs');
             },
           ),
         );
