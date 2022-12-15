@@ -154,7 +154,7 @@ class _CatBodyState extends State<CatBody> {
     );
   }
 
-  Widget buildCatRow(Raccolta get) {
+  Widget buildCatRow(Categorie get) {
     return ListTile(
       leading: const Padding(
         padding: EdgeInsets.only(left: kDefaultPadding),
@@ -162,7 +162,7 @@ class _CatBodyState extends State<CatBody> {
           FontAwesomeIcons.tag,
         ),
       ),
-      title: Text(get.catName),
+      title: Text(get.name),
       trailing: const Padding(
         padding: EdgeInsets.only(right: kDefaultPadding),
         child: Icon(
@@ -172,13 +172,14 @@ class _CatBodyState extends State<CatBody> {
       ),
       onTap: () {
         FocusScope.of(context).unfocus();
-        int catId = get.catId;
-        String catName = get.catName;
+        int catId = get.id;
+        String catName = get.name;
+        int macroId = get.macro_id;
         Navigator.push(
           context,
           MaterialPageRoute(
             builder: (context) {
-              return CatDetail(catId, catName);
+              return CatDetail(catId, catName, macroId);
             },
           ),
         );
