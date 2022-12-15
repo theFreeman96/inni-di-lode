@@ -128,8 +128,6 @@ class _SongsDetailState extends State<SongsDetail> {
 
   Widget buildPage(Raccolta get) {
     final themeProvider = Provider.of<ThemeProvider>(context);
-    String text = get.songText;
-    String parsedSongText = text.replaceAll('<li>', '<li><br>');
     return Scaffold(
       extendBody: true,
       appBar: AppBar(
@@ -187,7 +185,7 @@ class _SongsDetailState extends State<SongsDetail> {
                 ),
               ),
               Html(
-                data: parsedSongText,
+                data: get.songText,
                 style: {
                   'ol': Style(
                     textAlign: TextAlign.center,
@@ -198,7 +196,7 @@ class _SongsDetailState extends State<SongsDetail> {
                   ),
                   'li': Style(
                       padding:
-                          const EdgeInsets.only(right: kDefaultPadding / 2)),
+                          const EdgeInsets.only(right: kDefaultPadding / 4)),
                 },
               ),
               const Divider(),
