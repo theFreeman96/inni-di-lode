@@ -236,7 +236,8 @@ class _CatDetailState extends State<CatDetail> {
                                 TextButton(
                                   onPressed: () {
                                     if (editCatKey.currentState!.validate()) {
-                                      query.insertCat(catController.text, mac);
+                                      query.updateCat(catController.text, mac,
+                                          widget.catId);
                                       ScaffoldMessenger.of(context)
                                           .showSnackBar(
                                         const SnackBar(
