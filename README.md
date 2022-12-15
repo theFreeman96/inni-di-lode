@@ -18,10 +18,13 @@ The new Inni di Lode app, including all 700 songs from our Songbook.
 
 ## Currently working on...
 
-- Play audio for each song.
+- Editor (add new songs, categories and authors)
+- Including new categories in search results
+- Fixing categories, authors and favorites PageViews
 
 ## Coming soon
 
+- Play audio for each song.
 - Hide/show chords.
 
 ## OS Compatibility
