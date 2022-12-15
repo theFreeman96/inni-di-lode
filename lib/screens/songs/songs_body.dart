@@ -107,6 +107,7 @@ class _SongsBodyState extends State<SongsBody> {
                   });
                 },
                 config: NumberPaginatorUIConfig(
+                  height: 40,
                   mode: ContentDisplayMode.numbers,
                   buttonSelectedForegroundColor: Colors.white,
                   buttonUnselectedForegroundColor:
@@ -132,6 +133,7 @@ class _SongsBodyState extends State<SongsBody> {
                     child: Scrollbar(
                       thumbVisibility: true,
                       child: ListView.separated(
+                        padding: const EdgeInsets.only(top: 8),
                         physics: const ScrollPhysics(),
                         shrinkWrap: true,
                         itemCount: snapshot.data!.length,
