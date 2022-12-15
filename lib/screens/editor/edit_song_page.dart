@@ -795,7 +795,7 @@ class EditSongPageState extends State<EditSongPage> {
               ),
               child: AlertDialog(
                 scrollable: true,
-                title: const Text('Nuovo Autore'),
+                title: const Text('Nuovo autore'),
                 content: Form(
                   key: newAutKey,
                   child: Column(

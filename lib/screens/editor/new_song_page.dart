@@ -763,7 +763,7 @@ class NewSongPageState extends State<NewSongPage> {
               ),
               child: AlertDialog(
                 scrollable: true,
-                title: const Text('Nuovo Autore'),
+                title: const Text('Nuovo autore'),
                 content: Form(
                   key: newAutKey,
                   child: Column(
