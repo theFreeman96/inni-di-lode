@@ -61,7 +61,7 @@ class _AutDetailState extends State<AutDetail> {
                 children: [
                   IconButton(
                     icon: const Icon(Icons.edit_note),
-                    tooltip: 'Modifica Autore',
+                    tooltip: 'Modifica autore',
                     onPressed: () {
                       showDialog(
                         context: context,
@@ -122,7 +122,7 @@ class _AutDetailState extends State<AutDetail> {
                             ),
                             child: AlertDialog(
                               scrollable: true,
-                              title: const Text('Modifica Autore'),
+                              title: const Text('Modifica autore'),
                               content: Form(
                                 key: editAutKey,
                                 child: Column(
@@ -143,7 +143,7 @@ class _AutDetailState extends State<AutDetail> {
                                         ),
                                         validator: (value) {
                                           if (value == null || value.isEmpty) {
-                                            return 'Inserisci il Nome!';
+                                            return 'Inserisci il nome!';
                                           }
                                           return null;
                                         },
@@ -154,18 +154,12 @@ class _AutDetailState extends State<AutDetail> {
                                       textCapitalization:
                                           TextCapitalization.sentences,
                                       decoration: const InputDecoration(
-                                        labelText: 'Nome',
+                                        labelText: 'Cognome (facoltativo)',
                                         prefixIcon: Icon(
                                           Icons.edit,
                                           color: kLightGrey,
                                         ),
                                       ),
-                                      validator: (value) {
-                                        if (value == null || value.isEmpty) {
-                                          return 'Inserisci il Nome!';
-                                        }
-                                        return null;
-                                      },
                                     ),
                                   ],
                                 ),
@@ -221,7 +215,7 @@ class _AutDetailState extends State<AutDetail> {
                   ),
                   IconButton(
                     icon: const Icon(Icons.delete),
-                    tooltip: 'Elimina Autore',
+                    tooltip: 'Elimina autore',
                     onPressed: () {
                       showDialog(
                         context: context,
@@ -237,7 +231,7 @@ class _AutDetailState extends State<AutDetail> {
                                       : kBlack,
                                 ),
                                 children: <TextSpan>[
-                                  const TextSpan(text: 'L\'Autore '),
+                                  const TextSpan(text: 'L\'autore '),
                                   TextSpan(
                                     text:
                                         '${widget.autName} ${widget.autSurname} ',
@@ -319,7 +313,7 @@ class _AutDetailState extends State<AutDetail> {
                         ? Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              const Text('Nessun Cantico trovato',
+                              const Text('Nessun cantico trovato',
                                   style: TextStyle(fontSize: 20.0)),
                               TextButton.icon(
                                 onPressed: () {
@@ -339,7 +333,7 @@ class _AutDetailState extends State<AutDetail> {
                                         ? kPrimaryLightColor
                                         : kPrimaryColor),
                                 label: Text(
-                                  'Aggiungi Cantico',
+                                  'Aggiungi cantico',
                                   style: TextStyle(
                                       fontWeight: FontWeight.bold,
                                       color: themeProvider.isDarkMode

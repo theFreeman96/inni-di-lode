@@ -62,7 +62,7 @@ class _HamburgerMenuState extends State<HamburgerMenu> {
                                 padding: EdgeInsets.only(top: kDefaultPadding),
                                 child: Center(
                                   child: Text(
-                                    'Nessun Cantico trovato',
+                                    'Nessun cantico trovato',
                                     style: TextStyle(fontSize: 20.0),
                                   ),
                                 ),
@@ -76,7 +76,7 @@ class _HamburgerMenuState extends State<HamburgerMenu> {
           ),
           ListTile(
             leading: const Icon(Icons.add_circle),
-            title: const Text('Aggiungi Cantico'),
+            title: const Text('Aggiungi cantico'),
             onTap: () {
               FocusScope.of(context).unfocus();
               Navigator.pop(context);

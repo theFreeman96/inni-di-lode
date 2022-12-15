@@ -58,7 +58,7 @@ class _AutBodyState extends State<AutBody> {
                 Icons.search,
                 color: kLightGrey,
               ),
-              labelText: 'Cerca un Autore',
+              labelText: 'Cerca un autore',
               hintText: 'Cerca',
             ),
           ),
@@ -89,7 +89,7 @@ class _AutBodyState extends State<AutBody> {
                     padding: EdgeInsets.only(top: kDefaultPadding),
                     child: Center(
                       child: Text(
-                        'Nessun Autore trovato',
+                        'Nessun autore trovato',
                         style: TextStyle(fontSize: 20.0),
                         textAlign: TextAlign.center,
                       ),

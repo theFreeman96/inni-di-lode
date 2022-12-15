@@ -85,7 +85,7 @@ class _SongsBodyState extends State<SongsBody> {
                 color: kLightGrey,
               ),
               labelText: 'Cerca per numero, titolo o testo',
-              hintText: 'Cerca un Cantico',
+              hintText: 'Cerca un cantico',
             ),
           ),
         ),
@@ -150,7 +150,7 @@ class _SongsBodyState extends State<SongsBody> {
                     padding: EdgeInsets.only(top: kDefaultPadding),
                     child: Center(
                       child: Text(
-                        'Nessun Cantico trovato',
+                        'Nessun cantico trovato',
                         style: TextStyle(fontSize: 20.0),
                         textAlign: TextAlign.center,
                       ),

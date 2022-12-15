@@ -225,7 +225,7 @@ class _SongsDetailState extends State<SongsDetail> {
                           padding: EdgeInsets.only(top: kDefaultPadding),
                           child: Center(
                             child: Text(
-                              'Nessuna Categoria trovata',
+                              'Nessuna categoria trovata',
                               style: TextStyle(fontSize: 20.0),
                             ),
                           ),
@@ -253,7 +253,7 @@ class _SongsDetailState extends State<SongsDetail> {
                           padding: EdgeInsets.only(top: kDefaultPadding),
                           child: Center(
                             child: Text(
-                              'Nessun Autore trovato',
+                              'Nessun autore trovato',
                               style: TextStyle(fontSize: 20.0),
                             ),
                           ),
@@ -456,7 +456,7 @@ class _SongsDetailState extends State<SongsDetail> {
                   children: [
                     IconButton(
                       icon: const Icon(Icons.edit_note),
-                      tooltip: 'Modifica Cantico',
+                      tooltip: 'Modifica cantico',
                       onPressed: () {
                         FocusScope.of(context).unfocus();
                         Navigator.push(
@@ -482,7 +482,7 @@ class _SongsDetailState extends State<SongsDetail> {
                     ),
                     IconButton(
                       icon: const Icon(Icons.delete),
-                      tooltip: 'Elimina Cantico',
+                      tooltip: 'Elimina cantico',
                       onPressed: () {
                         showDialog(
                           context: context,

@@ -77,7 +77,7 @@ class EditSongPageState extends State<EditSongPage> {
     macro = widget.macroId;
     catHint = widget.catName;
     mac = 0;
-    macHint = 'Seleziona una Categoria';
+    macHint = 'Seleziona';
     aut = widget.autId;
     autHint = widget.autName;
     textFocusNode = FocusNode();
@@ -148,7 +148,7 @@ class EditSongPageState extends State<EditSongPage> {
               resizeToAvoidBottomInset: true,
               appBar: AppBar(
                 elevation: 0.0,
-                title: const Text('Modifica Cantico'),
+                title: const Text('Modifica cantico'),
                 leading: IconButton(
                   tooltip: 'Indietro',
                   icon: const Icon(Icons.arrow_back),
@@ -225,7 +225,7 @@ class EditSongPageState extends State<EditSongPage> {
                                 textCapitalization:
                                     TextCapitalization.sentences,
                                 decoration: const InputDecoration(
-                                  labelText: 'Titolo del Cantico',
+                                  labelText: 'Titolo del cantico',
                                   prefixIcon: Icon(
                                     Icons.edit,
                                     color: kLightGrey,
@@ -233,7 +233,7 @@ class EditSongPageState extends State<EditSongPage> {
                                 ),
                                 validator: (value) {
                                   if (value == null || value.isEmpty) {
-                                    return 'Inserisci un Titolo!';
+                                    return 'Inserisci un titolo!';
                                   }
                                   return null;
                                 },
@@ -271,7 +271,7 @@ class EditSongPageState extends State<EditSongPage> {
                                 ),
                                 validator: (value) {
                                   if (value == null || value.isEmpty) {
-                                    return 'Inserisci il Testo!';
+                                    return 'Inserisci il testo!';
                                   }
                                   return null;
                                 },
@@ -470,7 +470,7 @@ class EditSongPageState extends State<EditSongPage> {
                 },
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Seleziona una Categoria!';
+                    return 'Seleziona una categoria!';
                   }
                   return null;
                 },
@@ -478,7 +478,7 @@ class EditSongPageState extends State<EditSongPage> {
             : const Padding(
                 padding: EdgeInsets.only(top: kDefaultPadding),
                 child: Text(
-                  'Nessuna Categoria trovata',
+                  'Nessuna categoria trovata',
                   style: TextStyle(),
                   textAlign: TextAlign.center,
                 ),
@@ -529,7 +529,7 @@ class EditSongPageState extends State<EditSongPage> {
                 },
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Seleziona un Autore!';
+                    return 'Seleziona un autore!';
                   }
                   return null;
                 },
@@ -537,7 +537,7 @@ class EditSongPageState extends State<EditSongPage> {
             : const Padding(
                 padding: EdgeInsets.only(top: kDefaultPadding),
                 child: Text(
-                  'Nessun Autore trovato',
+                  'Nessun autore trovato',
                   style: TextStyle(),
                   textAlign: TextAlign.center,
                 ),
@@ -605,7 +605,7 @@ class EditSongPageState extends State<EditSongPage> {
               ),
               child: AlertDialog(
                 scrollable: true,
-                title: const Text('Nuova Categoria'),
+                title: const Text('Nuova categoria'),
                 content: Form(
                   key: newCatKey,
                   child: Column(
@@ -616,7 +616,7 @@ class EditSongPageState extends State<EditSongPage> {
                           controller: catController,
                           textCapitalization: TextCapitalization.sentences,
                           decoration: const InputDecoration(
-                            labelText: 'Nome Categoria',
+                            labelText: 'Nome categoria',
                             prefixIcon: Icon(
                               Icons.edit,
                               color: kLightGrey,
@@ -624,7 +624,7 @@ class EditSongPageState extends State<EditSongPage> {
                           ),
                           validator: (value) {
                             if (value == null || value.isEmpty) {
-                              return 'Inserisci il Nome!';
+                              return 'Inserisci il nome!';
                             }
                             return null;
                           },
@@ -672,7 +672,7 @@ class EditSongPageState extends State<EditSongPage> {
                                   },
                                   validator: (value) {
                                     if (value == null || value.isEmpty) {
-                                      return 'Seleziona una Macrocategoria!';
+                                      return 'Seleziona una macrocategoria!';
                                     }
                                     return null;
                                   },
@@ -681,7 +681,7 @@ class EditSongPageState extends State<EditSongPage> {
                                   padding:
                                       EdgeInsets.only(top: kDefaultPadding),
                                   child: Text(
-                                    'Nessuna Macrocategoria trovata',
+                                    'Nessuna macrocategoria trovata',
                                     style: TextStyle(),
                                     textAlign: TextAlign.center,
                                   ),
@@ -814,7 +814,7 @@ class EditSongPageState extends State<EditSongPage> {
                           ),
                           validator: (value) {
                             if (value == null || value.isEmpty) {
-                              return 'Inserisci il Nome!';
+                              return 'Inserisci il nome!';
                             }
                             return null;
                           },

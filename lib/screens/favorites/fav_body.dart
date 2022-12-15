@@ -70,7 +70,7 @@ class _FavBodyState extends State<FavBody> {
                 color: kLightGrey,
               ),
               labelText: 'Cerca per numero, titolo o testo',
-              hintText: 'Cerca un Cantico',
+              hintText: 'Cerca un cantico',
             ),
           ),
         ),
@@ -100,7 +100,7 @@ class _FavBodyState extends State<FavBody> {
                     padding: EdgeInsets.only(top: kDefaultPadding),
                     child: Center(
                       child: Text(
-                        'Nessun Preferito trovato',
+                        'Nessun preferito trovato',
                         style: TextStyle(fontSize: 20.0),
                         textAlign: TextAlign.center,
                       ),

@@ -35,7 +35,7 @@ class _CatDetailState extends State<CatDetail> {
   void initState() {
     catController = TextEditingController(text: widget.catName);
     mac = widget.macroId;
-    macHint = 'Seleziona una Categoria';
+    macHint = 'Seleziona';
     super.initState();
   }
 
@@ -62,7 +62,7 @@ class _CatDetailState extends State<CatDetail> {
                 children: [
                   IconButton(
                     icon: const Icon(Icons.edit_note),
-                    tooltip: 'Modifica Categoria',
+                    tooltip: 'Modifica categoria',
                     onPressed: () {
                       showDialog(
                         context: context,
@@ -123,7 +123,7 @@ class _CatDetailState extends State<CatDetail> {
                             ),
                             child: AlertDialog(
                               scrollable: true,
-                              title: const Text('Modifica Categoria'),
+                              title: const Text('Modifica categoria'),
                               content: Form(
                                 key: editCatKey,
                                 child: Column(
@@ -136,7 +136,7 @@ class _CatDetailState extends State<CatDetail> {
                                         textCapitalization:
                                             TextCapitalization.sentences,
                                         decoration: const InputDecoration(
-                                          labelText: 'Nome Categoria',
+                                          labelText: 'Nome categoria',
                                           prefixIcon: Icon(
                                             Icons.edit,
                                             color: kLightGrey,
@@ -144,7 +144,7 @@ class _CatDetailState extends State<CatDetail> {
                                         ),
                                         validator: (value) {
                                           if (value == null || value.isEmpty) {
-                                            return 'Inserisci il Nome!';
+                                            return 'Inserisci il nome!';
                                           }
                                           return null;
                                         },
@@ -201,7 +201,7 @@ class _CatDetailState extends State<CatDetail> {
                                                 validator: (value) {
                                                   if (value == null ||
                                                       value.isEmpty) {
-                                                    return 'Seleziona una Macrocategoria!';
+                                                    return 'Seleziona una macrocategoria!';
                                                   }
                                                   return null;
                                                 },
@@ -210,7 +210,7 @@ class _CatDetailState extends State<CatDetail> {
                                                 padding: EdgeInsets.only(
                                                     top: kDefaultPadding),
                                                 child: Text(
-                                                  'Nessuna Macrocategoria trovata',
+                                                  'Nessuna macrocategoria trovata',
                                                   style: TextStyle(),
                                                   textAlign: TextAlign.center,
                                                 ),
@@ -268,7 +268,7 @@ class _CatDetailState extends State<CatDetail> {
                   ),
                   IconButton(
                     icon: const Icon(Icons.delete),
-                    tooltip: 'Elimina Categoria',
+                    tooltip: 'Elimina categoria',
                     onPressed: () {
                       showDialog(
                         context: context,
@@ -365,7 +365,7 @@ class _CatDetailState extends State<CatDetail> {
                         ? Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              const Text('Nessun Cantico trovato',
+                              const Text('Nessun cantico trovato',
                                   style: TextStyle(fontSize: 20.0)),
                               TextButton.icon(
                                 onPressed: () {
@@ -385,7 +385,7 @@ class _CatDetailState extends State<CatDetail> {
                                         ? kPrimaryLightColor
                                         : kPrimaryColor),
                                 label: Text(
-                                  'Aggiungi Cantico',
+                                  'Aggiungi cantico',
                                   style: TextStyle(
                                       fontWeight: FontWeight.bold,
                                       color: themeProvider.isDarkMode

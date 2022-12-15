@@ -42,11 +42,11 @@ class NewSongPageState extends State<NewSongPage> {
   void initState() {
     cat = 0;
     macro = 0;
-    catHint = 'Seleziona una Categoria';
+    catHint = 'Seleziona';
     mac = 0;
-    macHint = 'Seleziona una Categoria';
+    macHint = 'Seleziona';
     aut = 0;
-    autHint = 'Seleziona uno o più Autori';
+    autHint = 'Seleziona';
     textFocusNode = FocusNode();
     super.initState();
   }
@@ -116,7 +116,7 @@ class NewSongPageState extends State<NewSongPage> {
               resizeToAvoidBottomInset: true,
               appBar: AppBar(
                 elevation: 0.0,
-                title: const Text('Nuovo Cantico'),
+                title: const Text('Nuovo cantico'),
                 leading: IconButton(
                   tooltip: 'Indietro',
                   icon: const Icon(Icons.arrow_back),
@@ -195,7 +195,7 @@ class NewSongPageState extends State<NewSongPage> {
                                 textCapitalization:
                                     TextCapitalization.sentences,
                                 decoration: const InputDecoration(
-                                  labelText: 'Titolo del Cantico',
+                                  labelText: 'Titolo del cantico',
                                   prefixIcon: Icon(
                                     Icons.edit,
                                     color: kLightGrey,
@@ -203,7 +203,7 @@ class NewSongPageState extends State<NewSongPage> {
                                 ),
                                 validator: (value) {
                                   if (value == null || value.isEmpty) {
-                                    return 'Inserisci un Titolo!';
+                                    return 'Inserisci un titolo!';
                                   }
                                   return null;
                                 },
@@ -241,7 +241,7 @@ class NewSongPageState extends State<NewSongPage> {
                                 ),
                                 validator: (value) {
                                   if (value == null || value.isEmpty) {
-                                    return 'Inserisci il Testo!';
+                                    return 'Inserisci il testo!';
                                   }
                                   return null;
                                 },
@@ -439,7 +439,7 @@ class NewSongPageState extends State<NewSongPage> {
                 },
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Seleziona una Categoria!';
+                    return 'Seleziona una categoria!';
                   }
                   return null;
                 },
@@ -447,7 +447,7 @@ class NewSongPageState extends State<NewSongPage> {
             : const Padding(
                 padding: EdgeInsets.only(top: kDefaultPadding),
                 child: Text(
-                  'Nessuna Categoria trovata',
+                  'Nessuna categoria trovata',
                   style: TextStyle(),
                   textAlign: TextAlign.center,
                 ),
@@ -497,7 +497,7 @@ class NewSongPageState extends State<NewSongPage> {
                 },
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Seleziona un Autore!';
+                    return 'Seleziona un autore!';
                   }
                   return null;
                 },
@@ -505,7 +505,7 @@ class NewSongPageState extends State<NewSongPage> {
             : const Padding(
                 padding: EdgeInsets.only(top: kDefaultPadding),
                 child: Text(
-                  'Nessun Autore trovato',
+                  'Nessun autore trovato',
                   style: TextStyle(),
                   textAlign: TextAlign.center,
                 ),
@@ -573,7 +573,7 @@ class NewSongPageState extends State<NewSongPage> {
               ),
               child: AlertDialog(
                 scrollable: true,
-                title: const Text('Nuova Categoria'),
+                title: const Text('Nuova categoria'),
                 content: Form(
                   key: newCatKey,
                   child: Column(
@@ -584,7 +584,7 @@ class NewSongPageState extends State<NewSongPage> {
                           controller: catController,
                           textCapitalization: TextCapitalization.sentences,
                           decoration: const InputDecoration(
-                            labelText: 'Nome Categoria',
+                            labelText: 'Nome categoria',
                             prefixIcon: Icon(
                               Icons.edit,
                               color: kLightGrey,
@@ -592,7 +592,7 @@ class NewSongPageState extends State<NewSongPage> {
                           ),
                           validator: (value) {
                             if (value == null || value.isEmpty) {
-                              return 'Inserisci il Nome!';
+                              return 'Inserisci il nome!';
                             }
                             return null;
                           },
@@ -640,7 +640,7 @@ class NewSongPageState extends State<NewSongPage> {
                                   },
                                   validator: (value) {
                                     if (value == null || value.isEmpty) {
-                                      return 'Seleziona una Macrocategoria!';
+                                      return 'Seleziona una macrocategoria!';
                                     }
                                     return null;
                                   },
@@ -649,7 +649,7 @@ class NewSongPageState extends State<NewSongPage> {
                                   padding:
                                       EdgeInsets.only(top: kDefaultPadding),
                                   child: Text(
-                                    'Nessuna Macrocategoria trovata',
+                                    'Nessuna macrocategoria trovata',
                                     style: TextStyle(),
                                     textAlign: TextAlign.center,
                                   ),
@@ -782,7 +782,7 @@ class NewSongPageState extends State<NewSongPage> {
                           ),
                           validator: (value) {
                             if (value == null || value.isEmpty) {
-                              return 'Inserisci il Nome!';
+                              return 'Inserisci il nome!';
                             }
                             return null;
                           },

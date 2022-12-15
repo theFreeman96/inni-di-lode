@@ -60,7 +60,7 @@ class _CatBodyState extends State<CatBody> {
                 Icons.search,
                 color: kLightGrey,
               ),
-              labelText: 'Cerca una Categoria',
+              labelText: 'Cerca una categoria',
               hintText: 'Cerca',
             ),
           ),
@@ -91,7 +91,7 @@ class _CatBodyState extends State<CatBody> {
                     padding: EdgeInsets.only(top: kDefaultPadding),
                     child: Center(
                       child: Text(
-                        'Nessuna Categoria trovata',
+                        'Nessuna categoria trovata',
                         style: TextStyle(fontSize: 20.0),
                         textAlign: TextAlign.center,
                       ),
