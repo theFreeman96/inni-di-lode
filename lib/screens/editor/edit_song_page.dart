@@ -32,9 +32,7 @@ class EditSongPage extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  EditSongPageState createState() {
-    return EditSongPageState();
-  }
+  EditSongPageState createState() => EditSongPageState();
 }
 
 late int cat;

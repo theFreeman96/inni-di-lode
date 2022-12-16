@@ -10,9 +10,7 @@ class NewSongPage extends StatefulWidget {
   const NewSongPage({Key? key}) : super(key: key);
 
   @override
-  NewSongPageState createState() {
-    return NewSongPageState();
-  }
+  NewSongPageState createState() => NewSongPageState();
 }
 
 late int cat;
