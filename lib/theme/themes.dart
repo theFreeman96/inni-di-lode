@@ -43,6 +43,11 @@ class AppTheme {
         borderSide: BorderSide(color: Colors.red, width: 2.0),
       ),
     ),
+    textSelectionTheme: TextSelectionThemeData(
+      cursorColor: kPrimaryColor,
+      selectionColor: kPrimaryColor.withOpacity(0.3),
+      selectionHandleColor: kPrimaryColor,
+    ),
     cardColor: kWhite,
     toggleableActiveColor: kWhite,
     progressIndicatorTheme:
@@ -105,6 +110,11 @@ class AppTheme {
         ),
         borderSide: BorderSide(color: Colors.redAccent, width: 2.0),
       ),
+    ),
+    textSelectionTheme: TextSelectionThemeData(
+      cursorColor: kPrimaryLightColor,
+      selectionColor: kPrimaryLightColor.withOpacity(0.3),
+      selectionHandleColor: kPrimaryLightColor,
     ),
     cardColor: kBlack,
     toggleableActiveColor: kWhite,
