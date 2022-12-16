@@ -29,6 +29,19 @@ class AppTheme {
         borderSide: BorderSide(color: kPrimaryColor, width: 2.0),
       ),
       labelStyle: TextStyle(color: kLightGrey),
+      errorStyle: TextStyle(color: Colors.red, fontWeight: FontWeight.bold),
+      errorBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.all(
+          Radius.circular(25.0),
+        ),
+        borderSide: BorderSide(color: Colors.red, width: 1.0),
+      ),
+      focusedErrorBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.all(
+          Radius.circular(25.0),
+        ),
+        borderSide: BorderSide(color: Colors.red, width: 2.0),
+      ),
     ),
     cardColor: kWhite,
     toggleableActiveColor: kWhite,
@@ -75,6 +88,20 @@ class AppTheme {
         borderSide: BorderSide(color: kPrimaryLightColor, width: 2.0),
       ),
       labelStyle: TextStyle(color: kWhite),
+      errorStyle:
+          TextStyle(color: Colors.redAccent, fontWeight: FontWeight.bold),
+      errorBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.all(
+          Radius.circular(25.0),
+        ),
+        borderSide: BorderSide(color: Colors.redAccent, width: 1.0),
+      ),
+      focusedErrorBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.all(
+          Radius.circular(25.0),
+        ),
+        borderSide: BorderSide(color: Colors.redAccent, width: 2.0),
+      ),
     ),
     cardColor: kBlack,
     toggleableActiveColor: kWhite,
