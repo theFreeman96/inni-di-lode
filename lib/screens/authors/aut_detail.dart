@@ -64,147 +64,91 @@ class _AutDetailState extends State<AutDetail> {
                       showDialog(
                         context: context,
                         builder: (BuildContext context) {
-                          return Theme(
-                            data: Theme.of(context).copyWith(
-                              inputDecorationTheme: InputDecorationTheme(
-                                enabledBorder: OutlineInputBorder(
-                                  borderRadius: const BorderRadius.all(
-                                    Radius.circular(25.0),
-                                  ),
-                                  borderSide: BorderSide(
-                                      color: themeProvider.isDarkMode
-                                          ? kWhite
-                                          : kLightGrey,
-                                      width: 1.0),
-                                ),
-                                focusedBorder: OutlineInputBorder(
-                                  borderRadius: const BorderRadius.all(
-                                    Radius.circular(25.0),
-                                  ),
-                                  borderSide: BorderSide(
-                                      color: themeProvider.isDarkMode
-                                          ? kPrimaryLightColor
-                                          : kPrimaryColor,
-                                      width: 2.0),
-                                ),
-                                errorStyle: TextStyle(
-                                    color: themeProvider.isDarkMode
-                                        ? Colors.redAccent
-                                        : Colors.red,
-                                    fontWeight: FontWeight.bold),
-                                errorBorder: OutlineInputBorder(
-                                  borderRadius: const BorderRadius.all(
-                                    Radius.circular(25.0),
-                                  ),
-                                  borderSide: BorderSide(
-                                      color: themeProvider.isDarkMode
-                                          ? Colors.redAccent
-                                          : Colors.red,
-                                      width: 1.0),
-                                ),
-                                focusedErrorBorder: OutlineInputBorder(
-                                  borderRadius: const BorderRadius.all(
-                                    Radius.circular(25.0),
-                                  ),
-                                  borderSide: BorderSide(
-                                      color: themeProvider.isDarkMode
-                                          ? Colors.redAccent
-                                          : Colors.red,
-                                      width: 2.0),
-                                ),
-                                labelStyle: TextStyle(
-                                    color: themeProvider.isDarkMode
-                                        ? kWhite
-                                        : kLightGrey),
-                              ),
-                            ),
-                            child: AlertDialog(
-                              scrollable: true,
-                              title: const Text('Modifica autore'),
-                              content: Form(
-                                key: editAutKey,
-                                child: Column(
-                                  children: <Widget>[
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                          bottom: kDefaultPadding),
-                                      child: TextFormField(
-                                        controller: autNameController,
-                                        textCapitalization:
-                                            TextCapitalization.sentences,
-                                        decoration: const InputDecoration(
-                                          labelText: 'Nome',
-                                          prefixIcon: Icon(
-                                            Icons.edit,
-                                            color: kLightGrey,
-                                          ),
-                                        ),
-                                        validator: (value) {
-                                          if (value == null || value.isEmpty) {
-                                            return 'Inserisci il nome!';
-                                          }
-                                          return null;
-                                        },
-                                      ),
-                                    ),
-                                    TextFormField(
-                                      controller: autSurnameController,
+                          return AlertDialog(
+                            scrollable: true,
+                            title: const Text('Modifica autore'),
+                            content: Form(
+                              key: editAutKey,
+                              child: Column(
+                                children: <Widget>[
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                        bottom: kDefaultPadding),
+                                    child: TextFormField(
+                                      controller: autNameController,
                                       textCapitalization:
                                           TextCapitalization.sentences,
                                       decoration: const InputDecoration(
-                                        labelText: 'Cognome (facoltativo)',
+                                        labelText: 'Nome',
                                         prefixIcon: Icon(
                                           Icons.edit,
                                           color: kLightGrey,
                                         ),
                                       ),
+                                      validator: (value) {
+                                        if (value == null || value.isEmpty) {
+                                          return 'Inserisci il nome!';
+                                        }
+                                        return null;
+                                      },
                                     ),
-                                  ],
+                                  ),
+                                  TextFormField(
+                                    controller: autSurnameController,
+                                    textCapitalization:
+                                        TextCapitalization.sentences,
+                                    decoration: const InputDecoration(
+                                      labelText: 'Cognome (facoltativo)',
+                                      prefixIcon: Icon(
+                                        Icons.edit,
+                                        color: kLightGrey,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            actions: [
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.pop(context, 'Annulla');
+                                  autNameController.clear();
+                                  autSurnameController.clear();
+                                },
+                                child: const Text(
+                                  'Annulla',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: kLightGrey),
                                 ),
                               ),
-                              actions: [
-                                TextButton(
-                                  onPressed: () {
-                                    Navigator.pop(context, 'Annulla');
+                              TextButton(
+                                onPressed: () {
+                                  if (editAutKey.currentState!.validate()) {
+                                    query.updateAut(
+                                        autNameController.text,
+                                        autSurnameController.text,
+                                        widget.autId);
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(
+                                        content: Text('Autore modificato!'),
+                                      ),
+                                    );
+                                    Navigator.pop(context, 'Conferma');
                                     autNameController.clear();
                                     autSurnameController.clear();
-                                  },
-                                  child: const Text(
-                                    'Annulla',
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        color: kLightGrey),
-                                  ),
+                                  }
+                                },
+                                child: Text(
+                                  'Conferma',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: themeProvider.isDarkMode
+                                          ? Colors.greenAccent
+                                          : Colors.green),
                                 ),
-                                TextButton(
-                                  onPressed: () {
-                                    if (editAutKey.currentState!.validate()) {
-                                      query.updateAut(
-                                          autNameController.text,
-                                          autSurnameController.text,
-                                          widget.autId);
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(
-                                        const SnackBar(
-                                          content: Text('Autore modificato!'),
-                                        ),
-                                      );
-                                      Navigator.pop(context, 'Conferma');
-                                      autNameController.clear();
-                                      autSurnameController.clear();
-                                    }
-                                  },
-                                  child: Text(
-                                    'Conferma',
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        color: themeProvider.isDarkMode
-                                            ? Colors.greenAccent
-                                            : Colors.green),
-                                  ),
-                                ),
-                              ],
-                            ),
+                              ),
+                            ],
                           );
                         },
                       );

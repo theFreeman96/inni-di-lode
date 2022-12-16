@@ -67,200 +67,139 @@ class _CatDetailState extends State<CatDetail> {
                       showDialog(
                         context: context,
                         builder: (BuildContext context) {
-                          return Theme(
-                            data: Theme.of(context).copyWith(
-                              inputDecorationTheme: InputDecorationTheme(
-                                enabledBorder: OutlineInputBorder(
-                                  borderRadius: const BorderRadius.all(
-                                    Radius.circular(25.0),
-                                  ),
-                                  borderSide: BorderSide(
-                                      color: themeProvider.isDarkMode
-                                          ? kWhite
-                                          : kLightGrey,
-                                      width: 1.0),
-                                ),
-                                focusedBorder: OutlineInputBorder(
-                                  borderRadius: const BorderRadius.all(
-                                    Radius.circular(25.0),
-                                  ),
-                                  borderSide: BorderSide(
-                                      color: themeProvider.isDarkMode
-                                          ? kPrimaryLightColor
-                                          : kPrimaryColor,
-                                      width: 2.0),
-                                ),
-                                errorStyle: TextStyle(
-                                    color: themeProvider.isDarkMode
-                                        ? Colors.redAccent
-                                        : Colors.red,
-                                    fontWeight: FontWeight.bold),
-                                errorBorder: OutlineInputBorder(
-                                  borderRadius: const BorderRadius.all(
-                                    Radius.circular(25.0),
-                                  ),
-                                  borderSide: BorderSide(
-                                      color: themeProvider.isDarkMode
-                                          ? Colors.redAccent
-                                          : Colors.red,
-                                      width: 1.0),
-                                ),
-                                focusedErrorBorder: OutlineInputBorder(
-                                  borderRadius: const BorderRadius.all(
-                                    Radius.circular(25.0),
-                                  ),
-                                  borderSide: BorderSide(
-                                      color: themeProvider.isDarkMode
-                                          ? Colors.redAccent
-                                          : Colors.red,
-                                      width: 2.0),
-                                ),
-                                labelStyle: TextStyle(
-                                    color: themeProvider.isDarkMode
-                                        ? kWhite
-                                        : kLightGrey),
-                              ),
-                            ),
-                            child: AlertDialog(
-                              scrollable: true,
-                              title: const Text('Modifica categoria'),
-                              content: Form(
-                                key: editCatKey,
-                                child: Column(
-                                  children: <Widget>[
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                          bottom: kDefaultPadding),
-                                      child: TextFormField(
-                                        controller: catController,
-                                        textCapitalization:
-                                            TextCapitalization.sentences,
-                                        decoration: const InputDecoration(
-                                          labelText: 'Nome categoria',
-                                          prefixIcon: Icon(
-                                            Icons.edit,
-                                            color: kLightGrey,
-                                          ),
+                          return AlertDialog(
+                            scrollable: true,
+                            title: const Text('Modifica categoria'),
+                            content: Form(
+                              key: editCatKey,
+                              child: Column(
+                                children: <Widget>[
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                        bottom: kDefaultPadding),
+                                    child: TextFormField(
+                                      controller: catController,
+                                      textCapitalization:
+                                          TextCapitalization.sentences,
+                                      decoration: const InputDecoration(
+                                        labelText: 'Nome categoria',
+                                        prefixIcon: Icon(
+                                          Icons.edit,
+                                          color: kLightGrey,
                                         ),
-                                        validator: (value) {
-                                          if (value == null || value.isEmpty) {
-                                            return 'Inserisci il nome!';
-                                          }
-                                          return null;
-                                        },
                                       ),
-                                    ),
-                                    FutureBuilder(
-                                      future: query.getAllMacroCat(),
-                                      builder:
-                                          (context, AsyncSnapshot snapshot) {
-                                        return snapshot.hasData
-                                            ? DropdownButtonFormField<String>(
-                                                isExpanded: true,
-                                                icon: const Padding(
-                                                  padding: EdgeInsets.only(
-                                                      right:
-                                                          kDefaultPadding / 3),
-                                                  child: Icon(
-                                                      Icons.arrow_drop_down),
-                                                ),
-                                                borderRadius:
-                                                    const BorderRadius.all(
-                                                  Radius.circular(25.0),
-                                                ),
-                                                hint: Text(macHint),
-                                                decoration:
-                                                    const InputDecoration(
-                                                  contentPadding:
-                                                      EdgeInsets.symmetric(
-                                                    vertical: kDefaultPadding,
-                                                  ),
-                                                  prefixIcon: Icon(
-                                                    Icons.sell,
-                                                    color: kLightGrey,
-                                                  ),
-                                                  labelText: 'Macrocategoria',
-                                                ),
-                                                items: snapshot.data!.map<
-                                                    DropdownMenuItem<
-                                                        String>>((get) {
-                                                  return DropdownMenuItem<
-                                                      String>(
-                                                    value: get.macroName,
-                                                    onTap: () {
-                                                      mac = get.macroId;
-                                                    },
-                                                    child: Text(get.macroName),
-                                                  );
-                                                }).toList(),
-                                                onChanged: (value) {
-                                                  setState(() {
-                                                    macHint = value!;
-                                                  });
-                                                },
-                                                validator: (value) {
-                                                  if (value == null ||
-                                                      value.isEmpty) {
-                                                    return 'Seleziona una macrocategoria!';
-                                                  }
-                                                  return null;
-                                                },
-                                              )
-                                            : const Padding(
-                                                padding: EdgeInsets.only(
-                                                    top: kDefaultPadding),
-                                                child: Text(
-                                                  'Nessuna macrocategoria trovata',
-                                                  style: TextStyle(),
-                                                  textAlign: TextAlign.center,
-                                                ),
-                                              );
+                                      validator: (value) {
+                                        if (value == null || value.isEmpty) {
+                                          return 'Inserisci il nome!';
+                                        }
+                                        return null;
                                       },
                                     ),
-                                  ],
+                                  ),
+                                  FutureBuilder(
+                                    future: query.getAllMacroCat(),
+                                    builder: (context, AsyncSnapshot snapshot) {
+                                      return snapshot.hasData
+                                          ? DropdownButtonFormField<String>(
+                                              isExpanded: true,
+                                              icon: const Padding(
+                                                padding: EdgeInsets.only(
+                                                    right: kDefaultPadding / 3),
+                                                child:
+                                                    Icon(Icons.arrow_drop_down),
+                                              ),
+                                              borderRadius:
+                                                  const BorderRadius.all(
+                                                Radius.circular(25.0),
+                                              ),
+                                              hint: Text(macHint),
+                                              decoration: const InputDecoration(
+                                                contentPadding:
+                                                    EdgeInsets.symmetric(
+                                                  vertical: kDefaultPadding,
+                                                ),
+                                                prefixIcon: Icon(
+                                                  Icons.sell,
+                                                  color: kLightGrey,
+                                                ),
+                                                labelText: 'Macrocategoria',
+                                              ),
+                                              items: snapshot.data!.map<
+                                                      DropdownMenuItem<String>>(
+                                                  (get) {
+                                                return DropdownMenuItem<String>(
+                                                  value: get.macroName,
+                                                  onTap: () {
+                                                    mac = get.macroId;
+                                                  },
+                                                  child: Text(get.macroName),
+                                                );
+                                              }).toList(),
+                                              onChanged: (value) {
+                                                setState(() {
+                                                  macHint = value!;
+                                                });
+                                              },
+                                              validator: (value) {
+                                                if (value == null ||
+                                                    value.isEmpty) {
+                                                  return 'Seleziona una macrocategoria!';
+                                                }
+                                                return null;
+                                              },
+                                            )
+                                          : const Padding(
+                                              padding: EdgeInsets.only(
+                                                  top: kDefaultPadding),
+                                              child: Text(
+                                                'Nessuna macrocategoria trovata',
+                                                style: TextStyle(),
+                                                textAlign: TextAlign.center,
+                                              ),
+                                            );
+                                    },
+                                  ),
+                                ],
+                              ),
+                            ),
+                            actions: [
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.pop(context, 'Annulla');
+                                  catController.clear();
+                                },
+                                child: const Text(
+                                  'Annulla',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: kLightGrey),
                                 ),
                               ),
-                              actions: [
-                                TextButton(
-                                  onPressed: () {
-                                    Navigator.pop(context, 'Annulla');
+                              TextButton(
+                                onPressed: () {
+                                  if (editCatKey.currentState!.validate()) {
+                                    query.updateCat(
+                                        catController.text, mac, widget.catId);
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(
+                                        content: Text('Categoria modificata!'),
+                                      ),
+                                    );
+                                    Navigator.pop(context, 'Conferma');
                                     catController.clear();
-                                  },
-                                  child: const Text(
-                                    'Annulla',
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        color: kLightGrey),
-                                  ),
+                                    setState(() {});
+                                  }
+                                },
+                                child: Text(
+                                  'Conferma',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: themeProvider.isDarkMode
+                                          ? Colors.greenAccent
+                                          : Colors.green),
                                 ),
-                                TextButton(
-                                  onPressed: () {
-                                    if (editCatKey.currentState!.validate()) {
-                                      query.updateCat(catController.text, mac,
-                                          widget.catId);
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(
-                                        const SnackBar(
-                                          content:
-                                              Text('Categoria modificata!'),
-                                        ),
-                                      );
-                                      Navigator.pop(context, 'Conferma');
-                                      catController.clear();
-                                      setState(() {});
-                                    }
-                                  },
-                                  child: Text(
-                                    'Conferma',
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        color: themeProvider.isDarkMode
-                                            ? Colors.greenAccent
-                                            : Colors.green),
-                                  ),
-                                ),
-                              ],
-                            ),
+                              ),
+                            ],
                           );
                         },
                       );
