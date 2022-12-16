@@ -109,9 +109,9 @@ class _SongsBodyState extends State<SongsBody> {
                 config: NumberPaginatorUIConfig(
                   height: 40,
                   mode: ContentDisplayMode.numbers,
-                  buttonSelectedForegroundColor: Colors.white,
+                  buttonSelectedForegroundColor: kWhite,
                   buttonUnselectedForegroundColor:
-                      themeProvider.isDarkMode ? Colors.white : kBlack,
+                      themeProvider.isDarkMode ? kWhite : kBlack,
                   buttonSelectedBackgroundColor: themeProvider.isDarkMode
                       ? kPrimaryLightColor
                       : kPrimaryColor,
