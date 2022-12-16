@@ -215,13 +215,13 @@ class EditSongPageState extends State<EditSongPage> {
                               decoration: const InputDecoration(
                                 labelText: 'Testo',
                                 alignLabelWithHint: true,
-                                contentPadding: EdgeInsets.only(
-                                  top: kDefaultPadding * 2,
-                                  left: kDefaultPadding,
-                                ),
-                                prefix: Icon(
-                                  Icons.notes,
-                                  color: kLightGrey,
+                                prefixIcon: Padding(
+                                  padding:
+                                      EdgeInsetsDirectional.only(bottom: 295),
+                                  child: Icon(
+                                    Icons.notes,
+                                    color: kLightGrey,
+                                  ),
                                 ),
                               ),
                               validator: (value) {
