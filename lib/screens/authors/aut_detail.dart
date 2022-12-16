@@ -33,8 +33,6 @@ class _AutDetailState extends State<AutDetail> {
   void initState() {
     autNameController = TextEditingController(text: widget.autName);
     autSurnameController = TextEditingController(text: widget.autSurname);
-    aut = widget.autId;
-    autHint = widget.autName;
     super.initState();
   }
 
@@ -188,13 +186,12 @@ class _AutDetailState extends State<AutDetail> {
                                       ScaffoldMessenger.of(context)
                                           .showSnackBar(
                                         const SnackBar(
-                                          content: Text('Autore aggiunto!'),
+                                          content: Text('Autore modificato!'),
                                         ),
                                       );
                                       Navigator.pop(context, 'Conferma');
                                       autNameController.clear();
                                       autSurnameController.clear();
-                                      setState(() {});
                                     }
                                   },
                                   child: Text(
