@@ -163,19 +163,14 @@ class _CatDetailState extends State<CatDetail> {
                               ),
                             ),
                             actions: [
-                              TextButton(
+                              OutlinedButton(
                                 onPressed: () {
                                   Navigator.pop(context, 'Annulla');
                                   catController.clear();
                                 },
-                                child: const Text(
-                                  'Annulla',
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      color: kLightGrey),
-                                ),
+                                child: const Text('Annulla'),
                               ),
-                              TextButton(
+                              ElevatedButton(
                                 onPressed: () {
                                   if (editCatKey.currentState!.validate()) {
                                     query.updateCat(
@@ -190,14 +185,7 @@ class _CatDetailState extends State<CatDetail> {
                                     setState(() {});
                                   }
                                 },
-                                child: Text(
-                                  'Conferma',
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      color: themeProvider.isDarkMode
-                                          ? Colors.greenAccent
-                                          : Colors.green),
-                                ),
+                                child: const Text('Conferma'),
                               ),
                             ],
                           );
@@ -236,32 +224,20 @@ class _CatDetailState extends State<CatDetail> {
                               ),
                             ),
                             actions: <Widget>[
-                              TextButton(
+                              OutlinedButton(
                                 onPressed: () {
                                   Navigator.pop(context, 'Annulla');
                                 },
-                                child: const Text(
-                                  'Annulla',
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      color: kLightGrey),
-                                ),
+                                child: const Text('Annulla'),
                               ),
-                              TextButton(
+                              ElevatedButton(
                                 onPressed: () {
                                   query.deleteCat(id);
                                   setState(() {});
                                   Navigator.pop(context, 'Elimina');
                                   Navigator.of(context).pop();
                                 },
-                                child: Text(
-                                  'Elimina',
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      color: themeProvider.isDarkMode
-                                          ? Colors.redAccent
-                                          : Colors.red),
-                                ),
+                                child: const Text('Elimina'),
                               ),
                             ],
                           );
@@ -328,8 +304,8 @@ class _CatDetailState extends State<CatDetail> {
                                   style: TextStyle(
                                       fontWeight: FontWeight.bold,
                                       color: themeProvider.isDarkMode
-                                          ? kPrimaryLightColor
-                                          : kPrimaryColor),
+                                          ? kWhite
+                                          : kBlack),
                                 ),
                               ),
                             ],

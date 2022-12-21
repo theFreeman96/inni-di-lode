@@ -509,32 +509,20 @@ class _SongsDetailState extends State<SongsDetail> {
                                 ),
                               ),
                               actions: <Widget>[
-                                TextButton(
+                                OutlinedButton(
                                   onPressed: () {
                                     Navigator.pop(context, 'Annulla');
                                   },
-                                  child: const Text(
-                                    'Annulla',
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        color: kLightGrey),
-                                  ),
+                                  child: const Text('Annulla'),
                                 ),
-                                TextButton(
+                                ElevatedButton(
                                   onPressed: () {
                                     query.deleteSong(get.songId);
                                     setState(() {});
                                     Navigator.pop(context, 'Elimina');
                                     Navigator.of(context).pop();
                                   },
-                                  child: Text(
-                                    'Elimina',
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        color: themeProvider.isDarkMode
-                                            ? Colors.redAccent
-                                            : Colors.red),
-                                  ),
+                                  child: const Text('Elimina'),
                                 ),
                               ],
                             );

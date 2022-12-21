@@ -109,20 +109,15 @@ class _AutDetailState extends State<AutDetail> {
                               ),
                             ),
                             actions: [
-                              TextButton(
+                              OutlinedButton(
                                 onPressed: () {
                                   Navigator.pop(context, 'Annulla');
                                   autNameController.clear();
                                   autSurnameController.clear();
                                 },
-                                child: const Text(
-                                  'Annulla',
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      color: kLightGrey),
-                                ),
+                                child: const Text('Annulla'),
                               ),
-                              TextButton(
+                              ElevatedButton(
                                 onPressed: () {
                                   if (editAutKey.currentState!.validate()) {
                                     query.updateAut(
@@ -139,14 +134,7 @@ class _AutDetailState extends State<AutDetail> {
                                     autSurnameController.clear();
                                   }
                                 },
-                                child: Text(
-                                  'Conferma',
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      color: themeProvider.isDarkMode
-                                          ? Colors.greenAccent
-                                          : Colors.green),
-                                ),
+                                child: const Text('Conferma'),
                               ),
                             ],
                           );
@@ -186,32 +174,20 @@ class _AutDetailState extends State<AutDetail> {
                               ),
                             ),
                             actions: <Widget>[
-                              TextButton(
+                              OutlinedButton(
                                 onPressed: () {
                                   Navigator.pop(context, 'Annulla');
                                 },
-                                child: const Text(
-                                  'Annulla',
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      color: kLightGrey),
-                                ),
+                                child: const Text('Annulla'),
                               ),
-                              TextButton(
+                              ElevatedButton(
                                 onPressed: () {
                                   query.deleteAut(id);
                                   setState(() {});
                                   Navigator.pop(context, 'Elimina');
                                   Navigator.of(context).pop();
                                 },
-                                child: Text(
-                                  'Elimina',
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      color: themeProvider.isDarkMode
-                                          ? Colors.redAccent
-                                          : Colors.red),
-                                ),
+                                child: const Text('Elimina'),
                               ),
                             ],
                           );
@@ -278,8 +254,8 @@ class _AutDetailState extends State<AutDetail> {
                                   style: TextStyle(
                                       fontWeight: FontWeight.bold,
                                       color: themeProvider.isDarkMode
-                                          ? kPrimaryLightColor
-                                          : kPrimaryColor),
+                                          ? kWhite
+                                          : kBlack),
                                 ),
                               ),
                             ],

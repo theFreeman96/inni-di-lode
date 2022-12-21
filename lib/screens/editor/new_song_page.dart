@@ -468,7 +468,6 @@ class NewSongPageState extends State<NewSongPage> {
   }
 
   Widget newCatDialog() {
-    final themeProvider = Provider.of<ThemeProvider>(context);
     return IconButton(
       onPressed: () {
         showDialog(
@@ -562,18 +561,14 @@ class NewSongPageState extends State<NewSongPage> {
                 ),
               ),
               actions: [
-                TextButton(
+                OutlinedButton(
                   onPressed: () {
                     Navigator.pop(context, 'Annulla');
                     catController.clear();
                   },
-                  child: const Text(
-                    'Annulla',
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold, color: kLightGrey),
-                  ),
+                  child: const Text('Annulla'),
                 ),
-                TextButton(
+                ElevatedButton(
                   onPressed: () {
                     if (newCatKey.currentState!.validate()) {
                       query.insertCat(catController.text, mac);
@@ -587,14 +582,7 @@ class NewSongPageState extends State<NewSongPage> {
                       setState(() {});
                     }
                   },
-                  child: Text(
-                    'Conferma',
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: themeProvider.isDarkMode
-                            ? Colors.greenAccent
-                            : Colors.green),
-                  ),
+                  child: const Text('Conferma'),
                 ),
               ],
             );
@@ -606,7 +594,6 @@ class NewSongPageState extends State<NewSongPage> {
   }
 
   Widget newAutDialog() {
-    final themeProvider = Provider.of<ThemeProvider>(context);
     return IconButton(
       onPressed: () {
         showDialog(
@@ -654,19 +641,15 @@ class NewSongPageState extends State<NewSongPage> {
                 ),
               ),
               actions: [
-                TextButton(
+                OutlinedButton(
                   onPressed: () {
                     Navigator.pop(context, 'Annulla');
                     autNameController.clear();
                     autSurnameController.clear();
                   },
-                  child: const Text(
-                    'Annulla',
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold, color: kLightGrey),
-                  ),
+                  child: const Text('Annulla'),
                 ),
-                TextButton(
+                ElevatedButton(
                   onPressed: () {
                     if (newAutKey.currentState!.validate()) {
                       query.insertAut(
@@ -682,14 +665,7 @@ class NewSongPageState extends State<NewSongPage> {
                       setState(() {});
                     }
                   },
-                  child: Text(
-                    'Conferma',
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: themeProvider.isDarkMode
-                            ? Colors.greenAccent
-                            : Colors.green),
-                  ),
+                  child: const Text('Conferma'),
                 ),
               ],
             );
