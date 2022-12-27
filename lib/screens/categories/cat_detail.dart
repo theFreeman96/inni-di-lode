@@ -8,6 +8,7 @@ import '/assets/data/queries.dart';
 
 import '/screens/songs/songs_detail.dart';
 import '../editor/new_song_page.dart';
+import '../home.dart';
 
 class CatDetail extends StatefulWidget {
   final int catId;
@@ -180,7 +181,14 @@ class _CatDetailState extends State<CatDetail> {
                                         content: Text('Categoria modificata!'),
                                       ),
                                     );
-                                    Navigator.pop(context, 'Conferma');
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) {
+                                          return const Home();
+                                        },
+                                      ),
+                                    );
                                     catController.clear();
                                     setState(() {});
                                   }

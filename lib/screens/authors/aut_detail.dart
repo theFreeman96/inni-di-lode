@@ -8,6 +8,7 @@ import '/assets/data/queries.dart';
 
 import '/screens/songs/songs_detail.dart';
 import '../editor/new_song_page.dart';
+import '../home.dart';
 
 class AutDetail extends StatefulWidget {
   final int autId;
@@ -129,7 +130,14 @@ class _AutDetailState extends State<AutDetail> {
                                         content: Text('Autore modificato!'),
                                       ),
                                     );
-                                    Navigator.pop(context, 'Conferma');
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) {
+                                          return const Home();
+                                        },
+                                      ),
+                                    );
                                     autNameController.clear();
                                     autSurnameController.clear();
                                   }

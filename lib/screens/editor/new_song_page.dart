@@ -6,6 +6,8 @@ import '/assets/data/queries.dart';
 import '/theme/constants.dart';
 import '/theme/theme_provider.dart';
 
+import '../home.dart';
+
 class NewSongPage extends StatefulWidget {
   const NewSongPage({Key? key}) : super(key: key);
 
@@ -75,7 +77,14 @@ class NewSongPageState extends State<NewSongPage> {
                 icon: const Icon(Icons.arrow_back),
                 onPressed: () {
                   FocusScope.of(context).unfocus();
-                  Navigator.of(context).pop();
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) {
+                        return const Home();
+                      },
+                    ),
+                  );
                 },
               ),
               actions: <Widget>[
@@ -120,7 +129,14 @@ class NewSongPageState extends State<NewSongPage> {
                   titleController.clear();
                   textController.clear();
                   FocusScope.of(context).unfocus();
-                  Navigator.of(context).pop();
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) {
+                        return const Home();
+                      },
+                    ),
+                  );
                 }
               },
               child: const Icon(Icons.send),
