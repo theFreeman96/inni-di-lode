@@ -85,7 +85,7 @@ class _SongsBodyState extends State<SongsBody> {
                 color: kLightGrey,
               ),
               labelText: 'Cerca per numero, titolo o testo',
-              hintText: 'Cerca un Cantico',
+              hintText: 'Cerca un cantico',
             ),
           ),
         ),
@@ -107,10 +107,11 @@ class _SongsBodyState extends State<SongsBody> {
                   });
                 },
                 config: NumberPaginatorUIConfig(
+                  height: 40,
                   mode: ContentDisplayMode.numbers,
-                  buttonSelectedForegroundColor: Colors.white,
+                  buttonSelectedForegroundColor: kWhite,
                   buttonUnselectedForegroundColor:
-                      themeProvider.isDarkMode ? Colors.white : kBlack,
+                      themeProvider.isDarkMode ? kWhite : kBlack,
                   buttonSelectedBackgroundColor: themeProvider.isDarkMode
                       ? kPrimaryLightColor
                       : kPrimaryColor,
@@ -132,11 +133,12 @@ class _SongsBodyState extends State<SongsBody> {
                     child: Scrollbar(
                       thumbVisibility: true,
                       child: ListView.separated(
+                        padding: const EdgeInsets.only(top: 8),
                         physics: const ScrollPhysics(),
                         shrinkWrap: true,
                         itemCount: snapshot.data!.length,
                         itemBuilder: (context, i) {
-                          return buildRow(snapshot.data![i]);
+                          return buildRow(snapshot.data![i], i);
                         },
                         separatorBuilder: (context, index) {
                           return const Divider();
@@ -148,7 +150,7 @@ class _SongsBodyState extends State<SongsBody> {
                     padding: EdgeInsets.only(top: kDefaultPadding),
                     child: Center(
                       child: Text(
-                        'Nessun Cantico trovato',
+                        'Nessun cantico trovato',
                         style: TextStyle(fontSize: 20.0),
                         textAlign: TextAlign.center,
                       ),
@@ -160,7 +162,7 @@ class _SongsBodyState extends State<SongsBody> {
     );
   }
 
-  Widget buildRow(Raccolta get) {
+  Widget buildRow(Raccolta get, int i) {
     return ListTile(
       leading: CircleAvatar(
         child: Text(
@@ -178,7 +180,7 @@ class _SongsBodyState extends State<SongsBody> {
           context,
           MaterialPageRoute(
             builder: (context) {
-              return SongsDetail(songId: get.songId, from: 'Songs');
+              return SongsDetail(index: get.songId, from: 'Songs');
             },
           ),
         );

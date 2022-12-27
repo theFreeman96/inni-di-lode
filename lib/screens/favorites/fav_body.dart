@@ -70,7 +70,7 @@ class _FavBodyState extends State<FavBody> {
                 color: kLightGrey,
               ),
               labelText: 'Cerca per numero, titolo o testo',
-              hintText: 'Cerca un Cantico',
+              hintText: 'Cerca un cantico',
             ),
           ),
         ),
@@ -88,7 +88,7 @@ class _FavBodyState extends State<FavBody> {
                         shrinkWrap: true,
                         itemCount: snapshot.data!.length,
                         itemBuilder: (context, i) {
-                          return buildRow(snapshot.data![i]);
+                          return buildRow(snapshot.data![i], i);
                         },
                         separatorBuilder: (context, index) {
                           return const Divider();
@@ -100,7 +100,7 @@ class _FavBodyState extends State<FavBody> {
                     padding: EdgeInsets.only(top: kDefaultPadding),
                     child: Center(
                       child: Text(
-                        'Nessun Preferito trovato',
+                        'Nessun preferito trovato',
                         style: TextStyle(fontSize: 20.0),
                         textAlign: TextAlign.center,
                       ),
@@ -112,7 +112,7 @@ class _FavBodyState extends State<FavBody> {
     );
   }
 
-  Widget buildRow(Raccolta get) {
+  Widget buildRow(Raccolta get, int i) {
     return ListTile(
       leading: CircleAvatar(
         child: Text(
@@ -130,7 +130,7 @@ class _FavBodyState extends State<FavBody> {
           context,
           MaterialPageRoute(
             builder: (context) {
-              return SongsDetail(songId: get.songId, from: 'Favorites');
+              return SongsDetail(index: i, from: 'Favorites');
             },
           ),
         ).then(onGoBack);

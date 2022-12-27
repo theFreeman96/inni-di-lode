@@ -29,9 +29,26 @@ class AppTheme {
         borderSide: BorderSide(color: kPrimaryColor, width: 2.0),
       ),
       labelStyle: TextStyle(color: kLightGrey),
+      errorStyle: TextStyle(color: Colors.red, fontWeight: FontWeight.bold),
+      errorBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.all(
+          Radius.circular(25.0),
+        ),
+        borderSide: BorderSide(color: Colors.red, width: 1.0),
+      ),
+      focusedErrorBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.all(
+          Radius.circular(25.0),
+        ),
+        borderSide: BorderSide(color: Colors.red, width: 2.0),
+      ),
+    ),
+    textSelectionTheme: TextSelectionThemeData(
+      cursorColor: kPrimaryColor,
+      selectionColor: kPrimaryColor.withOpacity(0.3),
+      selectionHandleColor: kPrimaryColor,
     ),
     cardColor: kWhite,
-    toggleableActiveColor: kWhite,
     progressIndicatorTheme:
         const ProgressIndicatorThemeData(color: kPrimaryColor),
     colorScheme: ColorScheme.fromSwatch().copyWith(secondary: kPrimaryColor),
@@ -47,6 +64,58 @@ class AppTheme {
     ),
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(backgroundColor: kPrimaryColor),
+    ),
+    outlinedButtonTheme: OutlinedButtonThemeData(
+      style: ElevatedButton.styleFrom(foregroundColor: kBlack),
+    ),
+    textButtonTheme: TextButtonThemeData(
+      style: TextButton.styleFrom(foregroundColor: kLightGrey),
+    ),
+    checkboxTheme: CheckboxThemeData(
+      fillColor: MaterialStateProperty.resolveWith<Color?>(
+          (Set<MaterialState> states) {
+        if (states.contains(MaterialState.disabled)) {
+          return null;
+        }
+        if (states.contains(MaterialState.selected)) {
+          return kPrimaryColor;
+        }
+        return null;
+      }),
+    ),
+    radioTheme: RadioThemeData(
+      fillColor: MaterialStateProperty.resolveWith<Color?>(
+          (Set<MaterialState> states) {
+        if (states.contains(MaterialState.disabled)) {
+          return null;
+        }
+        if (states.contains(MaterialState.selected)) {
+          return kPrimaryColor;
+        }
+        return null;
+      }),
+    ),
+    switchTheme: SwitchThemeData(
+      thumbColor: MaterialStateProperty.resolveWith<Color?>(
+          (Set<MaterialState> states) {
+        if (states.contains(MaterialState.disabled)) {
+          return null;
+        }
+        if (states.contains(MaterialState.selected)) {
+          return kWhite;
+        }
+        return null;
+      }),
+      trackColor: MaterialStateProperty.resolveWith<Color?>(
+          (Set<MaterialState> states) {
+        if (states.contains(MaterialState.disabled)) {
+          return null;
+        }
+        if (states.contains(MaterialState.selected)) {
+          return kLightGrey;
+        }
+        return null;
+      }),
     ),
   );
 
@@ -75,9 +144,27 @@ class AppTheme {
         borderSide: BorderSide(color: kPrimaryLightColor, width: 2.0),
       ),
       labelStyle: TextStyle(color: kWhite),
+      errorStyle:
+          TextStyle(color: Colors.redAccent, fontWeight: FontWeight.bold),
+      errorBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.all(
+          Radius.circular(25.0),
+        ),
+        borderSide: BorderSide(color: Colors.redAccent, width: 1.0),
+      ),
+      focusedErrorBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.all(
+          Radius.circular(25.0),
+        ),
+        borderSide: BorderSide(color: Colors.redAccent, width: 2.0),
+      ),
+    ),
+    textSelectionTheme: TextSelectionThemeData(
+      cursorColor: kPrimaryLightColor,
+      selectionColor: kPrimaryLightColor.withOpacity(0.3),
+      selectionHandleColor: kPrimaryLightColor,
     ),
     cardColor: kBlack,
-    toggleableActiveColor: kWhite,
     progressIndicatorTheme: const ProgressIndicatorThemeData(color: kWhite),
     floatingActionButtonTheme: const FloatingActionButtonThemeData(
         foregroundColor: kWhite, backgroundColor: kPrimaryLightColor),
@@ -93,6 +180,58 @@ class AppTheme {
     ),
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(backgroundColor: kPrimaryLightColor),
+    ),
+    outlinedButtonTheme: OutlinedButtonThemeData(
+      style: ElevatedButton.styleFrom(foregroundColor: kWhite),
+    ),
+    textButtonTheme: TextButtonThemeData(
+      style: TextButton.styleFrom(foregroundColor: kWhite),
+    ),
+    checkboxTheme: CheckboxThemeData(
+      fillColor: MaterialStateProperty.resolveWith<Color?>(
+          (Set<MaterialState> states) {
+        if (states.contains(MaterialState.disabled)) {
+          return null;
+        }
+        if (states.contains(MaterialState.selected)) {
+          return kPrimaryLightColor;
+        }
+        return null;
+      }),
+    ),
+    radioTheme: RadioThemeData(
+      fillColor: MaterialStateProperty.resolveWith<Color?>(
+          (Set<MaterialState> states) {
+        if (states.contains(MaterialState.disabled)) {
+          return null;
+        }
+        if (states.contains(MaterialState.selected)) {
+          return kPrimaryLightColor;
+        }
+        return null;
+      }),
+    ),
+    switchTheme: SwitchThemeData(
+      thumbColor: MaterialStateProperty.resolveWith<Color?>(
+          (Set<MaterialState> states) {
+        if (states.contains(MaterialState.disabled)) {
+          return null;
+        }
+        if (states.contains(MaterialState.selected)) {
+          return kWhite;
+        }
+        return null;
+      }),
+      trackColor: MaterialStateProperty.resolveWith<Color?>(
+          (Set<MaterialState> states) {
+        if (states.contains(MaterialState.disabled)) {
+          return null;
+        }
+        if (states.contains(MaterialState.selected)) {
+          return kLightGrey;
+        }
+        return null;
+      }),
     ),
   );
 }

@@ -15,12 +15,13 @@ import '../authors/aut_detail.dart';
 import 'songs_pdf.dart';
 import 'songs_player.dart';
 import '../editor/edit_song_page.dart';
+import '../home.dart';
 
 class SongsDetail extends StatefulWidget {
-  int songId;
+  int index;
   String from;
   int? id;
-  SongsDetail({Key? key, required this.songId, required this.from, this.id})
+  SongsDetail({Key? key, required this.index, required this.from, this.id})
       : super(key: key);
 
   @override
@@ -41,8 +42,22 @@ class _SongsDetailState extends State<SongsDetail> {
 
   @override
   initState() {
-    pageController = PageController(initialPage: widget.songId - 1);
+    pageController = PageController();
     super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (pageController.hasClients) {
+        if (widget.from == 'Songs' || widget.from == 'Drawer') {
+          pageController.jumpToPage(widget.index - 1);
+        } else {
+          pageController.jumpToPage(widget.index);
+        }
+      }
+    });
+    super.didChangeDependencies();
   }
 
   @override
@@ -53,16 +68,13 @@ class _SongsDetailState extends State<SongsDetail> {
       child: Stack(
         children: [
           FutureBuilder<List?>(
-            future: /*widget.from == 'Songs'
-                ? query.getAllSongs()
-                : widget.from == 'Category'
-                    ? query.getSongsByCat(widget.id!)
-                    : widget.from == 'Author'
-                        ? query.getSongsByAut(widget.id!)
-                        : widget.from == 'Favorites'
-                            ? query.getAllFav()
-                            : */
-                query.getAllSongs(),
+            future: widget.from == 'Category'
+                ? query.getSongsByCat(widget.id!)
+                : widget.from == 'Author'
+                    ? query.getSongsByAut(widget.id!)
+                    : widget.from == 'Favorites'
+                        ? query.getAllFav()
+                        : query.getAllSongs(),
             initialData: const [],
             builder: (context, snapshot) {
               return PageView.builder(
@@ -128,8 +140,6 @@ class _SongsDetailState extends State<SongsDetail> {
 
   Widget buildPage(Raccolta get) {
     final themeProvider = Provider.of<ThemeProvider>(context);
-    String text = get.songText;
-    String parsedSongText = text.replaceAll('<li>', '<li><br>');
     return Scaffold(
       extendBody: true,
       appBar: AppBar(
@@ -187,7 +197,7 @@ class _SongsDetailState extends State<SongsDetail> {
                 ),
               ),
               Html(
-                data: parsedSongText,
+                data: get.songText,
                 style: {
                   'ol': Style(
                     textAlign: TextAlign.center,
@@ -198,7 +208,7 @@ class _SongsDetailState extends State<SongsDetail> {
                   ),
                   'li': Style(
                       padding:
-                          const EdgeInsets.only(right: kDefaultPadding / 2)),
+                          const EdgeInsets.only(right: kDefaultPadding / 4)),
                 },
               ),
               const Divider(),
@@ -225,7 +235,7 @@ class _SongsDetailState extends State<SongsDetail> {
                           padding: EdgeInsets.only(top: kDefaultPadding),
                           child: Center(
                             child: Text(
-                              'Nessuna Categoria trovata',
+                              'Nessuna categoria trovata',
                               style: TextStyle(fontSize: 20.0),
                             ),
                           ),
@@ -253,7 +263,7 @@ class _SongsDetailState extends State<SongsDetail> {
                           padding: EdgeInsets.only(top: kDefaultPadding),
                           child: Center(
                             child: Text(
-                              'Nessun Autore trovato',
+                              'Nessun autore trovato',
                               style: TextStyle(fontSize: 20.0),
                             ),
                           ),
@@ -456,7 +466,7 @@ class _SongsDetailState extends State<SongsDetail> {
                   children: [
                     IconButton(
                       icon: const Icon(Icons.edit_note),
-                      tooltip: 'Modifica Cantico',
+                      tooltip: 'Modifica cantico',
                       onPressed: () {
                         FocusScope.of(context).unfocus();
                         Navigator.push(
@@ -482,7 +492,7 @@ class _SongsDetailState extends State<SongsDetail> {
                     ),
                     IconButton(
                       icon: const Icon(Icons.delete),
-                      tooltip: 'Elimina Cantico',
+                      tooltip: 'Elimina cantico',
                       onPressed: () {
                         showDialog(
                           context: context,
@@ -511,32 +521,26 @@ class _SongsDetailState extends State<SongsDetail> {
                                 ),
                               ),
                               actions: <Widget>[
-                                TextButton(
+                                OutlinedButton(
                                   onPressed: () {
                                     Navigator.pop(context, 'Annulla');
                                   },
-                                  child: const Text(
-                                    'Annulla',
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        color: kLightGrey),
-                                  ),
+                                  child: const Text('Annulla'),
                                 ),
-                                TextButton(
+                                ElevatedButton(
                                   onPressed: () {
                                     query.deleteSong(get.songId);
                                     setState(() {});
-                                    Navigator.pop(context, 'Elimina');
-                                    Navigator.of(context).pop();
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) {
+                                          return const Home();
+                                        },
+                                      ),
+                                    );
                                   },
-                                  child: Text(
-                                    'Elimina',
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        color: themeProvider.isDarkMode
-                                            ? Colors.redAccent
-                                            : Colors.red),
-                                  ),
+                                  child: const Text('Elimina'),
                                 ),
                               ],
                             );

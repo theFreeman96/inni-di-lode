@@ -6,13 +6,13 @@ import '/assets/data/queries.dart';
 import '/theme/constants.dart';
 import '/theme/theme_provider.dart';
 
+import '../home.dart';
+
 class NewSongPage extends StatefulWidget {
   const NewSongPage({Key? key}) : super(key: key);
 
   @override
-  NewSongPageState createState() {
-    return NewSongPageState();
-  }
+  NewSongPageState createState() => NewSongPageState();
 }
 
 late int cat;
@@ -42,11 +42,11 @@ class NewSongPageState extends State<NewSongPage> {
   void initState() {
     cat = 0;
     macro = 0;
-    catHint = 'Seleziona una Categoria';
+    catHint = 'Seleziona';
     mac = 0;
-    macHint = 'Seleziona una Categoria';
+    macHint = 'Seleziona';
     aut = 0;
-    autHint = 'Seleziona uno o più Autori';
+    autHint = 'Seleziona';
     textFocusNode = FocusNode();
     super.initState();
   }
@@ -62,226 +62,265 @@ class NewSongPageState extends State<NewSongPage> {
 
   @override
   Widget build(BuildContext context) {
-    final themeProvider = Provider.of<ThemeProvider>(context);
-    return Theme(
-      data: Theme.of(context).copyWith(
-        inputDecorationTheme: InputDecorationTheme(
-          enabledBorder: OutlineInputBorder(
-            borderRadius: const BorderRadius.all(
-              Radius.circular(25.0),
-            ),
-            borderSide: BorderSide(
-                color: themeProvider.isDarkMode ? kWhite : kLightGrey,
-                width: 1.0),
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderRadius: const BorderRadius.all(
-              Radius.circular(25.0),
-            ),
-            borderSide: BorderSide(
-                color: themeProvider.isDarkMode
-                    ? kPrimaryLightColor
-                    : kPrimaryColor,
-                width: 2.0),
-          ),
-          errorStyle: TextStyle(
-              color: themeProvider.isDarkMode ? Colors.redAccent : Colors.red,
-              fontWeight: FontWeight.bold),
-          errorBorder: OutlineInputBorder(
-            borderRadius: const BorderRadius.all(
-              Radius.circular(25.0),
-            ),
-            borderSide: BorderSide(
-                color: themeProvider.isDarkMode ? Colors.redAccent : Colors.red,
-                width: 1.0),
-          ),
-          focusedErrorBorder: OutlineInputBorder(
-            borderRadius: const BorderRadius.all(
-              Radius.circular(25.0),
-            ),
-            borderSide: BorderSide(
-                color: themeProvider.isDarkMode ? Colors.redAccent : Colors.red,
-                width: 2.0),
-          ),
-          labelStyle:
-              TextStyle(color: themeProvider.isDarkMode ? kWhite : kLightGrey),
-        ),
-      ),
-      child: SafeArea(
-        child: FutureBuilder(
-          future: query.getAllSongs(),
-          builder: (context, AsyncSnapshot snapshot) {
-            final newSongId = snapshot.data!.length + 1;
-            return Scaffold(
-              resizeToAvoidBottomInset: true,
-              appBar: AppBar(
-                elevation: 0.0,
-                title: const Text('Nuovo Cantico'),
-                leading: IconButton(
-                  tooltip: 'Indietro',
-                  icon: const Icon(Icons.arrow_back),
-                  onPressed: () {
-                    FocusScope.of(context).unfocus();
-                    Navigator.of(context).pop();
-                  },
-                ),
-                actions: <Widget>[
-                  Consumer<ThemeProvider>(
-                    builder: (context, themeProvider, child) {
-                      return Row(
-                        children: [
-                          Icon(
-                            themeProvider.isDarkMode
-                                ? Icons.dark_mode
-                                : Icons.light_mode,
-                          ),
-                          Switch(
-                            onChanged: (value) {
-                              themeProvider.toggleTheme();
-                            },
-                            value: themeProvider.isDarkMode,
-                          ),
-                        ],
-                      );
-                    },
-                  ),
-                ],
-              ),
-              floatingActionButton: FloatingActionButton(
+    return SafeArea(
+      child: FutureBuilder(
+        future: query.getAllSongs(),
+        builder: (context, AsyncSnapshot snapshot) {
+          final newSongId = snapshot.data!.length + 1;
+          return Scaffold(
+            resizeToAvoidBottomInset: true,
+            appBar: AppBar(
+              elevation: 0.0,
+              title: const Text('Nuovo cantico'),
+              leading: IconButton(
+                tooltip: 'Indietro',
+                icon: const Icon(Icons.arrow_back),
                 onPressed: () {
-                  if (newSongKey.currentState!.validate()) {
-                    query.insertSong(
-                        titleController.text,
-                        '<ol>${textController.text.replaceAll('---Strofa---\n', '<li>').replaceAll('---Coro---', '<b>Coro:</b>').replaceAll('---Bridge---', '<b>Bridge:</b>').replaceAll('---Finale---', '<b>Finale:</b>').replaceAll('\n\n\n\n', '\n\n').replaceAll('\n\n\n', '\n\n').replaceAll('\n', '<br>')}</ol>',
-                        0,
-                        newSongId,
-                        macro,
-                        cat,
-                        aut,
-                        titleController.text);
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text('Cantico aggiunto!'),
-                      ),
-                    );
-                    titleController.clear();
-                    textController.clear();
-                    FocusScope.of(context).unfocus();
-                    Navigator.of(context).pop();
-                  }
+                  FocusScope.of(context).unfocus();
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) {
+                        return const Home();
+                      },
+                    ),
+                  );
                 },
-                child: const Icon(Icons.send),
               ),
-              body: SingleChildScrollView(
-                child: Padding(
-                  padding: const EdgeInsets.all(kDefaultPadding),
-                  child: Form(
-                    key: newSongKey,
-                    child: Column(
+              actions: <Widget>[
+                Consumer<ThemeProvider>(
+                  builder: (context, themeProvider, child) {
+                    return Row(
                       children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Padding(
-                              padding:
-                                  const EdgeInsets.only(right: kDefaultPadding),
-                              child: CircleAvatar(
-                                child: Text(newSongId.toString()),
-                              ),
-                            ),
-                            Expanded(
-                              child: TextFormField(
-                                controller: titleController,
-                                textCapitalization:
-                                    TextCapitalization.sentences,
-                                decoration: const InputDecoration(
-                                  labelText: 'Titolo del Cantico',
-                                  prefixIcon: Icon(
-                                    Icons.edit,
-                                    color: kLightGrey,
-                                  ),
-                                ),
-                                validator: (value) {
-                                  if (value == null || value.isEmpty) {
-                                    return 'Inserisci un Titolo!';
-                                  }
-                                  return null;
-                                },
-                              ),
-                            ),
-                          ],
+                        Icon(
+                          themeProvider.isDarkMode
+                              ? Icons.dark_mode
+                              : Icons.light_mode,
                         ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(
-                              vertical: kDefaultPadding),
-                          child: Column(
-                            children: [
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  const Text('Aggiungi     '),
-                                  textType(),
-                                ],
-                              ),
-                              TextFormField(
-                                controller: textController,
-                                focusNode: textFocusNode,
-                                textCapitalization:
-                                    TextCapitalization.sentences,
-                                keyboardType: TextInputType.multiline,
-                                minLines: 15,
-                                maxLines: 15,
-                                decoration: const InputDecoration(
-                                  labelText: 'Testo',
-                                  alignLabelWithHint: true,
-                                  prefix: Icon(
-                                    Icons.notes,
-                                    color: kLightGrey,
-                                  ),
-                                ),
-                                validator: (value) {
-                                  if (value == null || value.isEmpty) {
-                                    return 'Inserisci il Testo!';
-                                  }
-                                  return null;
-                                },
-                              ),
-                            ],
-                          ),
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Expanded(
-                              child: catDropDown(),
-                            ),
-                            newCatDialog(),
-                          ],
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(
-                              vertical: kDefaultPadding),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Expanded(
-                                child: autDropDown(),
-                              ),
-                              newAutDialog(),
-                            ],
-                          ),
-                        ),
-                        const SizedBox(
-                          height: kDefaultPadding * 5,
+                        Switch(
+                          onChanged: (value) {
+                            themeProvider.toggleTheme();
+                          },
+                          value: themeProvider.isDarkMode,
                         ),
                       ],
+                    );
+                  },
+                ),
+              ],
+            ),
+            floatingActionButton: FloatingActionButton(
+              onPressed: () {
+                if (newSongKey.currentState!.validate()) {
+                  query.insertSong(
+                      titleController.text,
+                      '<ol>${textController.text.replaceAll('---Strofa---\n', '<li>').replaceAll('---Coro---', '<b>Coro:</b>').replaceAll('---Bridge---', '<b>Bridge:</b>').replaceAll('---Finale---', '<b>Finale:</b>').replaceAll('\n\n\n\n', '\n\n').replaceAll('\n\n\n', '\n\n').replaceAll('\n', '<br>')}</ol>',
+                      0,
+                      newSongId,
+                      macro,
+                      cat,
+                      aut,
+                      titleController.text);
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text('Cantico aggiunto!'),
                     ),
+                  );
+                  titleController.clear();
+                  textController.clear();
+                  FocusScope.of(context).unfocus();
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) {
+                        return const Home();
+                      },
+                    ),
+                  );
+                }
+              },
+              child: const Icon(Icons.send),
+            ),
+            body: SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.all(kDefaultPadding),
+                child: Form(
+                  key: newSongKey,
+                  child: Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Padding(
+                            padding:
+                                const EdgeInsets.only(right: kDefaultPadding),
+                            child: CircleAvatar(
+                              child: Text(newSongId.toString()),
+                            ),
+                          ),
+                          Expanded(
+                            child: TextFormField(
+                              controller: titleController,
+                              textCapitalization: TextCapitalization.sentences,
+                              decoration: const InputDecoration(
+                                labelText: 'Titolo del cantico',
+                                prefixIcon: Icon(
+                                  Icons.edit,
+                                  color: kLightGrey,
+                                ),
+                              ),
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return 'Inserisci un titolo!';
+                                }
+                                return null;
+                              },
+                            ),
+                          ),
+                        ],
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: kDefaultPadding),
+                        child: Column(
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                const Text('Aggiungi     '),
+                                textType(),
+                              ],
+                            ),
+                            TextFormField(
+                              controller: textController,
+                              focusNode: textFocusNode,
+                              textCapitalization: TextCapitalization.sentences,
+                              keyboardType: TextInputType.multiline,
+                              minLines: 15,
+                              maxLines: 15,
+                              decoration: const InputDecoration(
+                                labelText: 'Testo',
+                                alignLabelWithHint: true,
+                                contentPadding: EdgeInsets.all(
+                                  kDefaultPadding,
+                                ),
+                                prefix: Icon(
+                                  Icons.notes,
+                                  color: kLightGrey,
+                                ),
+                              ),
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return 'Inserisci il testo!';
+                                }
+                                return null;
+                              },
+                            ),
+                          ],
+                        ),
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Expanded(
+                            child: catDropDown(),
+                          ),
+                          newCatDialog(),
+                        ],
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: kDefaultPadding),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Expanded(
+                              child: autDropDown(),
+                            ),
+                            newAutDialog(),
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: kDefaultPadding),
+                        child: Column(
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Expanded(
+                                  child: FutureBuilder(
+                                    future: query.getAllCat(),
+                                    builder: (context, AsyncSnapshot snapshot) {
+                                      return TextButton.icon(
+                                        onPressed: () {
+                                          catMultiSelect(snapshot.data!);
+                                        },
+                                        icon: const Icon(Icons.sell),
+                                        label:
+                                            const Text('Seleziona categoria'),
+                                      );
+                                    },
+                                  ),
+                                ),
+                                newCatDialog(),
+                              ],
+                            ),
+                            Wrap(
+                              children: selectedCategories
+                                  .map((cat) => Chip(
+                                        label: Text(cat.name),
+                                      ))
+                                  .toList(),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: kDefaultPadding),
+                        child: Column(
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Expanded(
+                                  child: FutureBuilder(
+                                    future: query.getAllAut(),
+                                    builder: (context, snapshot) {
+                                      return TextButton.icon(
+                                        onPressed: () {
+                                          autMultiSelect(snapshot.data!);
+                                        },
+                                        icon: const Icon(Icons.person),
+                                        label: const Text('Seleziona autori'),
+                                      );
+                                    },
+                                  ),
+                                ),
+                                newCatDialog(),
+                              ],
+                            ),
+                            Wrap(
+                              children: selectedAuthors
+                                  .map((aut) => Chip(
+                                        label:
+                                            Text('${aut.name} ${aut.surname}'),
+                                      ))
+                                  .toList(),
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(
+                        height: kDefaultPadding * 5,
+                      ),
+                    ],
                   ),
                 ),
               ),
-            );
-          },
-        ),
+            ),
+          );
+        },
       ),
     );
   }
@@ -397,6 +436,38 @@ class NewSongPageState extends State<NewSongPage> {
     );
   }
 
+  List selectedCategories = [];
+  catMultiSelect(snapshot) async {
+    final List? catResults = await showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return CatMultiSelect(data: snapshot);
+      },
+    );
+
+    if (catResults != null) {
+      setState(() {
+        selectedCategories = catResults;
+      });
+    }
+  }
+
+  List selectedAuthors = [];
+  autMultiSelect(snapshot) async {
+    final List? autResults = await showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AutMultiSelect(data: snapshot);
+      },
+    );
+
+    if (autResults != null) {
+      setState(() {
+        selectedAuthors = autResults;
+      });
+    }
+  }
+
   Widget catDropDown() {
     return FutureBuilder(
       future: query.getAllCat(),
@@ -439,7 +510,7 @@ class NewSongPageState extends State<NewSongPage> {
                 },
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Seleziona una Categoria!';
+                    return 'Seleziona una categoria!';
                   }
                   return null;
                 },
@@ -447,7 +518,7 @@ class NewSongPageState extends State<NewSongPage> {
             : const Padding(
                 padding: EdgeInsets.only(top: kDefaultPadding),
                 child: Text(
-                  'Nessuna Categoria trovata',
+                  'Nessuna categoria trovata',
                   style: TextStyle(),
                   textAlign: TextAlign.center,
                 ),
@@ -497,7 +568,7 @@ class NewSongPageState extends State<NewSongPage> {
                 },
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Seleziona un Autore!';
+                    return 'Seleziona un autore!';
                   }
                   return null;
                 },
@@ -505,7 +576,7 @@ class NewSongPageState extends State<NewSongPage> {
             : const Padding(
                 padding: EdgeInsets.only(top: kDefaultPadding),
                 child: Text(
-                  'Nessun Autore trovato',
+                  'Nessun autore trovato',
                   style: TextStyle(),
                   textAlign: TextAlign.center,
                 ),
@@ -515,187 +586,123 @@ class NewSongPageState extends State<NewSongPage> {
   }
 
   Widget newCatDialog() {
-    final themeProvider = Provider.of<ThemeProvider>(context);
     return IconButton(
       onPressed: () {
         showDialog(
           context: context,
           builder: (BuildContext context) {
-            return Theme(
-              data: Theme.of(context).copyWith(
-                inputDecorationTheme: InputDecorationTheme(
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: const BorderRadius.all(
-                      Radius.circular(25.0),
-                    ),
-                    borderSide: BorderSide(
-                        color: themeProvider.isDarkMode ? kWhite : kLightGrey,
-                        width: 1.0),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: const BorderRadius.all(
-                      Radius.circular(25.0),
-                    ),
-                    borderSide: BorderSide(
-                        color: themeProvider.isDarkMode
-                            ? kPrimaryLightColor
-                            : kPrimaryColor,
-                        width: 2.0),
-                  ),
-                  errorStyle: TextStyle(
-                      color: themeProvider.isDarkMode
-                          ? Colors.redAccent
-                          : Colors.red,
-                      fontWeight: FontWeight.bold),
-                  errorBorder: OutlineInputBorder(
-                    borderRadius: const BorderRadius.all(
-                      Radius.circular(25.0),
-                    ),
-                    borderSide: BorderSide(
-                        color: themeProvider.isDarkMode
-                            ? Colors.redAccent
-                            : Colors.red,
-                        width: 1.0),
-                  ),
-                  focusedErrorBorder: OutlineInputBorder(
-                    borderRadius: const BorderRadius.all(
-                      Radius.circular(25.0),
-                    ),
-                    borderSide: BorderSide(
-                        color: themeProvider.isDarkMode
-                            ? Colors.redAccent
-                            : Colors.red,
-                        width: 2.0),
-                  ),
-                  labelStyle: TextStyle(
-                      color: themeProvider.isDarkMode ? kWhite : kLightGrey),
-                ),
-              ),
-              child: AlertDialog(
-                scrollable: true,
-                title: const Text('Nuova Categoria'),
-                content: Form(
-                  key: newCatKey,
-                  child: Column(
-                    children: <Widget>[
-                      Padding(
-                        padding: const EdgeInsets.only(bottom: kDefaultPadding),
-                        child: TextFormField(
-                          controller: catController,
-                          textCapitalization: TextCapitalization.sentences,
-                          decoration: const InputDecoration(
-                            labelText: 'Nome Categoria',
-                            prefixIcon: Icon(
-                              Icons.edit,
-                              color: kLightGrey,
-                            ),
+            return AlertDialog(
+              scrollable: true,
+              title: const Text('Nuova categoria'),
+              content: Form(
+                key: newCatKey,
+                child: Column(
+                  children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: kDefaultPadding),
+                      child: TextFormField(
+                        controller: catController,
+                        textCapitalization: TextCapitalization.sentences,
+                        decoration: const InputDecoration(
+                          labelText: 'Nome categoria',
+                          prefixIcon: Icon(
+                            Icons.edit,
+                            color: kLightGrey,
                           ),
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Inserisci il Nome!';
-                            }
-                            return null;
-                          },
                         ),
-                      ),
-                      FutureBuilder(
-                        future: query.getAllMacroCat(),
-                        builder: (context, AsyncSnapshot snapshot) {
-                          return snapshot.hasData
-                              ? DropdownButtonFormField<String>(
-                                  isExpanded: true,
-                                  icon: const Padding(
-                                    padding: EdgeInsets.only(
-                                        right: kDefaultPadding / 3),
-                                    child: Icon(Icons.arrow_drop_down),
-                                  ),
-                                  borderRadius: const BorderRadius.all(
-                                    Radius.circular(25.0),
-                                  ),
-                                  hint: const Text('Seleziona'),
-                                  decoration: const InputDecoration(
-                                    contentPadding: EdgeInsets.symmetric(
-                                      vertical: kDefaultPadding,
-                                    ),
-                                    prefixIcon: Icon(
-                                      Icons.sell,
-                                      color: kLightGrey,
-                                    ),
-                                    labelText: 'Macrocategoria',
-                                  ),
-                                  items: snapshot.data!
-                                      .map<DropdownMenuItem<String>>((get) {
-                                    return DropdownMenuItem<String>(
-                                      value: get.macroName,
-                                      onTap: () {
-                                        mac = get.macroId;
-                                      },
-                                      child: Text(get.macroName),
-                                    );
-                                  }).toList(),
-                                  onChanged: (value) {
-                                    setState(() {
-                                      macHint = value!;
-                                    });
-                                  },
-                                  validator: (value) {
-                                    if (value == null || value.isEmpty) {
-                                      return 'Seleziona una Macrocategoria!';
-                                    }
-                                    return null;
-                                  },
-                                )
-                              : const Padding(
-                                  padding:
-                                      EdgeInsets.only(top: kDefaultPadding),
-                                  child: Text(
-                                    'Nessuna Macrocategoria trovata',
-                                    style: TextStyle(),
-                                    textAlign: TextAlign.center,
-                                  ),
-                                );
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Inserisci il nome!';
+                          }
+                          return null;
                         },
                       ),
-                    ],
-                  ),
+                    ),
+                    FutureBuilder(
+                      future: query.getAllMacroCat(),
+                      builder: (context, AsyncSnapshot snapshot) {
+                        return snapshot.hasData
+                            ? DropdownButtonFormField<String>(
+                                isExpanded: true,
+                                icon: const Padding(
+                                  padding: EdgeInsets.only(
+                                      right: kDefaultPadding / 3),
+                                  child: Icon(Icons.arrow_drop_down),
+                                ),
+                                borderRadius: const BorderRadius.all(
+                                  Radius.circular(25.0),
+                                ),
+                                hint: const Text('Seleziona'),
+                                decoration: const InputDecoration(
+                                  contentPadding: EdgeInsets.symmetric(
+                                    vertical: kDefaultPadding,
+                                  ),
+                                  prefixIcon: Icon(
+                                    Icons.sell,
+                                    color: kLightGrey,
+                                  ),
+                                  labelText: 'Macrocategoria',
+                                ),
+                                items: snapshot.data!
+                                    .map<DropdownMenuItem<String>>((get) {
+                                  return DropdownMenuItem<String>(
+                                    value: get.macroName,
+                                    onTap: () {
+                                      mac = get.macroId;
+                                    },
+                                    child: Text(get.macroName),
+                                  );
+                                }).toList(),
+                                onChanged: (value) {
+                                  setState(() {
+                                    macHint = value!;
+                                  });
+                                },
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return 'Seleziona una macrocategoria!';
+                                  }
+                                  return null;
+                                },
+                              )
+                            : const Padding(
+                                padding: EdgeInsets.only(top: kDefaultPadding),
+                                child: Text(
+                                  'Nessuna macrocategoria trovata',
+                                  style: TextStyle(),
+                                  textAlign: TextAlign.center,
+                                ),
+                              );
+                      },
+                    ),
+                  ],
                 ),
-                actions: [
-                  TextButton(
-                    onPressed: () {
-                      Navigator.pop(context, 'Annulla');
-                      catController.clear();
-                    },
-                    child: const Text(
-                      'Annulla',
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold, color: kLightGrey),
-                    ),
-                  ),
-                  TextButton(
-                    onPressed: () {
-                      if (newCatKey.currentState!.validate()) {
-                        query.insertCat(catController.text, mac);
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text('Categoria aggiunta!'),
-                          ),
-                        );
-                        Navigator.pop(context, 'Conferma');
-                        catController.clear();
-                        setState(() {});
-                      }
-                    },
-                    child: Text(
-                      'Conferma',
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: themeProvider.isDarkMode
-                              ? Colors.greenAccent
-                              : Colors.green),
-                    ),
-                  ),
-                ],
               ),
+              actions: [
+                OutlinedButton(
+                  onPressed: () {
+                    Navigator.pop(context, 'Annulla');
+                    catController.clear();
+                  },
+                  child: const Text('Annulla'),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    if (newCatKey.currentState!.validate()) {
+                      query.insertCat(catController.text, mac);
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text('Categoria aggiunta!'),
+                        ),
+                      );
+                      Navigator.pop(context, 'Conferma');
+                      catController.clear();
+                      setState(() {});
+                    }
+                  },
+                  child: const Text('Conferma'),
+                ),
+              ],
             );
           },
         );
@@ -705,148 +712,212 @@ class NewSongPageState extends State<NewSongPage> {
   }
 
   Widget newAutDialog() {
-    final themeProvider = Provider.of<ThemeProvider>(context);
     return IconButton(
       onPressed: () {
         showDialog(
           context: context,
           builder: (BuildContext context) {
-            return Theme(
-              data: Theme.of(context).copyWith(
-                inputDecorationTheme: InputDecorationTheme(
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: const BorderRadius.all(
-                      Radius.circular(25.0),
-                    ),
-                    borderSide: BorderSide(
-                        color: themeProvider.isDarkMode ? kWhite : kLightGrey,
-                        width: 1.0),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: const BorderRadius.all(
-                      Radius.circular(25.0),
-                    ),
-                    borderSide: BorderSide(
-                        color: themeProvider.isDarkMode
-                            ? kPrimaryLightColor
-                            : kPrimaryColor,
-                        width: 2.0),
-                  ),
-                  errorStyle: TextStyle(
-                      color: themeProvider.isDarkMode
-                          ? Colors.redAccent
-                          : Colors.red,
-                      fontWeight: FontWeight.bold),
-                  errorBorder: OutlineInputBorder(
-                    borderRadius: const BorderRadius.all(
-                      Radius.circular(25.0),
-                    ),
-                    borderSide: BorderSide(
-                        color: themeProvider.isDarkMode
-                            ? Colors.redAccent
-                            : Colors.red,
-                        width: 1.0),
-                  ),
-                  focusedErrorBorder: OutlineInputBorder(
-                    borderRadius: const BorderRadius.all(
-                      Radius.circular(25.0),
-                    ),
-                    borderSide: BorderSide(
-                        color: themeProvider.isDarkMode
-                            ? Colors.redAccent
-                            : Colors.red,
-                        width: 2.0),
-                  ),
-                  labelStyle: TextStyle(
-                      color: themeProvider.isDarkMode ? kWhite : kLightGrey),
-                ),
-              ),
-              child: AlertDialog(
-                scrollable: true,
-                title: const Text('Nuovo Autore'),
-                content: Form(
-                  key: newAutKey,
-                  child: Column(
-                    children: <Widget>[
-                      Padding(
-                        padding: const EdgeInsets.only(bottom: kDefaultPadding),
-                        child: TextFormField(
-                          controller: autNameController,
-                          textCapitalization: TextCapitalization.sentences,
-                          decoration: const InputDecoration(
-                            labelText: 'Nome',
-                            prefixIcon: Icon(
-                              Icons.edit,
-                              color: kLightGrey,
-                            ),
-                          ),
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Inserisci il Nome!';
-                            }
-                            return null;
-                          },
-                        ),
-                      ),
-                      TextFormField(
-                        controller: autSurnameController,
+            return AlertDialog(
+              scrollable: true,
+              title: const Text('Nuovo autore'),
+              content: Form(
+                key: newAutKey,
+                child: Column(
+                  children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: kDefaultPadding),
+                      child: TextFormField(
+                        controller: autNameController,
                         textCapitalization: TextCapitalization.sentences,
                         decoration: const InputDecoration(
-                          labelText: 'Cognome (facoltativo)',
+                          labelText: 'Nome',
                           prefixIcon: Icon(
                             Icons.edit,
                             color: kLightGrey,
                           ),
                         ),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Inserisci il nome!';
+                          }
+                          return null;
+                        },
                       ),
-                    ],
-                  ),
+                    ),
+                    TextFormField(
+                      controller: autSurnameController,
+                      textCapitalization: TextCapitalization.sentences,
+                      decoration: const InputDecoration(
+                        labelText: 'Cognome (facoltativo)',
+                        prefixIcon: Icon(
+                          Icons.edit,
+                          color: kLightGrey,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-                actions: [
-                  TextButton(
-                    onPressed: () {
-                      Navigator.pop(context, 'Annulla');
+              ),
+              actions: [
+                OutlinedButton(
+                  onPressed: () {
+                    Navigator.pop(context, 'Annulla');
+                    autNameController.clear();
+                    autSurnameController.clear();
+                  },
+                  child: const Text('Annulla'),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    if (newAutKey.currentState!.validate()) {
+                      query.insertAut(
+                          autNameController.text, autSurnameController.text);
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text('Autore aggiunto!'),
+                        ),
+                      );
+                      Navigator.pop(context, 'Conferma');
                       autNameController.clear();
                       autSurnameController.clear();
-                    },
-                    child: const Text(
-                      'Annulla',
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold, color: kLightGrey),
-                    ),
-                  ),
-                  TextButton(
-                    onPressed: () {
-                      if (newAutKey.currentState!.validate()) {
-                        query.insertAut(
-                            autNameController.text, autSurnameController.text);
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text('Autore aggiunto!'),
-                          ),
-                        );
-                        Navigator.pop(context, 'Conferma');
-                        autNameController.clear();
-                        autSurnameController.clear();
-                        setState(() {});
-                      }
-                    },
-                    child: Text(
-                      'Conferma',
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: themeProvider.isDarkMode
-                              ? Colors.greenAccent
-                              : Colors.green),
-                    ),
-                  ),
-                ],
-              ),
+                      setState(() {});
+                    }
+                  },
+                  child: const Text('Conferma'),
+                ),
+              ],
             );
           },
         );
       },
       icon: const Icon(Icons.add_circle),
+    );
+  }
+}
+
+class CatMultiSelect extends StatefulWidget {
+  final data;
+  const CatMultiSelect({Key? key, this.data}) : super(key: key);
+
+  @override
+  State<StatefulWidget> createState() => _CatMultiSelectState();
+}
+
+class _CatMultiSelectState extends State<CatMultiSelect> {
+  // this variable holds the selected items
+  final List _selectedItems = [];
+
+// This function is triggered when a checkbox is checked or unchecked
+  void _itemChange(var itemValue, bool isSelected) {
+    setState(() {
+      if (isSelected) {
+        _selectedItems.add(itemValue);
+      } else {
+        _selectedItems.remove(itemValue);
+      }
+    });
+  }
+
+  // this function is called when the Cancel button is pressed
+  void _cancel() {
+    Navigator.pop(context);
+  }
+
+// this function is called when the Submit button is tapped
+  void _submit() {
+    Navigator.pop(context, _selectedItems);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: const Text('Seleziona'),
+      content: SingleChildScrollView(
+        child: ListBody(
+          children: widget.data
+              .map<Widget>((cat) => CheckboxListTile(
+                    value: _selectedItems.contains(cat),
+                    title: Text(cat.name),
+                    controlAffinity: ListTileControlAffinity.leading,
+                    onChanged: (isChecked) => _itemChange(cat, isChecked!),
+                  ))
+              .toList(),
+        ),
+      ),
+      actions: [
+        TextButton(
+          onPressed: _cancel,
+          child: const Text('Cancel'),
+        ),
+        ElevatedButton(
+          onPressed: _submit,
+          child: const Text('Submit'),
+        ),
+      ],
+    );
+  }
+}
+
+class AutMultiSelect extends StatefulWidget {
+  final data;
+  const AutMultiSelect({Key? key, this.data}) : super(key: key);
+
+  @override
+  State<StatefulWidget> createState() => _AutMultiSelectState();
+}
+
+class _AutMultiSelectState extends State<AutMultiSelect> {
+  // this variable holds the selected items
+  final List _selectedItems = [];
+
+// This function is triggered when a checkbox is checked or unchecked
+  void _itemChange(var itemValue, bool isSelected) {
+    setState(() {
+      if (isSelected) {
+        _selectedItems.add(itemValue);
+      } else {
+        _selectedItems.remove(itemValue);
+      }
+    });
+  }
+
+  // this function is called when the Cancel button is pressed
+  void _cancel() {
+    Navigator.pop(context);
+  }
+
+// this function is called when the Submit button is tapped
+  void _submit() {
+    Navigator.pop(context, _selectedItems);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: const Text('Seleziona'),
+      content: SingleChildScrollView(
+        child: ListBody(
+          children: widget.data
+              .map<Widget>((aut) => CheckboxListTile(
+                    value: _selectedItems.contains(aut),
+                    title: Text(
+                        '${aut.name} ${aut.surname.isNotEmpty == true ? aut.surname : ''}'),
+                    controlAffinity: ListTileControlAffinity.leading,
+                    onChanged: (isChecked) => _itemChange(aut, isChecked!),
+                  ))
+              .toList(),
+        ),
+      ),
+      actions: [
+        TextButton(
+          onPressed: _cancel,
+          child: const Text('Cancel'),
+        ),
+        ElevatedButton(
+          onPressed: _submit,
+          child: const Text('Submit'),
+        ),
+      ],
     );
   }
 }

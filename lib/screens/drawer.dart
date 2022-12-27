@@ -55,14 +55,15 @@ class _HamburgerMenuState extends State<HamburgerMenu> {
                       future: QueryCtr().getAllSongs(),
                       initialData: const [],
                       builder: (context, snapshot) {
-                        int songId = Random().nextInt(snapshot.data!.length);
+                        int randomSongId =
+                            Random().nextInt(snapshot.data!.length);
                         return snapshot.hasData
-                            ? SongsDetail(songId: songId, from: 'Drawer')
+                            ? SongsDetail(index: randomSongId, from: 'Drawer')
                             : const Padding(
                                 padding: EdgeInsets.only(top: kDefaultPadding),
                                 child: Center(
                                   child: Text(
-                                    'Nessun Cantico trovato',
+                                    'Nessun cantico trovato',
                                     style: TextStyle(fontSize: 20.0),
                                   ),
                                 ),
@@ -76,7 +77,7 @@ class _HamburgerMenuState extends State<HamburgerMenu> {
           ),
           ListTile(
             leading: const Icon(Icons.add_circle),
-            title: const Text('Aggiungi Cantico'),
+            title: const Text('Aggiungi cantico'),
             onTap: () {
               FocusScope.of(context).unfocus();
               Navigator.pop(context);
