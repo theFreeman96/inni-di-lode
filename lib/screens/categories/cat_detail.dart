@@ -268,7 +268,7 @@ class _CatDetailState extends State<CatDetail> {
                       ),
                       itemCount: snapshot.data!.length,
                       itemBuilder: (context, i) {
-                        return buildRow(snapshot.data![i]);
+                        return buildRow(snapshot.data![i], i);
                       },
                       separatorBuilder: (context, index) {
                         return const Divider();
@@ -318,7 +318,7 @@ class _CatDetailState extends State<CatDetail> {
     );
   }
 
-  Widget buildRow(Raccolta get) {
+  Widget buildRow(Raccolta get, int i) {
     return ListTile(
       leading: CircleAvatar(
         child: Text(
@@ -336,7 +336,7 @@ class _CatDetailState extends State<CatDetail> {
           context,
           MaterialPageRoute(
             builder: (context) {
-              return SongsDetail(songId: get.songId, from: 'Category', id: id);
+              return SongsDetail(index: i, from: 'Category', id: id);
             },
           ),
         );
