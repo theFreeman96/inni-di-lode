@@ -94,10 +94,9 @@ class _SongsBodyState extends State<SongsBody> {
           child: Center(
             child: Padding(
               padding: const EdgeInsets.only(
-                top: 2,
                 left: kDefaultPadding,
                 right: kDefaultPadding,
-                bottom: kDefaultPadding + 2,
+                bottom: kDefaultPadding,
               ),
               child: NumberPaginator(
                 numberPages: songRange.length,
@@ -107,7 +106,7 @@ class _SongsBodyState extends State<SongsBody> {
                   });
                 },
                 config: NumberPaginatorUIConfig(
-                  height: 40,
+                  height: 44,
                   mode: ContentDisplayMode.numbers,
                   buttonSelectedForegroundColor: kWhite,
                   buttonUnselectedForegroundColor:
