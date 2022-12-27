@@ -138,7 +138,7 @@ class _SongsBodyState extends State<SongsBody> {
                         shrinkWrap: true,
                         itemCount: snapshot.data!.length,
                         itemBuilder: (context, i) {
-                          return buildRow(snapshot.data![i]);
+                          return buildRow(snapshot.data![i], i);
                         },
                         separatorBuilder: (context, index) {
                           return const Divider();
@@ -162,7 +162,7 @@ class _SongsBodyState extends State<SongsBody> {
     );
   }
 
-  Widget buildRow(Raccolta get) {
+  Widget buildRow(Raccolta get, int i) {
     return ListTile(
       leading: CircleAvatar(
         child: Text(
@@ -180,7 +180,7 @@ class _SongsBodyState extends State<SongsBody> {
           context,
           MaterialPageRoute(
             builder: (context) {
-              return SongsDetail(songId: get.songId, from: 'Songs');
+              return SongsDetail(index: get.songId, from: 'Songs');
             },
           ),
         );
