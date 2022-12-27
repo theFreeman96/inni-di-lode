@@ -17,10 +17,10 @@ import 'songs_player.dart';
 import '../editor/edit_song_page.dart';
 
 class SongsDetail extends StatefulWidget {
-  int songId;
+  int index;
   String from;
   int? id;
-  SongsDetail({Key? key, required this.songId, required this.from, this.id})
+  SongsDetail({Key? key, required this.index, required this.from, this.id})
       : super(key: key);
 
   @override
@@ -41,8 +41,22 @@ class _SongsDetailState extends State<SongsDetail> {
 
   @override
   initState() {
-    pageController = PageController(initialPage: widget.songId - 1);
+    pageController = PageController();
     super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (pageController.hasClients) {
+        if (widget.from == 'Songs' || widget.from == 'Drawer') {
+          pageController.jumpToPage(widget.index - 1);
+        } else {
+          pageController.jumpToPage(widget.index);
+        }
+      }
+    });
+    super.didChangeDependencies();
   }
 
   @override
@@ -53,16 +67,13 @@ class _SongsDetailState extends State<SongsDetail> {
       child: Stack(
         children: [
           FutureBuilder<List?>(
-            future: /*widget.from == 'Songs'
-                ? query.getAllSongs()
-                : widget.from == 'Category'
-                    ? query.getSongsByCat(widget.id!)
-                    : widget.from == 'Author'
-                        ? query.getSongsByAut(widget.id!)
-                        : widget.from == 'Favorites'
-                            ? query.getAllFav()
-                            : */
-                query.getAllSongs(),
+            future: widget.from == 'Category'
+                ? query.getSongsByCat(widget.id!)
+                : widget.from == 'Author'
+                    ? query.getSongsByAut(widget.id!)
+                    : widget.from == 'Favorites'
+                        ? query.getAllFav()
+                        : query.getAllSongs(),
             initialData: const [],
             builder: (context, snapshot) {
               return PageView.builder(
