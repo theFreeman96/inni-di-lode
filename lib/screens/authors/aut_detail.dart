@@ -149,47 +149,116 @@ class _AutDetailState extends State<AutDetail> {
                       showDialog(
                         context: context,
                         builder: (BuildContext context) {
-                          return AlertDialog(
-                            scrollable: true,
-                            title: const Text('Conferma eliminazione'),
-                            content: RichText(
-                              text: TextSpan(
-                                style: TextStyle(
-                                  color: themeProvider.isDarkMode
-                                      ? kWhite
-                                      : kBlack,
-                                ),
-                                children: <TextSpan>[
-                                  const TextSpan(text: 'L\'autore '),
-                                  TextSpan(
-                                    text:
-                                        '${widget.autName} ${widget.autSurname} ',
-                                    style: const TextStyle(
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                  const TextSpan(
-                                      text:
-                                          'sarà eliminato definitivamente.\nConfermi?')
-                                ],
-                              ),
-                            ),
-                            actions: <Widget>[
-                              OutlinedButton(
-                                onPressed: () {
-                                  Navigator.pop(context, 'Annulla');
-                                },
-                                child: const Text('Annulla'),
-                              ),
-                              ElevatedButton(
-                                onPressed: () {
-                                  query.deleteAut(id);
-                                  setState(() {});
-                                  Navigator.pop(context, 'Elimina');
-                                  Navigator.of(context).pop();
-                                },
-                                child: const Text('Elimina'),
-                              ),
-                            ],
+                          return FutureBuilder<List?>(
+                            future: query.getSongsByAut(id),
+                            initialData: const [],
+                            builder: (context, snapshot) {
+                              return snapshot.hasData
+                                  ? AlertDialog(
+                                      scrollable: true,
+                                      title: const Text('Errore'),
+                                      content: RichText(
+                                        text: TextSpan(
+                                          style: TextStyle(
+                                            color: themeProvider.isDarkMode
+                                                ? kWhite
+                                                : kBlack,
+                                          ),
+                                          children: [
+                                            const TextSpan(
+                                                text:
+                                                    'Prima di eliminare l\'autore '),
+                                            TextSpan(
+                                              text:
+                                                  '${widget.autName} ${widget.autSurname} ',
+                                              style: const TextStyle(
+                                                  fontWeight: FontWeight.bold),
+                                            ),
+                                            const TextSpan(
+                                                text:
+                                                    'è necessario dissociare o eliminare i cantici ancora associati.\n\n'),
+                                            const TextSpan(
+                                              text: 'Come fare?\n',
+                                              style: TextStyle(
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.w500),
+                                            ),
+                                            const TextSpan(
+                                                text:
+                                                    'Nel fondo della pagina di ciascun cantico selezionare una delle seguenti opzioni:\n'),
+                                            const WidgetSpan(
+                                              child: Icon(Icons.edit_note),
+                                            ),
+                                            const TextSpan(
+                                                text: 'Modifica cantico\n'),
+                                            const WidgetSpan(
+                                              child: Icon(Icons.delete),
+                                            ),
+                                            const TextSpan(
+                                                text: 'Elimina cantico'),
+                                          ],
+                                        ),
+                                      ),
+                                      actions: <Widget>[
+                                        ElevatedButton(
+                                          onPressed: () {
+                                            Navigator.pop(context, 'Ho capito');
+                                          },
+                                          child: const Text('Ho capito'),
+                                        ),
+                                      ],
+                                    )
+                                  : AlertDialog(
+                                      scrollable: true,
+                                      title:
+                                          const Text('Conferma eliminazione'),
+                                      content: RichText(
+                                        text: TextSpan(
+                                          style: TextStyle(
+                                            color: themeProvider.isDarkMode
+                                                ? kWhite
+                                                : kBlack,
+                                          ),
+                                          children: <TextSpan>[
+                                            const TextSpan(text: 'L\'autore '),
+                                            TextSpan(
+                                              text:
+                                                  '${widget.autName} ${widget.autSurname} ',
+                                              style: const TextStyle(
+                                                  fontWeight: FontWeight.bold),
+                                            ),
+                                            const TextSpan(
+                                                text:
+                                                    'sarà eliminato definitivamente.\nConfermi?')
+                                          ],
+                                        ),
+                                      ),
+                                      actions: <Widget>[
+                                        OutlinedButton(
+                                          onPressed: () {
+                                            Navigator.pop(context, 'Annulla');
+                                          },
+                                          child: const Text('Annulla'),
+                                        ),
+                                        ElevatedButton(
+                                          onPressed: () {
+                                            query.deleteAut(id);
+                                            setState(() {});
+                                            Navigator.pop(context, 'Elimina');
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) {
+                                                  return const Home();
+                                                },
+                                              ),
+                                            );
+                                          },
+                                          child: const Text('Elimina'),
+                                        ),
+                                      ],
+                                    );
+                            },
                           );
                         },
                       );
