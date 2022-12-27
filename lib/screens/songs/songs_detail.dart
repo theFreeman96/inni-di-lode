@@ -15,6 +15,7 @@ import '../authors/aut_detail.dart';
 import 'songs_pdf.dart';
 import 'songs_player.dart';
 import '../editor/edit_song_page.dart';
+import '../home.dart';
 
 class SongsDetail extends StatefulWidget {
   int index;
@@ -530,8 +531,14 @@ class _SongsDetailState extends State<SongsDetail> {
                                   onPressed: () {
                                     query.deleteSong(get.songId);
                                     setState(() {});
-                                    Navigator.pop(context, 'Elimina');
-                                    Navigator.of(context).pop();
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) {
+                                          return const Home();
+                                        },
+                                      ),
+                                    );
                                   },
                                   child: const Text('Elimina'),
                                 ),
