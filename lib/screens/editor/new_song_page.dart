@@ -303,8 +303,8 @@ class NewSongPageState extends State<NewSongPage> {
                             Wrap(
                               children: selectedAuthors
                                   .map((aut) => Chip(
-                                        label:
-                                            Text('${aut.name} ${aut.surname}'),
+                                        label: Text(
+                                            '${aut.name} ${aut.surname.isEmpty ? '' : aut.surname}'),
                                       ))
                                   .toList(),
                             ),
@@ -554,11 +554,13 @@ class NewSongPageState extends State<NewSongPage> {
                 ),
                 items: snapshot.data!.map<DropdownMenuItem<String>>((get) {
                   return DropdownMenuItem<String>(
-                    value: '${get.name} ${get.surname}',
+                    value:
+                        '${get.name} ${get.surname.isEmpty ? '' : get.surname}',
                     onTap: () {
                       aut = get.id;
                     },
-                    child: Text('${get.name} ${get.surname}'),
+                    child: Text(
+                        '${get.name} ${get.surname.isEmpty ? '' : get.surname}'),
                   );
                 }).toList(),
                 onChanged: (value) {
@@ -901,7 +903,7 @@ class _AutMultiSelectState extends State<AutMultiSelect> {
               .map<Widget>((aut) => CheckboxListTile(
                     value: _selectedItems.contains(aut),
                     title: Text(
-                        '${aut.name} ${aut.surname.isNotEmpty == true ? aut.surname : ''}'),
+                        '${aut.name} ${aut.surname.isEmpty ? '' : aut.surname}'),
                     controlAffinity: ListTileControlAffinity.leading,
                     onChanged: (isChecked) => _itemChange(aut, isChecked!),
                   ))

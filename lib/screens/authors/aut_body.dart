@@ -108,7 +108,7 @@ class _AutBodyState extends State<AutBody> {
           Icons.person,
         ),
       ),
-      title: Text('${get.name} ${get.surname}'),
+      title: Text('${get.name} ${get.surname.isEmpty ? '' : get.surname}'),
       trailing: const Icon(
         Icons.navigate_next,
         color: kLightGrey,

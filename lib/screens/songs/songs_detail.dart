@@ -588,7 +588,7 @@ class _SongsDetailState extends State<SongsDetail> {
     return TextButton.icon(
       icon: const Icon(Icons.person, color: kLightGrey),
       label: Text(
-        '${get.autName} ${get.autSurname}',
+        '${get.autName} ${get.autSurname.isEmpty ? '' : get.autSurname}',
         style: TextStyle(color: themeProvider.isDarkMode ? kWhite : kBlack),
       ),
       onPressed: () {

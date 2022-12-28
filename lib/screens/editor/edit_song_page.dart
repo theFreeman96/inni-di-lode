@@ -470,7 +470,8 @@ class EditSongPageState extends State<EditSongPage> {
                 borderRadius: const BorderRadius.all(
                   Radius.circular(25.0),
                 ),
-                value: '${widget.autName} ${widget.autSurname}',
+                value:
+                    '${widget.autName} ${widget.autSurname.isEmpty ? '' : widget.autSurname}',
                 hint: Text(autHint),
                 decoration: const InputDecoration(
                   contentPadding: EdgeInsets.symmetric(
@@ -484,11 +485,13 @@ class EditSongPageState extends State<EditSongPage> {
                 ),
                 items: snapshot.data!.map<DropdownMenuItem<String>>((get) {
                   return DropdownMenuItem<String>(
-                    value: '${get.name} ${get.surname}',
+                    value:
+                        '${get.name} ${get.surname.isEmpty ? '' : get.surname}',
                     onTap: () {
                       aut = get.id;
                     },
-                    child: Text('${get.name} ${get.surname}'),
+                    child: Text(
+                        '${get.name} ${get.surname.isEmpty ? '' : get.surname}'),
                   );
                 }).toList(),
                 onChanged: (value) {

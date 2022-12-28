@@ -44,7 +44,8 @@ class _AutDetailState extends State<AutDetail> {
       child: Scaffold(
         appBar: AppBar(
           elevation: 0.0,
-          title: Text('Testi di ${widget.autName} ${widget.autSurname}'),
+          title: Text(
+              'Testi di ${widget.autName} ${widget.autSurname.isEmpty ? '' : widget.autSurname}'),
           leading: IconButton(
             tooltip: 'Indietro',
             icon: const Icon(Icons.arrow_back),
@@ -179,7 +180,7 @@ class _AutDetailState extends State<AutDetail> {
                                                     'Prima di eliminare l\'autore '),
                                             TextSpan(
                                               text:
-                                                  '${widget.autName} ${widget.autSurname} ',
+                                                  '${widget.autName} ${widget.autSurname.isEmpty ? '' : '${widget.autSurname} '}',
                                               style: const TextStyle(
                                                   fontWeight: FontWeight.bold),
                                             ),
@@ -232,7 +233,7 @@ class _AutDetailState extends State<AutDetail> {
                                             const TextSpan(text: 'L\'autore '),
                                             TextSpan(
                                               text:
-                                                  '${widget.autName} ${widget.autSurname} ',
+                                                  '${widget.autName} ${widget.autSurname.isEmpty ? '' : '${widget.autSurname} '}',
                                               style: const TextStyle(
                                                   fontWeight: FontWeight.bold),
                                             ),
