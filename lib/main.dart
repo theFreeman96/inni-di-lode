@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter/gestures.dart';
 import "package:flutter/material.dart";
 import 'package:provider/provider.dart';
@@ -44,6 +45,15 @@ class Innario extends StatelessWidget {
                   child: SizedBox(child: child),
                 );
               },
+              localizationsDelegates: const [
+                GlobalMaterialLocalizations.delegate,
+                GlobalWidgetsLocalizations.delegate,
+                GlobalCupertinoLocalizations.delegate,
+              ],
+              supportedLocales: const [
+                Locale('it', ''),
+                Locale('en', ''),
+              ],
               home: const Home(),
             ),
           );
