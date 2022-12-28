@@ -145,11 +145,9 @@ class _CatBodyState extends State<CatBody> {
         ),
       ],
       expansionCallback: (int index, bool status) {
-        setState(
-          () {
-            expansionIndex = expansionIndex == i ? null : i;
-          },
-        );
+        setState(() {
+          expansionIndex = expansionIndex == i ? null : i;
+        });
       },
     );
   }

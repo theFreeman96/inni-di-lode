@@ -164,7 +164,8 @@ class _AutDetailState extends State<AutDetail> {
                               return snapshot.hasData
                                   ? AlertDialog(
                                       scrollable: true,
-                                      title: const Text('Errore'),
+                                      title: const Text(
+                                          'Errore: cantici ancora associati!'),
                                       content: RichText(
                                         text: TextSpan(
                                           style: TextStyle(
