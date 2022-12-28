@@ -83,9 +83,10 @@ class QueryCtr {
 
   Future<List<Raccolta>?> searchCat(String keyword) async {
     final dbClient = await con.db;
-    final res = await dbClient!.query('View_Raccolta',
-        where: 'macroName LIKE ? OR catName LIKE ?',
-        whereArgs: ['%$keyword%', '%$keyword%'],
+    final res = await dbClient!.query(
+        'View_Raccolta INNER JOIN Categories ON View_Raccolta.macroId = Categories.macro_id',
+        where: 'macroName LIKE ? OR catName LIKE ? OR name LIKE ?',
+        whereArgs: ['%$keyword%', '%$keyword%', '%$keyword%'],
         groupBy: 'macroId',
         orderBy: 'macroName');
 
