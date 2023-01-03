@@ -268,8 +268,8 @@ class NewSongPageState extends State<NewSongPage> {
                             ),
                             Wrap(
                               children: selectedCategories
-                                  .map((cat) => Chip(
-                                        label: Text(cat.name),
+                                  .map((get) => Chip(
+                                        label: Text(get.name),
                                       ))
                                   .toList(),
                             ),
@@ -302,9 +302,9 @@ class NewSongPageState extends State<NewSongPage> {
                             ),
                             Wrap(
                               children: selectedAuthors
-                                  .map((aut) => Chip(
+                                  .map((get) => Chip(
                                         label: Text(
-                                            '${aut.name} ${aut.surname.isEmpty ? '' : aut.surname}'),
+                                            '${get.name} ${get.surname.isEmpty ? '' : get.surname}'),
                                       ))
                                   .toList(),
                             ),
@@ -434,38 +434,6 @@ class NewSongPageState extends State<NewSongPage> {
         });
       },
     );
-  }
-
-  List selectedCategories = [];
-  catMultiSelect(snapshot) async {
-    final List? catResults = await showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return CatMultiSelect(data: snapshot);
-      },
-    );
-
-    if (catResults != null) {
-      setState(() {
-        selectedCategories = catResults;
-      });
-    }
-  }
-
-  List selectedAuthors = [];
-  autMultiSelect(snapshot) async {
-    final List? autResults = await showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AutMultiSelect(data: snapshot);
-      },
-    );
-
-    if (autResults != null) {
-      setState(() {
-        selectedAuthors = autResults;
-      });
-    }
   }
 
   Widget catDropDown() {
@@ -795,84 +763,53 @@ class NewSongPageState extends State<NewSongPage> {
       icon: const Icon(Icons.add_circle),
     );
   }
-}
 
-class CatMultiSelect extends StatefulWidget {
-  final data;
-  const CatMultiSelect({Key? key, this.data}) : super(key: key);
-
-  @override
-  State<StatefulWidget> createState() => _CatMultiSelectState();
-}
-
-class _CatMultiSelectState extends State<CatMultiSelect> {
-  // this variable holds the selected items
-  final List _selectedItems = [];
-
-// This function is triggered when a checkbox is checked or unchecked
-  void _itemChange(var itemValue, bool isSelected) {
-    setState(() {
-      if (isSelected) {
-        _selectedItems.add(itemValue);
-      } else {
-        _selectedItems.remove(itemValue);
-      }
-    });
-  }
-
-  // this function is called when the Cancel button is pressed
-  void _cancel() {
-    Navigator.pop(context);
-  }
-
-// this function is called when the Submit button is tapped
-  void _submit() {
-    Navigator.pop(context, _selectedItems);
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return AlertDialog(
-      title: const Text('Seleziona'),
-      content: SingleChildScrollView(
-        child: ListBody(
-          children: widget.data
-              .map<Widget>((cat) => CheckboxListTile(
-                    value: _selectedItems.contains(cat),
-                    title: Text(cat.name),
-                    controlAffinity: ListTileControlAffinity.leading,
-                    onChanged: (isChecked) => _itemChange(cat, isChecked!),
-                  ))
-              .toList(),
-        ),
-      ),
-      actions: [
-        TextButton(
-          onPressed: _cancel,
-          child: const Text('Cancel'),
-        ),
-        ElevatedButton(
-          onPressed: _submit,
-          child: const Text('Submit'),
-        ),
-      ],
+  List selectedCategories = [];
+  catMultiSelect(snapshot) async {
+    final List? catResults = await showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return MultiSelect(data: snapshot, from: 'Category');
+      },
     );
+
+    if (catResults != null) {
+      setState(() {
+        selectedCategories = catResults;
+      });
+    }
+  }
+
+  List selectedAuthors = [];
+  autMultiSelect(snapshot) async {
+    final List? autResults = await showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return MultiSelect(data: snapshot, from: 'Author');
+      },
+    );
+
+    if (autResults != null) {
+      setState(() {
+        selectedAuthors = autResults;
+      });
+    }
   }
 }
 
-class AutMultiSelect extends StatefulWidget {
+class MultiSelect extends StatefulWidget {
   final data;
-  const AutMultiSelect({Key? key, this.data}) : super(key: key);
+  final String from;
+  const MultiSelect({Key? key, required this.data, required this.from})
+      : super(key: key);
 
   @override
-  State<StatefulWidget> createState() => _AutMultiSelectState();
+  State<StatefulWidget> createState() => _MultiSelectState();
 }
 
-class _AutMultiSelectState extends State<AutMultiSelect> {
-  // this variable holds the selected items
+class _MultiSelectState extends State<MultiSelect> {
   final List _selectedItems = [];
 
-// This function is triggered when a checkbox is checked or unchecked
   void _itemChange(var itemValue, bool isSelected) {
     setState(() {
       if (isSelected) {
@@ -883,12 +820,10 @@ class _AutMultiSelectState extends State<AutMultiSelect> {
     });
   }
 
-  // this function is called when the Cancel button is pressed
   void _cancel() {
     Navigator.pop(context);
   }
 
-// this function is called when the Submit button is tapped
   void _submit() {
     Navigator.pop(context, _selectedItems);
   }
@@ -898,26 +833,38 @@ class _AutMultiSelectState extends State<AutMultiSelect> {
     return AlertDialog(
       title: const Text('Seleziona'),
       content: SingleChildScrollView(
-        child: ListBody(
-          children: widget.data
-              .map<Widget>((aut) => CheckboxListTile(
-                    value: _selectedItems.contains(aut),
-                    title: Text(
-                        '${aut.name} ${aut.surname.isEmpty ? '' : aut.surname}'),
-                    controlAffinity: ListTileControlAffinity.leading,
-                    onChanged: (isChecked) => _itemChange(aut, isChecked!),
-                  ))
-              .toList(),
-        ),
-      ),
+          child: widget.from == 'Category'
+              ? ListBody(
+                  children: widget.data
+                      .map<Widget>((get) => CheckboxListTile(
+                            value: _selectedItems.contains(get),
+                            title: Text(get.name),
+                            controlAffinity: ListTileControlAffinity.leading,
+                            onChanged: (isChecked) =>
+                                _itemChange(get, isChecked!),
+                          ))
+                      .toList(),
+                )
+              : ListBody(
+                  children: widget.data
+                      .map<Widget>((get) => CheckboxListTile(
+                            value: _selectedItems.contains(get),
+                            title: Text(
+                                '${get.name} ${get.surname.isEmpty ? '' : get.surname}'),
+                            controlAffinity: ListTileControlAffinity.leading,
+                            onChanged: (isChecked) =>
+                                _itemChange(get, isChecked!),
+                          ))
+                      .toList(),
+                )),
       actions: [
         TextButton(
           onPressed: _cancel,
-          child: const Text('Cancel'),
+          child: const Text('Annulla'),
         ),
         ElevatedButton(
           onPressed: _submit,
-          child: const Text('Submit'),
+          child: const Text('Conferma'),
         ),
       ],
     );
