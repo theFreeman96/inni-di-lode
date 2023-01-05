@@ -142,6 +142,8 @@ class EditSongPageState extends State<EditSongPage> {
               ],
             ),
             floatingActionButton: FloatingActionButton(
+              child: const Icon(Icons.send),
+              tooltip: 'Conferma',
               onPressed: () {
                 if (editSongKey.currentState!.validate()) {
                   query.updateSong(
@@ -169,7 +171,6 @@ class EditSongPageState extends State<EditSongPage> {
                   );
                 }
               },
-              child: const Icon(Icons.send),
             ),
             body: SingleChildScrollView(
               child: Padding(
@@ -520,6 +521,8 @@ class EditSongPageState extends State<EditSongPage> {
 
   Widget newCatDialog() {
     return IconButton(
+      icon: const Icon(Icons.add_circle),
+      tooltip: 'Nuova categoria',
       onPressed: () {
         showDialog(
           context: context,
@@ -640,12 +643,13 @@ class EditSongPageState extends State<EditSongPage> {
           },
         );
       },
-      icon: const Icon(Icons.add_circle),
     );
   }
 
   Widget newAutDialog() {
     return IconButton(
+      icon: const Icon(Icons.add_circle),
+      tooltip: 'Nuovo autore',
       onPressed: () {
         showDialog(
           context: context,
@@ -723,7 +727,6 @@ class EditSongPageState extends State<EditSongPage> {
           },
         );
       },
-      icon: const Icon(Icons.add_circle),
     );
   }
 }
