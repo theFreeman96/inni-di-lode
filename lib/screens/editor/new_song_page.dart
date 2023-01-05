@@ -487,6 +487,7 @@ class NewSongPageState extends State<NewSongPage> {
 
   Widget newCatDialog() {
     return IconButton(
+      icon: const Icon(Icons.add_circle),
       onPressed: () {
         showDialog(
           context: context,
@@ -607,12 +608,12 @@ class NewSongPageState extends State<NewSongPage> {
           },
         );
       },
-      icon: const Icon(Icons.add_circle),
     );
   }
 
   Widget newAutDialog() {
     return IconButton(
+      icon: const Icon(Icons.add_circle),
       onPressed: () {
         showDialog(
           context: context,
@@ -690,7 +691,6 @@ class NewSongPageState extends State<NewSongPage> {
           },
         );
       },
-      icon: const Icon(Icons.add_circle),
     );
   }
 }
