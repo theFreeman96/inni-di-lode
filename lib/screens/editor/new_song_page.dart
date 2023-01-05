@@ -110,6 +110,8 @@ class NewSongPageState extends State<NewSongPage> {
               ],
             ),
             floatingActionButton: FloatingActionButton(
+              child: const Icon(Icons.send),
+              tooltip: 'Aggiungi cantico',
               onPressed: () {
                 if (newSongKey.currentState!.validate()) {
                   query.insertSong(
@@ -139,7 +141,6 @@ class NewSongPageState extends State<NewSongPage> {
                   );
                 }
               },
-              child: const Icon(Icons.send),
             ),
             body: SingleChildScrollView(
               child: Padding(
@@ -488,6 +489,7 @@ class NewSongPageState extends State<NewSongPage> {
   Widget newCatDialog() {
     return IconButton(
       icon: const Icon(Icons.add_circle),
+      tooltip: 'Nuova categoria',
       onPressed: () {
         showDialog(
           context: context,
@@ -614,6 +616,7 @@ class NewSongPageState extends State<NewSongPage> {
   Widget newAutDialog() {
     return IconButton(
       icon: const Icon(Icons.add_circle),
+      tooltip: 'Nuovo autore',
       onPressed: () {
         showDialog(
           context: context,
