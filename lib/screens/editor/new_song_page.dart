@@ -111,7 +111,7 @@ class NewSongPageState extends State<NewSongPage> {
             ),
             floatingActionButton: FloatingActionButton(
               child: const Icon(Icons.send),
-              tooltip: 'Aggiungi cantico',
+              tooltip: 'Conferma',
               onPressed: () {
                 if (newSongKey.currentState!.validate()) {
                   query.insertSong(
