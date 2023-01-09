@@ -8,6 +8,7 @@ import 'package:provider/provider.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 import 'package:sqflite/sqflite.dart';
 
+import '/theme/constants.dart';
 import '/theme/theme_provider.dart';
 import '/theme/themes.dart';
 
@@ -39,6 +40,7 @@ class Innario extends StatelessWidget {
               debugShowCheckedModeBanner: false,
               theme: themeProvider.isDarkMode ? AppTheme.dark : AppTheme.light,
               title: 'Inni di Lode',
+              scaffoldMessengerKey: snackBarKey,
               builder: (context, child) {
                 return ScrollConfiguration(
                   behavior: MyScrollBehavior(),
