@@ -15,15 +15,13 @@ buildPDF(songId, songTitle, songText) async {
   double lineHeight = 1.5;
 
   final songNumber = songId.toString().padLeft(3, '0');
-
-  String title = songTitle;
-  RegExp exp = RegExp(
+  final String title = songTitle;
+  final RegExp exp = RegExp(
       '[^\\p{Alphabetic}\\p{Mark}\\p{Decimal_Number}\\p{Connector_Punctuation}\\p{Join_Control}\\s]+',
       unicode: true,
       multiLine: true,
       caseSensitive: true);
-  String parsedTitle = title.replaceAll(exp, '');
-
+  final String parsedTitle = title.replaceAll(exp, '');
   final pdf = pw.Document();
 
   pdf.addPage(
