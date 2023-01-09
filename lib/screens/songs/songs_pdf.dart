@@ -109,6 +109,6 @@ buildPDF(songId, songTitle, songText) async {
   final directory = await getApplicationDocumentsDirectory();
   final file = File('${directory.path}/$songNumber. $parsedTitle.pdf');
   file.writeAsBytesSync(await pdf.save());
-  Share.shareFiles(['${directory.path}/$songNumber. $parsedTitle.pdf']);
+  Share.shareXFiles([XFile('${directory.path}/$songNumber. $parsedTitle.pdf')]);
   log('$file');
 }
