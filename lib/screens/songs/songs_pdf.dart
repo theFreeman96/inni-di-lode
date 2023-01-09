@@ -104,7 +104,8 @@ buildPDF(songId, songTitle, songText) async {
       },
     ),
   );
-  final directory = await getApplicationDocumentsDirectory();
+  final appDirectory = await getApplicationDocumentsDirectory();
+  final directory = await Directory('${appDirectory.path}\\Cantici').create();
   final file = File('${directory.path}/$songNumber. $parsedTitle.pdf');
   file.writeAsBytesSync(await pdf.save());
   Platform.isWindows || Platform.isMacOS || Platform.isMacOS
