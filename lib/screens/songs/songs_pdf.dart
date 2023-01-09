@@ -18,7 +18,7 @@ buildPDF(songId, songTitle, songText) async {
 
   String title = songTitle;
   RegExp exp = RegExp(
-      r'[^\p{Alphabetic}\p{Mark}\p{Decimal_Number}\p{Connector_Punctuation}\p{Join_Control}\s]+',
+      '[^\\p{Alphabetic}\\p{Mark}\\p{Decimal_Number}\\p{Connector_Punctuation}\\p{Join_Control}\\s]+',
       unicode: true,
       multiLine: true,
       caseSensitive: true);
