@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -454,8 +455,13 @@ class _SongsDetailState extends State<SongsDetail> {
                 },
               ),
               IconButton(
-                tooltip: 'Condividi',
-                icon: const Icon(Icons.share),
+                tooltip:
+                    Platform.isWindows || Platform.isMacOS || Platform.isLinux
+                        ? 'Scarica'
+                        : 'Condividi',
+                icon: Platform.isWindows || Platform.isMacOS || Platform.isLinux
+                    ? const Icon(Icons.download)
+                    : const Icon(Icons.share),
                 onPressed: () async {
                   await buildPDF(get.songId, get.songTitle, get.songText);
                 },
