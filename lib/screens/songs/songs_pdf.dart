@@ -1,7 +1,7 @@
 import 'dart:developer';
 import 'dart:io';
 
-// HTML renderers
+import 'package:flutter/material.dart';
 import 'package:html2md/html2md.dart' as html2md;
 
 // PDF
@@ -9,6 +9,8 @@ import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
+
+import '../../theme/constants.dart';
 
 buildPDF(songId, songTitle, songText) async {
   double fontSize = 16.0;
@@ -113,4 +115,11 @@ buildPDF(songId, songTitle, songText) async {
       : Share.shareXFiles(
           [XFile('${directory.path}/$songNumber. $parsedTitle.pdf')]);
   log('$file');
+  final SnackBar? snackBar =
+      Platform.isWindows || Platform.isMacOS || Platform.isMacOS
+          ? SnackBar(
+              content: Text('Il PDF salvato in ${directory.path}'),
+            )
+          : null;
+  snackBar != null ? snackBarKey.currentState?.showSnackBar(snackBar) : null;
 }
