@@ -15,23 +15,23 @@ class NewSongPage extends StatefulWidget {
   NewSongPageState createState() => NewSongPageState();
 }
 
-late int cat;
-late int macro;
-late String catHint;
-late int mac;
-late String macHint;
-late int aut;
-late String autHint;
-
 class NewSongPageState extends State<NewSongPage> {
   final newSongKey = GlobalKey<FormState>();
   final titleController = TextEditingController();
   final textController = TextEditingController();
   late FocusNode textFocusNode;
 
+  static List<String> catList = [];
+  late int cat;
+  late int macro;
+  late String catHint;
   final newCatKey = GlobalKey<FormState>();
   final catController = TextEditingController();
+  late int mac;
+  late String macHint;
 
+  late int aut;
+  late String autHint;
   final newAutKey = GlobalKey<FormState>();
   final autNameController = TextEditingController();
   final autSurnameController = TextEditingController();
