@@ -110,7 +110,6 @@ class NewSongPageState extends State<NewSongPage> {
               ],
             ),
             floatingActionButton: FloatingActionButton(
-              child: const Icon(Icons.send),
               tooltip: 'Conferma',
               onPressed: () {
                 if (newSongKey.currentState!.validate()) {
@@ -141,6 +140,7 @@ class NewSongPageState extends State<NewSongPage> {
                   );
                 }
               },
+              child: const Icon(Icons.send),
             ),
             body: SingleChildScrollView(
               child: Padding(
