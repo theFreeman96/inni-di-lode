@@ -220,6 +220,7 @@ class NewSongPageState extends State<NewSongPage> {
                           ],
                         ),
                       ),
+                      ...getCatFields(),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -695,5 +696,137 @@ class NewSongPageState extends State<NewSongPage> {
         );
       },
     );
+  }
+
+  List<Widget> getCatFields() {
+    List<Widget> catFieldsList = [];
+    for (int i = 0; i <= catList.length && i < 3; i++) {
+      catFieldsList.add(
+        Padding(
+          padding: const EdgeInsets.only(bottom: kDefaultPadding),
+          child: Row(
+            children: [
+              Expanded(child: CatFields(i)),
+              removeButton(i == catList.length, i),
+            ],
+          ),
+        ),
+      );
+    }
+    return catFieldsList;
+  }
+
+  Widget removeButton(bool add, int index) {
+    return IconButton(
+      icon: Icon((add) ? Icons.add_circle : Icons.remove_circle),
+      color: (add) ? Colors.green : Colors.red,
+      tooltip: (add) ? 'Aggiungi Categoria' : 'Rimuovi Categoria',
+      onPressed: () {
+        if (add) {
+          catList.insert(0, '');
+        } else {
+          catList.removeAt(index);
+        }
+        setState(() {});
+      },
+    );
+  }
+}
+
+class CatFields extends StatefulWidget {
+  final int index;
+  const CatFields(this.index, {Key? key}) : super(key: key);
+  @override
+  CatFieldsState createState() => CatFieldsState();
+}
+
+class CatFieldsState extends State<CatFields> {
+  late int cat;
+  late int macro;
+  late String catHint;
+
+  final QueryCtr query = QueryCtr();
+
+  @override
+  void initState() {
+    cat = 0;
+    macro = 0;
+    catHint = 'Seleziona';
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {});
+    return FutureBuilder(
+      future: query.getAllCat(),
+      builder: (context, AsyncSnapshot snapshot) {
+        return snapshot.hasData
+            ? DropdownButtonFormField<String>(
+                key: widget.key,
+                isExpanded: true,
+                icon: const Padding(
+                  padding: EdgeInsets.only(right: kDefaultPadding / 3),
+                  child: Icon(Icons.arrow_drop_down),
+                ),
+                borderRadius: const BorderRadius.all(
+                  Radius.circular(25.0),
+                ),
+                hint: Text(catHint),
+                decoration: InputDecoration(
+                  contentPadding: const EdgeInsets.symmetric(
+                    vertical: kDefaultPadding,
+                  ),
+                  prefixIcon: const Icon(
+                    Icons.sell,
+                    color: kLightGrey,
+                  ),
+                  labelText: 'Categoria #${widget.index + 1}',
+                ),
+                items: snapshot.data!.map<DropdownMenuItem<String>>((get) {
+                  return DropdownMenuItem<String>(
+                    value: get.name,
+                    onTap: () {
+                      cat = get.id;
+                      macro = get.macro_id;
+                    },
+                    child: Text(get.name),
+                  );
+                }).toList(),
+                onChanged: (value) {
+                  setState(() {
+                    NewSongPageState.catList[widget.index] = value!;
+                    catHint = NewSongPageState.catList.toString();
+                  });
+                },
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Seleziona una categoria!';
+                  }
+                  return null;
+                },
+              )
+            : const Padding(
+                padding: EdgeInsets.only(top: kDefaultPadding),
+                child: Text(
+                  'Nessuna categoria trovata',
+                  style: TextStyle(),
+                  textAlign: TextAlign.center,
+                ),
+              );
+      },
+    );
+
+    /*TextFormField(
+      controller: catController,
+      // save text field data in friends list at index
+      // whenever text field value changes
+      onChanged: (v) => NewSongPageState.catList[widget.index] = v,
+      decoration: const InputDecoration(hintText: 'Enter your friend\'s name'),
+      validator: (v) {
+        if (v!.trim().isEmpty) return 'Please enter something';
+        return null;
+      },
+    );*/
   }
 }
