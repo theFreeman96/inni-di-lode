@@ -800,7 +800,9 @@ class CatFieldsState extends State<CatFields> {
                   });
                 },
                 validator: (value) {
-                  if (value == null || value.isEmpty) {
+                  if (widget.index != 0) {
+                    return 'Seleziona anche la categoria #${widget.index + 1} o rimuovila!';
+                  } else if (value == null || value.isEmpty) {
                     return 'Seleziona una categoria!';
                   }
                   return null;
