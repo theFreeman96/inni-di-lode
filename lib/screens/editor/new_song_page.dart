@@ -223,7 +223,16 @@ class NewSongPageState extends State<NewSongPage> {
                           ],
                         ),
                       ),
-                      ...getCatFields(),
+                      Padding(
+                        padding:
+                            const EdgeInsets.only(bottom: kDefaultPadding * 2),
+                        child: Column(
+                          children: [
+                            ...getCatFields(),
+                            newCatDialog2(),
+                          ],
+                        ),
+                      ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -494,6 +503,140 @@ class NewSongPageState extends State<NewSongPage> {
     return IconButton(
       icon: const Icon(Icons.add_circle),
       tooltip: 'Nuova categoria',
+      onPressed: () {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              scrollable: true,
+              title: const Text('Nuova categoria'),
+              content: Form(
+                key: newCatKey,
+                child: Column(
+                  children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: kDefaultPadding),
+                      child: TextFormField(
+                        controller: catController,
+                        textCapitalization: TextCapitalization.sentences,
+                        decoration: const InputDecoration(
+                          labelText: 'Nome categoria',
+                          prefixIcon: Icon(
+                            Icons.edit,
+                            color: kLightGrey,
+                          ),
+                        ),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Inserisci il nome!';
+                          }
+                          return null;
+                        },
+                      ),
+                    ),
+                    FutureBuilder(
+                      future: query.getAllMacroCat(),
+                      builder: (context, AsyncSnapshot snapshot) {
+                        return snapshot.hasData
+                            ? DropdownButtonFormField<String>(
+                                isExpanded: true,
+                                icon: const Padding(
+                                  padding: EdgeInsets.only(
+                                      right: kDefaultPadding / 3),
+                                  child: Icon(Icons.arrow_drop_down),
+                                ),
+                                borderRadius: const BorderRadius.all(
+                                  Radius.circular(25.0),
+                                ),
+                                hint: const Text('Seleziona'),
+                                decoration: const InputDecoration(
+                                  contentPadding: EdgeInsets.symmetric(
+                                    vertical: kDefaultPadding,
+                                  ),
+                                  prefixIcon: Icon(
+                                    Icons.sell,
+                                    color: kLightGrey,
+                                  ),
+                                  labelText: 'Macrocategoria',
+                                ),
+                                items: snapshot.data!
+                                    .map<DropdownMenuItem<String>>((get) {
+                                  return DropdownMenuItem<String>(
+                                    value: get.macroName,
+                                    onTap: () {
+                                      mac = get.macroId;
+                                    },
+                                    child: Text(get.macroName),
+                                  );
+                                }).toList(),
+                                onChanged: (value) {
+                                  setState(() {
+                                    macHint = value!;
+                                  });
+                                },
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return 'Seleziona una macrocategoria!';
+                                  }
+                                  return null;
+                                },
+                              )
+                            : const Padding(
+                                padding: EdgeInsets.only(top: kDefaultPadding),
+                                child: Text(
+                                  'Nessuna macrocategoria trovata',
+                                  style: TextStyle(),
+                                  textAlign: TextAlign.center,
+                                ),
+                              );
+                      },
+                    ),
+                  ],
+                ),
+              ),
+              actions: [
+                OutlinedButton(
+                  onPressed: () {
+                    Navigator.pop(context, 'Annulla');
+                    catController.clear();
+                  },
+                  child: const Text('Annulla'),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    if (newCatKey.currentState!.validate()) {
+                      query.insertCat(catController.text, mac);
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text('Categoria aggiunta!'),
+                        ),
+                      );
+                      Navigator.pop(context, 'Conferma');
+                      catController.clear();
+                      setState(() {});
+                    }
+                  },
+                  child: const Text('Conferma'),
+                ),
+              ],
+            );
+          },
+        );
+      },
+    );
+  }
+
+  Widget newCatDialog2() {
+    final themeProvider = Provider.of<ThemeProvider>(context);
+    return TextButton.icon(
+      icon: Icon(Icons.new_label,
+          color: themeProvider.isDarkMode ? kWhite : kBlack),
+      label: Text(
+        'Crea nuova categoria',
+        style: TextStyle(
+            fontWeight: FontWeight.bold,
+            color: themeProvider.isDarkMode ? kWhite : kBlack),
+      ),
       onPressed: () {
         showDialog(
           context: context,
