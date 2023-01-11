@@ -816,17 +816,5 @@ class CatFieldsState extends State<CatFields> {
               );
       },
     );
-
-    /*TextFormField(
-      controller: catController,
-      // save text field data in friends list at index
-      // whenever text field value changes
-      onChanged: (v) => NewSongPageState.catList[widget.index] = v,
-      decoration: const InputDecoration(hintText: 'Enter your friend\'s name'),
-      validator: (v) {
-        if (v!.trim().isEmpty) return 'Please enter something';
-        return null;
-      },
-    );*/
   }
 }
