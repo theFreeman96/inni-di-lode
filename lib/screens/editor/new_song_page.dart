@@ -781,7 +781,9 @@ class CatFieldsState extends State<CatFields> {
                     Icons.sell,
                     color: kLightGrey,
                   ),
-                  labelText: 'Categoria #${widget.index + 1}',
+                  labelText: widget.index == 0
+                      ? 'Categoria'
+                      : 'Categoria #${widget.index + 1}',
                 ),
                 items: snapshot.data!.map<DropdownMenuItem<String>>((get) {
                   return DropdownMenuItem<String>(
