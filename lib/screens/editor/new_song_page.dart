@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -21,7 +23,8 @@ class NewSongPageState extends State<NewSongPage> {
   final textController = TextEditingController();
   late FocusNode textFocusNode;
 
-  static List<String> catList = [];
+  static List<int> macroList = [];
+  static List<int> catList = [];
   late int cat;
   late int macro;
   late String catHint;
@@ -707,7 +710,7 @@ class NewSongPageState extends State<NewSongPage> {
           child: Row(
             children: [
               Expanded(child: CatFields(i)),
-              removeButton(i == catList.length, i),
+              addRemoveButton(i == catList.length, i),
             ],
           ),
         ),
@@ -716,14 +719,14 @@ class NewSongPageState extends State<NewSongPage> {
     return catFieldsList;
   }
 
-  Widget removeButton(bool add, int index) {
+  Widget addRemoveButton(bool add, int index) {
     return IconButton(
       icon: Icon((add) ? Icons.add_circle : Icons.remove_circle),
       color: (add) ? Colors.green : Colors.red,
-      tooltip: (add) ? 'Aggiungi Categoria' : 'Rimuovi Categoria',
+      tooltip: (add) ? 'Aggiungi categoria' : 'Rimuovi categoria',
       onPressed: () {
         if (add) {
-          catList.insert(0, '');
+          catList.insert(0, 0);
         } else {
           catList.removeAt(index);
         }
@@ -791,14 +794,19 @@ class CatFieldsState extends State<CatFields> {
                     onTap: () {
                       cat = get.id;
                       macro = get.macro_id;
+                      /*NewSongPageState.catList[widget.index] = get.id;
+                      NewSongPageState.macroList[widget.index] = get.macro_id;*/
                     },
                     child: Text(get.name),
                   );
                 }).toList(),
                 onChanged: (value) {
                   setState(() {
-                    NewSongPageState.catList[widget.index] = value!;
-                    catHint = NewSongPageState.catList.toString();
+                    /*NewSongPageState.catList[widget.index] = value!;
+                    catHint = NewSongPageState.catList.toString();*/
+                    catHint = value!;
+                    log(NewSongPageState.catList.toString());
+                    log(NewSongPageState.macroList.toString());
                   });
                 },
                 validator: (value) {
