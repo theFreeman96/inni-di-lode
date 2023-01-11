@@ -710,7 +710,9 @@ class NewSongPageState extends State<NewSongPage> {
           child: Row(
             children: [
               Expanded(child: CatFields(i)),
-              addRemoveButton(i == catList.length, i),
+              i == 2
+                  ? addRemoveButton(false, 0)
+                  : addRemoveButton(i == catList.length, i),
             ],
           ),
         ),
