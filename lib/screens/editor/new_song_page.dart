@@ -23,8 +23,9 @@ class NewSongPageState extends State<NewSongPage> {
   final textController = TextEditingController();
   late FocusNode textFocusNode;
 
-  static List<int> macroList = [];
-  static List<int> catList = [];
+  static List<int> additionalCatFieldList = [];
+  static List<int> macroList = [0, 0, 0];
+  static List<int> catList = [0, 0, 0];
   late int cat;
   late int macro;
   late String catHint;
@@ -846,25 +847,25 @@ class NewSongPageState extends State<NewSongPage> {
 
   List<Widget> getCatFields() {
     List<Widget> catFieldsList = [];
-    for (int i = 0; i <= catList.length && i < 3; i++) {
+    for (int i = 0; i <= additionalCatFieldList.length; i++) {
       catFieldsList.add(
         Padding(
           padding: const EdgeInsets.only(bottom: kDefaultPadding),
           child: Row(
             children: [
               Expanded(child: CatFields(i)),
-              catList.isEmpty
+              additionalCatFieldList.isEmpty
                   ? addRemoveButton(i == 0, i)
                   : i == 0
                       ? const SizedBox()
-                      : i != 0 && catList.length == 1
+                      : i != 0 && additionalCatFieldList.length == 1
                           ? Row(
                               children: [
                                 addRemoveButton(true, i),
                                 addRemoveButton(false, 0)
                               ],
                             )
-                          : i == 2 && catList.length == 2
+                          : i == 2 && additionalCatFieldList.length == 2
                               ? addRemoveButton(false, 0)
                               : const SizedBox(),
             ],
@@ -882,9 +883,9 @@ class NewSongPageState extends State<NewSongPage> {
       tooltip: (add) ? 'Aggiungi categoria' : 'Rimuovi categoria',
       onPressed: () {
         if (add) {
-          catList.insert(0, 0);
+          additionalCatFieldList.insert(index, index);
         } else {
-          catList.removeAt(index);
+          additionalCatFieldList.removeAt(index);
         }
         setState(() {});
       },
@@ -940,7 +941,7 @@ class CatFieldsState extends State<CatFields> {
                     Icons.sell,
                     color: kLightGrey,
                   ),
-                  labelText: widget.index == 0
+                  labelText: NewSongPageState.additionalCatFieldList.isEmpty
                       ? 'Categoria'
                       : 'Categoria #${widget.index + 1}',
                 ),
