@@ -951,8 +951,8 @@ class CatFieldsState extends State<CatFields> {
                     onTap: () {
                       cat = get.id;
                       macro = get.macro_id;
-                      /*NewSongPageState.catList[widget.index] = get.id;
-                      NewSongPageState.macroList[widget.index] = get.macro_id;*/
+                      /*NewSongPageState.catList[widget.index] = cat;
+                      NewSongPageState.macroList[widget.index] = macro;*/
                     },
                     child: Text(get.name),
                   );
@@ -962,8 +962,8 @@ class CatFieldsState extends State<CatFields> {
                     /*NewSongPageState.catList[widget.index] = value!;
                     catHint = NewSongPageState.catList.toString();*/
                     catHint = value!;
-                    log(NewSongPageState.catList.toString());
-                    log(NewSongPageState.macroList.toString());
+                    log('catList: ${NewSongPageState.catList.toString()}');
+                    log('macroList: ${NewSongPageState.macroList.toString()}');
                   });
                 },
                 validator: (value) {
