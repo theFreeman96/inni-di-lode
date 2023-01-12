@@ -464,8 +464,6 @@ class NewSongPage2State extends State<NewSongPage2> {
           ],
         ),
       ),
-      /*Icon(Icons.new_label,
-          color: themeProvider.isDarkMode ? kWhite : kBlack),*/
       label: Text(
         'Crea nuova categoria',
         style: TextStyle(
