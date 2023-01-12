@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '/theme/theme_provider.dart';
 import '/theme/constants.dart';
@@ -132,7 +131,30 @@ class _HomeState extends State<Home> {
               backgroundColor: themeProvider.isDarkMode ? kGrey : kPrimaryColor,
             ),
             BottomNavigationBarItem(
-              icon: const FaIcon(FontAwesomeIcons.tags, size: 18),
+              icon: SizedBox(
+                width: kDefaultPadding * 1.25,
+                child: Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    const Align(
+                      alignment: Alignment.centerLeft,
+                      child: Icon(Icons.sell_outlined, size: 20),
+                    ),
+                    Align(
+                      alignment: Alignment.center,
+                      child: Icon(
+                        Icons.sell,
+                        size: 20,
+                        color: themeProvider.isDarkMode ? kGrey : kPrimaryColor,
+                      ),
+                    ),
+                    const Align(
+                      alignment: Alignment.centerRight,
+                      child: Icon(Icons.sell, size: 20),
+                    ),
+                  ],
+                ),
+              ),
               label: 'Categorie',
               backgroundColor: themeProvider.isDarkMode ? kGrey : kPrimaryColor,
             ),

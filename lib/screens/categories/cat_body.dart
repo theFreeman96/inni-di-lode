@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/provider.dart';
 
+import '../../theme/theme_provider.dart';
 import '/theme/constants.dart';
 import '/assets/data/queries.dart';
 import '/assets/data/models.dart';
@@ -104,16 +105,39 @@ class _CatBodyState extends State<CatBody> {
   }
 
   Widget buildRow(Raccolta get, i) {
+    final themeProvider = Provider.of<ThemeProvider>(context);
     return ExpansionPanelList(
       elevation: 0.0,
       children: [
         ExpansionPanel(
           headerBuilder: (BuildContext context, bool isExpanded) {
             return ListTile(
-              leading: const CircleAvatar(
-                child: FaIcon(
-                  FontAwesomeIcons.tags,
-                  size: 15,
+              leading: CircleAvatar(
+                child: SizedBox(
+                  width: kDefaultPadding * 1.25,
+                  child: Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      const Align(
+                        alignment: Alignment.centerLeft,
+                        child: Icon(Icons.sell, size: 20),
+                      ),
+                      Align(
+                        alignment: Alignment.center,
+                        child: Icon(
+                          Icons.sell,
+                          size: 20,
+                          color: themeProvider.isDarkMode
+                              ? kPrimaryLightColor
+                              : kPrimaryColor,
+                        ),
+                      ),
+                      const Align(
+                        alignment: Alignment.centerRight,
+                        child: Icon(Icons.sell, size: 20),
+                      ),
+                    ],
+                  ),
                 ),
               ),
               title: Text(get.macroName),
@@ -156,9 +180,7 @@ class _CatBodyState extends State<CatBody> {
     return ListTile(
       leading: const Padding(
         padding: EdgeInsets.only(left: kDefaultPadding),
-        child: FaIcon(
-          FontAwesomeIcons.tag,
-        ),
+        child: Icon(Icons.sell),
       ),
       title: Text(get.name),
       trailing: const Padding(
