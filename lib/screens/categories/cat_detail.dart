@@ -215,8 +215,7 @@ class _CatDetailState extends State<CatDetail> {
                               return snapshot.hasData
                                   ? AlertDialog(
                                       scrollable: true,
-                                      title: const Text(
-                                          'Errore: cantici ancora associati!'),
+                                      title: const Text('Errore!'),
                                       content: RichText(
                                         text: TextSpan(
                                           style: TextStyle(
@@ -236,12 +235,6 @@ class _CatDetailState extends State<CatDetail> {
                                             const TextSpan(
                                                 text:
                                                     'è necessario dissociare o eliminare i cantici ancora associati.\n\n'),
-                                            const TextSpan(
-                                              text: 'Come fare?\n',
-                                              style: TextStyle(
-                                                  fontSize: 14,
-                                                  fontWeight: FontWeight.w500),
-                                            ),
                                             const TextSpan(
                                                 text:
                                                     'Nel fondo della pagina di ciascun cantico selezionare una delle seguenti opzioni:\n'),
