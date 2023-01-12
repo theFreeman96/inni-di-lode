@@ -30,6 +30,7 @@ class AppTheme {
       ),
       labelStyle: TextStyle(color: kLightGrey),
       errorStyle: TextStyle(color: Colors.red, fontWeight: FontWeight.bold),
+      errorMaxLines: 3,
       errorBorder: OutlineInputBorder(
         borderRadius: BorderRadius.all(
           Radius.circular(25.0),
@@ -146,6 +147,7 @@ class AppTheme {
       labelStyle: TextStyle(color: kWhite),
       errorStyle:
           TextStyle(color: Colors.redAccent, fontWeight: FontWeight.bold),
+      errorMaxLines: 3,
       errorBorder: OutlineInputBorder(
         borderRadius: BorderRadius.all(
           Radius.circular(25.0),
