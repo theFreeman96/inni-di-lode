@@ -439,8 +439,33 @@ class NewSongPage2State extends State<NewSongPage2> {
   Widget newCatDialog() {
     final themeProvider = Provider.of<ThemeProvider>(context);
     return TextButton.icon(
-      icon: Icon(Icons.new_label,
-          color: themeProvider.isDarkMode ? kWhite : kBlack),
+      icon: SizedBox(
+        height: kDefaultPadding,
+        width: kDefaultPadding * 1.55,
+        child: Stack(
+          alignment: Alignment.center,
+          children: [
+            Align(
+              alignment: Alignment.topLeft,
+              child: Icon(
+                Icons.add,
+                size: 16,
+                color: themeProvider.isDarkMode ? kWhite : kBlack,
+              ),
+            ),
+            Align(
+              alignment: Alignment.centerRight,
+              child: Icon(
+                Icons.sell,
+                size: 18,
+                color: themeProvider.isDarkMode ? kWhite : kBlack,
+              ),
+            ),
+          ],
+        ),
+      ),
+      /*Icon(Icons.new_label,
+          color: themeProvider.isDarkMode ? kWhite : kBlack),*/
       label: Text(
         'Crea nuova categoria',
         style: TextStyle(
