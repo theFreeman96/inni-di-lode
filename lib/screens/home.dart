@@ -132,7 +132,7 @@ class _HomeState extends State<Home> {
             ),
             BottomNavigationBarItem(
               icon: SizedBox(
-                width: kDefaultPadding * 1.25,
+                width: kDefaultPadding * 1.2,
                 child: Stack(
                   alignment: Alignment.center,
                   children: [
