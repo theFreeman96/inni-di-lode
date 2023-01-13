@@ -49,6 +49,7 @@ android {
             signingConfig signingConfigs.debug
         }
     }
+    namespace 'davidebelvisi.com.inni_di_lode'
 }
 
 flutter {
