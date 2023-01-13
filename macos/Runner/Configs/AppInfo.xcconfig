@@ -8,7 +8,7 @@
 PRODUCT_NAME = inni_di_lode
 
 // The application's bundle identifier
-PRODUCT_BUNDLE_IDENTIFIER = davidebelvisi.com.inniDiLode
+PRODUCT_BUNDLE_IDENTIFIER = com.davidebelvisi.inni_di_lode
 
 // The copyright displayed in application information
 PRODUCT_COPYRIGHT = Copyright © 2022 davidebelvisi.com. All rights reserved.

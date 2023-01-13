@@ -1,4 +1,4 @@
-package davidebelvisi.com.inni_di_lode
+package com.davidebelvisi.inni_di_lode
 
 import io.flutter.embedding.android.FlutterActivity
 
