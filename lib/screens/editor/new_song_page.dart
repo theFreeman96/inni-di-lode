@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -21,16 +23,19 @@ class NewSongPageState extends State<NewSongPage> {
   final textController = TextEditingController();
   late FocusNode textFocusNode;
 
+  static List<int> additionalCatFieldList = [];
+  static List<int> macroList = [0, 0, 0];
+  static List<int> catList = [0, 0, 0];
   late int cat;
   late int macro;
-  late String catHint;
   final newCatKey = GlobalKey<FormState>();
   final catController = TextEditingController();
   late int mac;
   late String macHint;
 
+  static List<int> additionalAutFieldList = [];
+  static List<int> autList = [0, 0, 0];
   late int aut;
-  late String autHint;
   final newAutKey = GlobalKey<FormState>();
   final autNameController = TextEditingController();
   final autSurnameController = TextEditingController();
@@ -39,9 +44,7 @@ class NewSongPageState extends State<NewSongPage> {
 
   @override
   void initState() {
-    catHint = 'Seleziona';
     macHint = 'Seleziona';
-    autHint = 'Seleziona';
     textFocusNode = FocusNode();
     super.initState();
   }
@@ -106,17 +109,59 @@ class NewSongPageState extends State<NewSongPage> {
             ),
             floatingActionButton: FloatingActionButton(
               tooltip: 'Conferma',
-              onPressed: () {
+              onPressed: () async {
+                log(additionalCatFieldList.length.toString());
                 if (newSongKey.currentState!.validate()) {
-                  query.insertSong(
-                      titleController.text,
-                      '<ol>${textController.text.replaceAll('---Strofa---\n', '<li>').replaceAll('---Coro---', '<b>Coro:</b>').replaceAll('---Bridge---', '<b>Bridge:</b>').replaceAll('---Finale---', '<b>Finale:</b>').replaceAll('\n\n\n\n', '\n\n').replaceAll('\n\n\n', '\n\n').replaceAll('\n', '<br>')}</ol>',
-                      0,
+                  query.insertSongs(
+                    titleController.text,
+                    '<ol>${textController.text.replaceAll('---Strofa---\n', '<li>').replaceAll('---Coro---', '<b>Coro:</b>').replaceAll('---Bridge---', '<b>Bridge:</b>').replaceAll('---Finale---', '<b>Finale:</b>').replaceAll('\n\n\n\n', '\n\n').replaceAll('\n\n\n', '\n\n').replaceAll('\n', '<br>')}</ol>',
+                    0,
+                  );
+                  if (catList[0] != 0) {
+                    query.insertSongs_Categories(
                       newSongId,
-                      macro,
-                      cat,
-                      aut,
-                      titleController.text);
+                      macroList[0],
+                      catList[0],
+                      titleController.text,
+                    );
+                  }
+                  if (catList[1] != 0) {
+                    query.insertSongs_Categories(
+                      newSongId,
+                      macroList[1],
+                      catList[1],
+                      titleController.text,
+                    );
+                  }
+                  if (catList[2] != 0) {
+                    query.insertSongs_Categories(
+                      newSongId,
+                      macroList[2],
+                      catList[2],
+                      titleController.text,
+                    );
+                  }
+                  if (autList[0] != 0) {
+                    query.insertSongs_Authors(
+                      newSongId,
+                      autList[0],
+                      titleController.text,
+                    );
+                  }
+                  if (autList[1] != 0) {
+                    query.insertSongs_Authors(
+                      newSongId,
+                      autList[1],
+                      titleController.text,
+                    );
+                  }
+                  if (autList[2] != 0) {
+                    query.insertSongs_Authors(
+                      newSongId,
+                      autList[2],
+                      titleController.text,
+                    );
+                  }
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(
                       content: Text('Cantico aggiunto!'),
@@ -124,6 +169,11 @@ class NewSongPageState extends State<NewSongPage> {
                   );
                   titleController.clear();
                   textController.clear();
+                  additionalCatFieldList.clear();
+                  additionalAutFieldList.clear();
+                  macroList = [0, 0, 0];
+                  catList = [0, 0, 0];
+                  autList = [0, 0, 0];
                   FocusScope.of(context).unfocus();
                   Navigator.push(
                     context,
@@ -215,26 +265,42 @@ class NewSongPageState extends State<NewSongPage> {
                           ],
                         ),
                       ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Expanded(
-                            child: catDropDown(),
+                      Container(
+                        decoration: BoxDecoration(
+                          border: Border.all(color: kLightGrey, width: 1),
+                          borderRadius: const BorderRadius.all(
+                            Radius.circular(25.0),
                           ),
-                          newCatDialog(),
-                        ],
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(kDefaultPadding),
+                          child: Column(
+                            children: [
+                              ...getCatFields(),
+                              newCatDialog(),
+                            ],
+                          ),
+                        ),
                       ),
                       Padding(
                         padding: const EdgeInsets.symmetric(
                             vertical: kDefaultPadding),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Expanded(
-                              child: autDropDown(),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            border: Border.all(color: kLightGrey, width: 1),
+                            borderRadius: const BorderRadius.all(
+                              Radius.circular(25.0),
                             ),
-                            newAutDialog(),
-                          ],
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(kDefaultPadding),
+                            child: Column(
+                              children: [
+                                ...getAutFields(),
+                                newAutDialog(),
+                              ],
+                            ),
+                          ),
                         ),
                       ),
                       const SizedBox(
@@ -362,129 +428,88 @@ class NewSongPageState extends State<NewSongPage> {
     );
   }
 
-  Widget catDropDown() {
-    return FutureBuilder(
-      future: query.getAllCat(),
-      builder: (context, AsyncSnapshot snapshot) {
-        return snapshot.hasData
-            ? DropdownButtonFormField<String>(
-                isExpanded: true,
-                icon: const Padding(
-                  padding: EdgeInsets.only(right: kDefaultPadding / 3),
-                  child: Icon(Icons.arrow_drop_down),
-                ),
-                borderRadius: const BorderRadius.all(
-                  Radius.circular(25.0),
-                ),
-                hint: Text(catHint),
-                decoration: const InputDecoration(
-                  contentPadding: EdgeInsets.symmetric(
-                    vertical: kDefaultPadding,
-                  ),
-                  prefixIcon: Icon(
-                    Icons.sell,
-                    color: kLightGrey,
-                  ),
-                  labelText: 'Categoria',
-                ),
-                items: snapshot.data!.map<DropdownMenuItem<String>>((get) {
-                  return DropdownMenuItem<String>(
-                    value: get.name,
-                    onTap: () {
-                      cat = get.id;
-                      macro = get.macro_id;
-                    },
-                    child: Text(get.name),
-                  );
-                }).toList(),
-                onChanged: (value) {
-                  setState(() {
-                    catHint = value!;
-                  });
-                },
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Seleziona una categoria!';
-                  }
-                  return null;
-                },
-              )
-            : const Padding(
-                padding: EdgeInsets.only(top: kDefaultPadding),
-                child: Text(
-                  'Nessuna categoria trovata',
-                  style: TextStyle(),
-                  textAlign: TextAlign.center,
-                ),
-              );
-      },
-    );
+  List<Widget> getCatFields() {
+    List<Widget> catFieldsList = [];
+    for (int i = 0; i <= additionalCatFieldList.length; i++) {
+      catFieldsList.add(
+        Padding(
+          padding: const EdgeInsets.only(bottom: kDefaultPadding),
+          child: Row(
+            children: [
+              Expanded(child: CatFields(i)),
+              additionalCatFieldList.isEmpty
+                  ? catRemoveButton(i == 0, i)
+                  : i == 0
+                      ? const SizedBox()
+                      : i != 0 && additionalCatFieldList.length == 1
+                          ? Row(
+                              children: [
+                                catRemoveButton(true, i),
+                                catRemoveButton(false, 0)
+                              ],
+                            )
+                          : i == 2 && additionalCatFieldList.length == 2
+                              ? catRemoveButton(false, 0)
+                              : const SizedBox(),
+            ],
+          ),
+        ),
+      );
+    }
+    return catFieldsList;
   }
 
-  Widget autDropDown() {
-    return FutureBuilder(
-      future: query.getAllAut(),
-      builder: (context, AsyncSnapshot snapshot) {
-        return snapshot.hasData
-            ? DropdownButtonFormField<String>(
-                isExpanded: true,
-                icon: const Padding(
-                  padding: EdgeInsets.only(right: kDefaultPadding / 3),
-                  child: Icon(Icons.arrow_drop_down),
-                ),
-                borderRadius: const BorderRadius.all(
-                  Radius.circular(25.0),
-                ),
-                hint: Text(autHint),
-                decoration: const InputDecoration(
-                  contentPadding: EdgeInsets.symmetric(
-                    vertical: kDefaultPadding,
-                  ),
-                  prefixIcon: Icon(
-                    Icons.people,
-                    color: kLightGrey,
-                  ),
-                  labelText: 'Autore',
-                ),
-                items: snapshot.data!.map<DropdownMenuItem<String>>((get) {
-                  return DropdownMenuItem<String>(
-                    value:
-                        '${get.name} ${get.surname.isEmpty ? '' : get.surname}',
-                    onTap: () {
-                      aut = get.id;
-                    },
-                    child: Text(
-                        '${get.name} ${get.surname.isEmpty ? '' : get.surname}'),
-                  );
-                }).toList(),
-                onChanged: (value) {
-                  setState(() {
-                    autHint = value!;
-                  });
-                },
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Seleziona un autore!';
-                  }
-                  return null;
-                },
-              )
-            : const Padding(
-                padding: EdgeInsets.only(top: kDefaultPadding),
-                child: Text(
-                  'Nessun autore trovato',
-                  style: TextStyle(),
-                  textAlign: TextAlign.center,
-                ),
-              );
+  Widget catRemoveButton(bool add, int index) {
+    return IconButton(
+      icon: Icon((add) ? Icons.add_circle : Icons.remove_circle),
+      color: (add) ? Colors.green : Colors.red,
+      tooltip: (add) ? 'Aggiungi categoria' : 'Rimuovi categoria',
+      onPressed: () {
+        if (add) {
+          additionalCatFieldList.insert(index, index);
+        } else {
+          additionalCatFieldList.removeAt(index);
+          catList[index] = 0;
+        }
+        setState(() {});
       },
     );
   }
 
   Widget newCatDialog() {
-    return IconButton(
-      icon: const Icon(Icons.add_circle),
-      tooltip: 'Nuova categoria',
+    final themeProvider = Provider.of<ThemeProvider>(context);
+    return TextButton.icon(
+      icon: SizedBox(
+        height: kDefaultPadding,
+        width: kDefaultPadding * 1.55,
+        child: Stack(
+          alignment: Alignment.center,
+          children: [
+            Align(
+              alignment: Alignment.topLeft,
+              child: Icon(
+                Icons.add,
+                size: 16,
+                color: themeProvider.isDarkMode ? kWhite : kBlack,
+              ),
+            ),
+            Align(
+              alignment: Alignment.centerRight,
+              child: Icon(
+                Icons.sell,
+                size: 18,
+                color: themeProvider.isDarkMode ? kWhite : kBlack,
+              ),
+            ),
+          ],
+        ),
+      ),
+      label: Text(
+        'Crea nuova categoria',
+        style: TextStyle(
+            fontWeight: FontWeight.bold,
+            color: themeProvider.isDarkMode ? kWhite : kBlack),
+      ),
       onPressed: () {
         showDialog(
           context: context,
@@ -608,10 +633,65 @@ class NewSongPageState extends State<NewSongPage> {
     );
   }
 
-  Widget newAutDialog() {
+  List<Widget> getAutFields() {
+    List<Widget> autFieldsList = [];
+    for (int i = 0; i <= additionalAutFieldList.length; i++) {
+      autFieldsList.add(
+        Padding(
+          padding: const EdgeInsets.only(bottom: kDefaultPadding),
+          child: Row(
+            children: [
+              Expanded(child: AutFields(i)),
+              additionalAutFieldList.isEmpty
+                  ? autRemoveButton(i == 0, i)
+                  : i == 0
+                      ? const SizedBox()
+                      : i != 0 && additionalAutFieldList.length == 1
+                          ? Row(
+                              children: [
+                                autRemoveButton(true, i),
+                                autRemoveButton(false, 0)
+                              ],
+                            )
+                          : i == 2 && additionalAutFieldList.length == 2
+                              ? autRemoveButton(false, 0)
+                              : const SizedBox(),
+            ],
+          ),
+        ),
+      );
+    }
+    return autFieldsList;
+  }
+
+  Widget autRemoveButton(bool add, int index) {
     return IconButton(
-      icon: const Icon(Icons.add_circle),
-      tooltip: 'Nuovo autore',
+      icon: Icon((add) ? Icons.add_circle : Icons.remove_circle),
+      color: (add) ? Colors.green : Colors.red,
+      tooltip: (add) ? 'Aggiungi autore' : 'Rimuovi autore',
+      onPressed: () {
+        if (add) {
+          additionalAutFieldList.insert(index, index);
+        } else {
+          additionalAutFieldList.removeAt(index);
+          autList[index] = 0;
+        }
+        setState(() {});
+      },
+    );
+  }
+
+  Widget newAutDialog() {
+    final themeProvider = Provider.of<ThemeProvider>(context);
+    return TextButton.icon(
+      icon: Icon(Icons.person_add,
+          color: themeProvider.isDarkMode ? kWhite : kBlack),
+      label: Text(
+        'Crea nuovo autore',
+        style: TextStyle(
+            fontWeight: FontWeight.bold,
+            color: themeProvider.isDarkMode ? kWhite : kBlack),
+      ),
       onPressed: () {
         showDialog(
           context: context,
@@ -688,6 +768,186 @@ class NewSongPageState extends State<NewSongPage> {
             );
           },
         );
+      },
+    );
+  }
+}
+
+class CatFields extends StatefulWidget {
+  final int index;
+  const CatFields(this.index, {Key? key}) : super(key: key);
+  @override
+  CatFieldsState createState() => CatFieldsState();
+}
+
+class CatFieldsState extends State<CatFields> {
+  late int cat;
+  late int macro;
+  late String catHint;
+
+  final QueryCtr query = QueryCtr();
+
+  @override
+  void initState() {
+    catHint = 'Seleziona';
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {});
+    return FutureBuilder(
+      future: query.getAllCat(),
+      builder: (context, AsyncSnapshot snapshot) {
+        return snapshot.hasData
+            ? DropdownButtonFormField<String>(
+                key: widget.key,
+                isExpanded: true,
+                icon: const Padding(
+                  padding: EdgeInsets.only(right: kDefaultPadding / 3),
+                  child: Icon(Icons.arrow_drop_down),
+                ),
+                borderRadius: const BorderRadius.all(
+                  Radius.circular(25.0),
+                ),
+                hint: Text(catHint),
+                decoration: InputDecoration(
+                  contentPadding: const EdgeInsets.symmetric(
+                    vertical: kDefaultPadding,
+                  ),
+                  prefixIcon: const Icon(
+                    Icons.sell,
+                    color: kLightGrey,
+                  ),
+                  labelText: NewSongPageState.additionalCatFieldList.isEmpty
+                      ? 'Categoria'
+                      : 'Categoria #${widget.index + 1}',
+                ),
+                items: snapshot.data!.map<DropdownMenuItem<String>>((get) {
+                  return DropdownMenuItem<String>(
+                    value: get.name,
+                    onTap: () {
+                      cat = get.id;
+                      macro = get.macro_id;
+                      NewSongPageState.catList[widget.index] = cat;
+                      NewSongPageState.macroList[widget.index] = macro;
+                    },
+                    child: Text(get.name),
+                  );
+                }).toList(),
+                onChanged: (value) {
+                  setState(() {
+                    catHint = value!;
+                    log('catList: ${NewSongPageState.catList.toString()}');
+                    log('macroList: ${NewSongPageState.macroList.toString()}');
+                  });
+                },
+                validator: (value) {
+                  if (widget.index != 0 && value == null) {
+                    return 'Seleziona anche la categoria #${widget.index + 1} o rimuovila!';
+                  } else if (value == null || value.isEmpty) {
+                    return 'Seleziona una categoria!';
+                  }
+                  return null;
+                },
+              )
+            : const Padding(
+                padding: EdgeInsets.only(top: kDefaultPadding),
+                child: Text(
+                  'Nessuna categoria trovata',
+                  style: TextStyle(),
+                  textAlign: TextAlign.center,
+                ),
+              );
+      },
+    );
+  }
+}
+
+class AutFields extends StatefulWidget {
+  final int index;
+  const AutFields(this.index, {Key? key}) : super(key: key);
+  @override
+  AutFieldsState createState() => AutFieldsState();
+}
+
+class AutFieldsState extends State<AutFields> {
+  late int aut;
+  late String autHint;
+
+  final QueryCtr query = QueryCtr();
+
+  @override
+  void initState() {
+    autHint = 'Seleziona';
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {});
+    return FutureBuilder(
+      future: query.getAllAut(),
+      builder: (context, AsyncSnapshot snapshot) {
+        return snapshot.hasData
+            ? DropdownButtonFormField<String>(
+                key: widget.key,
+                isExpanded: true,
+                icon: const Padding(
+                  padding: EdgeInsets.only(right: kDefaultPadding / 3),
+                  child: Icon(Icons.arrow_drop_down),
+                ),
+                borderRadius: const BorderRadius.all(
+                  Radius.circular(25.0),
+                ),
+                hint: Text(autHint),
+                decoration: InputDecoration(
+                  contentPadding: const EdgeInsets.symmetric(
+                    vertical: kDefaultPadding,
+                  ),
+                  prefixIcon: const Icon(
+                    Icons.person,
+                    color: kLightGrey,
+                  ),
+                  labelText: NewSongPageState.additionalAutFieldList.isEmpty
+                      ? 'Autore'
+                      : 'Autore #${widget.index + 1}',
+                ),
+                items: snapshot.data!.map<DropdownMenuItem<String>>((get) {
+                  return DropdownMenuItem<String>(
+                    value:
+                        '${get.name} ${get.surname.isEmpty ? '' : get.surname}',
+                    onTap: () {
+                      aut = get.id;
+                      NewSongPageState.autList[widget.index] = aut;
+                    },
+                    child: Text(
+                        '${get.name} ${get.surname.isEmpty ? '' : get.surname}'),
+                  );
+                }).toList(),
+                onChanged: (value) {
+                  setState(() {
+                    autHint = value!;
+                    log('autList: ${NewSongPageState.autList.toString()}');
+                  });
+                },
+                validator: (value) {
+                  if (widget.index != 0 && value == null) {
+                    return 'Seleziona anche l\'autore #${widget.index + 1} o rimuovilo!';
+                  } else if (value == null || value.isEmpty) {
+                    return 'Seleziona un autore!';
+                  }
+                  return null;
+                },
+              )
+            : const Padding(
+                padding: EdgeInsets.only(top: kDefaultPadding),
+                child: Text(
+                  'Nessun autore trovato',
+                  style: TextStyle(),
+                  textAlign: TextAlign.center,
+                ),
+              );
       },
     );
   }

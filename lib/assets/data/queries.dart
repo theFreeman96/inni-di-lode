@@ -220,14 +220,19 @@ class QueryCtr {
   }
 
   // Insert queries
-  Future<List<Raccolta>?> insertSong(
-      title, text, fav, song_id, macro_id, cat_id, aut_id, song_title) async {
+  Future<List<Raccolta>?> insertSongs(title, text, fav) async {
     final dbClient = await con.db;
     await dbClient!.insert(
       'Songs',
       {'title': title, 'text': text, 'fav': fav},
     );
-    await dbClient.insert(
+    return null;
+  }
+
+  Future<List<Raccolta>?> insertSongs_Categories(
+      song_id, macro_id, cat_id, song_title) async {
+    final dbClient = await con.db;
+    await dbClient!.insert(
       'Songs_Categories',
       {
         'song_id': song_id,
@@ -236,7 +241,13 @@ class QueryCtr {
         'song_title': song_title
       },
     );
-    await dbClient.insert(
+    return null;
+  }
+
+  Future<List<Raccolta>?> insertSongs_Authors(
+      song_id, aut_id, song_title) async {
+    final dbClient = await con.db;
+    await dbClient!.insert(
       'Songs_Authors',
       {'song_id': song_id, 'aut_id': aut_id, 'song_title': song_title},
     );
@@ -262,8 +273,7 @@ class QueryCtr {
   }
 
   //Update queries
-  Future<List<Raccolta>?> updateSong(
-      title, text, id, song_id, macro_id, cat_id, aut_id, song_title) async {
+  Future<List<Raccolta>?> updateSongs(title, text, id) async {
     final dbClient = await con.db;
     await dbClient!.update(
       'Songs',
@@ -271,13 +281,24 @@ class QueryCtr {
       where: 'id = ?',
       whereArgs: [id],
     );
-    await dbClient.update(
+    return null;
+  }
+
+  Future<List<Raccolta>?> updateSongs_Categories(
+      id, macro_id, cat_id, song_title) async {
+    final dbClient = await con.db;
+    await dbClient!.update(
       'Songs_Categories',
       {'macro_id': macro_id, 'cat_id': cat_id, 'song_title': song_title},
       where: 'song_id = ?',
       whereArgs: [id],
     );
-    await dbClient.update(
+    return null;
+  }
+
+  Future<List<Raccolta>?> updateSongs_Authors(id, aut_id, song_title) async {
+    final dbClient = await con.db;
+    await dbClient!.update(
       'Songs_Authors',
       {'aut_id': aut_id, 'song_title': song_title},
       where: 'song_id = ?',
