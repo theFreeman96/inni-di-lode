@@ -780,16 +780,14 @@ class CatFieldsState extends State<CatFields> {
                     onTap: () {
                       cat = get.id;
                       macro = get.macro_id;
-                      /*NewSongPage2State.catList[widget.index] = cat;
-                      NewSongPage2State.macroList[widget.index] = macro;*/
+                      NewSongPage2State.catList[widget.index] = cat;
+                      NewSongPage2State.macroList[widget.index] = macro;
                     },
                     child: Text(get.name),
                   );
                 }).toList(),
                 onChanged: (value) {
                   setState(() {
-                    /*NewSongPage2State.catList[widget.index] = value!;
-                    catHint = NewSongPage2State.catList.toString();*/
                     catHint = value!;
                     log('catList: ${NewSongPage2State.catList.toString()}');
                     log('macroList: ${NewSongPage2State.macroList.toString()}');
@@ -872,7 +870,7 @@ class AutFieldsState extends State<AutFields> {
                         '${get.name} ${get.surname.isEmpty ? '' : get.surname}',
                     onTap: () {
                       aut = get.id;
-                      /*NewSongPage2State.autList[widget.index] = aut;*/
+                      NewSongPage2State.autList[widget.index] = aut;
                     },
                     child: Text(
                         '${get.name} ${get.surname.isEmpty ? '' : get.surname}'),
@@ -880,8 +878,6 @@ class AutFieldsState extends State<AutFields> {
                 }).toList(),
                 onChanged: (value) {
                   setState(() {
-                    /*NewSongPage2State.autList[widget.index] = value!;
-                    autHint = NewSongPage2State.autList.toString();*/
                     autHint = value!;
                     log('autList: ${NewSongPage2State.autList.toString()}');
                   });
