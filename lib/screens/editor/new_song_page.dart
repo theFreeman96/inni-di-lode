@@ -39,12 +39,8 @@ class NewSongPageState extends State<NewSongPage> {
 
   @override
   void initState() {
-    cat = 1;
-    macro = 1;
     catHint = 'Seleziona';
-    mac = 1;
     macHint = 'Seleziona';
-    aut = 1;
     autHint = 'Seleziona';
     textFocusNode = FocusNode();
     super.initState();
