@@ -28,7 +28,6 @@ class NewSongPage2State extends State<NewSongPage2> {
   static List<int> catList = [0, 0, 0];
   late int cat;
   late int macro;
-  late String catHint;
   final newCatKey = GlobalKey<FormState>();
   final catController = TextEditingController();
   late int mac;
@@ -37,7 +36,6 @@ class NewSongPage2State extends State<NewSongPage2> {
   static List<int> additionalAutFieldList = [];
   static List<int> autList = [0, 0, 0];
   late int aut;
-  late String autHint;
   final newAutKey = GlobalKey<FormState>();
   final autNameController = TextEditingController();
   final autSurnameController = TextEditingController();
@@ -46,13 +44,7 @@ class NewSongPage2State extends State<NewSongPage2> {
 
   @override
   void initState() {
-    cat = 1;
-    macro = 1;
-    catHint = 'Seleziona';
-    mac = 1;
     macHint = 'Seleziona';
-    aut = 1;
-    autHint = 'Seleziona';
     textFocusNode = FocusNode();
     super.initState();
   }
@@ -748,8 +740,6 @@ class CatFieldsState extends State<CatFields> {
 
   @override
   void initState() {
-    cat = 1;
-    macro = 1;
     catHint = 'Seleziona';
     super.initState();
   }
@@ -842,7 +832,6 @@ class AutFieldsState extends State<AutFields> {
 
   @override
   void initState() {
-    aut = 1;
     autHint = 'Seleziona';
     super.initState();
   }
