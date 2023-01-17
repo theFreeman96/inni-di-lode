@@ -26,6 +26,7 @@ class NewSongPageState extends State<NewSongPage> {
   static List<int> additionalCatFieldList = [];
   static List<int> macroList = [0, 0, 0];
   static List<int> catList = [0, 0, 0];
+
   final newCatKey = GlobalKey<FormState>();
   final catController = TextEditingController();
   late int macro;
@@ -33,6 +34,7 @@ class NewSongPageState extends State<NewSongPage> {
 
   static List<int> additionalAutFieldList = [];
   static List<int> autList = [0, 0, 0];
+
   final newAutKey = GlobalKey<FormState>();
   final autNameController = TextEditingController();
   final autSurnameController = TextEditingController();
@@ -169,13 +171,6 @@ class NewSongPageState extends State<NewSongPage> {
                       content: Text('Cantico aggiunto!'),
                     ),
                   );
-                  titleController.clear();
-                  textController.clear();
-                  additionalCatFieldList.clear();
-                  additionalAutFieldList.clear();
-                  macroList = [0, 0, 0];
-                  catList = [0, 0, 0];
-                  autList = [0, 0, 0];
                   FocusScope.of(context).unfocus();
                   Navigator.push(
                     context,
@@ -185,6 +180,13 @@ class NewSongPageState extends State<NewSongPage> {
                       },
                     ),
                   );
+                  titleController.clear();
+                  textController.clear();
+                  additionalCatFieldList.clear();
+                  additionalAutFieldList.clear();
+                  macroList = [0, 0, 0];
+                  catList = [0, 0, 0];
+                  autList = [0, 0, 0];
                 }
               },
               child: const Icon(Icons.send),
