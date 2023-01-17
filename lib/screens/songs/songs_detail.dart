@@ -483,13 +483,6 @@ class _SongsDetailState extends State<SongsDetail> {
                                 songId: get.songId,
                                 songTitle: get.songTitle,
                                 songText: get.songText,
-                                macroId: get.macroId,
-                                macroName: get.macroName,
-                                catId: get.catId,
-                                catName: get.catName,
-                                autId: get.autId,
-                                autName: get.autName,
-                                autSurname: get.autSurname,
                               );
                             },
                           ),
