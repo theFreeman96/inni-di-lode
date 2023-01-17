@@ -474,7 +474,12 @@ class NewSongPageState extends State<NewSongPage> {
           additionalCatFieldList.insert(index, index);
         } else {
           additionalCatFieldList.removeAt(index);
-          catList[index] = 0;
+          if (additionalCatFieldList.isEmpty) {
+            catList[1] = 0;
+          }
+          if (additionalCatFieldList.length == 1) {
+            catList[2] = 0;
+          }
         }
         setState(() {});
       },
@@ -679,7 +684,12 @@ class NewSongPageState extends State<NewSongPage> {
           additionalAutFieldList.insert(index, index);
         } else {
           additionalAutFieldList.removeAt(index);
-          autList[index] = 0;
+          if (additionalAutFieldList.isEmpty) {
+            autList[1] = 0;
+          }
+          if (additionalAutFieldList.length == 1) {
+            autList[2] = 0;
+          }
         }
         setState(() {});
       },
