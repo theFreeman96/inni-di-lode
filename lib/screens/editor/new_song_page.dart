@@ -26,16 +26,13 @@ class NewSongPageState extends State<NewSongPage> {
   static List<int> additionalCatFieldList = [];
   static List<int> macroList = [0, 0, 0];
   static List<int> catList = [0, 0, 0];
-  late int cat;
-  late int macro;
   final newCatKey = GlobalKey<FormState>();
   final catController = TextEditingController();
-  late int mac;
-  late String macHint;
+  late int macro;
+  late String macroHint;
 
   static List<int> additionalAutFieldList = [];
   static List<int> autList = [0, 0, 0];
-  late int aut;
   final newAutKey = GlobalKey<FormState>();
   final autNameController = TextEditingController();
   final autSurnameController = TextEditingController();
@@ -44,7 +41,7 @@ class NewSongPageState extends State<NewSongPage> {
 
   @override
   void initState() {
-    macHint = 'Seleziona';
+    macroHint = 'Seleziona';
     textFocusNode = FocusNode();
     super.initState();
   }
@@ -581,14 +578,14 @@ class NewSongPageState extends State<NewSongPage> {
                                   return DropdownMenuItem<String>(
                                     value: get.macroName,
                                     onTap: () {
-                                      mac = get.macroId;
+                                      macro = get.macroId;
                                     },
                                     child: Text(get.macroName),
                                   );
                                 }).toList(),
                                 onChanged: (value) {
                                   setState(() {
-                                    macHint = value!;
+                                    macroHint = value!;
                                   });
                                 },
                                 validator: (value) {
@@ -622,7 +619,7 @@ class NewSongPageState extends State<NewSongPage> {
                 ElevatedButton(
                   onPressed: () {
                     if (newCatKey.currentState!.validate()) {
-                      query.insertCat(catController.text, mac);
+                      query.insertCat(catController.text, macro);
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(
                           content: Text('Categoria aggiunta!'),
@@ -796,8 +793,6 @@ class CatFields extends StatefulWidget {
 }
 
 class CatFieldsState extends State<CatFields> {
-  late int cat;
-  late int macro;
   late String catHint;
 
   final QueryCtr query = QueryCtr();
@@ -842,10 +837,8 @@ class CatFieldsState extends State<CatFields> {
                   return DropdownMenuItem<String>(
                     value: get.name,
                     onTap: () {
-                      cat = get.id;
-                      macro = get.macro_id;
-                      NewSongPageState.catList[widget.index] = cat;
-                      NewSongPageState.macroList[widget.index] = macro;
+                      NewSongPageState.catList[widget.index] = get.id;
+                      NewSongPageState.macroList[widget.index] = get.macro_id;
                     },
                     child: Text(get.name),
                   );
@@ -887,7 +880,6 @@ class AutFields extends StatefulWidget {
 }
 
 class AutFieldsState extends State<AutFields> {
-  late int aut;
   late String autHint;
 
   final QueryCtr query = QueryCtr();
@@ -933,8 +925,7 @@ class AutFieldsState extends State<AutFields> {
                     value:
                         '${get.name} ${get.surname.isEmpty ? '' : get.surname}',
                     onTap: () {
-                      aut = get.id;
-                      NewSongPageState.autList[widget.index] = aut;
+                      NewSongPageState.autList[widget.index] = get.id;
                     },
                     child: Text(
                         '${get.name} ${get.surname.isEmpty ? '' : get.surname}'),
