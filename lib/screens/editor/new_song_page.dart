@@ -83,6 +83,11 @@ class NewSongPageState extends State<NewSongPage> {
                       },
                     ),
                   );
+                  additionalCatFieldList.clear();
+                  additionalAutFieldList.clear();
+                  macroList = [0, 0, 0];
+                  catList = [0, 0, 0];
+                  autList = [0, 0, 0];
                 },
               ),
               actions: <Widget>[
