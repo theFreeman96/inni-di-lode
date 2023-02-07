@@ -84,6 +84,7 @@ class _FavBodyState extends State<FavBody> {
                     child: Scrollbar(
                       thumbVisibility: true,
                       child: ListView.separated(
+                        padding: EdgeInsets.zero,
                         physics: const ScrollPhysics(),
                         shrinkWrap: true,
                         itemCount: snapshot.data!.length,

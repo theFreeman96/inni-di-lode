@@ -73,6 +73,7 @@ class _AutBodyState extends State<AutBody> {
                     child: Scrollbar(
                       thumbVisibility: true,
                       child: ListView.separated(
+                        padding: EdgeInsets.zero,
                         physics: const ScrollPhysics(),
                         shrinkWrap: true,
                         itemCount: snapshot.data!.length,
