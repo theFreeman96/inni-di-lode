@@ -68,6 +68,7 @@ class _HomeState extends State<Home> {
   }
 
   Widget buildPage() {
+    final themeProvider = Provider.of<ThemeProvider>(context);
     final mediaQuery = MediaQuery.of(context);
     Orientation orientation = mediaQuery.orientation;
     return orientation == Orientation.portrait
@@ -82,7 +83,8 @@ class _HomeState extends State<Home> {
                   toolbarHeight: 0.0,
                   collapsedHeight: 0.0,
                   automaticallyImplyLeading: false,
-                  backgroundColor: Colors.transparent,
+                  backgroundColor:
+                      themeProvider.isDarkMode ? kGrey : kPrimaryColor,
                   flexibleSpace: FlexibleSpaceBar(
                     background: pageHeaders[currentIndex],
                   ),
