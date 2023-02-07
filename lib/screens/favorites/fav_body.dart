@@ -6,6 +6,7 @@ import '/theme/constants.dart';
 import '/assets/data/models.dart';
 import '/assets/data/queries.dart';
 
+import '../searchbar.dart';
 import '../songs/songs_detail.dart';
 
 class FavBody extends StatefulWidget {
@@ -56,24 +57,7 @@ class _FavBodyState extends State<FavBody> {
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
-        Padding(
-          padding: const EdgeInsets.all(kDefaultPadding),
-          child: TextField(
-            focusNode: myFocusNode,
-            autofocus: false,
-            onChanged: (value) {
-              runFilter(value);
-            },
-            decoration: const InputDecoration(
-              prefixIcon: Icon(
-                Icons.search,
-                color: kLightGrey,
-              ),
-              labelText: 'Cerca per numero, titolo o testo',
-              hintText: 'Cerca un cantico',
-            ),
-          ),
-        ),
+        buildSearchBar(myFocusNode, runFilter, from: 'Preferiti'),
         const Divider(height: 0.0),
         FutureBuilder<List?>(
           future: future,

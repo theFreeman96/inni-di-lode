@@ -6,6 +6,7 @@ import '/theme/constants.dart';
 import '/assets/data/queries.dart';
 import '/assets/data/models.dart';
 
+import '../searchbar.dart';
 import 'cat_detail.dart';
 
 class CatBody extends StatefulWidget {
@@ -48,24 +49,7 @@ class _CatBodyState extends State<CatBody> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Padding(
-          padding: const EdgeInsets.all(kDefaultPadding),
-          child: TextField(
-            focusNode: myFocusNode,
-            autofocus: false,
-            onChanged: (value) {
-              runFilter(value);
-            },
-            decoration: const InputDecoration(
-              prefixIcon: Icon(
-                Icons.search,
-                color: kLightGrey,
-              ),
-              labelText: 'Cerca una categoria',
-              hintText: 'Cerca',
-            ),
-          ),
-        ),
+        buildSearchBar(myFocusNode, runFilter, from: 'Categorie'),
         const Divider(height: 0.0),
         FutureBuilder<List?>(
           future: future,

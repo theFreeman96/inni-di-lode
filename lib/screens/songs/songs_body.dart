@@ -7,6 +7,7 @@ import '/theme/constants.dart';
 import '/assets/data/models.dart';
 import '/assets/data/queries.dart';
 
+import '../searchbar.dart';
 import 'songs_detail.dart';
 
 class SongsBody extends StatefulWidget {
@@ -71,24 +72,7 @@ class _SongsBodyState extends State<SongsBody> {
     final themeProvider = Provider.of<ThemeProvider>(context);
     return Column(
       children: <Widget>[
-        Padding(
-          padding: const EdgeInsets.all(kDefaultPadding),
-          child: TextField(
-            focusNode: myFocusNode,
-            autofocus: false,
-            onChanged: (value) {
-              runFilter(value);
-            },
-            decoration: const InputDecoration(
-              prefixIcon: Icon(
-                Icons.search,
-                color: kLightGrey,
-              ),
-              labelText: 'Cerca per numero, titolo o testo',
-              hintText: 'Cerca un cantico',
-            ),
-          ),
-        ),
+        buildSearchBar(myFocusNode, runFilter, from: 'Cantici'),
         Visibility(
           visible: isVisible,
           child: Center(
