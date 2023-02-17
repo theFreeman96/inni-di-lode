@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '/theme/constants.dart';
-import '../../theme/theme_provider.dart';
+import '/components/constants.dart';
+import '/theme/theme_provider.dart';
 import '/assets/data/models.dart';
 import '/assets/data/queries.dart';
 

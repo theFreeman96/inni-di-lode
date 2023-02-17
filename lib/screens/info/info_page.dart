@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'info_header.dart';
+import '/components/header.dart';
+
 import 'info_body.dart';
 
 class InfoPage extends StatelessWidget {
@@ -36,8 +37,9 @@ class InfoPage extends StatelessWidget {
                     collapsedHeight: 0.0,
                     automaticallyImplyLeading: false,
                     backgroundColor: Colors.transparent,
-                    flexibleSpace: const FlexibleSpaceBar(
-                      background: InfoHeader(),
+                    flexibleSpace: FlexibleSpaceBar(
+                      background:
+                          buildHeader('lib/assets/images/info_header.png'),
                     ),
                   ),
                 ];
@@ -49,7 +51,7 @@ class InfoPage extends StatelessWidget {
                 SizedBox(
                   width: mediaQuery.size.width * 0.35,
                   height: mediaQuery.size.height,
-                  child: const InfoHeader(),
+                  child: buildHeader('lib/assets/images/info_header.png'),
                 ),
                 const Expanded(
                   child: InfoBody(),

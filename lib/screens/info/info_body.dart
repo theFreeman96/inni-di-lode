@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/link.dart';
 
-import '/theme/constants.dart';
+import '/components/constants.dart';
 
 class InfoBody extends StatefulWidget {
   const InfoBody({Key? key}) : super(key: key);

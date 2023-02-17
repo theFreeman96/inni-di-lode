@@ -2,11 +2,11 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 
-import '/theme/constants.dart';
+import '/components/constants.dart';
+import '/components/searchbar.dart';
 import '/assets/data/models.dart';
 import '/assets/data/queries.dart';
 
-import '../searchbar.dart';
 import '../songs/songs_detail.dart';
 
 class FavBody extends StatefulWidget {

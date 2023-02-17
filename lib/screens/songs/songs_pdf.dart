@@ -10,7 +10,7 @@ import 'package:pdf/widgets.dart' as pw;
 import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
 
-import '../../theme/constants.dart';
+import '/components/constants.dart';
 
 buildPDF(songId, songTitle, songText) async {
   double fontSize = 16.0;

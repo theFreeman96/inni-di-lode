@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:number_paginator/number_paginator.dart';
 
+import '/components/constants.dart';
+import '/components/searchbar.dart';
 import '/theme/theme_provider.dart';
-import '/theme/constants.dart';
 import '/assets/data/models.dart';
 import '/assets/data/queries.dart';
 
-import '../searchbar.dart';
 import 'songs_detail.dart';
 
 class SongsBody extends StatefulWidget {

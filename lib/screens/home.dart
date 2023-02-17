@@ -1,16 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '/components/constants.dart';
+import '/components/header.dart';
 import '/theme/theme_provider.dart';
-import '/theme/constants.dart';
 
-import 'songs/songs_header.dart';
 import 'songs/songs_body.dart';
-import 'categories/cat_header.dart';
 import 'categories/cat_body.dart';
-import 'authors/aut_header.dart';
 import 'authors/aut_body.dart';
-import 'favorites/fav_header.dart';
 import 'favorites/fav_body.dart';
 import 'drawer.dart';
 
@@ -22,12 +19,13 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  final List<Widget> pageHeaders = [
-    const SongsHeader(),
-    const CatHeader(),
-    const AutHeader(),
-    const FavHeader(),
+  final List<String> pageHeaders = [
+    'lib/assets/images/songs_header.png',
+    'lib/assets/images/cat_header.png',
+    'lib/assets/images/aut_header.png',
+    'lib/assets/images/fav_header.png',
   ];
+
   final List<Widget> pageBodies = [
     const SongsBody(),
     const CatBody(),
@@ -91,7 +89,7 @@ class _HomeState extends State<Home> {
                   backgroundColor:
                       themeProvider.isDarkMode ? kGrey : kPrimaryColor,
                   flexibleSpace: FlexibleSpaceBar(
-                    background: pageHeaders[currentIndex],
+                    background: buildHeader(pageHeaders[currentIndex]),
                   ),
                 ),
               ];
@@ -103,7 +101,7 @@ class _HomeState extends State<Home> {
               SizedBox(
                 width: mediaQuery.size.width * 0.35,
                 height: mediaQuery.size.height,
-                child: pageHeaders[currentIndex],
+                child: buildHeader(pageHeaders[currentIndex]),
               ),
               Expanded(
                 child: pageBodies[currentIndex],

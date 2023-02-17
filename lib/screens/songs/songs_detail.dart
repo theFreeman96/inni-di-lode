@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_html/flutter_html.dart';
 
-import '/theme/constants.dart';
+import '/components/constants.dart';
 import '/theme/theme_provider.dart';
 import '/assets/data/models.dart';
 import '/assets/data/queries.dart';

@@ -8,9 +8,9 @@ import 'package:provider/provider.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 import 'package:sqflite/sqflite.dart';
 
-import '/theme/constants.dart';
-import '/theme/theme_provider.dart';
+import 'components/constants.dart';
 import '/theme/themes.dart';
+import '/theme/theme_provider.dart';
 
 import '/screens/home.dart';
 
