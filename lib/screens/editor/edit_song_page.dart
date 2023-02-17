@@ -78,215 +78,234 @@ class EditSongPageState extends State<EditSongPage> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: FutureBuilder(
-        future: query.getAllSongs(),
-        builder: (context, AsyncSnapshot snapshot) {
-          return Scaffold(
-            resizeToAvoidBottomInset: true,
-            appBar: AppBar(
-              elevation: 0.0,
-              title: const Text('Modifica cantico'),
-              leading: IconButton(
-                tooltip: 'Indietro',
-                icon: const Icon(Icons.arrow_back),
-                onPressed: () {
-                  FocusScope.of(context).unfocus();
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) {
-                        return const Home();
-                      },
-                    ),
+    return FutureBuilder(
+      future: query.getAllSongs(),
+      builder: (context, AsyncSnapshot snapshot) {
+        return Scaffold(
+          resizeToAvoidBottomInset: true,
+          appBar: AppBar(
+            elevation: 0.0,
+            title: const Text('Modifica cantico'),
+            leading: IconButton(
+              tooltip: 'Indietro',
+              icon: const Icon(Icons.arrow_back),
+              onPressed: () {
+                FocusScope.of(context).unfocus();
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) {
+                      return const Home();
+                    },
+                  ),
+                );
+                additionalCatFieldList.clear();
+                additionalAutFieldList.clear();
+                macroList = [0, 0, 0];
+                catList = [0, 0, 0];
+                autList = [0, 0, 0];
+              },
+            ),
+            actions: <Widget>[
+              Consumer<ThemeProvider>(
+                builder: (context, themeProvider, child) {
+                  return Row(
+                    children: [
+                      Icon(
+                        themeProvider.isDarkMode
+                            ? Icons.dark_mode
+                            : Icons.light_mode,
+                      ),
+                      Switch(
+                        onChanged: (value) {
+                          themeProvider.toggleTheme();
+                        },
+                        value: themeProvider.isDarkMode,
+                      ),
+                    ],
                   );
-                  additionalCatFieldList.clear();
-                  additionalAutFieldList.clear();
-                  macroList = [0, 0, 0];
-                  catList = [0, 0, 0];
-                  autList = [0, 0, 0];
                 },
               ),
-              actions: <Widget>[
-                Consumer<ThemeProvider>(
-                  builder: (context, themeProvider, child) {
-                    return Row(
+            ],
+          ),
+          floatingActionButton: FloatingActionButton(
+            tooltip: 'Conferma',
+            onPressed: () async {
+              if (editSongKey.currentState!.validate()) {
+                query.updateSongs(
+                  titleController.text,
+                  '<ol>${textController.text.replaceAll('---Strofa---\n', '<li>').replaceAll('---Coro---', '<b>Coro:</b>').replaceAll('---Bridge---', '<b>Bridge:</b>').replaceAll('---Finale---', '<b>Finale:</b>').replaceAll('\n\n\n\n', '\n\n').replaceAll('\n\n\n', '\n\n').replaceAll('\n', '<br>')}</ol>',
+                  widget.songId,
+                );
+                if (catList[0] != 0) {
+                  query.updateSongs_Categories(
+                    widget.songId,
+                    macroList[0],
+                    catList[0],
+                    titleController.text,
+                  );
+                }
+                if (catList[1] != 0) {
+                  query.updateSongs_Categories(
+                    widget.songId,
+                    macroList[1],
+                    catList[1],
+                    titleController.text,
+                  );
+                }
+                if (catList[2] != 0) {
+                  query.updateSongs_Categories(
+                    widget.songId,
+                    macroList[2],
+                    catList[2],
+                    titleController.text,
+                  );
+                }
+                if (autList[0] != 0) {
+                  query.updateSongs_Authors(
+                    widget.songId,
+                    autList[0],
+                    titleController.text,
+                  );
+                }
+                if (autList[1] != 0) {
+                  query.updateSongs_Authors(
+                    widget.songId,
+                    autList[1],
+                    titleController.text,
+                  );
+                }
+                if (autList[2] != 0) {
+                  query.updateSongs_Authors(
+                    widget.songId,
+                    autList[2],
+                    titleController.text,
+                  );
+                }
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text('Cantico modificato!'),
+                  ),
+                );
+                FocusScope.of(context).unfocus();
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) {
+                      return const Home();
+                    },
+                  ),
+                );
+                titleController.clear();
+                textController.clear();
+                additionalCatFieldList.clear();
+                additionalAutFieldList.clear();
+                macroList = [0, 0, 0];
+                catList = [0, 0, 0];
+                autList = [0, 0, 0];
+              }
+            },
+            child: const Icon(Icons.send),
+          ),
+          body: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.all(kDefaultPadding),
+              child: Form(
+                key: editSongKey,
+                child: Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Icon(
-                          themeProvider.isDarkMode
-                              ? Icons.dark_mode
-                              : Icons.light_mode,
+                        Padding(
+                          padding:
+                              const EdgeInsets.only(right: kDefaultPadding),
+                          child: CircleAvatar(
+                            child: Text(widget.songId.toString()),
+                          ),
                         ),
-                        Switch(
-                          onChanged: (value) {
-                            themeProvider.toggleTheme();
-                          },
-                          value: themeProvider.isDarkMode,
+                        Expanded(
+                          child: TextFormField(
+                            controller: titleController,
+                            textCapitalization: TextCapitalization.sentences,
+                            decoration: const InputDecoration(
+                              labelText: 'Titolo del cantico',
+                              prefixIcon: Icon(
+                                Icons.edit,
+                                color: kLightGrey,
+                              ),
+                            ),
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Inserisci un titolo!';
+                              }
+                              return null;
+                            },
+                          ),
                         ),
                       ],
-                    );
-                  },
-                ),
-              ],
-            ),
-            floatingActionButton: FloatingActionButton(
-              tooltip: 'Conferma',
-              onPressed: () async {
-                if (editSongKey.currentState!.validate()) {
-                  query.updateSongs(
-                    titleController.text,
-                    '<ol>${textController.text.replaceAll('---Strofa---\n', '<li>').replaceAll('---Coro---', '<b>Coro:</b>').replaceAll('---Bridge---', '<b>Bridge:</b>').replaceAll('---Finale---', '<b>Finale:</b>').replaceAll('\n\n\n\n', '\n\n').replaceAll('\n\n\n', '\n\n').replaceAll('\n', '<br>')}</ol>',
-                    widget.songId,
-                  );
-                  if (catList[0] != 0) {
-                    query.updateSongs_Categories(
-                      widget.songId,
-                      macroList[0],
-                      catList[0],
-                      titleController.text,
-                    );
-                  }
-                  if (catList[1] != 0) {
-                    query.updateSongs_Categories(
-                      widget.songId,
-                      macroList[1],
-                      catList[1],
-                      titleController.text,
-                    );
-                  }
-                  if (catList[2] != 0) {
-                    query.updateSongs_Categories(
-                      widget.songId,
-                      macroList[2],
-                      catList[2],
-                      titleController.text,
-                    );
-                  }
-                  if (autList[0] != 0) {
-                    query.updateSongs_Authors(
-                      widget.songId,
-                      autList[0],
-                      titleController.text,
-                    );
-                  }
-                  if (autList[1] != 0) {
-                    query.updateSongs_Authors(
-                      widget.songId,
-                      autList[1],
-                      titleController.text,
-                    );
-                  }
-                  if (autList[2] != 0) {
-                    query.updateSongs_Authors(
-                      widget.songId,
-                      autList[2],
-                      titleController.text,
-                    );
-                  }
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text('Cantico modificato!'),
                     ),
-                  );
-                  FocusScope.of(context).unfocus();
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) {
-                        return const Home();
-                      },
-                    ),
-                  );
-                  titleController.clear();
-                  textController.clear();
-                  additionalCatFieldList.clear();
-                  additionalAutFieldList.clear();
-                  macroList = [0, 0, 0];
-                  catList = [0, 0, 0];
-                  autList = [0, 0, 0];
-                }
-              },
-              child: const Icon(Icons.send),
-            ),
-            body: SingleChildScrollView(
-              child: Padding(
-                padding: const EdgeInsets.all(kDefaultPadding),
-                child: Form(
-                  key: editSongKey,
-                  child: Column(
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    Padding(
+                      padding:
+                          const EdgeInsets.symmetric(vertical: kDefaultPadding),
+                      child: Column(
                         children: [
-                          Padding(
-                            padding:
-                                const EdgeInsets.only(right: kDefaultPadding),
-                            child: CircleAvatar(
-                              child: Text(widget.songId.toString()),
-                            ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const Text('Aggiungi     '),
+                              textType(),
+                            ],
                           ),
-                          Expanded(
-                            child: TextFormField(
-                              controller: titleController,
-                              textCapitalization: TextCapitalization.sentences,
-                              decoration: const InputDecoration(
-                                labelText: 'Titolo del cantico',
-                                prefixIcon: Icon(
-                                  Icons.edit,
-                                  color: kLightGrey,
-                                ),
+                          TextFormField(
+                            controller: textController,
+                            focusNode: textFocusNode,
+                            textCapitalization: TextCapitalization.sentences,
+                            keyboardType: TextInputType.multiline,
+                            minLines: 15,
+                            maxLines: 15,
+                            decoration: const InputDecoration(
+                              labelText: 'Testo',
+                              alignLabelWithHint: true,
+                              contentPadding: EdgeInsets.all(
+                                kDefaultPadding,
                               ),
-                              validator: (value) {
-                                if (value == null || value.isEmpty) {
-                                  return 'Inserisci un titolo!';
-                                }
-                                return null;
-                              },
+                              prefix: Icon(
+                                Icons.notes,
+                                color: kLightGrey,
+                              ),
                             ),
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Inserisci il testo!';
+                              }
+                              return null;
+                            },
                           ),
                         ],
                       ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(
-                            vertical: kDefaultPadding),
+                    ),
+                    Container(
+                      decoration: BoxDecoration(
+                        border: Border.all(color: kLightGrey, width: 1),
+                        borderRadius: const BorderRadius.all(
+                          Radius.circular(25.0),
+                        ),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(kDefaultPadding),
                         child: Column(
                           children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                const Text('Aggiungi     '),
-                                textType(),
-                              ],
-                            ),
-                            TextFormField(
-                              controller: textController,
-                              focusNode: textFocusNode,
-                              textCapitalization: TextCapitalization.sentences,
-                              keyboardType: TextInputType.multiline,
-                              minLines: 15,
-                              maxLines: 15,
-                              decoration: const InputDecoration(
-                                labelText: 'Testo',
-                                alignLabelWithHint: true,
-                                contentPadding: EdgeInsets.all(
-                                  kDefaultPadding,
-                                ),
-                                prefix: Icon(
-                                  Icons.notes,
-                                  color: kLightGrey,
-                                ),
-                              ),
-                              validator: (value) {
-                                if (value == null || value.isEmpty) {
-                                  return 'Inserisci il testo!';
-                                }
-                                return null;
-                              },
-                            ),
+                            ...getCatFields(),
+                            newCatDialog(),
                           ],
                         ),
                       ),
-                      Container(
+                    ),
+                    Padding(
+                      padding:
+                          const EdgeInsets.symmetric(vertical: kDefaultPadding),
+                      child: Container(
                         decoration: BoxDecoration(
                           border: Border.all(color: kLightGrey, width: 1),
                           borderRadius: const BorderRadius.all(
@@ -297,44 +316,23 @@ class EditSongPageState extends State<EditSongPage> {
                           padding: const EdgeInsets.all(kDefaultPadding),
                           child: Column(
                             children: [
-                              ...getCatFields(),
-                              newCatDialog(),
+                              ...getAutFields(),
+                              newAutDialog(),
                             ],
                           ),
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(
-                            vertical: kDefaultPadding),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            border: Border.all(color: kLightGrey, width: 1),
-                            borderRadius: const BorderRadius.all(
-                              Radius.circular(25.0),
-                            ),
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.all(kDefaultPadding),
-                            child: Column(
-                              children: [
-                                ...getAutFields(),
-                                newAutDialog(),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                      const SizedBox(
-                        height: kDefaultPadding * 5,
-                      ),
-                    ],
-                  ),
+                    ),
+                    const SizedBox(
+                      height: kDefaultPadding * 5,
+                    ),
+                  ],
                 ),
               ),
             ),
-          );
-        },
-      ),
+          ),
+        );
+      },
     );
   }
 
