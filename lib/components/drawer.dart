@@ -8,7 +8,7 @@ import '/theme/theme_provider.dart';
 import '/assets/data/queries.dart';
 
 import '/screens/songs/songs_detail.dart';
-import 'editor/new_song_page.dart';
+import '../screens/editor/new_song_page.dart';
 import '/screens/info/info_page.dart';
 
 class HamburgerMenu extends StatefulWidget {
