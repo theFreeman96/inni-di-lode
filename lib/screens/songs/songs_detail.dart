@@ -6,6 +6,8 @@ import 'package:provider/provider.dart';
 import 'package:flutter_html/flutter_html.dart';
 
 import '/components/constants.dart';
+import '/components/player.dart';
+import '/components/pdf.dart';
 import '/theme/theme_provider.dart';
 import '/assets/data/models.dart';
 import '/assets/data/queries.dart';
@@ -13,8 +15,6 @@ import '/assets/data/queries.dart';
 import '../categories/cat_detail.dart';
 import '../authors/aut_detail.dart';
 
-import 'songs_pdf.dart';
-import 'songs_player.dart';
 import '../editor/edit_song_page.dart';
 import '../home.dart';
 
