@@ -108,9 +108,26 @@ class _CatBodyState extends State<CatBody> {
           },
           canTapOnHeader: true,
           isExpanded: expansionIndex == i,
-          body: buildMainList(
+          body: FutureBuilder<List?>(
             future: query.getCatByMacro(get.macroId),
-            row: buildCatRow,
+            initialData: const [],
+            builder: (context, snapshot) {
+              return snapshot.hasData
+                  ? ListView.builder(
+                      physics: const ScrollPhysics(),
+                      shrinkWrap: true,
+                      padding: const EdgeInsets.only(
+                        bottom: kDefaultPadding,
+                      ),
+                      itemCount: snapshot.data!.length,
+                      itemBuilder: (context, i) {
+                        return buildCatRow(snapshot.data![i]);
+                      },
+                    )
+                  : const Center(
+                      child: CircularProgressIndicator(),
+                    );
+            },
           ),
         ),
       ],
@@ -122,7 +139,7 @@ class _CatBodyState extends State<CatBody> {
     );
   }
 
-  Widget buildCatRow(Categorie get, i) {
+  Widget buildCatRow(Categorie get) {
     return ListTile(
       leading: const Padding(
         padding: EdgeInsets.only(left: kDefaultPadding),
