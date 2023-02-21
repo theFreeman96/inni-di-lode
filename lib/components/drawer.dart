@@ -48,17 +48,10 @@ Widget buildDrawer(BuildContext context) {
                     builder: (context, snapshot) {
                       int randomSongId =
                           Random().nextInt(snapshot.data!.length);
-                      return snapshot.hasData
-                          ? SongsDetail(index: randomSongId, from: 'Drawer')
-                          : const Padding(
-                              padding: EdgeInsets.only(top: kDefaultPadding),
-                              child: Center(
-                                child: Text(
-                                  'Nessun cantico trovato',
-                                  style: TextStyle(fontSize: 20.0),
-                                ),
-                              ),
-                            );
+                      return SongsDetail(
+                        index: randomSongId,
+                        from: 'Drawer',
+                      );
                     },
                   );
                 },
