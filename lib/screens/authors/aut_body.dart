@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-import '/theme/constants.dart';
-import '/assets/data/queries.dart';
+import '/components/constants.dart';
+import '/components/searchbar.dart';
 import '/assets/data/models.dart';
+import '/assets/data/queries.dart';
 
-import '../searchbar.dart';
 import 'aut_detail.dart';
 
 class AutBody extends StatefulWidget {

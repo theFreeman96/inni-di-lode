@@ -3,12 +3,12 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '/components/constants.dart';
 import '/theme/theme_provider.dart';
-import '/theme/constants.dart';
 import '/assets/data/queries.dart';
 
 import '/screens/songs/songs_detail.dart';
-import 'editor/new_song_page.dart';
+import '../screens/editor/new_song_page.dart';
 import '/screens/info/info_page.dart';
 
 class HamburgerMenu extends StatefulWidget {

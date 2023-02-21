@@ -5,7 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_html/flutter_html.dart';
 
-import '/theme/constants.dart';
+import '/components/constants.dart';
+import '/components/player.dart';
+import '/components/pdf.dart';
 import '/theme/theme_provider.dart';
 import '/assets/data/models.dart';
 import '/assets/data/queries.dart';
@@ -13,8 +15,6 @@ import '/assets/data/queries.dart';
 import '../categories/cat_detail.dart';
 import '../authors/aut_detail.dart';
 
-import 'songs_pdf.dart';
-import 'songs_player.dart';
 import '../editor/edit_song_page.dart';
 import '../home.dart';
 
@@ -65,77 +65,75 @@ class _SongsDetailState extends State<SongsDetail> {
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
     Orientation orientation = mediaQuery.orientation;
-    return SafeArea(
-      child: Stack(
-        children: [
-          FutureBuilder<List?>(
-            future: widget.from == 'Category'
-                ? query.getSongsByCat(widget.id!)
-                : widget.from == 'Author'
-                    ? query.getSongsByAut(widget.id!)
-                    : widget.from == 'Favorites'
-                        ? query.getAllFav()
-                        : query.getAllSongs(),
-            initialData: const [],
-            builder: (context, snapshot) {
-              return PageView.builder(
-                controller: pageController,
-                itemBuilder: (context, i) {
-                  return buildPage(snapshot.data![i % snapshot.data!.length]);
-                },
-              );
-            },
-          ),
-          Visibility(
-            visible: orientation == Orientation.portrait ? false : true,
-            child: Center(
-              child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: kDefaultPadding * 2),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Card(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(50),
-                      ),
-                      child: IconButton(
-                        onPressed: () {
-                          if (pageController.hasClients) {
-                            pageController.animateToPage(
-                              pageController.page!.toInt() - 1,
-                              duration: const Duration(milliseconds: 10),
-                              curve: Curves.easeInOut,
-                            );
-                          }
-                        },
-                        icon: const Icon(Icons.arrow_back_ios_new),
-                      ),
+    return Stack(
+      children: [
+        FutureBuilder<List?>(
+          future: widget.from == 'Category'
+              ? query.getSongsByCat(widget.id!)
+              : widget.from == 'Author'
+                  ? query.getSongsByAut(widget.id!)
+                  : widget.from == 'Favorites'
+                      ? query.getAllFav()
+                      : query.getAllSongs(),
+          initialData: const [],
+          builder: (context, snapshot) {
+            return PageView.builder(
+              controller: pageController,
+              itemBuilder: (context, i) {
+                return buildPage(snapshot.data![i % snapshot.data!.length]);
+              },
+            );
+          },
+        ),
+        Visibility(
+          visible: orientation == Orientation.portrait ? false : true,
+          child: Center(
+            child: Padding(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: kDefaultPadding * 2),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Card(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(50),
                     ),
-                    Card(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(50),
-                      ),
-                      child: IconButton(
-                        onPressed: () {
-                          if (pageController.hasClients) {
-                            pageController.animateToPage(
-                              pageController.page!.toInt() + 1,
-                              duration: const Duration(milliseconds: 10),
-                              curve: Curves.easeInOut,
-                            );
-                          }
-                        },
-                        icon: const Icon(Icons.arrow_forward_ios),
-                      ),
+                    child: IconButton(
+                      onPressed: () {
+                        if (pageController.hasClients) {
+                          pageController.animateToPage(
+                            pageController.page!.toInt() - 1,
+                            duration: const Duration(milliseconds: 10),
+                            curve: Curves.easeInOut,
+                          );
+                        }
+                      },
+                      icon: const Icon(Icons.arrow_back_ios_new),
                     ),
-                  ],
-                ),
+                  ),
+                  Card(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(50),
+                    ),
+                    child: IconButton(
+                      onPressed: () {
+                        if (pageController.hasClients) {
+                          pageController.animateToPage(
+                            pageController.page!.toInt() + 1,
+                            duration: const Duration(milliseconds: 10),
+                            curve: Curves.easeInOut,
+                          );
+                        }
+                      },
+                      icon: const Icon(Icons.arrow_forward_ios),
+                    ),
+                  ),
+                ],
               ),
             ),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 
