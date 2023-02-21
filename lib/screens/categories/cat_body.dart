@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import '/utilities/constants.dart';
 import '/utilities/theme_provider.dart';
 import '/components/searchbar.dart';
+import '/components/list_main.dart';
 import '/data/models.dart';
 import '/data/queries.dart';
 
@@ -49,41 +50,18 @@ class _CatBodyState extends State<CatBody> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        buildSearchBar(myFocusNode, runFilter, from: 'Categorie'),
+        buildSearchBar(
+          focusNode: myFocusNode,
+          filter: runFilter,
+          label: 'Cerca una categoria',
+          hint: 'Cerca',
+        ),
         const Divider(height: 0.0),
-        FutureBuilder<List?>(
+        buildMainList(
           future: future,
-          initialData: const [],
-          builder: (context, snapshot) {
-            return snapshot.hasData
-                ? Expanded(
-                    child: Scrollbar(
-                      thumbVisibility: true,
-                      child: ListView.separated(
-                        padding: EdgeInsets.zero,
-                        physics: const ScrollPhysics(),
-                        shrinkWrap: true,
-                        itemCount: snapshot.data!.length,
-                        itemBuilder: (context, i) {
-                          return buildRow(snapshot.data![i], i);
-                        },
-                        separatorBuilder: (context, index) {
-                          return const Divider();
-                        },
-                      ),
-                    ),
-                  )
-                : const Padding(
-                    padding: EdgeInsets.only(top: kDefaultPadding),
-                    child: Center(
-                      child: Text(
-                        'Nessuna categoria trovata',
-                        style: TextStyle(fontSize: 20.0),
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
-                  );
-          },
+          padding: EdgeInsets.zero,
+          row: buildRow,
+          message: 'Nessuna categoria trovata',
         ),
       ],
     );
@@ -130,26 +108,9 @@ class _CatBodyState extends State<CatBody> {
           },
           canTapOnHeader: true,
           isExpanded: expansionIndex == i,
-          body: FutureBuilder<List?>(
+          body: buildMainList(
             future: query.getCatByMacro(get.macroId),
-            initialData: const [],
-            builder: (context, snapshot) {
-              return snapshot.hasData
-                  ? ListView.builder(
-                      physics: const ScrollPhysics(),
-                      shrinkWrap: true,
-                      padding: const EdgeInsets.only(
-                        bottom: kDefaultPadding,
-                      ),
-                      itemCount: snapshot.data!.length,
-                      itemBuilder: (context, i) {
-                        return buildCatRow(snapshot.data![i]);
-                      },
-                    )
-                  : const Center(
-                      child: CircularProgressIndicator(),
-                    );
-            },
+            row: buildCatRow,
           ),
         ),
       ],
@@ -161,7 +122,7 @@ class _CatBodyState extends State<CatBody> {
     );
   }
 
-  Widget buildCatRow(Categorie get) {
+  Widget buildCatRow(Categorie get, i) {
     return ListTile(
       leading: const Padding(
         padding: EdgeInsets.only(left: kDefaultPadding),
