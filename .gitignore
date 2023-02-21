@@ -46,5 +46,5 @@ app.*.map.json
 /android/app/release
 
 # Database
-/lib/assets/data/materiale/
-/lib/assets/data/innario.db
+/lib/data/materiale
+/lib/data/innario.db
