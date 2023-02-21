@@ -8,7 +8,6 @@ import 'screens/app.dart';
 
 Future main() async {
   if (Platform.isWindows || Platform.isLinux) {
-    // Initialize FFI
     sqfliteFfiInit();
   }
   databaseFactory = databaseFactoryFfi;
