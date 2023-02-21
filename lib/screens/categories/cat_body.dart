@@ -3,11 +3,11 @@ import 'package:provider/provider.dart';
 
 import '/utilities/constants.dart';
 import '/utilities/theme_provider.dart';
-import '/components/searchbar.dart';
 import '/components/list_main.dart';
 import '/data/models.dart';
 import '/data/queries.dart';
 
+import '../home/home_searchbar.dart';
 import 'cat_detail.dart';
 
 class CatBody extends StatefulWidget {

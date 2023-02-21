@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import '/utilities/constants.dart';
 import '/utilities/theme_provider.dart';
 
-Widget buildBottomNavBar(context, currentIndex, onTabTapped) {
+Widget buildBottom(context, currentIndex, onTabTapped) {
   final themeProvider = Provider.of<ThemeProvider>(context);
   return BottomAppBar(
     elevation: 0.0,

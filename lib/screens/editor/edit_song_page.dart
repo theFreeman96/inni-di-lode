@@ -7,7 +7,7 @@ import '/utilities/constants.dart';
 import '/utilities/theme_provider.dart';
 import '/data/queries.dart';
 
-import '../home.dart';
+import '../home/home.dart';
 
 class EditSongPage extends StatefulWidget {
   int songId;

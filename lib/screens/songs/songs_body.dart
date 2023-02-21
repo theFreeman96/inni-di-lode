@@ -4,11 +4,11 @@ import 'package:number_paginator/number_paginator.dart';
 
 import '/utilities/constants.dart';
 import '/utilities/theme_provider.dart';
-import '/components/searchbar.dart';
 import '/components/list_main.dart';
 import '/data/models.dart';
 import '/data/queries.dart';
 
+import '../home/home_searchbar.dart';
 import 'songs_detail.dart';
 
 class SongsBody extends StatefulWidget {

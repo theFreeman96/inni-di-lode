@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 
 import '/utilities/constants.dart';
 import '/utilities/theme_provider.dart';
-import 'header.dart';
+import '/components/header.dart';
 
 import '/screens/songs/songs_body.dart';
 import '/screens/categories/cat_body.dart';

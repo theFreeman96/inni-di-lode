@@ -8,7 +8,7 @@ import '/data/models.dart';
 import '/data/queries.dart';
 
 import '/screens/songs/songs_detail.dart';
-import '../home.dart';
+import '../home/home.dart';
 
 class AutDetail extends StatefulWidget {
   final int autId;

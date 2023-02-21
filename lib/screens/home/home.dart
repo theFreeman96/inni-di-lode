@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import '/components/pages.dart';
-import '/components/bottomNavBar.dart';
-import '/components/drawer.dart';
+import 'home_pages.dart';
+import 'home_bottom.dart';
+import 'home_drawer.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -47,8 +47,7 @@ class _HomeState extends State<Home> {
         },
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
-      bottomNavigationBar:
-          buildBottomNavBar(context, currentIndex, onTabTapped),
+      bottomNavigationBar: buildBottom(context, currentIndex, onTabTapped),
     );
   }
 }
