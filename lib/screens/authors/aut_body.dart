@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-import '/components/constants.dart';
+import '/utilities/constants.dart';
 import '/components/searchbar.dart';
-import '/assets/data/models.dart';
-import '/assets/data/queries.dart';
+import '/data/models.dart';
+import '/data/queries.dart';
 
 import 'aut_detail.dart';
 

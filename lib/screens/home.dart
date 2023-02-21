@@ -31,7 +31,9 @@ class _HomeState extends State<Home> {
           elevation: 0,
         ),
       ),
-      drawer: const HamburgerMenu(),
+      drawer: Drawer(
+        child: buildDrawer(context),
+      ),
       body: buildPage(context, currentIndex),
       floatingActionButton: Builder(
         builder: (BuildContext context) {

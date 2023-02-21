@@ -2,10 +2,10 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 
-import '/components/constants.dart';
+import '/utilities/constants.dart';
 import '/components/searchbar.dart';
-import '/assets/data/models.dart';
-import '/assets/data/queries.dart';
+import '/data/models.dart';
+import '/data/queries.dart';
 
 import '../songs/songs_detail.dart';
 

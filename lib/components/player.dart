@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:audioplayers/audioplayers.dart';
 
-import '/components/constants.dart';
+import '/utilities/constants.dart';
 
 class SongsPlayer extends StatefulWidget {
   const SongsPlayer({Key? key}) : super(key: key);

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'constants.dart';
-import '../theme/theme_provider.dart';
+import '/utilities/constants.dart';
+import '/utilities/theme_provider.dart';
 
 Widget buildBottomNavBar(context, currentIndex, onTabTapped) {
   final themeProvider = Provider.of<ThemeProvider>(context);

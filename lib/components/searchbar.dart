@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'constants.dart';
+import '/utilities/constants.dart';
 
 Widget buildSearchBar(myFocusNode, runFilter, {required String from}) {
   return Padding(

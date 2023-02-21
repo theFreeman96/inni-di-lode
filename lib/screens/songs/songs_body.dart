@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:number_paginator/number_paginator.dart';
 
-import '/components/constants.dart';
+import '/utilities/constants.dart';
+import '/utilities/theme_provider.dart';
 import '/components/searchbar.dart';
-import '/theme/theme_provider.dart';
-import '/assets/data/models.dart';
-import '/assets/data/queries.dart';
+import '/data/models.dart';
+import '/data/queries.dart';
 
 import 'songs_detail.dart';
 

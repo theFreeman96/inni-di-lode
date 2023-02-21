@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '/components/constants.dart';
-import '/theme/theme_provider.dart';
-import '/assets/data/models.dart';
-import '/assets/data/queries.dart';
+import '/utilities/constants.dart';
+import '/utilities/theme_provider.dart';
+import '/data/models.dart';
+import '/data/queries.dart';
 
 import '/screens/songs/songs_detail.dart';
 import '../editor/new_song_page.dart';
