@@ -4,9 +4,9 @@ import '/utilities/constants.dart';
 
 Widget buildMainList({
   required future,
-  padding,
+  required padding,
   required row,
-  message,
+  required message,
 }) {
   return FutureBuilder<List?>(
     future: future,
