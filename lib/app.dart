@@ -7,7 +7,7 @@ import '/utilities//themes.dart';
 import '/utilities/theme_provider.dart';
 import '/utilities/scroll_behavior.dart';
 
-import 'home/home.dart';
+import 'screens/home/home.dart';
 
 class Innario extends StatelessWidget {
   const Innario({Key? key}) : super(key: key);
