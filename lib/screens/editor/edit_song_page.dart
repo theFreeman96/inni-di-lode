@@ -10,15 +10,16 @@ import '/data/queries.dart';
 import '../home/home.dart';
 
 class EditSongPage extends StatefulWidget {
-  int songId;
-  String songTitle;
-  String songText;
-  EditSongPage({
+  const EditSongPage({
     Key? key,
     required this.songId,
     required this.songTitle,
     required this.songText,
   }) : super(key: key);
+
+  final int songId;
+  final String songTitle;
+  final String songText;
 
   @override
   EditSongPageState createState() => EditSongPageState();
