@@ -11,11 +11,17 @@ import '/screens/songs/songs_detail.dart';
 import '../home/home.dart';
 
 class AutDetail extends StatefulWidget {
+  const AutDetail({
+    Key? key,
+    required this.autId,
+    required this.autName,
+    required this.autSurname,
+  }) : super(key: key);
+
   final int autId;
   final String autName;
   final String autSurname;
-  const AutDetail(this.autId, this.autName, this.autSurname, {Key? key})
-      : super(key: key);
+
   @override
   State<AutDetail> createState() => _AutDetailState();
 }
@@ -296,7 +302,11 @@ class _AutDetailState extends State<AutDetail> {
           context,
           MaterialPageRoute(
             builder: (context) {
-              return SongsDetail(index: i, from: 'Author', id: id);
+              return SongsDetail(
+                index: i,
+                from: 'Author',
+                id: id,
+              );
             },
           ),
         );

@@ -78,14 +78,15 @@ class _AutBodyState extends State<AutBody> {
       ),
       onTap: () {
         FocusScope.of(context).unfocus();
-        int autId = get.id;
-        String autName = get.name;
-        String autSurname = get.surname;
         Navigator.push(
           context,
           MaterialPageRoute(
             builder: (context) {
-              return AutDetail(autId, autName, autSurname);
+              return AutDetail(
+                autId: get.id,
+                autName: get.name,
+                autSurname: get.surname,
+              );
             },
           ),
         );

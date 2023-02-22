@@ -155,14 +155,15 @@ class _CatBodyState extends State<CatBody> {
       ),
       onTap: () {
         FocusScope.of(context).unfocus();
-        int catId = get.id;
-        String catName = get.name;
-        int macroId = get.macro_id;
         Navigator.push(
           context,
           MaterialPageRoute(
             builder: (context) {
-              return CatDetail(catId, catName, macroId);
+              return CatDetail(
+                catId: get.id,
+                catName: get.name,
+                macroId: get.macro_id,
+              );
             },
           ),
         );

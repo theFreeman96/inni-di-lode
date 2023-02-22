@@ -18,11 +18,16 @@ import '../editor/edit_song_page.dart';
 import '../home/home.dart';
 
 class SongsDetail extends StatefulWidget {
-  int index;
-  String from;
-  int? id;
-  SongsDetail({Key? key, required this.index, required this.from, this.id})
-      : super(key: key);
+  const SongsDetail({
+    Key? key,
+    required this.index,
+    required this.from,
+    this.id,
+  }) : super(key: key);
+
+  final int index;
+  final String from;
+  final int? id;
 
   @override
   State<SongsDetail> createState() => _SongsDetailState();
@@ -564,14 +569,15 @@ class _SongsDetailState extends State<SongsDetail> {
       ),
       onPressed: () {
         FocusScope.of(context).unfocus();
-        int catId = get.catId;
-        String catName = get.catName;
-        int macroId = get.macroId;
         Navigator.push(
           context,
           MaterialPageRoute(
             builder: (context) {
-              return CatDetail(catId, catName, macroId);
+              return CatDetail(
+                catId: get.catId,
+                catName: get.catName,
+                macroId: get.macroId,
+              );
             },
           ),
         );
@@ -589,14 +595,15 @@ class _SongsDetailState extends State<SongsDetail> {
       ),
       onPressed: () {
         FocusScope.of(context).unfocus();
-        int autId = get.autId;
-        String autName = get.autName;
-        String autSurname = get.autSurname;
         Navigator.push(
           context,
           MaterialPageRoute(
             builder: (context) {
-              return AutDetail(autId, autName, autSurname);
+              return AutDetail(
+                autId: get.autId,
+                autName: get.autName,
+                autSurname: get.autSurname,
+              );
             },
           ),
         );
