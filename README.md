@@ -19,6 +19,7 @@ The new Inni di Lode app, including all 700 songs from our Songbook.
 ## Currently working on...
 
 - Editor (add new songs, categories and authors)
+- Code refactoring
 
 ## Coming soon
 
