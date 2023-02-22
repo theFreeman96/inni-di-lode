@@ -7,10 +7,10 @@ class SongsPlayer extends StatefulWidget {
   const SongsPlayer({Key? key}) : super(key: key);
 
   @override
-  State<SongsPlayer> createState() => SongsPlayerState();
+  State<SongsPlayer> createState() => _SongsPlayerState();
 }
 
-class SongsPlayerState extends State<SongsPlayer> {
+class _SongsPlayerState extends State<SongsPlayer> {
   final audioPlayer = AudioPlayer();
   bool isPlaying = false;
   Duration duration = Duration.zero;
