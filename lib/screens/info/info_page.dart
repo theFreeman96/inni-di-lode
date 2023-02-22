@@ -38,8 +38,9 @@ class InfoPage extends StatelessWidget {
                     automaticallyImplyLeading: false,
                     backgroundColor: Colors.transparent,
                     flexibleSpace: FlexibleSpaceBar(
-                      background:
-                          buildHeader('lib/assets/images/info_header.png'),
+                      background: buildHeader(
+                        image: 'lib/assets/images/info_header.png',
+                      ),
                     ),
                   ),
                 ];
@@ -51,7 +52,9 @@ class InfoPage extends StatelessWidget {
                 SizedBox(
                   width: mediaQuery.size.width * 0.35,
                   height: mediaQuery.size.height,
-                  child: buildHeader('lib/assets/images/info_header.png'),
+                  child: buildHeader(
+                    image: 'lib/assets/images/info_header.png',
+                  ),
                 ),
                 const Expanded(
                   child: InfoBody(),

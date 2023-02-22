@@ -28,7 +28,9 @@ Widget buildPage(context, currentIndex) {
                 backgroundColor:
                     themeProvider.isDarkMode ? kGrey : kPrimaryColor,
                 flexibleSpace: FlexibleSpaceBar(
-                  background: buildHeader(pageHeaders[currentIndex]),
+                  background: buildHeader(
+                    image: pageHeaders[currentIndex],
+                  ),
                 ),
               ),
             ];
@@ -40,7 +42,9 @@ Widget buildPage(context, currentIndex) {
             SizedBox(
               width: mediaQuery.size.width * 0.35,
               height: mediaQuery.size.height,
-              child: buildHeader(pageHeaders[currentIndex]),
+              child: buildHeader(
+                image: pageHeaders[currentIndex],
+              ),
             ),
             Expanded(
               child: pageBodies[currentIndex],
