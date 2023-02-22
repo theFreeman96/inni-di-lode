@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import '/utilities/constants.dart';
 
 Widget buildMainList({
-  required future,
-  required padding,
-  required row,
-  required message,
+  required Future<List?> future,
+  required EdgeInsets padding,
+  required Function row,
+  required String message,
 }) {
   return FutureBuilder<List?>(
     future: future,

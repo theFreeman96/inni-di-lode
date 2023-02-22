@@ -7,11 +7,11 @@ import '/utilities/theme_provider.dart';
 import '/screens/editor/new_song_page.dart';
 
 Widget buildDetailList({
-  required context,
-  required future,
-  required controller,
-  required row,
-  required condition,
+  required BuildContext context,
+  required Future<List?> future,
+  required ScrollController controller,
+  required Function row,
+  required bool condition,
 }) {
   final themeProvider = Provider.of<ThemeProvider>(context);
   return FutureBuilder<List?>(
