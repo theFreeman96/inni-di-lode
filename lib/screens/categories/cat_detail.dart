@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 
 import '/utilities/constants.dart';
 import '/utilities/theme_provider.dart';
-import '/components/list_detail.dart';
+import '/components/detail_list.dart';
 import '/data/models.dart';
 import '/data/queries.dart';
 
@@ -317,7 +317,7 @@ class _CatDetailState extends State<CatDetail> {
           ),
         ],
       ),
-      body: buildDetailList(
+      body: DetailList(
         context: context,
         future: query.getSongsByCat(id),
         controller: scrollController,

@@ -11,89 +11,94 @@ import '/screens/songs/songs_detail.dart';
 import '/screens/editor/new_song_page.dart';
 import '/screens/info/info_page.dart';
 
-Widget buildDrawer(BuildContext context) {
-  return Drawer(
-    child: ListView(
-      physics: const ScrollPhysics(),
-      padding: EdgeInsets.zero,
-      children: <Widget>[
-        createDrawerHeader(),
-        Consumer<ThemeProvider>(
-          builder: (context, themeProvider, child) {
-            return SwitchListTile(
-              secondary: Icon(
-                themeProvider.isDarkMode ? Icons.dark_mode : Icons.light_mode,
-              ),
-              title: const Text('Tema'),
-              onChanged: (value) {
-                themeProvider.toggleTheme();
-              },
-              value: themeProvider.isDarkMode,
-            );
-          },
-        ),
-        ListTile(
-          leading: const Icon(Icons.shuffle),
-          title: const Text('Cantico casuale'),
-          onTap: () {
-            FocusScope.of(context).unfocus();
-            Navigator.pop(context);
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) {
-                  return FutureBuilder<List?>(
-                    future: QueryCtr().getAllSongs(),
-                    initialData: const [],
-                    builder: (context, snapshot) {
-                      int randomSongId =
-                          Random().nextInt(snapshot.data!.length);
-                      return SongsDetail(
-                        index: randomSongId,
-                        from: 'Drawer',
-                      );
-                    },
-                  );
+class DrawerMenu extends StatelessWidget {
+  const DrawerMenu({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Drawer(
+      child: ListView(
+        physics: const ScrollPhysics(),
+        padding: EdgeInsets.zero,
+        children: <Widget>[
+          createDrawerHeader(),
+          Consumer<ThemeProvider>(
+            builder: (context, themeProvider, child) {
+              return SwitchListTile(
+                secondary: Icon(
+                  themeProvider.isDarkMode ? Icons.dark_mode : Icons.light_mode,
+                ),
+                title: const Text('Tema'),
+                onChanged: (value) {
+                  themeProvider.toggleTheme();
                 },
-              ),
-            );
-          },
-        ),
-        ListTile(
-          leading: const Icon(Icons.add_circle),
-          title: const Text('Aggiungi cantico'),
-          onTap: () {
-            FocusScope.of(context).unfocus();
-            Navigator.pop(context);
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) {
-                  return const NewSongPage();
-                },
-              ),
-            );
-          },
-        ),
-        ListTile(
-          leading: const Icon(Icons.info),
-          title: const Text('Contatti'),
-          onTap: () {
-            FocusScope.of(context).unfocus();
-            Navigator.pop(context);
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) {
-                  return const InfoPage();
-                },
-              ),
-            );
-          },
-        ),
-      ],
-    ),
-  );
+                value: themeProvider.isDarkMode,
+              );
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.shuffle),
+            title: const Text('Cantico casuale'),
+            onTap: () {
+              FocusScope.of(context).unfocus();
+              Navigator.pop(context);
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) {
+                    return FutureBuilder<List?>(
+                      future: QueryCtr().getAllSongs(),
+                      initialData: const [],
+                      builder: (context, snapshot) {
+                        int randomSongId =
+                            Random().nextInt(snapshot.data!.length);
+                        return SongsDetail(
+                          index: randomSongId,
+                          from: 'Drawer',
+                        );
+                      },
+                    );
+                  },
+                ),
+              );
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.add_circle),
+            title: const Text('Aggiungi cantico'),
+            onTap: () {
+              FocusScope.of(context).unfocus();
+              Navigator.pop(context);
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) {
+                    return const NewSongPage();
+                  },
+                ),
+              );
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.info),
+            title: const Text('Contatti'),
+            onTap: () {
+              FocusScope.of(context).unfocus();
+              Navigator.pop(context);
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) {
+                    return const InfoPage();
+                  },
+                ),
+              );
+            },
+          ),
+        ],
+      ),
+    );
+  }
 }
 
 Widget createDrawerHeader() {

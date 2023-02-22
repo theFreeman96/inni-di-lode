@@ -4,8 +4,8 @@ import 'package:number_paginator/number_paginator.dart';
 
 import '/utilities/constants.dart';
 import '/utilities/theme_provider.dart';
-import '/components/searchbar.dart';
-import '/components/list_main.dart';
+import '/components/search_bar.dart';
+import '/components/main_list.dart';
 import '/data/models.dart';
 import '/data/queries.dart';
 
@@ -73,7 +73,7 @@ class _SongsBodyState extends State<SongsBody> {
     final themeProvider = Provider.of<ThemeProvider>(context);
     return Column(
       children: <Widget>[
-        buildSearchBar(
+        SearchBar(
           focusNode: myFocusNode,
           filter: runFilter,
           label: 'Cerca per numero, titolo o testo',
@@ -113,7 +113,7 @@ class _SongsBodyState extends State<SongsBody> {
           ),
         ),
         const Divider(height: 0.0),
-        buildMainList(
+        MainList(
           future: songRange[currentPage],
           padding: const EdgeInsets.only(top: 8),
           row: buildRow,
