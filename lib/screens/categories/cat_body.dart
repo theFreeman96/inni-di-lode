@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 
 import '/utilities/constants.dart';
 import '/utilities/theme_provider.dart';
-import '/components/searchbar.dart';
+import '/components/search_bar.dart';
 import '/components/list_main.dart';
 import '/data/models.dart';
 import '/data/queries.dart';
@@ -50,14 +50,14 @@ class _CatBodyState extends State<CatBody> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        buildSearchBar(
+        SearchBar(
           focusNode: myFocusNode,
           filter: runFilter,
           label: 'Cerca una categoria',
           hint: 'Cerca',
         ),
         const Divider(height: 0.0),
-        buildMainList(
+        MainList(
           future: future,
           padding: EdgeInsets.zero,
           row: buildRow,

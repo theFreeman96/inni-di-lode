@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '/utilities/constants.dart';
-import '/components/searchbar.dart';
+import '/components/search_bar.dart';
 import '/components/list_main.dart';
 import '/data/models.dart';
 import '/data/queries.dart';
@@ -47,14 +47,14 @@ class _AutBodyState extends State<AutBody> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        buildSearchBar(
+        SearchBar(
           focusNode: myFocusNode,
           filter: runFilter,
           label: 'Cerca un autore',
           hint: 'Cerca',
         ),
         const Divider(height: 0.0),
-        buildMainList(
+        MainList(
           future: future,
           padding: EdgeInsets.zero,
           row: buildRow,
