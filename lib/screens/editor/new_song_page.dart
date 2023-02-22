@@ -1,12 +1,13 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '/assets/data/queries.dart';
+import '/utilities/constants.dart';
+import '/utilities/theme_provider.dart';
+import '/data/queries.dart';
 
-import '/theme/constants.dart';
-import '/theme/theme_provider.dart';
-
-import '../home.dart';
+import '../home/home.dart';
 
 class NewSongPage extends StatefulWidget {
   const NewSongPage({Key? key}) : super(key: key);
@@ -15,22 +16,23 @@ class NewSongPage extends StatefulWidget {
   NewSongPageState createState() => NewSongPageState();
 }
 
-late int cat;
-late int macro;
-late String catHint;
-late int mac;
-late String macHint;
-late int aut;
-late String autHint;
-
 class NewSongPageState extends State<NewSongPage> {
   final newSongKey = GlobalKey<FormState>();
   final titleController = TextEditingController();
   final textController = TextEditingController();
   late FocusNode textFocusNode;
 
+  static List<int> additionalCatFieldList = [];
+  static List<int> macroList = [0, 0, 0];
+  static List<int> catList = [0, 0, 0];
+
   final newCatKey = GlobalKey<FormState>();
   final catController = TextEditingController();
+  late int macro;
+  late String macroHint;
+
+  static List<int> additionalAutFieldList = [];
+  static List<int> autList = [0, 0, 0];
 
   final newAutKey = GlobalKey<FormState>();
   final autNameController = TextEditingController();
@@ -40,13 +42,7 @@ class NewSongPageState extends State<NewSongPage> {
 
   @override
   void initState() {
-    cat = 0;
-    macro = 0;
-    catHint = 'Seleziona';
-    mac = 0;
-    macHint = 'Seleziona';
-    aut = 0;
-    autHint = 'Seleziona';
+    macroHint = 'Seleziona';
     textFocusNode = FocusNode();
     super.initState();
   }
@@ -62,266 +58,263 @@ class NewSongPageState extends State<NewSongPage> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: FutureBuilder(
-        future: query.getAllSongs(),
-        builder: (context, AsyncSnapshot snapshot) {
-          final newSongId = snapshot.data!.length + 1;
-          return Scaffold(
-            resizeToAvoidBottomInset: true,
-            appBar: AppBar(
-              elevation: 0.0,
-              title: const Text('Nuovo cantico'),
-              leading: IconButton(
-                tooltip: 'Indietro',
-                icon: const Icon(Icons.arrow_back),
-                onPressed: () {
-                  FocusScope.of(context).unfocus();
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) {
-                        return const Home();
-                      },
-                    ),
+    return FutureBuilder(
+      future: query.getAllSongs(),
+      builder: (context, AsyncSnapshot snapshot) {
+        final newSongId = snapshot.data!.length + 1;
+        return Scaffold(
+          resizeToAvoidBottomInset: true,
+          appBar: AppBar(
+            elevation: 0.0,
+            title: const Text('Nuovo cantico'),
+            leading: IconButton(
+              tooltip: 'Indietro',
+              icon: const Icon(Icons.arrow_back),
+              onPressed: () {
+                FocusScope.of(context).unfocus();
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) {
+                      return const Home();
+                    },
+                  ),
+                );
+                additionalCatFieldList.clear();
+                additionalAutFieldList.clear();
+                macroList = [0, 0, 0];
+                catList = [0, 0, 0];
+                autList = [0, 0, 0];
+              },
+            ),
+            actions: <Widget>[
+              Consumer<ThemeProvider>(
+                builder: (context, themeProvider, child) {
+                  return Row(
+                    children: [
+                      Icon(
+                        themeProvider.isDarkMode
+                            ? Icons.dark_mode
+                            : Icons.light_mode,
+                      ),
+                      Switch(
+                        onChanged: (value) {
+                          themeProvider.toggleTheme();
+                        },
+                        value: themeProvider.isDarkMode,
+                      ),
+                    ],
                   );
                 },
               ),
-              actions: <Widget>[
-                Consumer<ThemeProvider>(
-                  builder: (context, themeProvider, child) {
-                    return Row(
-                      children: [
-                        Icon(
-                          themeProvider.isDarkMode
-                              ? Icons.dark_mode
-                              : Icons.light_mode,
-                        ),
-                        Switch(
-                          onChanged: (value) {
-                            themeProvider.toggleTheme();
-                          },
-                          value: themeProvider.isDarkMode,
-                        ),
-                      ],
-                    );
-                  },
-                ),
-              ],
-            ),
-            floatingActionButton: FloatingActionButton(
-              onPressed: () {
-                if (newSongKey.currentState!.validate()) {
-                  query.insertSong(
-                      titleController.text,
-                      '<ol>${textController.text.replaceAll('---Strofa---\n', '<li>').replaceAll('---Coro---', '<b>Coro:</b>').replaceAll('---Bridge---', '<b>Bridge:</b>').replaceAll('---Finale---', '<b>Finale:</b>').replaceAll('\n\n\n\n', '\n\n').replaceAll('\n\n\n', '\n\n').replaceAll('\n', '<br>')}</ol>',
-                      0,
-                      newSongId,
-                      macro,
-                      cat,
-                      aut,
-                      titleController.text);
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text('Cantico aggiunto!'),
-                    ),
-                  );
-                  titleController.clear();
-                  textController.clear();
-                  FocusScope.of(context).unfocus();
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) {
-                        return const Home();
-                      },
-                    ),
+            ],
+          ),
+          floatingActionButton: FloatingActionButton(
+            tooltip: 'Conferma',
+            onPressed: () async {
+              log(additionalCatFieldList.length.toString());
+              if (newSongKey.currentState!.validate()) {
+                query.insertSongs(
+                  titleController.text,
+                  '<ol>${textController.text.replaceAll('---Strofa---\n', '<li>').replaceAll('---Coro---', '<b>Coro:</b>').replaceAll('---Bridge---', '<b>Bridge:</b>').replaceAll('---Finale---', '<b>Finale:</b>').replaceAll('\n\n\n\n', '\n\n').replaceAll('\n\n\n', '\n\n').replaceAll('\n', '<br>')}</ol>',
+                  0,
+                );
+                if (catList[0] != 0) {
+                  query.insertSongs_Categories(
+                    newSongId,
+                    macroList[0],
+                    catList[0],
+                    titleController.text,
                   );
                 }
-              },
-              child: const Icon(Icons.send),
-            ),
-            body: SingleChildScrollView(
-              child: Padding(
-                padding: const EdgeInsets.all(kDefaultPadding),
-                child: Form(
-                  key: newSongKey,
-                  child: Column(
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Padding(
-                            padding:
-                                const EdgeInsets.only(right: kDefaultPadding),
-                            child: CircleAvatar(
-                              child: Text(newSongId.toString()),
-                            ),
-                          ),
-                          Expanded(
-                            child: TextFormField(
-                              controller: titleController,
-                              textCapitalization: TextCapitalization.sentences,
-                              decoration: const InputDecoration(
-                                labelText: 'Titolo del cantico',
-                                prefixIcon: Icon(
-                                  Icons.edit,
-                                  color: kLightGrey,
-                                ),
-                              ),
-                              validator: (value) {
-                                if (value == null || value.isEmpty) {
-                                  return 'Inserisci un titolo!';
-                                }
-                                return null;
-                              },
-                            ),
-                          ),
-                        ],
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(
-                            vertical: kDefaultPadding),
-                        child: Column(
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                const Text('Aggiungi     '),
-                                textType(),
-                              ],
-                            ),
-                            TextFormField(
-                              controller: textController,
-                              focusNode: textFocusNode,
-                              textCapitalization: TextCapitalization.sentences,
-                              keyboardType: TextInputType.multiline,
-                              minLines: 15,
-                              maxLines: 15,
-                              decoration: const InputDecoration(
-                                labelText: 'Testo',
-                                alignLabelWithHint: true,
-                                contentPadding: EdgeInsets.all(
-                                  kDefaultPadding,
-                                ),
-                                prefix: Icon(
-                                  Icons.notes,
-                                  color: kLightGrey,
-                                ),
-                              ),
-                              validator: (value) {
-                                if (value == null || value.isEmpty) {
-                                  return 'Inserisci il testo!';
-                                }
-                                return null;
-                              },
-                            ),
-                          ],
-                        ),
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Expanded(
-                            child: catDropDown(),
-                          ),
-                          newCatDialog(),
-                        ],
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(
-                            vertical: kDefaultPadding),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Expanded(
-                              child: autDropDown(),
-                            ),
-                            newAutDialog(),
-                          ],
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(bottom: kDefaultPadding),
-                        child: Column(
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Expanded(
-                                  child: FutureBuilder(
-                                    future: query.getAllCat(),
-                                    builder: (context, AsyncSnapshot snapshot) {
-                                      return TextButton.icon(
-                                        onPressed: () {
-                                          catMultiSelect(snapshot.data!);
-                                        },
-                                        icon: const Icon(Icons.sell),
-                                        label:
-                                            const Text('Seleziona categoria'),
-                                      );
-                                    },
-                                  ),
-                                ),
-                                newCatDialog(),
-                              ],
-                            ),
-                            Wrap(
-                              children: selectedCategories
-                                  .map((cat) => Chip(
-                                        label: Text(cat.name),
-                                      ))
-                                  .toList(),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(bottom: kDefaultPadding),
-                        child: Column(
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Expanded(
-                                  child: FutureBuilder(
-                                    future: query.getAllAut(),
-                                    builder: (context, snapshot) {
-                                      return TextButton.icon(
-                                        onPressed: () {
-                                          autMultiSelect(snapshot.data!);
-                                        },
-                                        icon: const Icon(Icons.person),
-                                        label: const Text('Seleziona autori'),
-                                      );
-                                    },
-                                  ),
-                                ),
-                                newCatDialog(),
-                              ],
-                            ),
-                            Wrap(
-                              children: selectedAuthors
-                                  .map((aut) => Chip(
-                                        label:
-                                            Text('${aut.name} ${aut.surname}'),
-                                      ))
-                                  .toList(),
-                            ),
-                          ],
-                        ),
-                      ),
-                      const SizedBox(
-                        height: kDefaultPadding * 5,
-                      ),
-                    ],
+                if (catList[1] != 0) {
+                  query.insertSongs_Categories(
+                    newSongId,
+                    macroList[1],
+                    catList[1],
+                    titleController.text,
+                  );
+                }
+                if (catList[2] != 0) {
+                  query.insertSongs_Categories(
+                    newSongId,
+                    macroList[2],
+                    catList[2],
+                    titleController.text,
+                  );
+                }
+                if (autList[0] != 0) {
+                  query.insertSongs_Authors(
+                    newSongId,
+                    autList[0],
+                    titleController.text,
+                  );
+                }
+                if (autList[1] != 0) {
+                  query.insertSongs_Authors(
+                    newSongId,
+                    autList[1],
+                    titleController.text,
+                  );
+                }
+                if (autList[2] != 0) {
+                  query.insertSongs_Authors(
+                    newSongId,
+                    autList[2],
+                    titleController.text,
+                  );
+                }
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text('Cantico aggiunto!'),
                   ),
+                );
+                FocusScope.of(context).unfocus();
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) {
+                      return const Home();
+                    },
+                  ),
+                );
+                titleController.clear();
+                textController.clear();
+                additionalCatFieldList.clear();
+                additionalAutFieldList.clear();
+                macroList = [0, 0, 0];
+                catList = [0, 0, 0];
+                autList = [0, 0, 0];
+              }
+            },
+            child: const Icon(Icons.send),
+          ),
+          body: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.all(kDefaultPadding),
+              child: Form(
+                key: newSongKey,
+                child: Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Padding(
+                          padding:
+                              const EdgeInsets.only(right: kDefaultPadding),
+                          child: CircleAvatar(
+                            child: Text(newSongId.toString()),
+                          ),
+                        ),
+                        Expanded(
+                          child: TextFormField(
+                            controller: titleController,
+                            textCapitalization: TextCapitalization.sentences,
+                            decoration: const InputDecoration(
+                              labelText: 'Titolo del cantico',
+                              prefixIcon: Icon(
+                                Icons.edit,
+                                color: kLightGrey,
+                              ),
+                            ),
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Inserisci un titolo!';
+                              }
+                              return null;
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                    Padding(
+                      padding:
+                          const EdgeInsets.symmetric(vertical: kDefaultPadding),
+                      child: Column(
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const Text('Aggiungi     '),
+                              textType(),
+                            ],
+                          ),
+                          TextFormField(
+                            controller: textController,
+                            focusNode: textFocusNode,
+                            textCapitalization: TextCapitalization.sentences,
+                            keyboardType: TextInputType.multiline,
+                            minLines: 15,
+                            maxLines: 15,
+                            decoration: const InputDecoration(
+                              labelText: 'Testo',
+                              alignLabelWithHint: true,
+                              contentPadding: EdgeInsets.all(
+                                kDefaultPadding,
+                              ),
+                              prefix: Icon(
+                                Icons.notes,
+                                color: kLightGrey,
+                              ),
+                            ),
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Inserisci il testo!';
+                              }
+                              return null;
+                            },
+                          ),
+                        ],
+                      ),
+                    ),
+                    Container(
+                      decoration: BoxDecoration(
+                        border: Border.all(color: kLightGrey, width: 1),
+                        borderRadius: const BorderRadius.all(
+                          Radius.circular(25.0),
+                        ),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(kDefaultPadding),
+                        child: Column(
+                          children: [
+                            ...getCatFields(),
+                            newCatDialog(),
+                          ],
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding:
+                          const EdgeInsets.symmetric(vertical: kDefaultPadding),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          border: Border.all(color: kLightGrey, width: 1),
+                          borderRadius: const BorderRadius.all(
+                            Radius.circular(25.0),
+                          ),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(kDefaultPadding),
+                          child: Column(
+                            children: [
+                              ...getAutFields(),
+                              newAutDialog(),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: kDefaultPadding * 5,
+                    ),
+                  ],
                 ),
               ),
             ),
-          );
-        },
-      ),
+          ),
+        );
+      },
     );
   }
 
@@ -436,157 +429,93 @@ class NewSongPageState extends State<NewSongPage> {
     );
   }
 
-  List selectedCategories = [];
-  catMultiSelect(snapshot) async {
-    final List? catResults = await showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return CatMultiSelect(data: snapshot);
-      },
-    );
-
-    if (catResults != null) {
-      setState(() {
-        selectedCategories = catResults;
-      });
+  List<Widget> getCatFields() {
+    List<Widget> catFieldsList = [];
+    for (int i = 0; i <= additionalCatFieldList.length; i++) {
+      catFieldsList.add(
+        Padding(
+          padding: const EdgeInsets.only(bottom: kDefaultPadding),
+          child: Row(
+            children: [
+              Expanded(child: CatFields(i)),
+              additionalCatFieldList.isEmpty
+                  ? catRemoveButton(i == 0, i)
+                  : i == 0
+                      ? const SizedBox()
+                      : i != 0 && additionalCatFieldList.length == 1
+                          ? Row(
+                              children: [
+                                catRemoveButton(true, i),
+                                catRemoveButton(false, 0)
+                              ],
+                            )
+                          : i == 2 && additionalCatFieldList.length == 2
+                              ? catRemoveButton(false, 0)
+                              : const SizedBox(),
+            ],
+          ),
+        ),
+      );
     }
+    return catFieldsList;
   }
 
-  List selectedAuthors = [];
-  autMultiSelect(snapshot) async {
-    final List? autResults = await showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AutMultiSelect(data: snapshot);
-      },
-    );
-
-    if (autResults != null) {
-      setState(() {
-        selectedAuthors = autResults;
-      });
-    }
-  }
-
-  Widget catDropDown() {
-    return FutureBuilder(
-      future: query.getAllCat(),
-      builder: (context, AsyncSnapshot snapshot) {
-        return snapshot.hasData
-            ? DropdownButtonFormField<String>(
-                isExpanded: true,
-                icon: const Padding(
-                  padding: EdgeInsets.only(right: kDefaultPadding / 3),
-                  child: Icon(Icons.arrow_drop_down),
-                ),
-                borderRadius: const BorderRadius.all(
-                  Radius.circular(25.0),
-                ),
-                hint: Text(catHint),
-                decoration: const InputDecoration(
-                  contentPadding: EdgeInsets.symmetric(
-                    vertical: kDefaultPadding,
-                  ),
-                  prefixIcon: Icon(
-                    Icons.sell,
-                    color: kLightGrey,
-                  ),
-                  labelText: 'Categoria',
-                ),
-                items: snapshot.data!.map<DropdownMenuItem<String>>((get) {
-                  return DropdownMenuItem<String>(
-                    value: get.name,
-                    onTap: () {
-                      cat = get.id;
-                      macro = get.macro_id;
-                    },
-                    child: Text(get.name),
-                  );
-                }).toList(),
-                onChanged: (value) {
-                  setState(() {
-                    catHint = value!;
-                  });
-                },
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Seleziona una categoria!';
-                  }
-                  return null;
-                },
-              )
-            : const Padding(
-                padding: EdgeInsets.only(top: kDefaultPadding),
-                child: Text(
-                  'Nessuna categoria trovata',
-                  style: TextStyle(),
-                  textAlign: TextAlign.center,
-                ),
-              );
-      },
-    );
-  }
-
-  Widget autDropDown() {
-    return FutureBuilder(
-      future: query.getAllAut(),
-      builder: (context, AsyncSnapshot snapshot) {
-        return snapshot.hasData
-            ? DropdownButtonFormField<String>(
-                isExpanded: true,
-                icon: const Padding(
-                  padding: EdgeInsets.only(right: kDefaultPadding / 3),
-                  child: Icon(Icons.arrow_drop_down),
-                ),
-                borderRadius: const BorderRadius.all(
-                  Radius.circular(25.0),
-                ),
-                hint: Text(autHint),
-                decoration: const InputDecoration(
-                  contentPadding: EdgeInsets.symmetric(
-                    vertical: kDefaultPadding,
-                  ),
-                  prefixIcon: Icon(
-                    Icons.people,
-                    color: kLightGrey,
-                  ),
-                  labelText: 'Autore',
-                ),
-                items: snapshot.data!.map<DropdownMenuItem<String>>((get) {
-                  return DropdownMenuItem<String>(
-                    value: '${get.name} ${get.surname}',
-                    onTap: () {
-                      aut = get.id;
-                    },
-                    child: Text('${get.name} ${get.surname}'),
-                  );
-                }).toList(),
-                onChanged: (value) {
-                  setState(() {
-                    autHint = value!;
-                  });
-                },
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Seleziona un autore!';
-                  }
-                  return null;
-                },
-              )
-            : const Padding(
-                padding: EdgeInsets.only(top: kDefaultPadding),
-                child: Text(
-                  'Nessun autore trovato',
-                  style: TextStyle(),
-                  textAlign: TextAlign.center,
-                ),
-              );
+  Widget catRemoveButton(bool add, int index) {
+    return IconButton(
+      icon: Icon((add) ? Icons.add_circle : Icons.remove_circle),
+      color: (add) ? Colors.green : Colors.red,
+      tooltip: (add) ? 'Aggiungi categoria' : 'Rimuovi categoria',
+      onPressed: () {
+        if (add) {
+          additionalCatFieldList.insert(index, index);
+        } else {
+          additionalCatFieldList.removeAt(index);
+          if (additionalCatFieldList.isEmpty) {
+            catList[1] = 0;
+          }
+          if (additionalCatFieldList.length == 1) {
+            catList[2] = 0;
+          }
+        }
+        setState(() {});
       },
     );
   }
 
   Widget newCatDialog() {
-    return IconButton(
+    final themeProvider = Provider.of<ThemeProvider>(context);
+    return TextButton.icon(
+      icon: SizedBox(
+        height: kDefaultPadding,
+        width: kDefaultPadding * 1.55,
+        child: Stack(
+          alignment: Alignment.center,
+          children: [
+            Align(
+              alignment: Alignment.topLeft,
+              child: Icon(
+                Icons.add,
+                size: 16,
+                color: themeProvider.isDarkMode ? kWhite : kBlack,
+              ),
+            ),
+            Align(
+              alignment: Alignment.centerRight,
+              child: Icon(
+                Icons.sell,
+                size: 18,
+                color: themeProvider.isDarkMode ? kWhite : kBlack,
+              ),
+            ),
+          ],
+        ),
+      ),
+      label: Text(
+        'Crea nuova categoria',
+        style: TextStyle(
+            fontWeight: FontWeight.bold,
+            color: themeProvider.isDarkMode ? kWhite : kBlack),
+      ),
       onPressed: () {
         showDialog(
           context: context,
@@ -648,14 +577,14 @@ class NewSongPageState extends State<NewSongPage> {
                                   return DropdownMenuItem<String>(
                                     value: get.macroName,
                                     onTap: () {
-                                      mac = get.macroId;
+                                      macro = get.macroId;
                                     },
                                     child: Text(get.macroName),
                                   );
                                 }).toList(),
                                 onChanged: (value) {
                                   setState(() {
-                                    macHint = value!;
+                                    macroHint = value!;
                                   });
                                 },
                                 validator: (value) {
@@ -689,7 +618,7 @@ class NewSongPageState extends State<NewSongPage> {
                 ElevatedButton(
                   onPressed: () {
                     if (newCatKey.currentState!.validate()) {
-                      query.insertCat(catController.text, mac);
+                      query.insertCat(catController.text, macro);
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(
                           content: Text('Categoria aggiunta!'),
@@ -707,12 +636,73 @@ class NewSongPageState extends State<NewSongPage> {
           },
         );
       },
-      icon: const Icon(Icons.add_circle),
+    );
+  }
+
+  List<Widget> getAutFields() {
+    List<Widget> autFieldsList = [];
+    for (int i = 0; i <= additionalAutFieldList.length; i++) {
+      autFieldsList.add(
+        Padding(
+          padding: const EdgeInsets.only(bottom: kDefaultPadding),
+          child: Row(
+            children: [
+              Expanded(child: AutFields(i)),
+              additionalAutFieldList.isEmpty
+                  ? autRemoveButton(i == 0, i)
+                  : i == 0
+                      ? const SizedBox()
+                      : i != 0 && additionalAutFieldList.length == 1
+                          ? Row(
+                              children: [
+                                autRemoveButton(true, i),
+                                autRemoveButton(false, 0)
+                              ],
+                            )
+                          : i == 2 && additionalAutFieldList.length == 2
+                              ? autRemoveButton(false, 0)
+                              : const SizedBox(),
+            ],
+          ),
+        ),
+      );
+    }
+    return autFieldsList;
+  }
+
+  Widget autRemoveButton(bool add, int index) {
+    return IconButton(
+      icon: Icon((add) ? Icons.add_circle : Icons.remove_circle),
+      color: (add) ? Colors.green : Colors.red,
+      tooltip: (add) ? 'Aggiungi autore' : 'Rimuovi autore',
+      onPressed: () {
+        if (add) {
+          additionalAutFieldList.insert(index, index);
+        } else {
+          additionalAutFieldList.removeAt(index);
+          if (additionalAutFieldList.isEmpty) {
+            autList[1] = 0;
+          }
+          if (additionalAutFieldList.length == 1) {
+            autList[2] = 0;
+          }
+        }
+        setState(() {});
+      },
     );
   }
 
   Widget newAutDialog() {
-    return IconButton(
+    final themeProvider = Provider.of<ThemeProvider>(context);
+    return TextButton.icon(
+      icon: Icon(Icons.person_add,
+          color: themeProvider.isDarkMode ? kWhite : kBlack),
+      label: Text(
+        'Crea nuovo autore',
+        style: TextStyle(
+            fontWeight: FontWeight.bold,
+            color: themeProvider.isDarkMode ? kWhite : kBlack),
+      ),
       onPressed: () {
         showDialog(
           context: context,
@@ -790,134 +780,180 @@ class NewSongPageState extends State<NewSongPage> {
           },
         );
       },
-      icon: const Icon(Icons.add_circle),
     );
   }
 }
 
-class CatMultiSelect extends StatefulWidget {
-  final data;
-  const CatMultiSelect({Key? key, this.data}) : super(key: key);
-
+class CatFields extends StatefulWidget {
+  final int index;
+  const CatFields(this.index, {Key? key}) : super(key: key);
   @override
-  State<StatefulWidget> createState() => _CatMultiSelectState();
+  CatFieldsState createState() => CatFieldsState();
 }
 
-class _CatMultiSelectState extends State<CatMultiSelect> {
-  // this variable holds the selected items
-  final List _selectedItems = [];
+class CatFieldsState extends State<CatFields> {
+  late String catHint;
 
-// This function is triggered when a checkbox is checked or unchecked
-  void _itemChange(var itemValue, bool isSelected) {
-    setState(() {
-      if (isSelected) {
-        _selectedItems.add(itemValue);
-      } else {
-        _selectedItems.remove(itemValue);
-      }
-    });
-  }
+  final QueryCtr query = QueryCtr();
 
-  // this function is called when the Cancel button is pressed
-  void _cancel() {
-    Navigator.pop(context);
-  }
-
-// this function is called when the Submit button is tapped
-  void _submit() {
-    Navigator.pop(context, _selectedItems);
+  @override
+  void initState() {
+    catHint = 'Seleziona';
+    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return AlertDialog(
-      title: const Text('Seleziona'),
-      content: SingleChildScrollView(
-        child: ListBody(
-          children: widget.data
-              .map<Widget>((cat) => CheckboxListTile(
-                    value: _selectedItems.contains(cat),
-                    title: Text(cat.name),
-                    controlAffinity: ListTileControlAffinity.leading,
-                    onChanged: (isChecked) => _itemChange(cat, isChecked!),
-                  ))
-              .toList(),
-        ),
-      ),
-      actions: [
-        TextButton(
-          onPressed: _cancel,
-          child: const Text('Cancel'),
-        ),
-        ElevatedButton(
-          onPressed: _submit,
-          child: const Text('Submit'),
-        ),
-      ],
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {});
+    return FutureBuilder(
+      future: query.getAllCat(),
+      builder: (context, AsyncSnapshot snapshot) {
+        return snapshot.hasData
+            ? DropdownButtonFormField<String>(
+                key: widget.key,
+                isExpanded: true,
+                icon: const Padding(
+                  padding: EdgeInsets.only(right: kDefaultPadding / 3),
+                  child: Icon(Icons.arrow_drop_down),
+                ),
+                borderRadius: const BorderRadius.all(
+                  Radius.circular(25.0),
+                ),
+                hint: Text(catHint),
+                decoration: InputDecoration(
+                  contentPadding: const EdgeInsets.symmetric(
+                    vertical: kDefaultPadding,
+                  ),
+                  prefixIcon: const Icon(
+                    Icons.sell,
+                    color: kLightGrey,
+                  ),
+                  labelText: NewSongPageState.additionalCatFieldList.isEmpty
+                      ? 'Categoria'
+                      : 'Categoria #${widget.index + 1}',
+                ),
+                items: snapshot.data!.map<DropdownMenuItem<String>>((get) {
+                  return DropdownMenuItem<String>(
+                    value: get.name,
+                    onTap: () {
+                      NewSongPageState.catList[widget.index] = get.id;
+                      NewSongPageState.macroList[widget.index] = get.macro_id;
+                    },
+                    child: Text(get.name),
+                  );
+                }).toList(),
+                onChanged: (value) {
+                  setState(() {
+                    catHint = value!;
+                    log('catList: ${NewSongPageState.catList.toString()}');
+                    log('macroList: ${NewSongPageState.macroList.toString()}');
+                  });
+                },
+                validator: (value) {
+                  if (widget.index != 0 && value == null) {
+                    return 'Seleziona anche la categoria #${widget.index + 1} o rimuovila!';
+                  } else if (value == null || value.isEmpty) {
+                    return 'Seleziona una categoria!';
+                  }
+                  return null;
+                },
+              )
+            : const Padding(
+                padding: EdgeInsets.only(top: kDefaultPadding),
+                child: Text(
+                  'Nessuna categoria trovata',
+                  style: TextStyle(),
+                  textAlign: TextAlign.center,
+                ),
+              );
+      },
     );
   }
 }
 
-class AutMultiSelect extends StatefulWidget {
-  final data;
-  const AutMultiSelect({Key? key, this.data}) : super(key: key);
-
+class AutFields extends StatefulWidget {
+  final int index;
+  const AutFields(this.index, {Key? key}) : super(key: key);
   @override
-  State<StatefulWidget> createState() => _AutMultiSelectState();
+  AutFieldsState createState() => AutFieldsState();
 }
 
-class _AutMultiSelectState extends State<AutMultiSelect> {
-  // this variable holds the selected items
-  final List _selectedItems = [];
+class AutFieldsState extends State<AutFields> {
+  late String autHint;
 
-// This function is triggered when a checkbox is checked or unchecked
-  void _itemChange(var itemValue, bool isSelected) {
-    setState(() {
-      if (isSelected) {
-        _selectedItems.add(itemValue);
-      } else {
-        _selectedItems.remove(itemValue);
-      }
-    });
-  }
+  final QueryCtr query = QueryCtr();
 
-  // this function is called when the Cancel button is pressed
-  void _cancel() {
-    Navigator.pop(context);
-  }
-
-// this function is called when the Submit button is tapped
-  void _submit() {
-    Navigator.pop(context, _selectedItems);
+  @override
+  void initState() {
+    autHint = 'Seleziona';
+    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return AlertDialog(
-      title: const Text('Seleziona'),
-      content: SingleChildScrollView(
-        child: ListBody(
-          children: widget.data
-              .map<Widget>((aut) => CheckboxListTile(
-                    value: _selectedItems.contains(aut),
-                    title: Text(
-                        '${aut.name} ${aut.surname.isNotEmpty == true ? aut.surname : ''}'),
-                    controlAffinity: ListTileControlAffinity.leading,
-                    onChanged: (isChecked) => _itemChange(aut, isChecked!),
-                  ))
-              .toList(),
-        ),
-      ),
-      actions: [
-        TextButton(
-          onPressed: _cancel,
-          child: const Text('Cancel'),
-        ),
-        ElevatedButton(
-          onPressed: _submit,
-          child: const Text('Submit'),
-        ),
-      ],
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {});
+    return FutureBuilder(
+      future: query.getAllAut(),
+      builder: (context, AsyncSnapshot snapshot) {
+        return snapshot.hasData
+            ? DropdownButtonFormField<String>(
+                key: widget.key,
+                isExpanded: true,
+                icon: const Padding(
+                  padding: EdgeInsets.only(right: kDefaultPadding / 3),
+                  child: Icon(Icons.arrow_drop_down),
+                ),
+                borderRadius: const BorderRadius.all(
+                  Radius.circular(25.0),
+                ),
+                hint: Text(autHint),
+                decoration: InputDecoration(
+                  contentPadding: const EdgeInsets.symmetric(
+                    vertical: kDefaultPadding,
+                  ),
+                  prefixIcon: const Icon(
+                    Icons.person,
+                    color: kLightGrey,
+                  ),
+                  labelText: NewSongPageState.additionalAutFieldList.isEmpty
+                      ? 'Autore'
+                      : 'Autore #${widget.index + 1}',
+                ),
+                items: snapshot.data!.map<DropdownMenuItem<String>>((get) {
+                  return DropdownMenuItem<String>(
+                    value:
+                        '${get.name} ${get.surname.isEmpty ? '' : get.surname}',
+                    onTap: () {
+                      NewSongPageState.autList[widget.index] = get.id;
+                    },
+                    child: Text(
+                        '${get.name} ${get.surname.isEmpty ? '' : get.surname}'),
+                  );
+                }).toList(),
+                onChanged: (value) {
+                  setState(() {
+                    autHint = value!;
+                    log('autList: ${NewSongPageState.autList.toString()}');
+                  });
+                },
+                validator: (value) {
+                  if (widget.index != 0 && value == null) {
+                    return 'Seleziona anche l\'autore #${widget.index + 1} o rimuovilo!';
+                  } else if (value == null || value.isEmpty) {
+                    return 'Seleziona un autore!';
+                  }
+                  return null;
+                },
+              )
+            : const Padding(
+                padding: EdgeInsets.only(top: kDefaultPadding),
+                child: Text(
+                  'Nessun autore trovato',
+                  style: TextStyle(),
+                  textAlign: TextAlign.center,
+                ),
+              );
+      },
     );
   }
 }

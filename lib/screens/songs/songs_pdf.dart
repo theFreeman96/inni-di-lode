@@ -1,7 +1,7 @@
 import 'dart:developer';
 import 'dart:io';
 
-// HTML renderers
+import 'package:flutter/material.dart';
 import 'package:html2md/html2md.dart' as html2md;
 
 // PDF
@@ -10,20 +10,20 @@ import 'package:pdf/widgets.dart' as pw;
 import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
 
+import '/utilities/globals.dart';
+
 buildPDF(songId, songTitle, songText) async {
   double fontSize = 16.0;
   double lineHeight = 1.5;
 
   final songNumber = songId.toString().padLeft(3, '0');
-
-  String title = songTitle;
-  RegExp exp = RegExp(
-      r'[^\p{Alphabetic}\p{Mark}\p{Decimal_Number}\p{Connector_Punctuation}\p{Join_Control}\s]+',
+  final String title = songTitle;
+  final RegExp exp = RegExp(
+      '[^\\p{Alphabetic}\\p{Mark}\\p{Decimal_Number}\\p{Connector_Punctuation}\\p{Join_Control}\\s]+',
       unicode: true,
       multiLine: true,
       caseSensitive: true);
-  String parsedTitle = title.replaceAll(exp, '');
-
+  final String parsedTitle = title.replaceAll(exp, '');
   final pdf = pw.Document();
 
   pdf.addPage(
@@ -106,9 +106,20 @@ buildPDF(songId, songTitle, songText) async {
       },
     ),
   );
-  final directory = await getApplicationDocumentsDirectory();
+  final appDirectory = await getApplicationDocumentsDirectory();
+  final directory = await Directory('${appDirectory.path}\\Cantici').create();
   final file = File('${directory.path}/$songNumber. $parsedTitle.pdf');
   file.writeAsBytesSync(await pdf.save());
-  Share.shareFiles(['${directory.path}/$songNumber. $parsedTitle.pdf']);
+  Platform.isWindows || Platform.isMacOS || Platform.isMacOS
+      ? null
+      : Share.shareXFiles(
+          [XFile('${directory.path}/$songNumber. $parsedTitle.pdf')]);
   log('$file');
+  final SnackBar? snackBar =
+      Platform.isWindows || Platform.isMacOS || Platform.isMacOS
+          ? SnackBar(
+              content: Text('Il PDF salvato in ${directory.path}'),
+            )
+          : null;
+  snackBar != null ? snackBarKey.currentState?.showSnackBar(snackBar) : null;
 }

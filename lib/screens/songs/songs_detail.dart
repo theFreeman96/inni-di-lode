@@ -1,21 +1,21 @@
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_html/flutter_html.dart';
 
-import '/theme/constants.dart';
-import '/theme/theme_provider.dart';
-import '/assets/data/models.dart';
-import '/assets/data/queries.dart';
+import '/utilities/constants.dart';
+import '/utilities/theme_provider.dart';
+import '/data/models.dart';
+import '/data/queries.dart';
 
 import '../categories/cat_detail.dart';
 import '../authors/aut_detail.dart';
-
-import 'songs_pdf.dart';
 import 'songs_player.dart';
+import 'songs_pdf.dart';
 import '../editor/edit_song_page.dart';
-import '../home.dart';
+import '../home/home.dart';
 
 class SongsDetail extends StatefulWidget {
   int index;
@@ -64,77 +64,75 @@ class _SongsDetailState extends State<SongsDetail> {
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
     Orientation orientation = mediaQuery.orientation;
-    return SafeArea(
-      child: Stack(
-        children: [
-          FutureBuilder<List?>(
-            future: widget.from == 'Category'
-                ? query.getSongsByCat(widget.id!)
-                : widget.from == 'Author'
-                    ? query.getSongsByAut(widget.id!)
-                    : widget.from == 'Favorites'
-                        ? query.getAllFav()
-                        : query.getAllSongs(),
-            initialData: const [],
-            builder: (context, snapshot) {
-              return PageView.builder(
-                controller: pageController,
-                itemBuilder: (context, i) {
-                  return buildPage(snapshot.data![i % snapshot.data!.length]);
-                },
-              );
-            },
-          ),
-          Visibility(
-            visible: orientation == Orientation.portrait ? false : true,
-            child: Center(
-              child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: kDefaultPadding * 2),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Card(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(50),
-                      ),
-                      child: IconButton(
-                        onPressed: () {
-                          if (pageController.hasClients) {
-                            pageController.animateToPage(
-                              pageController.page!.toInt() - 1,
-                              duration: const Duration(milliseconds: 10),
-                              curve: Curves.easeInOut,
-                            );
-                          }
-                        },
-                        icon: const Icon(Icons.arrow_back_ios_new),
-                      ),
+    return Stack(
+      children: [
+        FutureBuilder<List?>(
+          future: widget.from == 'Category'
+              ? query.getSongsByCat(widget.id!)
+              : widget.from == 'Author'
+                  ? query.getSongsByAut(widget.id!)
+                  : widget.from == 'Favorites'
+                      ? query.getAllFav()
+                      : query.getAllSongs(),
+          initialData: const [],
+          builder: (context, snapshot) {
+            return PageView.builder(
+              controller: pageController,
+              itemBuilder: (context, i) {
+                return buildPage(snapshot.data![i % snapshot.data!.length]);
+              },
+            );
+          },
+        ),
+        Visibility(
+          visible: orientation == Orientation.portrait ? false : true,
+          child: Center(
+            child: Padding(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: kDefaultPadding * 2),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Card(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(50),
                     ),
-                    Card(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(50),
-                      ),
-                      child: IconButton(
-                        onPressed: () {
-                          if (pageController.hasClients) {
-                            pageController.animateToPage(
-                              pageController.page!.toInt() + 1,
-                              duration: const Duration(milliseconds: 10),
-                              curve: Curves.easeInOut,
-                            );
-                          }
-                        },
-                        icon: const Icon(Icons.arrow_forward_ios),
-                      ),
+                    child: IconButton(
+                      onPressed: () {
+                        if (pageController.hasClients) {
+                          pageController.animateToPage(
+                            pageController.page!.toInt() - 1,
+                            duration: const Duration(milliseconds: 10),
+                            curve: Curves.easeInOut,
+                          );
+                        }
+                      },
+                      icon: const Icon(Icons.arrow_back_ios_new),
                     ),
-                  ],
-                ),
+                  ),
+                  Card(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(50),
+                    ),
+                    child: IconButton(
+                      onPressed: () {
+                        if (pageController.hasClients) {
+                          pageController.animateToPage(
+                            pageController.page!.toInt() + 1,
+                            duration: const Duration(milliseconds: 10),
+                            curve: Curves.easeInOut,
+                          );
+                        }
+                      },
+                      icon: const Icon(Icons.arrow_forward_ios),
+                    ),
+                  ),
+                ],
               ),
             ),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 
@@ -454,8 +452,13 @@ class _SongsDetailState extends State<SongsDetail> {
                 },
               ),
               IconButton(
-                tooltip: 'Condividi',
-                icon: const Icon(Icons.share),
+                tooltip:
+                    Platform.isWindows || Platform.isMacOS || Platform.isLinux
+                        ? 'Scarica'
+                        : 'Condividi',
+                icon: Platform.isWindows || Platform.isMacOS || Platform.isLinux
+                    ? const Icon(Icons.download)
+                    : const Icon(Icons.share),
                 onPressed: () async {
                   await buildPDF(get.songId, get.songTitle, get.songText);
                 },
@@ -477,13 +480,6 @@ class _SongsDetailState extends State<SongsDetail> {
                                 songId: get.songId,
                                 songTitle: get.songTitle,
                                 songText: get.songText,
-                                macroId: get.macroId,
-                                macroName: get.macroName,
-                                catId: get.catId,
-                                catName: get.catName,
-                                autId: get.autId,
-                                autName: get.autName,
-                                autSurname: get.autSurname,
                               );
                             },
                           ),
@@ -588,7 +584,7 @@ class _SongsDetailState extends State<SongsDetail> {
     return TextButton.icon(
       icon: const Icon(Icons.person, color: kLightGrey),
       label: Text(
-        '${get.autName} ${get.autSurname}',
+        '${get.autName} ${get.autSurname.isEmpty ? '' : get.autSurname}',
         style: TextStyle(color: themeProvider.isDarkMode ? kWhite : kBlack),
       ),
       onPressed: () {

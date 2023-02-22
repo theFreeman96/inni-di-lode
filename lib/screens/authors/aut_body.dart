@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 
-import '/theme/constants.dart';
-import '/assets/data/queries.dart';
-import '/assets/data/models.dart';
+import '/utilities/constants.dart';
+import '/components/list_main.dart';
+import '/data/models.dart';
+import '/data/queries.dart';
 
+import '../home/home_searchbar.dart';
 import 'aut_detail.dart';
 
 class AutBody extends StatefulWidget {
@@ -45,70 +47,31 @@ class _AutBodyState extends State<AutBody> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Padding(
-          padding: const EdgeInsets.all(kDefaultPadding),
-          child: TextField(
-            focusNode: myFocusNode,
-            autofocus: false,
-            onChanged: (value) {
-              runFilter(value);
-            },
-            decoration: const InputDecoration(
-              prefixIcon: Icon(
-                Icons.search,
-                color: kLightGrey,
-              ),
-              labelText: 'Cerca un autore',
-              hintText: 'Cerca',
-            ),
-          ),
+        buildSearchBar(
+          focusNode: myFocusNode,
+          filter: runFilter,
+          label: 'Cerca un autore',
+          hint: 'Cerca',
         ),
         const Divider(height: 0.0),
-        FutureBuilder<List?>(
+        buildMainList(
           future: future,
-          initialData: const [],
-          builder: (context, snapshot) {
-            return snapshot.hasData
-                ? Expanded(
-                    child: Scrollbar(
-                      thumbVisibility: true,
-                      child: ListView.separated(
-                        physics: const ScrollPhysics(),
-                        shrinkWrap: true,
-                        itemCount: snapshot.data!.length,
-                        itemBuilder: (context, i) {
-                          return buildRow(snapshot.data![i]);
-                        },
-                        separatorBuilder: (context, index) {
-                          return const Divider();
-                        },
-                      ),
-                    ),
-                  )
-                : const Padding(
-                    padding: EdgeInsets.only(top: kDefaultPadding),
-                    child: Center(
-                      child: Text(
-                        'Nessun autore trovato',
-                        style: TextStyle(fontSize: 20.0),
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
-                  );
-          },
+          padding: EdgeInsets.zero,
+          row: buildRow,
+          message: 'Nessun autore trovato',
         ),
       ],
     );
   }
 
-  Widget buildRow(Autori get) {
+  Widget buildRow(Autori get, i) {
     return ListTile(
       leading: const CircleAvatar(
         child: Icon(
           Icons.person,
         ),
       ),
-      title: Text('${get.name} ${get.surname}'),
+      title: Text('${get.name} ${get.surname.isEmpty ? '' : get.surname}'),
       trailing: const Icon(
         Icons.navigate_next,
         color: kLightGrey,

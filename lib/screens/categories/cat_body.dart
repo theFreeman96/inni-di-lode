@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/provider.dart';
 
-import '/theme/constants.dart';
-import '/assets/data/queries.dart';
-import '/assets/data/models.dart';
+import '/utilities/constants.dart';
+import '/utilities/theme_provider.dart';
+import '/components/list_main.dart';
+import '/data/models.dart';
+import '/data/queries.dart';
 
+import '../home/home_searchbar.dart';
 import 'cat_detail.dart';
 
 class CatBody extends StatefulWidget {
@@ -47,73 +50,57 @@ class _CatBodyState extends State<CatBody> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Padding(
-          padding: const EdgeInsets.all(kDefaultPadding),
-          child: TextField(
-            focusNode: myFocusNode,
-            autofocus: false,
-            onChanged: (value) {
-              runFilter(value);
-            },
-            decoration: const InputDecoration(
-              prefixIcon: Icon(
-                Icons.search,
-                color: kLightGrey,
-              ),
-              labelText: 'Cerca una categoria',
-              hintText: 'Cerca',
-            ),
-          ),
+        buildSearchBar(
+          focusNode: myFocusNode,
+          filter: runFilter,
+          label: 'Cerca una categoria',
+          hint: 'Cerca',
         ),
         const Divider(height: 0.0),
-        FutureBuilder<List?>(
+        buildMainList(
           future: future,
-          initialData: const [],
-          builder: (context, snapshot) {
-            return snapshot.hasData
-                ? Expanded(
-                    child: Scrollbar(
-                      thumbVisibility: true,
-                      child: ListView.separated(
-                        physics: const ScrollPhysics(),
-                        shrinkWrap: true,
-                        itemCount: snapshot.data!.length,
-                        itemBuilder: (context, i) {
-                          return buildRow(snapshot.data![i], i);
-                        },
-                        separatorBuilder: (context, index) {
-                          return const Divider();
-                        },
-                      ),
-                    ),
-                  )
-                : const Padding(
-                    padding: EdgeInsets.only(top: kDefaultPadding),
-                    child: Center(
-                      child: Text(
-                        'Nessuna categoria trovata',
-                        style: TextStyle(fontSize: 20.0),
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
-                  );
-          },
+          padding: EdgeInsets.zero,
+          row: buildRow,
+          message: 'Nessuna categoria trovata',
         ),
       ],
     );
   }
 
   Widget buildRow(Raccolta get, i) {
+    final themeProvider = Provider.of<ThemeProvider>(context);
     return ExpansionPanelList(
       elevation: 0.0,
       children: [
         ExpansionPanel(
           headerBuilder: (BuildContext context, bool isExpanded) {
             return ListTile(
-              leading: const CircleAvatar(
-                child: FaIcon(
-                  FontAwesomeIcons.tags,
-                  size: 15,
+              leading: CircleAvatar(
+                child: SizedBox(
+                  width: kDefaultPadding * 1.25,
+                  child: Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      const Align(
+                        alignment: Alignment.centerLeft,
+                        child: Icon(Icons.sell, size: 20),
+                      ),
+                      Align(
+                        alignment: Alignment.center,
+                        child: Icon(
+                          Icons.sell,
+                          size: 20,
+                          color: themeProvider.isDarkMode
+                              ? kPrimaryLightColor
+                              : kPrimaryColor,
+                        ),
+                      ),
+                      const Align(
+                        alignment: Alignment.centerRight,
+                        child: Icon(Icons.sell, size: 20),
+                      ),
+                    ],
+                  ),
                 ),
               ),
               title: Text(get.macroName),
@@ -145,11 +132,9 @@ class _CatBodyState extends State<CatBody> {
         ),
       ],
       expansionCallback: (int index, bool status) {
-        setState(
-          () {
-            expansionIndex = expansionIndex == i ? null : i;
-          },
-        );
+        setState(() {
+          expansionIndex = expansionIndex == i ? null : i;
+        });
       },
     );
   }
@@ -158,9 +143,7 @@ class _CatBodyState extends State<CatBody> {
     return ListTile(
       leading: const Padding(
         padding: EdgeInsets.only(left: kDefaultPadding),
-        child: FaIcon(
-          FontAwesomeIcons.tag,
-        ),
+        child: Icon(Icons.sell),
       ),
       title: Text(get.name),
       trailing: const Padding(

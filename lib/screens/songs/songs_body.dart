@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:number_paginator/number_paginator.dart';
 
-import '/theme/theme_provider.dart';
-import '/theme/constants.dart';
-import '/assets/data/models.dart';
-import '/assets/data/queries.dart';
+import '/utilities/constants.dart';
+import '/utilities/theme_provider.dart';
+import '/components/list_main.dart';
+import '/data/models.dart';
+import '/data/queries.dart';
 
+import '../home/home_searchbar.dart';
 import 'songs_detail.dart';
 
 class SongsBody extends StatefulWidget {
@@ -71,33 +73,20 @@ class _SongsBodyState extends State<SongsBody> {
     final themeProvider = Provider.of<ThemeProvider>(context);
     return Column(
       children: <Widget>[
-        Padding(
-          padding: const EdgeInsets.all(kDefaultPadding),
-          child: TextField(
-            focusNode: myFocusNode,
-            autofocus: false,
-            onChanged: (value) {
-              runFilter(value);
-            },
-            decoration: const InputDecoration(
-              prefixIcon: Icon(
-                Icons.search,
-                color: kLightGrey,
-              ),
-              labelText: 'Cerca per numero, titolo o testo',
-              hintText: 'Cerca un cantico',
-            ),
-          ),
+        buildSearchBar(
+          focusNode: myFocusNode,
+          filter: runFilter,
+          label: 'Cerca per numero, titolo o testo',
+          hint: 'Cerca un cantico',
         ),
         Visibility(
           visible: isVisible,
           child: Center(
             child: Padding(
               padding: const EdgeInsets.only(
-                top: 2,
                 left: kDefaultPadding,
                 right: kDefaultPadding,
-                bottom: kDefaultPadding + 2,
+                bottom: kDefaultPadding,
               ),
               child: NumberPaginator(
                 numberPages: songRange.length,
@@ -107,7 +96,7 @@ class _SongsBodyState extends State<SongsBody> {
                   });
                 },
                 config: NumberPaginatorUIConfig(
-                  height: 40,
+                  height: 44,
                   mode: ContentDisplayMode.numbers,
                   buttonSelectedForegroundColor: kWhite,
                   buttonUnselectedForegroundColor:
@@ -124,39 +113,11 @@ class _SongsBodyState extends State<SongsBody> {
           ),
         ),
         const Divider(height: 0.0),
-        FutureBuilder<List?>(
+        buildMainList(
           future: songRange[currentPage],
-          initialData: const [],
-          builder: (context, snapshot) {
-            return snapshot.hasData
-                ? Expanded(
-                    child: Scrollbar(
-                      thumbVisibility: true,
-                      child: ListView.separated(
-                        padding: const EdgeInsets.only(top: 8),
-                        physics: const ScrollPhysics(),
-                        shrinkWrap: true,
-                        itemCount: snapshot.data!.length,
-                        itemBuilder: (context, i) {
-                          return buildRow(snapshot.data![i], i);
-                        },
-                        separatorBuilder: (context, index) {
-                          return const Divider();
-                        },
-                      ),
-                    ),
-                  )
-                : const Padding(
-                    padding: EdgeInsets.only(top: kDefaultPadding),
-                    child: Center(
-                      child: Text(
-                        'Nessun cantico trovato',
-                        style: TextStyle(fontSize: 20.0),
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
-                  );
-          },
+          padding: const EdgeInsets.only(top: 8),
+          row: buildRow,
+          message: 'Nessun cantico trovato',
         ),
       ],
     );
