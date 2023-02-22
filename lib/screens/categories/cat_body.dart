@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import '/utilities/constants.dart';
 import '/utilities/theme_provider.dart';
 import '/components/search_bar.dart';
-import '/components/list_main.dart';
+import '/components/main_list.dart';
 import '/data/models.dart';
 import '/data/queries.dart';
 
