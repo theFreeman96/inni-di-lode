@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 
 import '/utilities/constants.dart';
 
-Widget buildSearchBar(
-    {required FocusNode focusNode,
-    required Function filter,
-    required String label,
-    required String hint}) {
+Widget buildSearchBar({
+  required FocusNode focusNode,
+  required Function filter,
+  required String label,
+  required String hint,
+}) {
   return Padding(
     padding: const EdgeInsets.all(kDefaultPadding),
     child: TextField(
