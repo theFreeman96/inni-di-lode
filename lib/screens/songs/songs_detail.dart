@@ -5,18 +5,17 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_html/flutter_html.dart';
 
-import '/components/constants.dart';
-import '/components/player.dart';
-import '/components/pdf.dart';
-import '/theme/theme_provider.dart';
-import '/assets/data/models.dart';
-import '/assets/data/queries.dart';
+import '/utilities/constants.dart';
+import '/utilities/theme_provider.dart';
+import '/data/models.dart';
+import '/data/queries.dart';
 
 import '../categories/cat_detail.dart';
 import '../authors/aut_detail.dart';
-
+import 'songs_player.dart';
+import 'songs_pdf.dart';
 import '../editor/edit_song_page.dart';
-import '../home.dart';
+import '../home/home.dart';
 
 class SongsDetail extends StatefulWidget {
   int index;

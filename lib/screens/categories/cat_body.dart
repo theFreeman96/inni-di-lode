@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '/components/constants.dart';
-import '/components/searchbar.dart';
-import '/theme/theme_provider.dart';
-import '/assets/data/models.dart';
-import '/assets/data/queries.dart';
+import '/utilities/constants.dart';
+import '/utilities/theme_provider.dart';
+import '/components/list_main.dart';
+import '/data/models.dart';
+import '/data/queries.dart';
 
+import '../home/home_searchbar.dart';
 import 'cat_detail.dart';
 
 class CatBody extends StatefulWidget {
@@ -49,41 +50,18 @@ class _CatBodyState extends State<CatBody> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        buildSearchBar(myFocusNode, runFilter, from: 'Categorie'),
+        buildSearchBar(
+          focusNode: myFocusNode,
+          filter: runFilter,
+          label: 'Cerca una categoria',
+          hint: 'Cerca',
+        ),
         const Divider(height: 0.0),
-        FutureBuilder<List?>(
+        buildMainList(
           future: future,
-          initialData: const [],
-          builder: (context, snapshot) {
-            return snapshot.hasData
-                ? Expanded(
-                    child: Scrollbar(
-                      thumbVisibility: true,
-                      child: ListView.separated(
-                        padding: EdgeInsets.zero,
-                        physics: const ScrollPhysics(),
-                        shrinkWrap: true,
-                        itemCount: snapshot.data!.length,
-                        itemBuilder: (context, i) {
-                          return buildRow(snapshot.data![i], i);
-                        },
-                        separatorBuilder: (context, index) {
-                          return const Divider();
-                        },
-                      ),
-                    ),
-                  )
-                : const Padding(
-                    padding: EdgeInsets.only(top: kDefaultPadding),
-                    child: Center(
-                      child: Text(
-                        'Nessuna categoria trovata',
-                        style: TextStyle(fontSize: 20.0),
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
-                  );
-          },
+          padding: EdgeInsets.zero,
+          row: buildRow,
+          message: 'Nessuna categoria trovata',
         ),
       ],
     );

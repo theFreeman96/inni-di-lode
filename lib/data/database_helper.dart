@@ -36,7 +36,7 @@ class DatabaseHelper {
     // Only copy if the database doesn't exist
     if (FileSystemEntity.typeSync(dbPath) == FileSystemEntityType.notFound) {
       // Load database from asset and copy
-      ByteData data = await rootBundle.load("lib/assets/data/$dbName");
+      ByteData data = await rootBundle.load("lib/data/$dbName");
       List<int> bytes =
           data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
       // Save copied asset to documents

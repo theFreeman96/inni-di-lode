@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '/components/constants.dart';
-import '/theme/theme_provider.dart';
-import '/assets/data/models.dart';
-import '/assets/data/queries.dart';
+import '/utilities/constants.dart';
+import '/utilities/theme_provider.dart';
+import '/components/list_detail.dart';
+import '/data/models.dart';
+import '/data/queries.dart';
 
 import '/screens/songs/songs_detail.dart';
-import '../editor/new_song_page.dart';
-import '../home.dart';
+import '../home/home.dart';
 
 class AutDetail extends StatefulWidget {
   final int autId;
@@ -268,69 +268,12 @@ class _AutDetailState extends State<AutDetail> {
           ),
         ],
       ),
-      body: FutureBuilder<List?>(
+      body: buildDetailList(
+        context: context,
         future: query.getSongsByAut(id),
-        initialData: const [],
-        builder: (context, snapshot) {
-          return snapshot.hasData
-              ? Scrollbar(
-                  thumbVisibility: true,
-                  controller: scrollController,
-                  child: ListView.separated(
-                    controller: scrollController,
-                    physics: const ScrollPhysics(),
-                    shrinkWrap: true,
-                    padding: const EdgeInsets.only(
-                      top: kDefaultPadding * 0.4,
-                      bottom: kDefaultPadding,
-                    ),
-                    itemCount: snapshot.data!.length,
-                    itemBuilder: (context, i) {
-                      return buildRow(snapshot.data![i], i);
-                    },
-                    separatorBuilder: (context, index) {
-                      return const Divider();
-                    },
-                  ),
-                )
-              : Center(
-                  child: id > 58
-                      ? Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            const Text('Nessun cantico trovato',
-                                style: TextStyle(fontSize: 20.0)),
-                            TextButton.icon(
-                              onPressed: () {
-                                FocusScope.of(context).unfocus();
-                                Navigator.pop(context);
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) {
-                                      return const NewSongPage();
-                                    },
-                                  ),
-                                );
-                              },
-                              icon: Icon(Icons.add_circle,
-                                  color: themeProvider.isDarkMode
-                                      ? kPrimaryLightColor
-                                      : kPrimaryColor),
-                              label: Text(
-                                'Aggiungi cantico',
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    color: themeProvider.isDarkMode
-                                        ? kWhite
-                                        : kBlack),
-                              ),
-                            ),
-                          ],
-                        )
-                      : const CircularProgressIndicator(),
-                );
-        },
+        controller: scrollController,
+        row: buildRow,
+        condition: id > 58,
       ),
     );
   }

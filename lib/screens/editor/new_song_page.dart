@@ -3,11 +3,11 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '/components/constants.dart';
-import '/theme/theme_provider.dart';
-import '/assets/data/queries.dart';
+import '/utilities/constants.dart';
+import '/utilities/theme_provider.dart';
+import '/data/queries.dart';
 
-import '../home.dart';
+import '../home/home.dart';
 
 class NewSongPage extends StatefulWidget {
   const NewSongPage({Key? key}) : super(key: key);

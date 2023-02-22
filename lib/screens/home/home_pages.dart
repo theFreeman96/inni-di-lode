@@ -1,28 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'constants.dart';
-import 'header.dart';
-import '../theme/theme_provider.dart';
+import '/utilities/constants.dart';
+import '/utilities/theme_provider.dart';
+import '/components/header.dart';
 
 import '/screens/songs/songs_body.dart';
 import '/screens/categories/cat_body.dart';
 import '/screens/authors/aut_body.dart';
 import '/screens/favorites/fav_body.dart';
-
-final List<String> pageHeaders = [
-  'lib/assets/images/songs_header.png',
-  'lib/assets/images/cat_header.png',
-  'lib/assets/images/aut_header.png',
-  'lib/assets/images/fav_header.png',
-];
-
-final List<Widget> pageBodies = [
-  const SongsBody(),
-  const CatBody(),
-  const AutBody(),
-  const FavBody(),
-];
 
 Widget buildPage(context, currentIndex) {
   final themeProvider = Provider.of<ThemeProvider>(context);
@@ -62,3 +48,17 @@ Widget buildPage(context, currentIndex) {
           ],
         );
 }
+
+final List<String> pageHeaders = [
+  'lib/assets/images/songs_header.png',
+  'lib/assets/images/cat_header.png',
+  'lib/assets/images/aut_header.png',
+  'lib/assets/images/fav_header.png',
+];
+
+final List<Widget> pageBodies = [
+  const SongsBody(),
+  const CatBody(),
+  const AutBody(),
+  const FavBody(),
+];

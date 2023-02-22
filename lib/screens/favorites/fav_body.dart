@@ -2,11 +2,12 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 
-import '/components/constants.dart';
-import '/components/searchbar.dart';
-import '/assets/data/models.dart';
-import '/assets/data/queries.dart';
+import '/utilities/constants.dart';
+import '/components/list_main.dart';
+import '/data/models.dart';
+import '/data/queries.dart';
 
+import '../home/home_searchbar.dart';
 import '../songs/songs_detail.dart';
 
 class FavBody extends StatefulWidget {
@@ -57,41 +58,18 @@ class _FavBodyState extends State<FavBody> {
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
-        buildSearchBar(myFocusNode, runFilter, from: 'Preferiti'),
+        buildSearchBar(
+          focusNode: myFocusNode,
+          filter: runFilter,
+          label: 'Cerca per numero, titolo o testo',
+          hint: 'Cerca un cantico',
+        ),
         const Divider(height: 0.0),
-        FutureBuilder<List?>(
+        buildMainList(
           future: future,
-          initialData: const [],
-          builder: (context, snapshot) {
-            return snapshot.hasData
-                ? Expanded(
-                    child: Scrollbar(
-                      thumbVisibility: true,
-                      child: ListView.separated(
-                        padding: EdgeInsets.zero,
-                        physics: const ScrollPhysics(),
-                        shrinkWrap: true,
-                        itemCount: snapshot.data!.length,
-                        itemBuilder: (context, i) {
-                          return buildRow(snapshot.data![i], i);
-                        },
-                        separatorBuilder: (context, index) {
-                          return const Divider();
-                        },
-                      ),
-                    ),
-                  )
-                : const Padding(
-                    padding: EdgeInsets.only(top: kDefaultPadding),
-                    child: Center(
-                      child: Text(
-                        'Nessun preferito trovato',
-                        style: TextStyle(fontSize: 20.0),
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
-                  );
-          },
+          padding: EdgeInsets.zero,
+          row: buildRow,
+          message: 'Nessun preferito trovato',
         ),
       ],
     );

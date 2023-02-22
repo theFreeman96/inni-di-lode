@@ -2,7 +2,7 @@
 
 Hymns, spiritual songs and revival choirs.
 
-![Logo](https://user-images.githubusercontent.com/90036768/162753598-0f319f9b-66db-4295-ab0f-646ecdb35157.jpg)
+![Copertina](https://user-images.githubusercontent.com/90036768/220063424-44e3577b-30f1-40be-9adc-4d0968ffde1e.jpg)
 
 The new Inni di Lode app, including all 700 songs from our Songbook.
 
@@ -19,6 +19,7 @@ The new Inni di Lode app, including all 700 songs from our Songbook.
 ## Currently working on...
 
 - Editor (add new songs, categories and authors)
+- Code refactoring
 
 ## Coming soon
 
