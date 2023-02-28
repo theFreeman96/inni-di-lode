@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 
 import '/utilities/constants.dart';
 
+import '../editor.dart';
+
 class DropList extends StatelessWidget {
   DropList({
     Key? key,
@@ -13,7 +15,6 @@ class DropList extends StatelessWidget {
     required this.label,
     required this.index,
     required this.from,
-    required this.classState,
     required this.state,
     required this.mylog,
     required this.validator1,
@@ -26,7 +27,6 @@ class DropList extends StatelessWidget {
   final IconData icon;
   final String label;
   final String from;
-  final dynamic classState;
   final int index;
   final dynamic state;
   final String mylog;
@@ -65,8 +65,8 @@ class DropList extends StatelessWidget {
                       ? DropdownMenuItem<String>(
                           value: get.name,
                           onTap: () {
-                            classState.catList[index] = get.id;
-                            classState.macroList[index] = get.macro_id;
+                            EditorState.catList[index] = get.id;
+                            EditorState.macroList[index] = get.macro_id;
                           },
                           child: Text(get.name),
                         )
@@ -74,7 +74,7 @@ class DropList extends StatelessWidget {
                           value:
                               '${get.name} ${get.surname.isEmpty ? '' : get.surname}',
                           onTap: () {
-                            classState.autList[index] = get.id;
+                            EditorState.autList[index] = get.id;
                           },
                           child: Text(
                               '${get.name} ${get.surname.isEmpty ? '' : get.surname}'),
