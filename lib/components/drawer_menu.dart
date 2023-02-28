@@ -8,7 +8,7 @@ import '/utilities/theme_provider.dart';
 import '/data/queries.dart';
 
 import '/screens/songs/songs_detail.dart';
-import '/screens/editor/new_song_page.dart';
+import '/screens/editor/editor.dart';
 import '/screens/info/info_page.dart';
 
 class DrawerMenu extends StatelessWidget {
@@ -73,7 +73,7 @@ class DrawerMenu extends StatelessWidget {
                 context,
                 MaterialPageRoute(
                   builder: (context) {
-                    return const NewSongPage();
+                    return const Editor();
                   },
                 ),
               );

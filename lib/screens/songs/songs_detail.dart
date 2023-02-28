@@ -14,7 +14,7 @@ import '../categories/cat_detail.dart';
 import '../authors/aut_detail.dart';
 import 'songs_player.dart';
 import 'songs_pdf.dart';
-import '../editor/edit_song_page.dart';
+import '../editor/editor.dart';
 import '../home/home.dart';
 
 class SongsDetail extends StatefulWidget {
@@ -481,7 +481,7 @@ class _SongsDetailState extends State<SongsDetail> {
                           context,
                           MaterialPageRoute(
                             builder: (context) {
-                              return EditSongPage(
+                              return Editor(
                                 songId: get.songId,
                                 songTitle: get.songTitle,
                                 songText: get.songText,

@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import '/utilities/constants.dart';
 import '/utilities/theme_provider.dart';
 
-import '/screens/editor/new_song_page.dart';
+import '/screens/editor/editor.dart';
 
 class DetailList extends StatelessWidget {
   const DetailList({
@@ -65,7 +65,7 @@ class DetailList extends StatelessWidget {
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) {
-                                    return const NewSongPage();
+                                    return const Editor();
                                   },
                                 ),
                               );
