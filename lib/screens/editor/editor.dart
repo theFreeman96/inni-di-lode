@@ -13,6 +13,7 @@ import 'editor_fields/cat_field.dart';
 import 'editor_dialogs/cat_dialog.dart';
 import 'editor_fields/aut_fields.dart';
 import 'editor_dialogs/aut_dialog.dart';
+import 'submit.dart';
 
 class Editor extends StatefulWidget {
   const Editor({
@@ -137,96 +138,42 @@ class EditorState extends State<Editor> {
           floatingActionButton: FloatingActionButton(
             tooltip: 'Conferma',
             onPressed: () {
-              final String transformedText = textController.text
-                  .replaceAll('---Strofa---\n', '<li>')
-                  .replaceAll('---Coro---', '<b>Coro:</b>')
-                  .replaceAll('---Bridge---', '<b>Bridge:</b>')
-                  .replaceAll('---Finale---', '<b>Finale:</b>')
-                  .replaceAll('\n', '<br>');
-              final String formattedText = '<ol>$transformedText</ol>';
-
-              if (newSongKey.currentState!.validate()) {
-                if (widget.songId != null) {
-                  query.updateSongs(
-                    titleController.text,
-                    formattedText,
-                    widget.songId,
-                  );
-                  for (int i = 0; i < macroList.length; i++) {
-                    int selectedMacro = macroList[i];
-                    int selectedCat = catList[i];
-                    if (selectedCat != 0) {
-                      query.updateSongsCategories(
-                        widget.songId,
-                        selectedMacro,
-                        selectedCat,
-                        titleController.text,
-                      );
-                    }
-                  }
-                  for (int selectedAut in autList) {
-                    if (selectedAut != 0) {
-                      query.updateSongsAuthors(
-                        widget.songId,
-                        selectedAut,
-                        titleController.text,
-                      );
-                    }
-                  }
-                } else {
-                  query.insertSongs(
-                    titleController.text,
-                    formattedText,
-                    0,
-                  );
-                  for (int i = 0; i < macroList.length; i++) {
-                    int selectedMacro = macroList[i];
-                    int selectedCat = catList[i];
-                    if (selectedCat != 0) {
-                      query.insertSongsCategories(
-                        newSongId,
-                        selectedMacro,
-                        selectedCat,
-                        titleController.text,
-                      );
-                    }
-                  }
-                  for (int selectedAut in autList) {
-                    if (selectedAut != 0) {
-                      query.insertSongsAuthors(
-                        newSongId,
-                        selectedAut,
-                        titleController.text,
-                      );
-                    }
-                  }
-                }
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text(
-                      widget.songId != null
-                          ? 'Cantico modificato!'
-                          : 'Cantico aggiunto!',
-                    ),
+              submit(
+                widget: widget,
+                editorKey: editorKey,
+                query: query,
+                newSongId: newSongId,
+                titleController: titleController,
+                textController: textController,
+                macroList: macroList,
+                catList: catList,
+                autList: autList,
+              );
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(
+                    widget.songId != null
+                        ? 'Cantico modificato!'
+                        : 'Cantico aggiunto!',
                   ),
-                );
-                FocusScope.of(context).unfocus();
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) {
-                      return const Home();
-                    },
-                  ),
-                );
-                titleController.clear();
-                textController.clear();
-                additionalCatFieldList.clear();
-                additionalAutFieldList.clear();
-                macroList = [0, 0, 0];
-                catList = [0, 0, 0];
-                autList = [0, 0, 0];
-              }
+                ),
+              );
+              FocusScope.of(context).unfocus();
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) {
+                    return const Home();
+                  },
+                ),
+              );
+              titleController.clear();
+              textController.clear();
+              additionalCatFieldList.clear();
+              additionalAutFieldList.clear();
+              macroList = [0, 0, 0];
+              catList = [0, 0, 0];
+              autList = [0, 0, 0];
             },
             child: const Icon(Icons.send),
           ),
