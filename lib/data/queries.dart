@@ -56,11 +56,11 @@ class QueryCtr {
     return list;
   }
 
-  Future<List<Categorie>?> getCatByMacro(macro_id) async {
+  Future<List<Categorie>?> getCatByMacro(macroId) async {
     final dbClient = await con.db;
     final res = await dbClient!.query('Categories',
         where: 'macro_id = ?',
-        whereArgs: [macro_id],
+        whereArgs: [macroId],
         orderBy: 'id',
         groupBy: 'id');
 
@@ -229,36 +229,35 @@ class QueryCtr {
     return null;
   }
 
-  Future<List<Raccolta>?> insertSongs_Categories(
-      song_id, macro_id, cat_id, song_title) async {
+  Future<List<Raccolta>?> insertSongsCategories(
+      songId, macroId, catId, songTitle) async {
     final dbClient = await con.db;
     await dbClient!.insert(
       'Songs_Categories',
       {
-        'song_id': song_id,
-        'macro_id': macro_id,
-        'cat_id': cat_id,
-        'song_title': song_title
+        'song_id': songId,
+        'macro_id': macroId,
+        'cat_id': catId,
+        'song_title': songTitle
       },
     );
     return null;
   }
 
-  Future<List<Raccolta>?> insertSongs_Authors(
-      song_id, aut_id, song_title) async {
+  Future<List<Raccolta>?> insertSongsAuthors(songId, autId, songTitle) async {
     final dbClient = await con.db;
     await dbClient!.insert(
       'Songs_Authors',
-      {'song_id': song_id, 'aut_id': aut_id, 'song_title': song_title},
+      {'song_id': songId, 'aut_id': autId, 'song_title': songTitle},
     );
     return null;
   }
 
-  Future<List<Raccolta>?> insertCat(name, macro_id) async {
+  Future<List<Raccolta>?> insertCat(name, macroId) async {
     final dbClient = await con.db;
     await dbClient!.insert(
       'Categories',
-      {'name': name, 'macro_id': macro_id},
+      {'name': name, 'macro_id': macroId},
     );
     return null;
   }
@@ -284,34 +283,34 @@ class QueryCtr {
     return null;
   }
 
-  Future<List<Raccolta>?> updateSongs_Categories(
-      id, macro_id, cat_id, song_title) async {
+  Future<List<Raccolta>?> updateSongsCategories(
+      id, macroId, catId, songTitle) async {
     final dbClient = await con.db;
     await dbClient!.update(
       'Songs_Categories',
-      {'macro_id': macro_id, 'cat_id': cat_id, 'song_title': song_title},
+      {'macro_id': macroId, 'cat_id': catId, 'song_title': songTitle},
       where: 'song_id = ?',
       whereArgs: [id],
     );
     return null;
   }
 
-  Future<List<Raccolta>?> updateSongs_Authors(id, aut_id, song_title) async {
+  Future<List<Raccolta>?> updateSongsAuthors(id, autId, songTitle) async {
     final dbClient = await con.db;
     await dbClient!.update(
       'Songs_Authors',
-      {'aut_id': aut_id, 'song_title': song_title},
+      {'aut_id': autId, 'song_title': songTitle},
       where: 'song_id = ?',
       whereArgs: [id],
     );
     return null;
   }
 
-  Future<List<Raccolta>?> updateCat(name, macro_id, id) async {
+  Future<List<Raccolta>?> updateCat(name, macroId, id) async {
     final dbClient = await con.db;
     await dbClient!.update(
       'Categories',
-      {'name': name, 'macro_id': macro_id},
+      {'name': name, 'macro_id': macroId},
       where: 'id = ?',
       whereArgs: [id],
     );
