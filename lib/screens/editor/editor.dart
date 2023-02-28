@@ -31,7 +31,7 @@ class Editor extends StatefulWidget {
 }
 
 class EditorState extends State<Editor> {
-  final newSongKey = GlobalKey<FormState>();
+  final editorKey = GlobalKey<FormState>();
   late TextEditingController titleController;
   late TextEditingController textController;
   late FocusNode textFocusNode;
@@ -234,7 +234,7 @@ class EditorState extends State<Editor> {
             child: Padding(
               padding: const EdgeInsets.all(kDefaultPadding),
               child: Form(
-                key: newSongKey,
+                key: editorKey,
                 child: Column(
                   children: [
                     Row(
