@@ -55,21 +55,19 @@ class EditorState extends State<Editor> {
 
   @override
   void initState() {
-    titleController = widget.songTitle != null
-        ? TextEditingController(text: widget.songTitle)
-        : TextEditingController();
-    textController = widget.songText != null
-        ? TextEditingController(
-            text: widget.songText!
-                .replaceAll('<ol>', '')
-                .replaceAll('</ol>', '')
-                .replaceAll('<li>', '---Strofa---\n')
-                .replaceAll('<b>Coro:</b>', '---Coro---')
-                .replaceAll('<b>Bridge:</b>', '---Bridge---')
-                .replaceAll('<b>Finale:</b>', '---Finale---')
-                .replaceAll('<br>', '\n'),
-          )
-        : TextEditingController();
+    titleController = TextEditingController(text: widget.songTitle);
+    textController = TextEditingController(
+      text: widget.songText != null
+          ? widget.songText!
+              .replaceAll('<ol>', '')
+              .replaceAll('</ol>', '')
+              .replaceAll('<li>', '---Strofa---\n')
+              .replaceAll('<b>Coro:</b>', '---Coro---')
+              .replaceAll('<b>Bridge:</b>', '---Bridge---')
+              .replaceAll('<b>Finale:</b>', '---Finale---')
+              .replaceAll('<br>', '\n')
+          : '',
+    );
     textFocusNode = FocusNode();
     super.initState();
   }
