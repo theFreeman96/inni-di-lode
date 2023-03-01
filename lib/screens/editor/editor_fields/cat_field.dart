@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
+import '/components/drop_list.dart';
 import '/data/queries.dart';
 
-import 'drop_list.dart';
 import '../editor.dart';
 
 class CatFields extends StatefulWidget {

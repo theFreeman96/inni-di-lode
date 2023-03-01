@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 
 import '/utilities/constants.dart';
 
-import '../editor.dart';
+import '../screens/editor/editor.dart';
 
 class DropList extends StatelessWidget {
   DropList({
