@@ -5,20 +5,30 @@ import '/data/queries.dart';
 import '/utilities/constants.dart';
 import '/utilities/theme_provider.dart';
 
-class CatDialog extends StatelessWidget {
-  CatDialog({
+class CatDialog extends StatefulWidget {
+  const CatDialog({
     Key? key,
     required this.newKey,
     required this.controller,
-    required this.state,
   }) : super(key: key);
 
   final GlobalKey<FormState> newKey;
   final TextEditingController controller;
-  final dynamic state;
-  late String macroHint = 'Seleziona';
-  late int? macro;
+
+  @override
+  State<CatDialog> createState() => _CatDialogState();
+}
+
+class _CatDialogState extends State<CatDialog> {
   final QueryCtr query = QueryCtr();
+  late String macroHint;
+  late int macro;
+
+  @override
+  void initState() {
+    macroHint = 'Seleziona';
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -63,13 +73,13 @@ class CatDialog extends StatelessWidget {
               scrollable: true,
               title: const Text('Nuova categoria'),
               content: Form(
-                key: newKey,
+                key: widget.newKey,
                 child: Column(
                   children: <Widget>[
                     Padding(
                       padding: const EdgeInsets.only(bottom: kDefaultPadding),
                       child: TextFormField(
-                        controller: controller,
+                        controller: widget.controller,
                         textCapitalization: TextCapitalization.sentences,
                         decoration: const InputDecoration(
                           labelText: 'Nome categoria',
@@ -122,7 +132,7 @@ class CatDialog extends StatelessWidget {
                                   );
                                 }).toList(),
                                 onChanged: (value) {
-                                  state(() {
+                                  setState(() {
                                     macroHint = value!;
                                   });
                                 },
@@ -150,22 +160,22 @@ class CatDialog extends StatelessWidget {
                 OutlinedButton(
                   onPressed: () {
                     Navigator.pop(context, 'Annulla');
-                    controller.clear();
+                    widget.controller.clear();
                   },
                   child: const Text('Annulla'),
                 ),
                 ElevatedButton(
                   onPressed: () {
-                    if (newKey.currentState!.validate()) {
-                      query.insertCat(controller.text, macro);
+                    if (widget.newKey.currentState!.validate()) {
+                      query.insertCat(widget.controller.text, macro);
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(
                           content: Text('Categoria aggiunta!'),
                         ),
                       );
                       Navigator.pop(context, 'Conferma');
-                      controller.clear();
-                      state(() {});
+                      widget.controller.clear();
+                      setState(() {});
                     }
                   },
                   child: const Text('Conferma'),

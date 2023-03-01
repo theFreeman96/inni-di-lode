@@ -210,7 +210,6 @@ class EditorState extends State<Editor> {
                             CatDialog(
                               newKey: newCatKey,
                               controller: catController,
-                              state: setState,
                             ),
                           ],
                         ),
