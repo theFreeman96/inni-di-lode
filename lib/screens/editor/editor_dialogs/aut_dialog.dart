@@ -6,7 +6,7 @@ import '/utilities/constants.dart';
 import '/utilities/theme_provider.dart';
 
 class AutDialog extends StatelessWidget {
-  AutDialog({
+  const AutDialog({
     Key? key,
     required this.newKey,
     required this.nameController,
@@ -18,10 +18,10 @@ class AutDialog extends StatelessWidget {
   final TextEditingController nameController;
   final TextEditingController surController;
   final dynamic state;
-  final QueryCtr query = QueryCtr();
 
   @override
   Widget build(BuildContext context) {
+    final QueryCtr query = QueryCtr();
     final themeProvider = Provider.of<ThemeProvider>(context);
     return TextButton.icon(
       icon: Icon(Icons.person_add,
