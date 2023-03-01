@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../home/home.dart';
 import '/data/queries.dart';
 
 import 'editor.dart';
@@ -14,6 +15,9 @@ submit({
   required List<int> macroList,
   required List<int> catList,
   required List<int> autList,
+  required BuildContext context,
+  required List<int> additionalCatFieldList,
+  required List<int> additionalAutFieldList,
 }) {
   final String transformedText = textController.text
       .replaceAll('---Strofa---\n', '<li>')
@@ -51,7 +55,7 @@ submit({
           );
         }
       }
-    } else {
+    } else if (widget.songId == null) {
       query.insertSongs(
         titleController.text,
         formattedText,
@@ -78,6 +82,29 @@ submit({
           );
         }
       }
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            widget.songId != null ? 'Cantico modificato!' : 'Cantico aggiunto!',
+          ),
+        ),
+      );
+      FocusScope.of(context).unfocus();
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) {
+            return const Home();
+          },
+        ),
+      );
+      titleController.clear();
+      textController.clear();
+      additionalCatFieldList.clear();
+      additionalAutFieldList.clear();
+      macroList = [0, 0, 0];
+      catList = [0, 0, 0];
+      autList = [0, 0, 0];
     }
   }
 }

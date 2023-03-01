@@ -139,6 +139,7 @@ class EditorState extends State<Editor> {
             tooltip: 'Conferma',
             onPressed: () {
               submit(
+                context: context,
                 widget: widget,
                 editorKey: editorKey,
                 query: query,
@@ -148,32 +149,9 @@ class EditorState extends State<Editor> {
                 macroList: macroList,
                 catList: catList,
                 autList: autList,
+                additionalCatFieldList: additionalCatFieldList,
+                additionalAutFieldList: additionalAutFieldList,
               );
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text(
-                    widget.songId != null
-                        ? 'Cantico modificato!'
-                        : 'Cantico aggiunto!',
-                  ),
-                ),
-              );
-              FocusScope.of(context).unfocus();
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) {
-                    return const Home();
-                  },
-                ),
-              );
-              titleController.clear();
-              textController.clear();
-              additionalCatFieldList.clear();
-              additionalAutFieldList.clear();
-              macroList = [0, 0, 0];
-              catList = [0, 0, 0];
-              autList = [0, 0, 0];
             },
             child: const Icon(Icons.send),
           ),
