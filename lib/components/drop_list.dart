@@ -6,38 +6,47 @@ import '/utilities/constants.dart';
 
 import '../screens/editor/editor.dart';
 
-class DropList extends StatelessWidget {
-  DropList({
+class DropList extends StatefulWidget {
+  const DropList({
     Key? key,
     required this.future,
-    required this.hint,
     required this.icon,
     required this.label,
-    required this.index,
     required this.from,
-    required this.state,
-    required this.mylog,
-    required this.validator1,
-    required this.validator2,
     required this.message,
+    this.index,
+    this.myLog,
+    this.multipleFieldsValidator,
+    this.singleFieldValidator,
   }) : super(key: key);
 
   final Future<List?> future;
-  late String hint;
   final IconData icon;
   final String label;
   final String from;
-  final int index;
-  final dynamic state;
-  final String mylog;
-  final String validator1;
-  final String validator2;
   final String message;
+  final int? index;
+  final String? myLog;
+  final String? multipleFieldsValidator;
+  final String? singleFieldValidator;
+
+  @override
+  State<DropList> createState() => DropListState();
+}
+
+class DropListState extends State<DropList> {
+  late String hint;
+
+  @override
+  void initState() {
+    hint = 'Seleziona';
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: future,
+      future: widget.future,
       builder: (context, AsyncSnapshot snapshot) {
         return snapshot.hasData
             ? DropdownButtonFormField<String>(
@@ -55,18 +64,21 @@ class DropList extends StatelessWidget {
                     vertical: kDefaultPadding,
                   ),
                   prefixIcon: Icon(
-                    icon,
+                    widget.icon,
                     color: kLightGrey,
                   ),
-                  labelText: label,
+                  labelText: widget.label,
                 ),
                 items: snapshot.data!.map<DropdownMenuItem<String>>((get) {
-                  return from == 'Categoria'
+                  return widget.from == 'Categoria'
                       ? DropdownMenuItem<String>(
                           value: get.name,
                           onTap: () {
-                            EditorState.catList[index] = get.id;
-                            EditorState.macroList[index] = get.macro_id;
+                            if (widget.index != null) {
+                              EditorState.catList[widget.index!] = get.id;
+                              EditorState.macroList[widget.index!] =
+                                  get.macro_id;
+                            }
                           },
                           child: Text(get.name),
                         )
@@ -74,23 +86,27 @@ class DropList extends StatelessWidget {
                           value:
                               '${get.name} ${get.surname.isEmpty ? '' : get.surname}',
                           onTap: () {
-                            EditorState.autList[index] = get.id;
+                            if (widget.index != null) {
+                              EditorState.autList[widget.index!] = get.id;
+                            }
                           },
                           child: Text(
                               '${get.name} ${get.surname.isEmpty ? '' : get.surname}'),
                         );
                 }).toList(),
                 onChanged: (value) {
-                  state(() {
+                  setState(() {
                     hint = value!;
-                    log(mylog);
+                    if (widget.myLog != null) {
+                      log(widget.myLog!);
+                    }
                   });
                 },
                 validator: (value) {
-                  if (index != 0 && value == null) {
-                    return validator1;
+                  if (widget.index != 0 && value == null) {
+                    return widget.multipleFieldsValidator;
                   } else if (value == null || value.isEmpty) {
-                    return validator2;
+                    return widget.singleFieldValidator;
                   }
                   return null;
                 },
@@ -98,7 +114,7 @@ class DropList extends StatelessWidget {
             : Padding(
                 padding: const EdgeInsets.only(top: kDefaultPadding),
                 child: Text(
-                  message,
+                  widget.message,
                   textAlign: TextAlign.center,
                 ),
               );
