@@ -86,8 +86,23 @@ class _SongsDetailState extends State<SongsDetail> {
               controller: pageController,
               itemBuilder: (context, i) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const Scaffold(
-                    body: Center(
+                  return Scaffold(
+                    extendBody: true,
+                    appBar: AppBar(
+                      elevation: 0.0,
+                      leading: IconButton(
+                        tooltip: 'Indietro',
+                        icon: const Icon(Icons.arrow_back),
+                        onPressed: () {
+                          FocusScope.of(context).unfocus();
+                          Navigator.of(context).pop();
+                        },
+                      ),
+                      actions: const [
+                        ThemeSwitch(),
+                      ],
+                    ),
+                    body: const Center(
                       child: CircularProgressIndicator(),
                     ),
                   );
@@ -95,8 +110,23 @@ class _SongsDetailState extends State<SongsDetail> {
                 if (!snapshot.hasData ||
                     snapshot.data!.isEmpty ||
                     snapshot.hasError) {
-                  return const Scaffold(
-                    body: Center(
+                  return Scaffold(
+                    extendBody: true,
+                    appBar: AppBar(
+                      elevation: 0.0,
+                      leading: IconButton(
+                        tooltip: 'Indietro',
+                        icon: const Icon(Icons.arrow_back),
+                        onPressed: () {
+                          FocusScope.of(context).unfocus();
+                          Navigator.of(context).pop();
+                        },
+                      ),
+                      actions: const [
+                        ThemeSwitch(),
+                      ],
+                    ),
+                    body: const Center(
                       child: Text(
                         'Cantico non trovato',
                         style: TextStyle(fontSize: 20.0),
