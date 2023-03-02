@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:inni_di_lode/components/theme_switch.dart';
 import 'package:provider/provider.dart';
 
 import '/utilities/constants.dart';
@@ -50,6 +51,31 @@ class DrawerMenu extends StatelessWidget {
                       future: QueryCtr().getAllSongs(),
                       initialData: const [],
                       builder: (context, snapshot) {
+                        if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                          return Scaffold(
+                            extendBody: true,
+                            appBar: AppBar(
+                              elevation: 0.0,
+                              leading: IconButton(
+                                tooltip: 'Indietro',
+                                icon: const Icon(Icons.arrow_back),
+                                onPressed: () {
+                                  FocusScope.of(context).unfocus();
+                                  Navigator.of(context).pop();
+                                },
+                              ),
+                              actions: const [
+                                ThemeSwitch(),
+                              ],
+                            ),
+                            body: const Center(
+                              child: Text(
+                                'Cantico non trovato',
+                                style: TextStyle(fontSize: 20.0),
+                              ),
+                            ),
+                          );
+                        }
                         int randomSongId =
                             Random().nextInt(snapshot.data!.length);
                         return SongsDetail(
