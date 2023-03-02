@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 
 import '/utilities/constants.dart';
 import '/utilities/theme_provider.dart';
+import '/components/theme_switch.dart';
 import '/components/detail_list.dart';
 import '/data/models.dart';
 import '/data/queries.dart';
@@ -321,6 +322,7 @@ class _CatDetailState extends State<CatDetail> {
               ],
             ),
           ),
+          const ThemeSwitch(),
         ],
       ),
       body: DetailList(

@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 import '/utilities/constants.dart';
-import '/utilities/theme_provider.dart';
+import '/components/theme_switch.dart';
 import '/data/queries.dart';
 
 import '../home/home.dart';
@@ -111,26 +110,8 @@ class EditorState extends State<Editor> {
                 autList = [0, 0, 0];
               },
             ),
-            actions: <Widget>[
-              Consumer<ThemeProvider>(
-                builder: (context, themeProvider, child) {
-                  return Row(
-                    children: [
-                      Icon(
-                        themeProvider.isDarkMode
-                            ? Icons.dark_mode
-                            : Icons.light_mode,
-                      ),
-                      Switch(
-                        onChanged: (value) {
-                          themeProvider.toggleTheme();
-                        },
-                        value: themeProvider.isDarkMode,
-                      ),
-                    ],
-                  );
-                },
-              ),
+            actions: const [
+              ThemeSwitch(),
             ],
           ),
           floatingActionButton: FloatingActionButton(

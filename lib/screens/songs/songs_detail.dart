@@ -7,6 +7,7 @@ import 'package:flutter_html/flutter_html.dart';
 
 import '/utilities/constants.dart';
 import '/utilities/theme_provider.dart';
+import '/components/theme_switch.dart';
 import '/data/models.dart';
 import '/data/queries.dart';
 
@@ -155,26 +156,8 @@ class _SongsDetailState extends State<SongsDetail> {
             Navigator.of(context).pop();
           },
         ),
-        actions: <Widget>[
-          Consumer<ThemeProvider>(
-            builder: (context, themeProvider, child) {
-              return Row(
-                children: [
-                  Icon(
-                    themeProvider.isDarkMode
-                        ? Icons.dark_mode
-                        : Icons.light_mode,
-                  ),
-                  Switch(
-                    onChanged: (value) {
-                      themeProvider.toggleTheme();
-                    },
-                    value: themeProvider.isDarkMode,
-                  ),
-                ],
-              );
-            },
-          ),
+        actions: const [
+          ThemeSwitch(),
         ],
       ),
       body: Scrollbar(

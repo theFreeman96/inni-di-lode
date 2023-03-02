@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '/components/page_header.dart';
+import '/components/theme_switch.dart';
 
 import 'info_body.dart';
 
@@ -23,6 +24,9 @@ class InfoPage extends StatelessWidget {
             Navigator.of(context).pop();
           },
         ),
+        actions: const [
+          ThemeSwitch(),
+        ],
       ),
       body: orientation == Orientation.portrait
           ? NestedScrollView(
