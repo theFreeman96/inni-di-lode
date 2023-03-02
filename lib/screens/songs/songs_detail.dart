@@ -85,6 +85,25 @@ class _SongsDetailState extends State<SongsDetail> {
             return PageView.builder(
               controller: pageController,
               itemBuilder: (context, i) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Scaffold(
+                    body: Center(
+                      child: CircularProgressIndicator(),
+                    ),
+                  );
+                }
+                if (!snapshot.hasData ||
+                    snapshot.data!.isEmpty ||
+                    snapshot.hasError) {
+                  return const Scaffold(
+                    body: Center(
+                      child: Text(
+                        'Cantico non trovato',
+                        style: TextStyle(fontSize: 20.0),
+                      ),
+                    ),
+                  );
+                }
                 return buildPage(snapshot.data![i % snapshot.data!.length]);
               },
             );
