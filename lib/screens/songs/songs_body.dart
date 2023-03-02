@@ -22,6 +22,7 @@ class _SongsBodyState extends State<SongsBody> {
   final FocusNode myFocusNode = FocusNode();
   final QueryCtr query = QueryCtr();
   late int currentPage = 0;
+  final int itemsPerPage = 100;
 
   void onValueChanged(newValue) {
     setState(() {
@@ -38,6 +39,12 @@ class _SongsBodyState extends State<SongsBody> {
     query.getSongsFromRange(501, 600),
     query.getSongsFromRange(601, 700),
     query.getSongsFromRange(701, 800),
+    query.getSongsFromRange(801, 900),
+    query.getSongsFromRange(901, 1000),
+    query.getSongsFromRange(1001, 1100),
+    query.getSongsFromRange(1101, 1200),
+    query.getSongsFromRange(1201, 1300),
+    query.getSongsFromRange(1301, 1400),
   ];
 
   late Future<List?> future;
@@ -88,27 +95,34 @@ class _SongsBodyState extends State<SongsBody> {
                 right: kDefaultPadding,
                 bottom: kDefaultPadding,
               ),
-              child: NumberPaginator(
-                numberPages: songRange.length,
-                onPageChange: (int index) {
-                  setState(() {
-                    currentPage = index;
-                  });
-                },
-                config: NumberPaginatorUIConfig(
-                  height: 44,
-                  mode: ContentDisplayMode.numbers,
-                  buttonSelectedForegroundColor: kWhite,
-                  buttonUnselectedForegroundColor:
-                      themeProvider.isDarkMode ? kWhite : kBlack,
-                  buttonSelectedBackgroundColor: themeProvider.isDarkMode
-                      ? kPrimaryLightColor
-                      : kPrimaryColor,
-                  buttonUnselectedBackgroundColor: themeProvider.isDarkMode
-                      ? kWhite.withOpacity(0.2)
-                      : kBlack.withOpacity(0.1),
-                ),
-              ),
+              child: FutureBuilder(
+                  future: query.getAllSongs(),
+                  builder: (context, AsyncSnapshot snapshot) {
+                    return NumberPaginator(
+                      numberPages: snapshot.hasData
+                          ? (snapshot.data!.length / itemsPerPage).ceil()
+                          : 7,
+                      onPageChange: (int index) {
+                        setState(() {
+                          currentPage = index;
+                        });
+                      },
+                      config: NumberPaginatorUIConfig(
+                        height: 44,
+                        mode: ContentDisplayMode.numbers,
+                        buttonSelectedForegroundColor: kWhite,
+                        buttonUnselectedForegroundColor:
+                            themeProvider.isDarkMode ? kWhite : kBlack,
+                        buttonSelectedBackgroundColor: themeProvider.isDarkMode
+                            ? kPrimaryLightColor
+                            : kPrimaryColor,
+                        buttonUnselectedBackgroundColor:
+                            themeProvider.isDarkMode
+                                ? kWhite.withOpacity(0.2)
+                                : kBlack.withOpacity(0.1),
+                      ),
+                    );
+                  }),
             ),
           ),
         ),
