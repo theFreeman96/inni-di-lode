@@ -74,6 +74,13 @@ class EditorState extends State<Editor> {
   @override
   void dispose() {
     textFocusNode.dispose();
+    titleController.dispose();
+    textController.dispose();
+    additionalCatFieldList.clear();
+    additionalAutFieldList.clear();
+    macroList.clear();
+    catList.clear();
+    autList.clear();
     super.dispose();
   }
 

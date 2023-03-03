@@ -82,29 +82,29 @@ submit({
           );
         }
       }
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(
-            widget.songId != null ? 'Cantico modificato!' : 'Cantico aggiunto!',
-          ),
-        ),
-      );
-      FocusScope.of(context).unfocus();
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) {
-            return const Home();
-          },
-        ),
-      );
-      titleController.clear();
-      textController.clear();
-      additionalCatFieldList.clear();
-      additionalAutFieldList.clear();
-      macroList = [0, 0, 0];
-      catList = [0, 0, 0];
-      autList = [0, 0, 0];
     }
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          widget.songId != null ? 'Cantico modificato!' : 'Cantico aggiunto!',
+        ),
+      ),
+    );
+    FocusScope.of(context).unfocus();
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) {
+          return const Home();
+        },
+      ),
+    );
+    titleController.clear();
+    textController.clear();
+    additionalCatFieldList.clear();
+    additionalAutFieldList.clear();
+    macroList = [0, 0, 0];
+    catList = [0, 0, 0];
+    autList = [0, 0, 0];
   }
 }
