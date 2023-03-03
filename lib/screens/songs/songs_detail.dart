@@ -85,28 +85,6 @@ class _SongsDetailState extends State<SongsDetail> {
             return PageView.builder(
               controller: pageController,
               itemBuilder: (context, i) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Scaffold(
-                    extendBody: true,
-                    appBar: AppBar(
-                      elevation: 0.0,
-                      leading: IconButton(
-                        tooltip: 'Indietro',
-                        icon: const Icon(Icons.arrow_back),
-                        onPressed: () {
-                          FocusScope.of(context).unfocus();
-                          Navigator.of(context).pop();
-                        },
-                      ),
-                      actions: const [
-                        ThemeSwitch(),
-                      ],
-                    ),
-                    body: const Center(
-                      child: CircularProgressIndicator(),
-                    ),
-                  );
-                }
                 if (!snapshot.hasData ||
                     snapshot.data!.isEmpty ||
                     snapshot.hasError) {
@@ -126,12 +104,7 @@ class _SongsDetailState extends State<SongsDetail> {
                         ThemeSwitch(),
                       ],
                     ),
-                    body: const Center(
-                      child: Text(
-                        'Cantico non trovato',
-                        style: TextStyle(fontSize: 20.0),
-                      ),
-                    ),
+                    body: const CircularProgressIndicator(),
                   );
                 }
                 return buildPage(snapshot.data![i % snapshot.data!.length]);
