@@ -284,25 +284,112 @@ class QueryCtr {
   }
 
   Future<List<Raccolta>?> updateSongsCategories(
-      id, macroId, catId, songTitle) async {
+      id, macroIdList, catIdList, songTitle) async {
     final dbClient = await con.db;
-    await dbClient!.update(
+
+    // Get all existing category records for the specified song
+    final List<Map<String, dynamic>> existingCategories = await dbClient!.query(
       'Songs_Categories',
-      {'macro_id': macroId, 'cat_id': catId, 'song_title': songTitle},
       where: 'song_id = ?',
       whereArgs: [id],
-    );
+    ).then((records) => records);
+
+    // Create a new list of category records to be inserted
+    final List<Map<String, dynamic>> newCategories = [];
+    for (int i = 0; i < macroIdList.length; i++) {
+      int macroId = macroIdList[i];
+      int catId = catIdList[i];
+      newCategories.add({
+        'song_id': id,
+        'macro_id': macroId,
+        'cat_id': catId,
+        'song_title': songTitle,
+      });
+    }
+
+    // Insert the new category records
+    for (int i = 0; i < newCategories.length; i++) {
+      await dbClient.insert(
+        'Songs_Categories',
+        newCategories[i],
+      );
+    }
+
+    // Delete any existing category records that are not in the new list
+    for (int i = 0; i < existingCategories.length; i++) {
+      Map<String, dynamic> existingCategory = existingCategories[i];
+      bool existsInNewList = false;
+      for (int j = 0; j < newCategories.length; j++) {
+        if (existingCategory['macro_id'] == newCategories[j]['macro_id'] &&
+            existingCategory['cat_id'] == newCategories[j]['cat_id']) {
+          existsInNewList = true;
+          break;
+        }
+      }
+      if (!existsInNewList) {
+        await dbClient.delete(
+          'Songs_Categories',
+          where: 'song_id = ? AND macro_id = ? AND cat_id = ?',
+          whereArgs: [
+            id,
+            existingCategory['macro_id'],
+            existingCategory['cat_id']
+          ],
+        );
+      }
+    }
+
     return null;
   }
 
-  Future<List<Raccolta>?> updateSongsAuthors(id, autId, songTitle) async {
+  Future<List<Raccolta>?> updateSongsAuthors(id, autIdList, songTitle) async {
     final dbClient = await con.db;
-    await dbClient!.update(
+
+    // Get all existing author records for the specified song
+    final List<Map<String, dynamic>> existingAuthors = await dbClient!.query(
       'Songs_Authors',
-      {'aut_id': autId, 'song_title': songTitle},
       where: 'song_id = ?',
       whereArgs: [id],
-    );
+    ).then((records) => records);
+
+    // Create a new list of author records to be inserted
+    final List<Map<String, dynamic>> newAuthors = [];
+    for (int i = 0; i < autIdList.length; i++) {
+      int autId = autIdList[i];
+      newAuthors.add({
+        'song_id': id,
+        'aut_id': autId,
+        'song_title': songTitle,
+      });
+    }
+
+    // Insert the new author records
+    for (int i = 0; i < newAuthors.length; i++) {
+      await dbClient.insert(
+        'Songs_Authors',
+        newAuthors[i],
+      );
+    }
+
+    // Delete any existing author records that are not in the new list
+    for (int i = 0; i < existingAuthors.length; i++) {
+      Map<String, dynamic> existingAuthor = existingAuthors[i];
+      bool existsInNewList = false;
+      for (int j = 0; j < newAuthors.length; j++) {
+        if (existingAuthor['aut_id'] == newAuthors[j]['aut_id']) {
+          existsInNewList = true;
+          break;
+        }
+      }
+      if (!existsInNewList) {
+        await dbClient.delete(
+          'Songs_Authors',
+          where: 'song_id = ? AND aut_id = ?',
+          whereArgs: [id, existingAuthor['aut_id']],
+        );
+      }
+    }
+
     return null;
   }
 

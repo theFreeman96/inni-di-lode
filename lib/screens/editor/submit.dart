@@ -28,39 +28,32 @@ submit({
   final String formattedText = '<ol>$transformedText</ol>';
 
   if (editorKey.currentState!.validate()) {
-    if (widget.songId != null) {
+    if (widget.songId != null && catList.isNotEmpty && autList.isNotEmpty) {
       query.updateSongs(
         titleController.text,
         formattedText,
         widget.songId,
       );
-      for (int i = 0; i < macroList.length; i++) {
-        int selectedMacro = macroList[i];
-        int selectedCat = catList[i];
-        if (selectedCat != 0) {
-          query.updateSongsCategories(
-            widget.songId,
-            selectedMacro,
-            selectedCat,
-            titleController.text,
-          );
-        }
-      }
-      for (int selectedAut in autList) {
-        if (selectedAut != 0) {
-          query.updateSongsAuthors(
-            widget.songId,
-            selectedAut,
-            titleController.text,
-          );
-        }
-      }
+
+      query.updateSongsCategories(
+        widget.songId,
+        macroList,
+        catList,
+        titleController.text,
+      );
+
+      query.updateSongsAuthors(
+        widget.songId,
+        autList,
+        titleController.text,
+      );
     } else if (widget.songId == null) {
       query.insertSongs(
         titleController.text,
         formattedText,
         0,
       );
+
       for (int i = 0; i < macroList.length; i++) {
         int selectedMacro = macroList[i];
         int selectedCat = catList[i];
@@ -73,6 +66,7 @@ submit({
           );
         }
       }
+
       for (int selectedAut in autList) {
         if (selectedAut != 0) {
           query.insertSongsAuthors(
@@ -83,6 +77,7 @@ submit({
         }
       }
     }
+
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(
@@ -90,7 +85,9 @@ submit({
         ),
       ),
     );
+
     FocusScope.of(context).unfocus();
+
     Navigator.push(
       context,
       MaterialPageRoute(
@@ -99,6 +96,7 @@ submit({
         },
       ),
     );
+
     titleController.clear();
     textController.clear();
     additionalCatFieldList.clear();
