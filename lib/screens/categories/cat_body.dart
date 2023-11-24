@@ -3,11 +3,11 @@ import 'package:provider/provider.dart';
 
 import '/utilities/constants.dart';
 import '/utilities/theme_provider.dart';
-import '/components/list_main.dart';
+import '/components/search_bar.dart';
+import '/components/main_list.dart';
 import '/data/models.dart';
 import '/data/queries.dart';
 
-import '../home/home_searchbar.dart';
 import 'cat_detail.dart';
 
 class CatBody extends StatefulWidget {
@@ -50,14 +50,14 @@ class _CatBodyState extends State<CatBody> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        buildSearchBar(
+        SearchBar(
           focusNode: myFocusNode,
           filter: runFilter,
           label: 'Cerca una categoria',
           hint: 'Cerca',
         ),
         const Divider(height: 0.0),
-        buildMainList(
+        MainList(
           future: future,
           padding: EdgeInsets.zero,
           row: buildRow,
@@ -155,14 +155,15 @@ class _CatBodyState extends State<CatBody> {
       ),
       onTap: () {
         FocusScope.of(context).unfocus();
-        int catId = get.id;
-        String catName = get.name;
-        int macroId = get.macro_id;
         Navigator.push(
           context,
           MaterialPageRoute(
             builder: (context) {
-              return CatDetail(catId, catName, macroId);
+              return CatDetail(
+                catId: get.id,
+                catName: get.name,
+                macroId: get.macro_id,
+              );
             },
           ),
         );

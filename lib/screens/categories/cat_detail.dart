@@ -3,7 +3,8 @@ import 'package:provider/provider.dart';
 
 import '/utilities/constants.dart';
 import '/utilities/theme_provider.dart';
-import '/components/list_detail.dart';
+import '/components/theme_switch.dart';
+import '/components/detail_list.dart';
 import '/data/models.dart';
 import '/data/queries.dart';
 
@@ -11,11 +12,17 @@ import '/screens/songs/songs_detail.dart';
 import '../home/home.dart';
 
 class CatDetail extends StatefulWidget {
+  const CatDetail({
+    Key? key,
+    required this.catId,
+    required this.catName,
+    required this.macroId,
+  }) : super(key: key);
+
   final int catId;
   final String catName;
   final int macroId;
-  const CatDetail(this.catId, this.catName, this.macroId, {Key? key})
-      : super(key: key);
+
   @override
   State<CatDetail> createState() => _CatDetailState();
 }
@@ -315,9 +322,10 @@ class _CatDetailState extends State<CatDetail> {
               ],
             ),
           ),
+          const ThemeSwitch(),
         ],
       ),
-      body: buildDetailList(
+      body: DetailList(
         context: context,
         future: query.getSongsByCat(id),
         controller: scrollController,
@@ -345,7 +353,11 @@ class _CatDetailState extends State<CatDetail> {
           context,
           MaterialPageRoute(
             builder: (context) {
-              return SongsDetail(index: i, from: 'Category', id: id);
+              return SongsDetail(
+                index: i,
+                from: 'Category',
+                id: id,
+              );
             },
           ),
         );

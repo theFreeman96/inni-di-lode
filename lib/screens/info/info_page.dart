@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '/components/header.dart';
+import '/components/page_header.dart';
+import '/components/theme_switch.dart';
 
 import 'info_body.dart';
 
@@ -23,6 +24,9 @@ class InfoPage extends StatelessWidget {
             Navigator.of(context).pop();
           },
         ),
+        actions: const [
+          ThemeSwitch(),
+        ],
       ),
       body: orientation == Orientation.portrait
           ? NestedScrollView(
@@ -37,9 +41,10 @@ class InfoPage extends StatelessWidget {
                     collapsedHeight: 0.0,
                     automaticallyImplyLeading: false,
                     backgroundColor: Colors.transparent,
-                    flexibleSpace: FlexibleSpaceBar(
-                      background:
-                          buildHeader('lib/assets/images/info_header.png'),
+                    flexibleSpace: const FlexibleSpaceBar(
+                      background: PageHeader(
+                        image: 'lib/assets/images/info_header.png',
+                      ),
                     ),
                   ),
                 ];
@@ -51,7 +56,9 @@ class InfoPage extends StatelessWidget {
                 SizedBox(
                   width: mediaQuery.size.width * 0.35,
                   height: mediaQuery.size.height,
-                  child: buildHeader('lib/assets/images/info_header.png'),
+                  child: const PageHeader(
+                    image: 'lib/assets/images/info_header.png',
+                  ),
                 ),
                 const Expanded(
                   child: InfoBody(),

@@ -3,7 +3,8 @@ import 'package:provider/provider.dart';
 
 import '/utilities/constants.dart';
 import '/utilities/theme_provider.dart';
-import '/components/list_detail.dart';
+import '/components/theme_switch.dart';
+import '/components/detail_list.dart';
 import '/data/models.dart';
 import '/data/queries.dart';
 
@@ -11,11 +12,17 @@ import '/screens/songs/songs_detail.dart';
 import '../home/home.dart';
 
 class AutDetail extends StatefulWidget {
+  const AutDetail({
+    Key? key,
+    required this.autId,
+    required this.autName,
+    required this.autSurname,
+  }) : super(key: key);
+
   final int autId;
   final String autName;
   final String autSurname;
-  const AutDetail(this.autId, this.autName, this.autSurname, {Key? key})
-      : super(key: key);
+
   @override
   State<AutDetail> createState() => _AutDetailState();
 }
@@ -266,9 +273,10 @@ class _AutDetailState extends State<AutDetail> {
               ],
             ),
           ),
+          const ThemeSwitch(),
         ],
       ),
-      body: buildDetailList(
+      body: DetailList(
         context: context,
         future: query.getSongsByAut(id),
         controller: scrollController,
@@ -296,7 +304,11 @@ class _AutDetailState extends State<AutDetail> {
           context,
           MaterialPageRoute(
             builder: (context) {
-              return SongsDetail(index: i, from: 'Author', id: id);
+              return SongsDetail(
+                index: i,
+                from: 'Author',
+                id: id,
+              );
             },
           ),
         );

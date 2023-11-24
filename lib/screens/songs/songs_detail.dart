@@ -7,6 +7,7 @@ import 'package:flutter_html/flutter_html.dart';
 
 import '/utilities/constants.dart';
 import '/utilities/theme_provider.dart';
+import '/components/theme_switch.dart';
 import '/data/models.dart';
 import '/data/queries.dart';
 
@@ -14,15 +15,20 @@ import '../categories/cat_detail.dart';
 import '../authors/aut_detail.dart';
 import 'songs_player.dart';
 import 'songs_pdf.dart';
-import '../editor/edit_song_page.dart';
+import '../editor/editor.dart';
 import '../home/home.dart';
 
 class SongsDetail extends StatefulWidget {
-  int index;
-  String from;
-  int? id;
-  SongsDetail({Key? key, required this.index, required this.from, this.id})
-      : super(key: key);
+  const SongsDetail({
+    Key? key,
+    required this.index,
+    required this.from,
+    this.id,
+  }) : super(key: key);
+
+  final int index;
+  final String from;
+  final int? id;
 
   @override
   State<SongsDetail> createState() => _SongsDetailState();
@@ -79,6 +85,28 @@ class _SongsDetailState extends State<SongsDetail> {
             return PageView.builder(
               controller: pageController,
               itemBuilder: (context, i) {
+                if (!snapshot.hasData ||
+                    snapshot.data!.isEmpty ||
+                    snapshot.hasError) {
+                  return Scaffold(
+                    extendBody: true,
+                    appBar: AppBar(
+                      elevation: 0.0,
+                      leading: IconButton(
+                        tooltip: 'Indietro',
+                        icon: const Icon(Icons.arrow_back),
+                        onPressed: () {
+                          FocusScope.of(context).unfocus();
+                          Navigator.of(context).pop();
+                        },
+                      ),
+                      actions: const [
+                        ThemeSwitch(),
+                      ],
+                    ),
+                    body: const CircularProgressIndicator(),
+                  );
+                }
                 return buildPage(snapshot.data![i % snapshot.data!.length]);
               },
             );
@@ -150,26 +178,8 @@ class _SongsDetailState extends State<SongsDetail> {
             Navigator.of(context).pop();
           },
         ),
-        actions: <Widget>[
-          Consumer<ThemeProvider>(
-            builder: (context, themeProvider, child) {
-              return Row(
-                children: [
-                  Icon(
-                    themeProvider.isDarkMode
-                        ? Icons.dark_mode
-                        : Icons.light_mode,
-                  ),
-                  Switch(
-                    onChanged: (value) {
-                      themeProvider.toggleTheme();
-                    },
-                    value: themeProvider.isDarkMode,
-                  ),
-                ],
-              );
-            },
-          ),
+        actions: const [
+          ThemeSwitch(),
         ],
       ),
       body: Scrollbar(
@@ -476,7 +486,7 @@ class _SongsDetailState extends State<SongsDetail> {
                           context,
                           MaterialPageRoute(
                             builder: (context) {
-                              return EditSongPage(
+                              return Editor(
                                 songId: get.songId,
                                 songTitle: get.songTitle,
                                 songText: get.songText,
@@ -564,14 +574,15 @@ class _SongsDetailState extends State<SongsDetail> {
       ),
       onPressed: () {
         FocusScope.of(context).unfocus();
-        int catId = get.catId;
-        String catName = get.catName;
-        int macroId = get.macroId;
         Navigator.push(
           context,
           MaterialPageRoute(
             builder: (context) {
-              return CatDetail(catId, catName, macroId);
+              return CatDetail(
+                catId: get.catId,
+                catName: get.catName,
+                macroId: get.macroId,
+              );
             },
           ),
         );
@@ -589,14 +600,15 @@ class _SongsDetailState extends State<SongsDetail> {
       ),
       onPressed: () {
         FocusScope.of(context).unfocus();
-        int autId = get.autId;
-        String autName = get.autName;
-        String autSurname = get.autSurname;
         Navigator.push(
           context,
           MaterialPageRoute(
             builder: (context) {
-              return AutDetail(autId, autName, autSurname);
+              return AutDetail(
+                autId: get.autId,
+                autName: get.autName,
+                autSurname: get.autSurname,
+              );
             },
           ),
         );

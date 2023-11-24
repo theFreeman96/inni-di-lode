@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 
+import '/components/drawer_menu.dart';
+
 import 'home_pages.dart';
 import 'home_bottom.dart';
-import 'home_drawer.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -31,10 +32,10 @@ class _HomeState extends State<Home> {
           elevation: 0,
         ),
       ),
-      drawer: Drawer(
-        child: buildDrawer(context),
+      drawer: const DrawerMenu(),
+      body: HomePages(
+        currentIndex: currentIndex,
       ),
-      body: buildPage(context, currentIndex),
       floatingActionButton: Builder(
         builder: (BuildContext context) {
           return FloatingActionButton(
@@ -47,7 +48,10 @@ class _HomeState extends State<Home> {
         },
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
-      bottomNavigationBar: buildBottom(context, currentIndex, onTabTapped),
+      bottomNavigationBar: HomeBottomBar(
+        currentIndex: currentIndex,
+        onTabTapped: onTabTapped,
+      ),
     );
   }
 }

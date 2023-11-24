@@ -3,11 +3,11 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 
 import '/utilities/constants.dart';
-import '/components/list_main.dart';
+import '/components/search_bar.dart';
+import '/components/main_list.dart';
 import '/data/models.dart';
 import '/data/queries.dart';
 
-import '../home/home_searchbar.dart';
 import '../songs/songs_detail.dart';
 
 class FavBody extends StatefulWidget {
@@ -58,14 +58,14 @@ class _FavBodyState extends State<FavBody> {
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
-        buildSearchBar(
+        SearchBar(
           focusNode: myFocusNode,
           filter: runFilter,
           label: 'Cerca per numero, titolo o testo',
           hint: 'Cerca un cantico',
         ),
         const Divider(height: 0.0),
-        buildMainList(
+        MainList(
           future: future,
           padding: EdgeInsets.zero,
           row: buildRow,
@@ -93,7 +93,10 @@ class _FavBodyState extends State<FavBody> {
           context,
           MaterialPageRoute(
             builder: (context) {
-              return SongsDetail(index: i, from: 'Favorites');
+              return SongsDetail(
+                index: i,
+                from: 'Favorites',
+              );
             },
           ),
         ).then(onGoBack);

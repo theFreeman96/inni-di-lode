@@ -28,7 +28,7 @@ dependencies:
 
   # Layout
   number_paginator: ^0.2.3
-  audioplayers: ^2.0.0
+  audioplayers: ^4.0.1
   url_launcher: ^6.1.5
 
   # Data

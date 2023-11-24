@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
 import '/utilities/constants.dart';
-import '/components/list_main.dart';
+import '/components/search_bar.dart';
+import '/components/main_list.dart';
 import '/data/models.dart';
 import '/data/queries.dart';
 
-import '../home/home_searchbar.dart';
 import 'aut_detail.dart';
 
 class AutBody extends StatefulWidget {
@@ -47,14 +47,14 @@ class _AutBodyState extends State<AutBody> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        buildSearchBar(
+        SearchBar(
           focusNode: myFocusNode,
           filter: runFilter,
           label: 'Cerca un autore',
           hint: 'Cerca',
         ),
         const Divider(height: 0.0),
-        buildMainList(
+        MainList(
           future: future,
           padding: EdgeInsets.zero,
           row: buildRow,
@@ -78,14 +78,15 @@ class _AutBodyState extends State<AutBody> {
       ),
       onTap: () {
         FocusScope.of(context).unfocus();
-        int autId = get.id;
-        String autName = get.name;
-        String autSurname = get.surname;
         Navigator.push(
           context,
           MaterialPageRoute(
             builder: (context) {
-              return AutDetail(autId, autName, autSurname);
+              return AutDetail(
+                autId: get.id,
+                autName: get.name,
+                autSurname: get.surname,
+              );
             },
           ),
         );
