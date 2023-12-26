@@ -27,8 +27,8 @@ dependencies:
     sdk: flutter
 
   # Layout
-  number_paginator: ^0.2.3
-  audioplayers: ^4.0.1
+  number_paginator: ^0.4.0
+  audioplayers: ^5.2.1
   url_launcher: ^6.1.5
 
   # Data
@@ -46,7 +46,7 @@ dependencies:
   html2md: ^1.2.5
 
   # PDF sharing
-  share_plus: ^6.3.0
+  share_plus: ^7.2.1
   pdf: ^3.7.3
 
   # The following adds the Cupertino Icons font to your application.
@@ -54,7 +54,7 @@ dependencies:
   cupertino_icons: ^1.0.2
 
 dev_dependencies:
-  flutter_lints: ^2.0.1
+  flutter_lints: ^3.0.1
   flutter_test:
     sdk: flutter
 
