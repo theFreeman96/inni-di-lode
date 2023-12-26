@@ -320,6 +320,7 @@ class _SongsDetailState extends State<SongsDetail> {
                         topRight: Radius.circular(15),
                       ),
                     ),
+                    showDragHandle: true,
                     isScrollControlled: true,
                     builder: (BuildContext context) {
                       return Column(
@@ -454,6 +455,7 @@ class _SongsDetailState extends State<SongsDetail> {
                         topRight: Radius.circular(15),
                       ),
                     ),
+                    showDragHandle: true,
                     isScrollControlled: true,
                     builder: (BuildContext context) {
                       return const SongsPlayer();
