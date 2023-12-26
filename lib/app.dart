@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:inni_di_lode/utilities/constants.dart';
 import 'package:provider/provider.dart';
 
 import '/utilities/globals.dart';
@@ -42,7 +44,12 @@ class Innario extends StatelessWidget {
                 Locale('it', ''),
                 Locale('en', ''),
               ],
-              home: const Home(),
+              home: AnnotatedRegion(
+                  value: SystemUiOverlayStyle(
+                    statusBarColor:
+                        themeProvider.isDarkMode ? kGrey : kPrimaryColor,
+                  ),
+                  child: const Home()),
             ),
           );
         },
