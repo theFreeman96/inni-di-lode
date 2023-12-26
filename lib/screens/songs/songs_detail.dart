@@ -209,11 +209,15 @@ class _SongsDetailState extends State<SongsDetail> {
                     fontSize: FontSize(fontSize),
                     lineHeight: LineHeight(lineHeight),
                     listStylePosition: ListStylePosition.inside,
-                    padding: const EdgeInsets.only(bottom: kDefaultPadding),
+                    padding: HtmlPaddings(
+                      bottom: HtmlPadding(kDefaultPadding),
+                    ),
                   ),
                   'li': Style(
-                      padding:
-                          const EdgeInsets.only(right: kDefaultPadding / 4)),
+                    padding: HtmlPaddings(
+                      right: HtmlPadding(kDefaultPadding / 4),
+                    ),
+                  ),
                 },
               ),
               const Divider(),
