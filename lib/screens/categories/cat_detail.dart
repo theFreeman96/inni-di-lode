@@ -177,7 +177,7 @@ class _CatDetailState extends State<CatDetail> {
                               },
                               child: const Text('Annulla'),
                             ),
-                            ElevatedButton(
+                            FilledButton(
                               onPressed: () {
                                 if (editCatKey.currentState!.validate()) {
                                   query.updateCat(
@@ -258,7 +258,7 @@ class _CatDetailState extends State<CatDetail> {
                                       ),
                                     ),
                                     actions: <Widget>[
-                                      ElevatedButton(
+                                      FilledButton(
                                         onPressed: () {
                                           Navigator.pop(context, 'Ho capito');
                                         },
@@ -296,7 +296,7 @@ class _CatDetailState extends State<CatDetail> {
                                         },
                                         child: const Text('Annulla'),
                                       ),
-                                      ElevatedButton(
+                                      FilledButton(
                                         onPressed: () {
                                           query.deleteCat(id);
                                           setState(() {});

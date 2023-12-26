@@ -533,7 +533,7 @@ class _SongsDetailState extends State<SongsDetail> {
                                   },
                                   child: const Text('Annulla'),
                                 ),
-                                ElevatedButton(
+                                FilledButton(
                                   onPressed: () {
                                     query.deleteSong(get.songId);
                                     setState(() {});
