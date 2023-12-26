@@ -68,6 +68,7 @@ class DropListState extends State<DropList> {
                     color: kLightGrey,
                   ),
                   labelText: widget.label,
+                  alignLabelWithHint: true,
                 ),
                 items: snapshot.data!.map<DropdownMenuItem<String>>((get) {
                   return widget.from == 'Categoria'

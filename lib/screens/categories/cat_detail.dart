@@ -90,6 +90,7 @@ class _CatDetailState extends State<CatDetail> {
                                         TextCapitalization.sentences,
                                     decoration: const InputDecoration(
                                       labelText: 'Nome categoria',
+                                      alignLabelWithHint: true,
                                       prefixIcon: Icon(
                                         Icons.edit,
                                         color: kLightGrey,
@@ -130,6 +131,7 @@ class _CatDetailState extends State<CatDetail> {
                                                 color: kLightGrey,
                                               ),
                                               labelText: 'Macrocategoria',
+                                              alignLabelWithHint: true,
                                             ),
                                             items: snapshot.data!
                                                 .map<DropdownMenuItem<String>>(

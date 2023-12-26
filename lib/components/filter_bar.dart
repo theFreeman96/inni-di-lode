@@ -32,6 +32,7 @@ class FilterBar extends StatelessWidget {
             color: kLightGrey,
           ),
           labelText: label,
+          alignLabelWithHint: true,
           hintText: hint,
         ),
       ),

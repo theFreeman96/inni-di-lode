@@ -83,6 +83,7 @@ class _CatDialogState extends State<CatDialog> {
                         textCapitalization: TextCapitalization.sentences,
                         decoration: const InputDecoration(
                           labelText: 'Nome categoria',
+                          alignLabelWithHint: true,
                           prefixIcon: Icon(
                             Icons.edit,
                             color: kLightGrey,
@@ -120,6 +121,7 @@ class _CatDialogState extends State<CatDialog> {
                                     color: kLightGrey,
                                   ),
                                   labelText: 'Macrocategoria',
+                                  alignLabelWithHint: true,
                                 ),
                                 items: snapshot.data!
                                     .map<DropdownMenuItem<String>>((get) {

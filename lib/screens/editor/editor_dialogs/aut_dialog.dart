@@ -50,6 +50,7 @@ class AutDialog extends StatelessWidget {
                         textCapitalization: TextCapitalization.sentences,
                         decoration: const InputDecoration(
                           labelText: 'Nome',
+                          alignLabelWithHint: true,
                           prefixIcon: Icon(
                             Icons.edit,
                             color: kLightGrey,
@@ -68,6 +69,7 @@ class AutDialog extends StatelessWidget {
                       textCapitalization: TextCapitalization.sentences,
                       decoration: const InputDecoration(
                         labelText: 'Cognome (facoltativo)',
+                        alignLabelWithHint: true,
                         prefixIcon: Icon(
                           Icons.edit,
                           color: kLightGrey,

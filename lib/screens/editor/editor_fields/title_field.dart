@@ -18,6 +18,7 @@ class TitleField extends StatelessWidget {
         textCapitalization: TextCapitalization.sentences,
         decoration: const InputDecoration(
           labelText: 'Titolo del cantico',
+          alignLabelWithHint: true,
           prefixIcon: Icon(
             Icons.edit,
             color: kLightGrey,
