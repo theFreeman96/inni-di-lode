@@ -88,6 +88,7 @@ class _AutDetailState extends State<AutDetail> {
                                         TextCapitalization.sentences,
                                     decoration: const InputDecoration(
                                       labelText: 'Nome',
+                                      alignLabelWithHint: true,
                                       prefixIcon: Icon(
                                         Icons.edit,
                                         color: kLightGrey,
@@ -107,6 +108,7 @@ class _AutDetailState extends State<AutDetail> {
                                       TextCapitalization.sentences,
                                   decoration: const InputDecoration(
                                     labelText: 'Cognome (facoltativo)',
+                                    alignLabelWithHint: true,
                                     prefixIcon: Icon(
                                       Icons.edit,
                                       color: kLightGrey,
