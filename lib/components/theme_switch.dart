@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:inni_di_lode/utilities/constants.dart';
 import 'package:provider/provider.dart';
 
 import '../utilities/theme_provider.dart';
@@ -10,18 +11,14 @@ class ThemeSwitch extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<ThemeProvider>(
       builder: (context, themeProvider, child) {
-        return Row(
-          children: [
-            Icon(
-              themeProvider.isDarkMode ? Icons.dark_mode : Icons.light_mode,
-            ),
-            Switch(
-              onChanged: (value) {
-                themeProvider.toggleTheme();
-              },
-              value: themeProvider.isDarkMode,
-            ),
-          ],
+        return Padding(
+          padding: const EdgeInsets.only(right: kDefaultPadding / 2),
+          child: Switch(
+            onChanged: (value) {
+              themeProvider.toggleTheme();
+            },
+            value: themeProvider.isDarkMode,
+          ),
         );
       },
     );
