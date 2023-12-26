@@ -25,58 +25,37 @@ class HomeBottomBar extends StatelessWidget {
       color: themeProvider.isDarkMode ? kGrey : kPrimaryColor,
       child: Padding(
         padding: const EdgeInsets.only(right: kDefaultPadding * 4),
-        child: BottomNavigationBar(
+        child: NavigationBar(
           elevation: 0.0,
-          landscapeLayout: BottomNavigationBarLandscapeLayout.centered,
-          type: BottomNavigationBarType.shifting,
+          selectedIndex: currentIndex,
+          onDestinationSelected: onTabTapped,
+          indicatorColor:
+              themeProvider.isDarkMode ? kBlack : kWhite.withOpacity(0.3),
           backgroundColor: themeProvider.isDarkMode ? kGrey : kPrimaryColor,
-          currentIndex: currentIndex,
-          onTap: onTabTapped,
-          selectedItemColor: kWhite,
-          unselectedItemColor: kWhite.withOpacity(0.6),
-          items: [
-            BottomNavigationBarItem(
-              icon: const Icon(Icons.library_music),
+          destinations: const [
+            NavigationDestination(
+              icon: Icon(Icons.library_music_outlined),
+              selectedIcon: Icon(Icons.library_music),
               label: 'Cantici',
-              backgroundColor: themeProvider.isDarkMode ? kGrey : kPrimaryColor,
+              tooltip: 'Cantici',
             ),
-            BottomNavigationBarItem(
-              icon: SizedBox(
-                width: kDefaultPadding * 1.2,
-                child: Stack(
-                  alignment: Alignment.center,
-                  children: [
-                    const Align(
-                      alignment: Alignment.centerLeft,
-                      child: Icon(Icons.sell_outlined, size: 20),
-                    ),
-                    Align(
-                      alignment: Alignment.center,
-                      child: Icon(
-                        Icons.sell,
-                        size: 20,
-                        color: themeProvider.isDarkMode ? kGrey : kPrimaryColor,
-                      ),
-                    ),
-                    const Align(
-                      alignment: Alignment.centerRight,
-                      child: Icon(Icons.sell, size: 20),
-                    ),
-                  ],
-                ),
-              ),
+            NavigationDestination(
+              icon: Icon(Icons.sell_outlined),
+              selectedIcon: Icon(Icons.sell),
               label: 'Categorie',
-              backgroundColor: themeProvider.isDarkMode ? kGrey : kPrimaryColor,
+              tooltip: 'Categorie',
             ),
-            BottomNavigationBarItem(
-              icon: const Icon(Icons.people_alt),
+            NavigationDestination(
+              icon: Icon(Icons.people_alt_outlined),
+              selectedIcon: Icon(Icons.people_alt),
               label: 'Autori',
-              backgroundColor: themeProvider.isDarkMode ? kGrey : kPrimaryColor,
+              tooltip: 'Autori',
             ),
-            BottomNavigationBarItem(
-              icon: const Icon(Icons.favorite),
+            NavigationDestination(
+              icon: Icon(Icons.favorite_border),
+              selectedIcon: Icon(Icons.favorite),
               label: 'Preferiti',
-              backgroundColor: themeProvider.isDarkMode ? kGrey : kPrimaryColor,
+              tooltip: 'Preferiti',
             )
           ],
         ),

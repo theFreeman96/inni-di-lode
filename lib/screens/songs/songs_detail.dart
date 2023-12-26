@@ -48,22 +48,19 @@ class _SongsDetailState extends State<SongsDetail> {
 
   @override
   initState() {
-    pageController = PageController();
     super.initState();
-  }
 
-  @override
-  void didChangeDependencies() {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (pageController.hasClients) {
-        if (widget.from == 'Songs' || widget.from == 'Drawer') {
-          pageController.jumpToPage(widget.index - 1);
-        } else {
-          pageController.jumpToPage(widget.index);
-        }
+    widget.from == 'Songs' || widget.from == 'Drawer'
+        ? pageController = PageController(initialPage: widget.index - 1)
+        : pageController = PageController(initialPage: widget.index);
+
+    if (pageController.hasClients) {
+      if (widget.from == 'Songs' || widget.from == 'Drawer') {
+        pageController.jumpToPage(widget.index - 1);
+      } else {
+        pageController.jumpToPage(widget.index);
       }
-    });
-    super.didChangeDependencies();
+    }
   }
 
   @override
@@ -320,6 +317,7 @@ class _SongsDetailState extends State<SongsDetail> {
                         topRight: Radius.circular(15),
                       ),
                     ),
+                    showDragHandle: true,
                     isScrollControlled: true,
                     builder: (BuildContext context) {
                       return Column(
@@ -454,6 +452,7 @@ class _SongsDetailState extends State<SongsDetail> {
                         topRight: Radius.circular(15),
                       ),
                     ),
+                    showDragHandle: true,
                     isScrollControlled: true,
                     builder: (BuildContext context) {
                       return const SongsPlayer();
@@ -533,7 +532,7 @@ class _SongsDetailState extends State<SongsDetail> {
                                   },
                                   child: const Text('Annulla'),
                                 ),
-                                ElevatedButton(
+                                FilledButton(
                                   onPressed: () {
                                     query.deleteSong(get.songId);
                                     setState(() {});

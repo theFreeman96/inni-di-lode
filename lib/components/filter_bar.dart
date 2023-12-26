@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 import '/utilities/constants.dart';
 
-class SearchBar extends StatelessWidget {
-  const SearchBar({
+class FilterBar extends StatelessWidget {
+  const FilterBar({
     Key? key,
     required this.focusNode,
     required this.filter,

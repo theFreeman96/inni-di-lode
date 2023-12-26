@@ -86,7 +86,7 @@ class AutDialog extends StatelessWidget {
                   },
                   child: const Text('Annulla'),
                 ),
-                ElevatedButton(
+                FilledButton(
                   onPressed: () {
                     if (newKey.currentState!.validate()) {
                       query.insertAut(nameController.text, surController.text);

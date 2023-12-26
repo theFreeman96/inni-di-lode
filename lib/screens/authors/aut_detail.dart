@@ -125,7 +125,7 @@ class _AutDetailState extends State<AutDetail> {
                               },
                               child: const Text('Annulla'),
                             ),
-                            ElevatedButton(
+                            FilledButton(
                               onPressed: () {
                                 if (editAutKey.currentState!.validate()) {
                                   query.updateAut(autNameController.text,
@@ -207,7 +207,7 @@ class _AutDetailState extends State<AutDetail> {
                                       ),
                                     ),
                                     actions: <Widget>[
-                                      ElevatedButton(
+                                      FilledButton(
                                         onPressed: () {
                                           Navigator.pop(context, 'Ho capito');
                                         },
@@ -246,7 +246,7 @@ class _AutDetailState extends State<AutDetail> {
                                         },
                                         child: const Text('Annulla'),
                                       ),
-                                      ElevatedButton(
+                                      FilledButton(
                                         onPressed: () {
                                           query.deleteAut(id);
                                           setState(() {});

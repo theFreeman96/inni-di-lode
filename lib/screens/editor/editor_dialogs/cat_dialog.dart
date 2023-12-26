@@ -164,7 +164,7 @@ class _CatDialogState extends State<CatDialog> {
                   },
                   child: const Text('Annulla'),
                 ),
-                ElevatedButton(
+                FilledButton(
                   onPressed: () {
                     if (widget.newKey.currentState!.validate()) {
                       query.insertCat(widget.controller.text, macro);

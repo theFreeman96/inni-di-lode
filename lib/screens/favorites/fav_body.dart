@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 
 import '/utilities/constants.dart';
-import '/components/search_bar.dart';
+import '/components/filter_bar.dart';
 import '/components/main_list.dart';
 import '/data/models.dart';
 import '/data/queries.dart';
@@ -58,7 +58,7 @@ class _FavBodyState extends State<FavBody> {
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
-        SearchBar(
+        FilterBar(
           focusNode: myFocusNode,
           filter: runFilter,
           label: 'Cerca per numero, titolo o testo',
