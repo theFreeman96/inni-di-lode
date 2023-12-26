@@ -143,7 +143,10 @@ class _CatBodyState extends State<CatBody> {
     return ListTile(
       leading: const Padding(
         padding: EdgeInsets.only(left: kDefaultPadding),
-        child: Icon(Icons.sell),
+        child: Icon(
+          Icons.sell,
+          color: kLightGrey,
+        ),
       ),
       title: Text(get.name),
       trailing: const Padding(
