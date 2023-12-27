@@ -8,7 +8,7 @@ import '../home/home.dart';
 import 'editor_fields/title_field.dart';
 import 'editor_dialogs/verse_tag.dart';
 import 'editor_fields/lyrics_field.dart';
-import 'editor_fields/cat_field.dart';
+import 'editor_fields/cat_fields.dart';
 import 'editor_dialogs/cat_dialog.dart';
 import 'editor_fields/aut_fields.dart';
 import 'editor_dialogs/aut_dialog.dart';
