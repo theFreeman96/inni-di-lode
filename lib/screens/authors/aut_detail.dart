@@ -95,6 +95,12 @@ class _AutDetailState extends State<AutDetail> {
                                       ),
                                     ),
                                     validator: (value) {
+                                      if (autNameController.text ==
+                                              widget.autName &&
+                                          autSurnameController.text ==
+                                              widget.autSurname) {
+                                        return 'Cambia almeno un campo per confermare!';
+                                      }
                                       if (value == null || value.isEmpty) {
                                         return 'Inserisci il nome!';
                                       }
@@ -114,6 +120,15 @@ class _AutDetailState extends State<AutDetail> {
                                       color: kLightGrey,
                                     ),
                                   ),
+                                  validator: (value) {
+                                    if (autNameController.text ==
+                                            widget.autName &&
+                                        autSurnameController.text ==
+                                            widget.autSurname) {
+                                      return 'Cambia almeno un campo per confermare!';
+                                    }
+                                    return null;
+                                  },
                                 ),
                               ],
                             ),
@@ -122,16 +137,21 @@ class _AutDetailState extends State<AutDetail> {
                             OutlinedButton(
                               onPressed: () {
                                 Navigator.pop(context, 'Annulla');
-                                autNameController.clear();
-                                autSurnameController.clear();
+                                autNameController =
+                                    TextEditingController(text: widget.autName);
+                                autSurnameController = TextEditingController(
+                                    text: widget.autSurname);
                               },
                               child: const Text('Annulla'),
                             ),
                             FilledButton(
                               onPressed: () {
                                 if (editAutKey.currentState!.validate()) {
-                                  query.updateAut(autNameController.text,
-                                      autSurnameController.text, widget.autId);
+                                  query.updateAut(
+                                    autNameController.text,
+                                    autSurnameController.text,
+                                    widget.autId,
+                                  );
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     const SnackBar(
                                       content: Text('Autore modificato!'),
