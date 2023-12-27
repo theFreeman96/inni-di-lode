@@ -17,18 +17,20 @@ class CatDetail extends StatefulWidget {
     required this.catId,
     required this.catName,
     required this.macroId,
+    required this.macroName,
   }) : super(key: key);
 
   final int catId;
   final String catName;
   final int macroId;
+  final String macroName;
 
   @override
   State<CatDetail> createState() => _CatDetailState();
 }
 
-late int mac;
-late String macHint;
+late int macroId;
+late String macroName;
 
 class _CatDetailState extends State<CatDetail> {
   final ScrollController scrollController = ScrollController();
@@ -42,8 +44,8 @@ class _CatDetailState extends State<CatDetail> {
   @override
   void initState() {
     catController = TextEditingController(text: widget.catName);
-    mac = widget.macroId;
-    macHint = 'Seleziona';
+    macroId = widget.macroId;
+    macroName = widget.macroName;
     super.initState();
   }
 
@@ -97,6 +99,11 @@ class _CatDetailState extends State<CatDetail> {
                                       ),
                                     ),
                                     validator: (value) {
+                                      if (catController.text ==
+                                              widget.catName &&
+                                          macroId == widget.macroId) {
+                                        return 'Cambia almeno un campo per confermare!';
+                                      }
                                       if (value == null || value.isEmpty) {
                                         return 'Inserisci il nome!';
                                       }
@@ -120,7 +127,7 @@ class _CatDetailState extends State<CatDetail> {
                                                 const BorderRadius.all(
                                               Radius.circular(25.0),
                                             ),
-                                            hint: Text(macHint),
+                                            hint: Text(macroName),
                                             decoration: const InputDecoration(
                                               contentPadding:
                                                   EdgeInsets.symmetric(
@@ -139,17 +146,26 @@ class _CatDetailState extends State<CatDetail> {
                                               return DropdownMenuItem<String>(
                                                 value: get.macroName,
                                                 onTap: () {
-                                                  mac = get.macroId;
+                                                  macroId = get.macroId;
+                                                  macroName = get.macroName;
                                                 },
                                                 child: Text(get.macroName),
                                               );
                                             }).toList(),
                                             onChanged: (value) {
                                               setState(() {
-                                                macHint = value!;
+                                                macroName = value!;
                                               });
                                             },
                                             validator: (value) {
+                                              if (catController.text ==
+                                                      widget.catName &&
+                                                  macroId == widget.macroId) {
+                                                return 'Cambia almeno un campo per confermare!';
+                                              }
+                                              if (macroId == widget.macroId) {
+                                                return null;
+                                              }
                                               if (value == null ||
                                                   value.isEmpty) {
                                                 return 'Seleziona una macrocategoria!';
@@ -175,7 +191,10 @@ class _CatDetailState extends State<CatDetail> {
                             OutlinedButton(
                               onPressed: () {
                                 Navigator.pop(context, 'Annulla');
-                                catController.clear();
+                                catController =
+                                    TextEditingController(text: widget.catName);
+                                macroId = widget.macroId;
+                                macroName = widget.macroName;
                               },
                               child: const Text('Annulla'),
                             ),
@@ -183,7 +202,11 @@ class _CatDetailState extends State<CatDetail> {
                               onPressed: () {
                                 if (editCatKey.currentState!.validate()) {
                                   query.updateCat(
-                                      catController.text, mac, widget.catId);
+                                    catController.text,
+                                    macroId,
+                                    macroName,
+                                    widget.catId,
+                                  );
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     const SnackBar(
                                       content: Text('Categoria modificata!'),

@@ -585,6 +585,7 @@ class _SongsDetailState extends State<SongsDetail> {
                 catId: get.catId,
                 catName: get.catName,
                 macroId: get.macroId,
+                macroName: get.macroName,
               );
             },
           ),

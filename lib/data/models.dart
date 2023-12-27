@@ -30,11 +30,13 @@ class Categorie {
   late int id;
   late String name;
   late int macro_id;
+  late String macro_name;
 
   Categorie.fromMap(dynamic obj) {
     id = obj['id'];
     name = obj['name'];
     macro_id = obj['macro_id'];
+    macro_name = obj['macro_name'];
   }
 }
 

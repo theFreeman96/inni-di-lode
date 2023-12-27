@@ -253,11 +253,11 @@ class QueryCtr {
     return null;
   }
 
-  Future<List<Raccolta>?> insertCat(name, macroId) async {
+  Future<List<Raccolta>?> insertCat(name, macroId, macroName) async {
     final dbClient = await con.db;
     await dbClient!.insert(
       'Categories',
-      {'name': name, 'macro_id': macroId},
+      {'name': name, 'macro_id': macroId, 'macro_name': macroName},
     );
     return null;
   }
@@ -393,11 +393,11 @@ class QueryCtr {
     return null;
   }
 
-  Future<List<Raccolta>?> updateCat(name, macroId, id) async {
+  Future<List<Raccolta>?> updateCat(name, macroId, macroName, id) async {
     final dbClient = await con.db;
     await dbClient!.update(
       'Categories',
-      {'name': name, 'macro_id': macroId},
+      {'name': name, 'macro_id': macroId, 'macro_name': macroName},
       where: 'id = ?',
       whereArgs: [id],
     );

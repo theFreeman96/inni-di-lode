@@ -166,6 +166,7 @@ class _CatBodyState extends State<CatBody> {
                 catId: get.id,
                 catName: get.name,
                 macroId: get.macro_id,
+                macroName: get.macro_name,
               );
             },
           ),

@@ -22,7 +22,8 @@ class CatDialog extends StatefulWidget {
 class _CatDialogState extends State<CatDialog> {
   final QueryCtr query = QueryCtr();
   late String macroHint;
-  late int macro;
+  late int macroId;
+  late String macroName;
 
   @override
   void initState() {
@@ -128,7 +129,8 @@ class _CatDialogState extends State<CatDialog> {
                                   return DropdownMenuItem<String>(
                                     value: get.macroName,
                                     onTap: () {
-                                      macro = get.macroId;
+                                      macroId = get.macroId;
+                                      macroName = get.macroName;
                                     },
                                     child: Text(get.macroName),
                                   );
@@ -169,7 +171,8 @@ class _CatDialogState extends State<CatDialog> {
                 FilledButton(
                   onPressed: () {
                     if (widget.newKey.currentState!.validate()) {
-                      query.insertCat(widget.controller.text, macro);
+                      query.insertCat(
+                          widget.controller.text, macroId, macroName);
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(
                           content: Text('Categoria aggiunta!'),
