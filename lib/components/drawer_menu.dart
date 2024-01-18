@@ -1,12 +1,13 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:inni_di_lode/components/theme_switch.dart';
 import 'package:provider/provider.dart';
 
 import '/utilities/constants.dart';
 import '/utilities/theme_provider.dart';
 import '/data/queries.dart';
+
+import '/components/theme_switch.dart';
 
 import '/screens/songs/songs_detail.dart';
 import '/screens/editor/editor.dart';
