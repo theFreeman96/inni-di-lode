@@ -32,8 +32,18 @@ class AutFieldsState extends State<AutFields> {
             child: CircularProgressIndicator(),
           );
         } else if (snapshot.hasError) {
+          return Center(
+            child: Text(
+              'Errore: ${snapshot.error}',
+              textAlign: TextAlign.center,
+            ),
+          );
+        } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
           return const Center(
-            child: Text('Nessun autore trovato'),
+            child: Text(
+              'Nessun autore trovato',
+              textAlign: TextAlign.center,
+            ),
           );
         } else {
           return DropList(
