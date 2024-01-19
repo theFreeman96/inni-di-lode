@@ -8,12 +8,14 @@ class DetailList extends StatelessWidget {
     Key? key,
     required this.context,
     required this.future,
+    required this.message,
     required this.controller,
     required this.row,
   }) : super(key: key);
 
   final BuildContext context;
   final Future<List?> future;
+  final String message;
   final ScrollController controller;
   final Function row;
 
@@ -35,8 +37,10 @@ class DetailList extends StatelessWidget {
             ),
           );
         } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-          return const Center(
-            child: SongNotFound(),
+          return Center(
+            child: SongNotFound(
+              message: message,
+            ),
           );
         } else {
           return Scrollbar(

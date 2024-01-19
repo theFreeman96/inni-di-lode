@@ -29,7 +29,9 @@ class DrawerRandomBuilder extends StatelessWidget {
           return Scaffold(
             appBar: AppBar(),
             body: const Center(
-              child: SongNotFound(),
+              child: SongNotFound(
+                message: 'Nessun cantico trovato',
+              ),
             ),
           );
         } else {

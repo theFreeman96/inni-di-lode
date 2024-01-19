@@ -302,6 +302,7 @@ class _AutDetailState extends State<AutDetail> {
         future: query.getSongsByAut(id),
         controller: scrollController,
         row: buildRow,
+        message: 'Nessun autore trovato',
       ),
     );
   }

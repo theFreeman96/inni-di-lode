@@ -354,6 +354,7 @@ class _CatDetailState extends State<CatDetail> {
         future: query.getSongsByCat(id),
         controller: scrollController,
         row: buildRow,
+        message: 'Nessuna categoria trovata',
       ),
     );
   }

@@ -6,7 +6,12 @@ import '../utilities/constants.dart';
 import '../utilities/theme_provider.dart';
 
 class SongNotFound extends StatelessWidget {
-  const SongNotFound({Key? key}) : super(key: key);
+  const SongNotFound({
+    Key? key,
+    required this.message,
+  }) : super(key: key);
+
+  final String message;
 
   @override
   Widget build(BuildContext context) {
@@ -16,9 +21,11 @@ class SongNotFound extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        const Text(
-          'Nessun cantico trovato',
-          style: TextStyle(fontSize: 20.0),
+        Text(
+          message,
+          style: const TextStyle(
+            fontSize: 20.0,
+          ),
         ),
         TextButton.icon(
           onPressed: () {
@@ -39,7 +46,7 @@ class SongNotFound extends StatelessWidget {
                 themeProvider.isDarkMode ? kPrimaryLightColor : kPrimaryColor,
           ),
           label: Text(
-            'Aggiungi cantico',
+            'Aggiungi',
             style: TextStyle(
               fontWeight: FontWeight.bold,
               color: themeProvider.isDarkMode ? kWhite : kBlack,
