@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '/utilities/constants.dart';
-import '/utilities/theme_provider.dart';
-import '/components/theme_switch.dart';
+import '../home/home.dart';
 import '/components/detail_list.dart';
+import '/components/theme_switch.dart';
 import '/data/models.dart';
 import '/data/queries.dart';
-
 import '/screens/songs/songs_detail.dart';
-import '../home/home.dart';
+import '/utilities/constants.dart';
+import '/utilities/theme_provider.dart';
 
 class AutDetail extends StatefulWidget {
   const AutDetail({
@@ -303,7 +302,6 @@ class _AutDetailState extends State<AutDetail> {
         future: query.getSongsByAut(id),
         controller: scrollController,
         row: buildRow,
-        condition: id > 58,
       ),
     );
   }

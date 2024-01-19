@@ -10,14 +10,12 @@ class DetailList extends StatelessWidget {
     required this.future,
     required this.controller,
     required this.row,
-    required this.condition,
   }) : super(key: key);
 
   final BuildContext context;
   final Future<List?> future;
   final ScrollController controller;
   final Function row;
-  final bool condition;
 
   @override
   Widget build(BuildContext context) {
@@ -25,32 +23,43 @@ class DetailList extends StatelessWidget {
       future: future,
       initialData: const [],
       builder: (context, snapshot) {
-        return snapshot.hasData
-            ? Scrollbar(
-                thumbVisibility: true,
-                controller: controller,
-                child: ListView.separated(
-                  controller: controller,
-                  physics: const ScrollPhysics(),
-                  shrinkWrap: true,
-                  padding: const EdgeInsets.only(
-                    top: kDefaultPadding * 0.4,
-                    bottom: kDefaultPadding,
-                  ),
-                  itemCount: snapshot.data!.length,
-                  itemBuilder: (context, i) {
-                    return row(snapshot.data![i], i);
-                  },
-                  separatorBuilder: (context, index) {
-                    return const Divider();
-                  },
-                ),
-              )
-            : Center(
-                child: condition
-                    ? const SongNotFound()
-                    : const CircularProgressIndicator(),
-              );
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        } else if (snapshot.hasError) {
+          return Center(
+            child: Text(
+              'Errore: ${snapshot.error}',
+              textAlign: TextAlign.center,
+            ),
+          );
+        } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+          return const Center(
+            child: SongNotFound(),
+          );
+        } else {
+          return Scrollbar(
+            thumbVisibility: true,
+            controller: controller,
+            child: ListView.separated(
+              controller: controller,
+              physics: const ScrollPhysics(),
+              shrinkWrap: true,
+              padding: const EdgeInsets.only(
+                top: kDefaultPadding * 0.4,
+                bottom: kDefaultPadding,
+              ),
+              itemCount: snapshot.data!.length,
+              itemBuilder: (context, i) {
+                return row(snapshot.data![i], i);
+              },
+              separatorBuilder: (context, index) {
+                return const Divider();
+              },
+            ),
+          );
+        }
       },
     );
   }
