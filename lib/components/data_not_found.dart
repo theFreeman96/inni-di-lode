@@ -5,8 +5,8 @@ import '../screens/editor/editor.dart';
 import '../utilities/constants.dart';
 import '../utilities/theme_provider.dart';
 
-class SongNotFound extends StatelessWidget {
-  const SongNotFound({
+class DataNotFound extends StatelessWidget {
+  const DataNotFound({
     Key? key,
     required this.message,
   }) : super(key: key);

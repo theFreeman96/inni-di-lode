@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '/utilities/constants.dart';
-import 'song_not_found.dart';
+import 'data_not_found.dart';
 
 class DetailList extends StatelessWidget {
   const DetailList({
@@ -38,7 +38,7 @@ class DetailList extends StatelessWidget {
           );
         } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
           return Center(
-            child: SongNotFound(
+            child: DataNotFound(
               message: message,
             ),
           );

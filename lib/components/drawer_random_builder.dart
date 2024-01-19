@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 
 import '/data/queries.dart';
 import '/screens/songs/songs_detail.dart';
-import 'song_not_found.dart';
+import 'data_not_found.dart';
 
 class DrawerRandomBuilder extends StatelessWidget {
   const DrawerRandomBuilder({Key? key}) : super(key: key);
@@ -29,7 +29,7 @@ class DrawerRandomBuilder extends StatelessWidget {
           return Scaffold(
             appBar: AppBar(),
             body: const Center(
-              child: SongNotFound(
+              child: DataNotFound(
                 message: 'Nessun cantico trovato',
               ),
             ),
