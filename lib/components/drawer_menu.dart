@@ -1,17 +1,11 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '/utilities/constants.dart';
-import '/utilities/theme_provider.dart';
-import '/data/queries.dart';
-
-import '/components/theme_switch.dart';
-
-import '/screens/songs/songs_detail.dart';
 import '/screens/editor/editor.dart';
 import '/screens/info/info_page.dart';
+import '/utilities/theme_provider.dart';
+import 'drawer_header.dart';
+import 'drawer_random_builder.dart';
 
 class DrawerMenu extends StatelessWidget {
   const DrawerMenu({Key? key}) : super(key: key);
@@ -23,7 +17,7 @@ class DrawerMenu extends StatelessWidget {
         physics: const ScrollPhysics(),
         padding: EdgeInsets.zero,
         children: <Widget>[
-          createDrawerHeader(),
+          const MyDrawerHeader(),
           Consumer<ThemeProvider>(
             builder: (context, themeProvider, child) {
               return SwitchListTile(
@@ -90,48 +84,4 @@ class DrawerMenu extends StatelessWidget {
       ),
     );
   }
-}
-
-Widget createDrawerHeader() {
-  return DrawerHeader(
-    margin: EdgeInsets.zero,
-    padding: EdgeInsets.zero,
-    decoration: const BoxDecoration(
-      image: DecorationImage(
-        fit: BoxFit.cover,
-        image: AssetImage('lib/assets/images/drawer_header.png'),
-      ),
-    ),
-    child: Stack(
-      children: <Widget>[
-        Builder(
-          builder: (BuildContext context) {
-            return IconButton(
-              icon: const Icon(
-                Icons.clear,
-                color: kWhite,
-              ),
-              onPressed: () {
-                FocusScope.of(context).unfocus();
-                Navigator.of(context).pop();
-              },
-              tooltip: 'Chiudi',
-            );
-          },
-        ),
-        const Positioned(
-          bottom: kDefaultPadding - 8.0,
-          left: kDefaultPadding - 4.0,
-          child: Text(
-            'Menu',
-            style: TextStyle(
-              color: kWhite,
-              fontSize: 20.0,
-              fontWeight: FontWeight.w500,
-            ),
-          ),
-        ),
-      ],
-    ),
-  );
 }
