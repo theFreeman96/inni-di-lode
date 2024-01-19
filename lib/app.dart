@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:inni_di_lode/utilities/constants.dart';
 import 'package:provider/provider.dart';
 
-import '/utilities/globals.dart';
 import '/utilities//themes.dart';
-import '/utilities/theme_provider.dart';
+import '/utilities/constants.dart';
+import '/utilities/globals.dart';
 import '/utilities/scroll_behavior.dart';
-
+import '/utilities/theme_provider.dart';
 import 'screens/home/home.dart';
 
 class Innario extends StatelessWidget {
