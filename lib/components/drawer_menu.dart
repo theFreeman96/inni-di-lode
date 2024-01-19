@@ -42,7 +42,7 @@ class DrawerMenu extends StatelessWidget {
                 context,
                 MaterialPageRoute(
                   builder: (context) {
-                    return DrawerRandomBuilder();
+                    return const DrawerRandomBuilder();
                   },
                 ),
               );
