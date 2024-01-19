@@ -48,38 +48,7 @@ class DrawerMenu extends StatelessWidget {
                 context,
                 MaterialPageRoute(
                   builder: (context) {
-                    return FutureBuilder<List?>(
-                      future: QueryCtr().getAllSongs(),
-                      initialData: const [],
-                      builder: (context, snapshot) {
-                        if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                          return Scaffold(
-                            extendBody: true,
-                            appBar: AppBar(
-                              elevation: 0.0,
-                              leading: IconButton(
-                                tooltip: 'Indietro',
-                                icon: const Icon(Icons.arrow_back),
-                                onPressed: () {
-                                  FocusScope.of(context).unfocus();
-                                  Navigator.of(context).pop();
-                                },
-                              ),
-                              actions: const [
-                                ThemeSwitch(),
-                              ],
-                            ),
-                            body: const CircularProgressIndicator(),
-                          );
-                        }
-                        int randomSongId =
-                            Random().nextInt(snapshot.data!.length);
-                        return SongsDetail(
-                          index: randomSongId,
-                          from: 'Drawer',
-                        );
-                      },
-                    );
+                    return DrawerRandomBuilder();
                   },
                 ),
               );
