@@ -2,21 +2,20 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:flutter_html/flutter_html.dart';
+import 'package:provider/provider.dart';
 
-import '/utilities/constants.dart';
-import '/utilities/theme_provider.dart';
+import '../authors/aut_detail.dart';
+import '../categories/cat_detail.dart';
+import '../editor/editor.dart';
+import '../home/home.dart';
 import '/components/theme_switch.dart';
 import '/data/models.dart';
 import '/data/queries.dart';
-
-import '../categories/cat_detail.dart';
-import '../authors/aut_detail.dart';
-import 'songs_player.dart';
+import '/utilities/constants.dart';
+import '/utilities/theme_provider.dart';
 import 'songs_pdf.dart';
-import '../editor/editor.dart';
-import '../home/home.dart';
+import 'songs_player.dart';
 
 class SongsDetail extends StatefulWidget {
   const SongsDetail({
@@ -204,18 +203,18 @@ class _SongsDetailState extends State<SongsDetail> {
               Html(
                 data: get.songText,
                 style: {
-                  'ol': Style(
-                    textAlign: TextAlign.center,
+                  '*': Style(
                     fontSize: FontSize(fontSize),
                     lineHeight: LineHeight(lineHeight),
+                    textAlign: TextAlign.center,
+                    padding: HtmlPaddings(
+                      left: HtmlPadding(0),
+                    ),
                     listStylePosition: ListStylePosition.inside,
+                  ),
+                  'ol': Style(
                     padding: HtmlPaddings(
                       bottom: HtmlPadding(kDefaultPadding),
-                    ),
-                  ),
-                  'li': Style(
-                    padding: HtmlPaddings(
-                      right: HtmlPadding(kDefaultPadding / 4),
                     ),
                   ),
                 },
