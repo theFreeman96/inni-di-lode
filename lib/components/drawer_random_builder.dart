@@ -25,7 +25,7 @@ class DrawerRandomBuilder extends StatelessWidget {
               ),
             ),
           );
-        } else if (snapshot.hasData || snapshot.data!.isEmpty) {
+        } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
           return Scaffold(
             appBar: AppBar(),
             body: const Center(
