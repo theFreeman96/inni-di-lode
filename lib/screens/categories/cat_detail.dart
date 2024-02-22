@@ -8,6 +8,7 @@ import '/data/models.dart';
 import '/data/queries.dart';
 import '/screens/songs/songs_detail.dart';
 import '/utilities/constants.dart';
+import '/utilities/error_codes.dart';
 import '/utilities/theme_provider.dart';
 
 class CatDetail extends StatefulWidget {
@@ -176,7 +177,8 @@ class _CatDetailState extends State<CatDetail> {
                                             padding: EdgeInsets.only(
                                                 top: kDefaultPadding),
                                             child: Text(
-                                              'Nessuna macrocategoria trovata',
+                                              ErrorCodes
+                                                  .macroCategoriesNotFound,
                                               style: TextStyle(),
                                               textAlign: TextAlign.center,
                                             ),
@@ -354,7 +356,7 @@ class _CatDetailState extends State<CatDetail> {
         future: query.getSongsByCat(id),
         controller: scrollController,
         row: buildRow,
-        message: 'Nessuna categoria trovata',
+        message: ErrorCodes.songsNotFound,
       ),
     );
   }

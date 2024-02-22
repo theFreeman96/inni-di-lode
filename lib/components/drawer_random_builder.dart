@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 import '/data/queries.dart';
 import '/screens/songs/songs_detail.dart';
+import '/utilities/error_codes.dart';
 import 'data_not_found.dart';
 
 class DrawerRandomBuilder extends StatelessWidget {
@@ -30,7 +31,7 @@ class DrawerRandomBuilder extends StatelessWidget {
             appBar: AppBar(),
             body: const Center(
               child: DataNotFound(
-                message: 'Nessun cantico trovato',
+                message: ErrorCodes.songsNotFound,
               ),
             ),
           );

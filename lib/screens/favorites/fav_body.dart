@@ -2,13 +2,13 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 
-import '/utilities/constants.dart';
+import '../songs/songs_detail.dart';
 import '/components/filter_bar.dart';
 import '/components/main_list.dart';
 import '/data/models.dart';
 import '/data/queries.dart';
-
-import '../songs/songs_detail.dart';
+import '/utilities/constants.dart';
+import '/utilities/error_codes.dart';
 
 class FavBody extends StatefulWidget {
   const FavBody({Key? key}) : super(key: key);
@@ -22,6 +22,7 @@ class _FavBodyState extends State<FavBody> {
   final QueryCtr query = QueryCtr();
 
   late Future<List?> future;
+
   @override
   void initState() {
     future = query.getAllFav();
@@ -69,7 +70,7 @@ class _FavBodyState extends State<FavBody> {
           future: future,
           padding: EdgeInsets.zero,
           row: buildRow,
-          message: 'Nessun preferito trovato',
+          message: ErrorCodes.favoritesNotFound,
         ),
       ],
     );

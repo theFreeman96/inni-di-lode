@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:number_paginator/number_paginator.dart';
+import 'package:provider/provider.dart';
 
-import '/utilities/constants.dart';
-import '/utilities/theme_provider.dart';
 import '/components/filter_bar.dart';
 import '/components/main_list.dart';
 import '/data/models.dart';
 import '/data/queries.dart';
-
+import '/utilities/constants.dart';
+import '/utilities/error_codes.dart';
+import '/utilities/theme_provider.dart';
 import 'songs_detail.dart';
 
 class SongsBody extends StatefulWidget {
@@ -49,6 +49,7 @@ class _SongsBodyState extends State<SongsBody> {
 
   late Future<List?> future;
   bool isVisible = true;
+
   @override
   void initState() {
     future = songRange[currentPage];
@@ -96,33 +97,33 @@ class _SongsBodyState extends State<SongsBody> {
                 bottom: kDefaultPadding,
               ),
               child: FutureBuilder(
-                  future: query.getAllSongs(),
-                  builder: (context, AsyncSnapshot snapshot) {
-                    return NumberPaginator(
-                      numberPages: snapshot.hasData
-                          ? (snapshot.data!.length / itemsPerPage).ceil()
-                          : 7,
-                      onPageChange: (int index) {
-                        setState(() {
-                          currentPage = index;
-                        });
-                      },
-                      config: NumberPaginatorUIConfig(
-                        height: 44,
-                        mode: ContentDisplayMode.numbers,
-                        buttonSelectedForegroundColor: kWhite,
-                        buttonUnselectedForegroundColor:
-                            themeProvider.isDarkMode ? kWhite : kBlack,
-                        buttonSelectedBackgroundColor: themeProvider.isDarkMode
-                            ? kPrimaryLightColor
-                            : kPrimaryColor,
-                        buttonUnselectedBackgroundColor:
-                            themeProvider.isDarkMode
-                                ? kWhite.withOpacity(0.2)
-                                : kBlack.withOpacity(0.1),
-                      ),
-                    );
-                  }),
+                future: query.getAllSongs(),
+                builder: (context, AsyncSnapshot snapshot) {
+                  return NumberPaginator(
+                    numberPages: snapshot.hasData
+                        ? (snapshot.data!.length / itemsPerPage).ceil()
+                        : 7,
+                    onPageChange: (int index) {
+                      setState(() {
+                        currentPage = index;
+                      });
+                    },
+                    config: NumberPaginatorUIConfig(
+                      height: 44,
+                      mode: ContentDisplayMode.numbers,
+                      buttonSelectedForegroundColor: kWhite,
+                      buttonUnselectedForegroundColor:
+                          themeProvider.isDarkMode ? kWhite : kBlack,
+                      buttonSelectedBackgroundColor: themeProvider.isDarkMode
+                          ? kPrimaryLightColor
+                          : kPrimaryColor,
+                      buttonUnselectedBackgroundColor: themeProvider.isDarkMode
+                          ? kWhite.withOpacity(0.2)
+                          : kBlack.withOpacity(0.1),
+                    ),
+                  );
+                },
+              ),
             ),
           ),
         ),
@@ -131,7 +132,7 @@ class _SongsBodyState extends State<SongsBody> {
           future: songRange[currentPage],
           padding: const EdgeInsets.only(top: 8),
           row: buildRow,
-          message: 'Nessun cantico trovato',
+          message: ErrorCodes.songsNotFound,
         ),
       ],
     );

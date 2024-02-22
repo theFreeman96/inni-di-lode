@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 
 import '/data/queries.dart';
 import '/utilities/constants.dart';
+import '/utilities/error_codes.dart';
 import '/utilities/theme_provider.dart';
 
 class CatDialog extends StatefulWidget {
@@ -150,7 +151,7 @@ class _CatDialogState extends State<CatDialog> {
                             : const Padding(
                                 padding: EdgeInsets.only(top: kDefaultPadding),
                                 child: Text(
-                                  'Nessuna macrocategoria trovata',
+                                  ErrorCodes.macroCategoriesNotFound,
                                   style: TextStyle(),
                                   textAlign: TextAlign.center,
                                 ),

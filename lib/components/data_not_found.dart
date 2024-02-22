@@ -23,6 +23,7 @@ class DataNotFound extends StatelessWidget {
       children: [
         Text(
           message,
+          textAlign: TextAlign.center,
           style: const TextStyle(
             fontSize: 20.0,
           ),

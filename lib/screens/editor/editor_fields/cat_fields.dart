@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../editor.dart';
 import '/components/drop_list.dart';
 import '/data/queries.dart';
+import '/utilities/error_codes.dart';
 
 class CatFields extends StatefulWidget {
   const CatFields({
@@ -41,7 +42,7 @@ class CatFieldsState extends State<CatFields> {
         } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
           return const Center(
             child: Text(
-              'Nessuna categoria trovata',
+              ErrorCodes.categoriesNotFound,
               textAlign: TextAlign.center,
             ),
           );

@@ -9,10 +9,13 @@ import '../authors/aut_detail.dart';
 import '../categories/cat_detail.dart';
 import '../editor/editor.dart';
 import '../home/home.dart';
+import '/components/data_not_found.dart';
+import '/components/empty_scaffold.dart';
 import '/components/theme_switch.dart';
 import '/data/models.dart';
 import '/data/queries.dart';
 import '/utilities/constants.dart';
+import '/utilities/error_codes.dart';
 import '/utilities/theme_provider.dart';
 import 'songs_pdf.dart';
 import 'songs_player.dart';
@@ -81,29 +84,26 @@ class _SongsDetailState extends State<SongsDetail> {
             return PageView.builder(
               controller: pageController,
               itemBuilder: (context, i) {
-                if (!snapshot.hasData ||
-                    snapshot.data!.isEmpty ||
-                    snapshot.hasError) {
-                  return Scaffold(
-                    extendBody: true,
-                    appBar: AppBar(
-                      elevation: 0.0,
-                      leading: IconButton(
-                        tooltip: 'Indietro',
-                        icon: const Icon(Icons.arrow_back),
-                        onPressed: () {
-                          FocusScope.of(context).unfocus();
-                          Navigator.of(context).pop();
-                        },
-                      ),
-                      actions: const [
-                        ThemeSwitch(),
-                      ],
-                    ),
-                    body: const CircularProgressIndicator(),
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const EmptyScaffold(
+                    body: CircularProgressIndicator(),
                   );
+                } else if (snapshot.hasError) {
+                  return Center(
+                    child: Text(
+                      'Errore: ${snapshot.error}',
+                      textAlign: TextAlign.center,
+                    ),
+                  );
+                } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                  return const EmptyScaffold(
+                    body: DataNotFound(
+                      message: ErrorCodes.songNotFound,
+                    ),
+                  );
+                } else {
+                  return buildPage(snapshot.data![i % snapshot.data!.length]);
                 }
-                return buildPage(snapshot.data![i % snapshot.data!.length]);
               },
             );
           },
@@ -243,7 +243,8 @@ class _SongsDetailState extends State<SongsDetail> {
                           padding: EdgeInsets.only(top: kDefaultPadding),
                           child: Center(
                             child: Text(
-                              'Nessuna categoria trovata',
+                              ErrorCodes.categoriesNotFound,
+                              textAlign: TextAlign.center,
                               style: TextStyle(fontSize: 20.0),
                             ),
                           ),
@@ -271,7 +272,8 @@ class _SongsDetailState extends State<SongsDetail> {
                           padding: EdgeInsets.only(top: kDefaultPadding),
                           child: Center(
                             child: Text(
-                              'Nessun autore trovato',
+                              ErrorCodes.authorsNotFound,
+                              textAlign: TextAlign.center,
                               style: TextStyle(fontSize: 20.0),
                             ),
                           ),

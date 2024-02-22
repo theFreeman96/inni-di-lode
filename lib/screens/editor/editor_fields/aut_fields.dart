@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../editor.dart';
 import '/components/drop_list.dart';
 import '/data/queries.dart';
+import '/utilities/error_codes.dart';
 
 class AutFields extends StatefulWidget {
   const AutFields({
@@ -41,7 +42,7 @@ class AutFieldsState extends State<AutFields> {
         } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
           return const Center(
             child: Text(
-              'Nessun autore trovato',
+              ErrorCodes.authorsNotFound,
               textAlign: TextAlign.center,
             ),
           );

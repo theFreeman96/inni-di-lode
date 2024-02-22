@@ -8,6 +8,7 @@ import '/data/models.dart';
 import '/data/queries.dart';
 import '/screens/songs/songs_detail.dart';
 import '/utilities/constants.dart';
+import '/utilities/error_codes.dart';
 import '/utilities/theme_provider.dart';
 
 class AutDetail extends StatefulWidget {
@@ -302,7 +303,7 @@ class _AutDetailState extends State<AutDetail> {
         future: query.getSongsByAut(id),
         controller: scrollController,
         row: buildRow,
-        message: 'Nessun autore trovato',
+        message: ErrorCodes.songsNotFound,
       ),
     );
   }
