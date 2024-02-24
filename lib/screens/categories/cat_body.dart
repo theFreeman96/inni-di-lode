@@ -63,7 +63,7 @@ class _CatBodyState extends State<CatBody> {
           future: future,
           padding: EdgeInsets.zero,
           row: buildRow,
-          message: ErrorCodes.macroCategoriesNotFound,
+          message: ErrorCodes.categoriesNotFound,
         ),
       ],
     );
