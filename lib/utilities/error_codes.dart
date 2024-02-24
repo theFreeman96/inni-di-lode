@@ -4,5 +4,5 @@ class ErrorCodes {
   static const macroCategoriesNotFound = 'Nessuna macro categoria trovata';
   static const categoriesNotFound = 'Nessuna categoria trovata';
   static const authorsNotFound = 'Nessun autore trovato';
-  static const favoritesNotFound = 'Nessun preferito trovato';
+  static const favoritesNotFound = 'Ancora nessun preferito';
 }
