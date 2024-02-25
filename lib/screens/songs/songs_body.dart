@@ -26,6 +26,7 @@ class _SongsBodyState extends State<SongsBody> {
 
   late Future<List?> future;
   bool isVisible = true;
+  late String currentKeyword = '';
 
   @override
   void initState() {
@@ -42,14 +43,16 @@ class _SongsBodyState extends State<SongsBody> {
       setState(() {
         future = query.getAllSongsPaginated(
             itemsPerPage, currentPage * itemsPerPage);
+        currentKeyword = '';
         isVisible = true;
       });
     } else {
       results = query.searchSong(keyword);
 
       setState(() {
-        currentPage = 0;
         future = results;
+        currentPage = 0;
+        currentKeyword = keyword;
         isVisible = false;
       });
     }
@@ -138,8 +141,9 @@ class _SongsBodyState extends State<SongsBody> {
           MaterialPageRoute(
             builder: (context) {
               return SongsDetail(
-                index: get.songId,
-                from: 'Songs',
+                index: isVisible == true ? get.songId : i,
+                from: isVisible == true ? 'Songs' : 'SongFilter',
+                keyword: currentKeyword,
               );
             },
           ),

@@ -22,6 +22,8 @@ class _FavBodyState extends State<FavBody> {
   final QueryCtr query = QueryCtr();
 
   late Future<List?> future;
+  bool isNotFiltered = true;
+  late String currentKeyword = '';
 
   @override
   void initState() {
@@ -45,12 +47,16 @@ class _FavBodyState extends State<FavBody> {
 
       setState(() {
         future = query.getAllFav();
+        currentKeyword = '';
+        isNotFiltered = true;
       });
     } else {
       results = query.searchFav(1, keyword);
 
       setState(() {
         future = results;
+        currentKeyword = keyword;
+        isNotFiltered = false;
       });
     }
   }
@@ -96,7 +102,8 @@ class _FavBodyState extends State<FavBody> {
             builder: (context) {
               return SongsDetail(
                 index: i,
-                from: 'Favorites',
+                from: isNotFiltered == true ? 'Favorites' : 'FavFilter',
+                keyword: currentKeyword,
               );
             },
           ),

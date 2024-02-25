@@ -27,11 +27,13 @@ class SongsDetail extends StatefulWidget {
     required this.index,
     required this.from,
     this.id,
+    this.keyword,
   }) : super(key: key);
 
   final int index;
   final String from;
   final int? id;
+  final String? keyword;
 
   @override
   State<SongsDetail> createState() => _SongsDetailState();
@@ -79,7 +81,11 @@ class _SongsDetailState extends State<SongsDetail> {
                   ? query.getSongsByAut(widget.id!)
                   : widget.from == 'Favorites'
                       ? query.getAllFav()
-                      : query.getAllSongs(),
+                      : widget.from == 'SongFilter'
+                          ? query.searchSong(widget.keyword!)
+                          : widget.from == 'FavFilter'
+                              ? query.searchFav(1, widget.keyword!)
+                              : query.getAllSongs(),
           initialData: const [],
           builder: (context, snapshot) {
             return PageView.builder(
