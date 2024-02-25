@@ -17,21 +17,22 @@ class AutDialog extends StatelessWidget {
   final TextEditingController? autSurnameController;
   final dynamic state;
 
-  late GlobalKey<FormState> formKey;
-  late TextEditingController nameController;
-  late TextEditingController surnameController;
+  late GlobalKey<FormState> formKey =
+      autDialogFormKey ?? GlobalKey<FormState>();
+  late TextEditingController nameController =
+      autNameController ?? TextEditingController();
+  late TextEditingController surnameController =
+      autSurnameController ?? TextEditingController();
 
   final QueryCtr query = QueryCtr();
 
   @override
   Widget build(BuildContext context) {
-    formKey = autDialogFormKey ?? GlobalKey<FormState>();
-    nameController = autNameController ?? TextEditingController();
-    surnameController = autSurnameController ?? TextEditingController();
-
     return AlertDialog(
       scrollable: true,
-      title: const Text('Nuovo autore'),
+      title: autNameController != null
+          ? const Text('Modifica autore')
+          : const Text('Nuovo autore'),
       content: Form(
         key: formKey,
         child: Column(

@@ -41,15 +41,8 @@ class EditorState extends State<Editor> {
   static List<int> macroList = [0, 0, 0];
   static List<int> catList = [0, 0, 0];
 
-  final newCatKey = GlobalKey<FormState>();
-  final catController = TextEditingController();
-
   static List<int> additionalAutFieldList = [];
   static List<int> autList = [0, 0, 0];
-
-  final newAutKey = GlobalKey<FormState>();
-  final autNameController = TextEditingController();
-  final autSurnameController = TextEditingController();
 
   final QueryCtr query = QueryCtr();
 
@@ -232,8 +225,6 @@ class EditorState extends State<Editor> {
                                     context: context,
                                     builder: (BuildContext context) {
                                       return CatDialog(
-                                        catDialogFormKey: newCatKey,
-                                        catController: catController,
                                         state: setState,
                                       );
                                     },
@@ -283,10 +274,6 @@ class EditorState extends State<Editor> {
                                       context: context,
                                       builder: (BuildContext context) {
                                         return AutDialog(
-                                          autDialogFormKey: newAutKey,
-                                          autNameController: autNameController,
-                                          autSurnameController:
-                                              autSurnameController,
                                           state: setState,
                                         );
                                       },

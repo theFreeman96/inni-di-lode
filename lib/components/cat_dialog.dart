@@ -16,8 +16,11 @@ class CatDialog extends StatelessWidget {
   final TextEditingController? catController;
   final dynamic state;
 
-  late GlobalKey<FormState> formKey;
-  late TextEditingController controller;
+  late GlobalKey<FormState> formKey =
+      catDialogFormKey ?? GlobalKey<FormState>();
+  late TextEditingController controller =
+      catController ?? TextEditingController();
+
   late int macroId;
   late String macroName;
 
@@ -25,12 +28,11 @@ class CatDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    formKey = catDialogFormKey ?? GlobalKey<FormState>();
-    controller = catController ?? TextEditingController();
-
     return AlertDialog(
       scrollable: true,
-      title: const Text('Nuova categoria'),
+      title: catController != null
+          ? const Text('Modifica categoria')
+          : const Text('Nuova categoria'),
       content: Form(
         key: formKey,
         child: Column(
