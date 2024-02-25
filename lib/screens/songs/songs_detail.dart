@@ -72,24 +72,27 @@ class _SongsDetailState extends State<SongsDetail> {
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
     Orientation orientation = mediaQuery.orientation;
-    return Stack(
-      children: [
-        FutureBuilder<List?>(
-          future: widget.from == 'Category'
-              ? query.getSongsByCat(widget.id!)
-              : widget.from == 'Author'
-                  ? query.getSongsByAut(widget.id!)
-                  : widget.from == 'Favorites'
-                      ? query.getAllFav()
-                      : widget.from == 'SongFilter'
-                          ? query.searchSong(widget.keyword!)
-                          : widget.from == 'FavFilter'
-                              ? query.searchFav(1, widget.keyword!)
-                              : query.getAllSongs(),
-          initialData: const [],
-          builder: (context, snapshot) {
-            return PageView.builder(
+    return FutureBuilder<List?>(
+      future: widget.from == 'Category'
+          ? query.getSongsByCat(widget.id!)
+          : widget.from == 'Author'
+              ? query.getSongsByAut(widget.id!)
+              : widget.from == 'Favorites'
+                  ? query.getAllFav()
+                  : widget.from == 'SongFilter'
+                      ? query.searchSong(widget.keyword!)
+                      : widget.from == 'FavFilter'
+                          ? query.searchFav(1, widget.keyword!)
+                          : query.getAllSongs(),
+      initialData: const [],
+      builder: (context, snapshot) {
+        return Stack(
+          children: [
+            PageView.builder(
               controller: pageController,
+              physics: snapshot.hasData && snapshot.data!.length == 1
+                  ? const NeverScrollableScrollPhysics()
+                  : const ScrollPhysics(),
               itemBuilder: (context, i) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const EmptyScaffold(
@@ -112,58 +115,62 @@ class _SongsDetailState extends State<SongsDetail> {
                   return buildPage(snapshot.data![i % snapshot.data!.length]);
                 }
               },
-            );
-          },
-        ),
-        Visibility(
-          visible: orientation == Orientation.portrait ? false : true,
-          child: Center(
-            child: Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: kDefaultPadding * 2),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Card(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(50),
-                    ),
-                    child: IconButton(
-                      onPressed: () {
-                        if (pageController.hasClients) {
-                          pageController.animateToPage(
-                            pageController.page!.toInt() - 1,
-                            duration: const Duration(milliseconds: 10),
-                            curve: Curves.easeInOut,
-                          );
-                        }
-                      },
-                      icon: const Icon(Icons.arrow_back_ios_new),
-                    ),
+            ),
+            Visibility(
+              visible:
+                  orientation == Orientation.portrait && snapshot.hasData ||
+                          snapshot.data!.length == 1
+                      ? false
+                      : true,
+              child: Center(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: kDefaultPadding * 2),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Card(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(50),
+                        ),
+                        child: IconButton(
+                          onPressed: () {
+                            if (pageController.hasClients) {
+                              pageController.animateToPage(
+                                pageController.page!.toInt() - 1,
+                                duration: const Duration(milliseconds: 10),
+                                curve: Curves.easeInOut,
+                              );
+                            }
+                          },
+                          icon: const Icon(Icons.arrow_back_ios_new),
+                        ),
+                      ),
+                      Card(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(50),
+                        ),
+                        child: IconButton(
+                          onPressed: () {
+                            if (pageController.hasClients) {
+                              pageController.animateToPage(
+                                pageController.page!.toInt() + 1,
+                                duration: const Duration(milliseconds: 10),
+                                curve: Curves.easeInOut,
+                              );
+                            }
+                          },
+                          icon: const Icon(Icons.arrow_forward_ios),
+                        ),
+                      ),
+                    ],
                   ),
-                  Card(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(50),
-                    ),
-                    child: IconButton(
-                      onPressed: () {
-                        if (pageController.hasClients) {
-                          pageController.animateToPage(
-                            pageController.page!.toInt() + 1,
-                            duration: const Duration(milliseconds: 10),
-                            curve: Curves.easeInOut,
-                          );
-                        }
-                      },
-                      icon: const Icon(Icons.arrow_forward_ios),
-                    ),
-                  ),
-                ],
+                ),
               ),
             ),
-          ),
-        ),
-      ],
+          ],
+        );
+      },
     );
   }
 
