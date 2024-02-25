@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
-import '/utilities/constants.dart';
-import '/utilities/theme_provider.dart';
-import '/components/theme_switch.dart';
+import '../home/home.dart';
+import '/components/cat_dialog.dart';
+import '/components/delete_dialog.dart';
 import '/components/detail_list.dart';
+import '/components/error_dialog.dart';
+import '/components/theme_switch.dart';
 import '/data/models.dart';
 import '/data/queries.dart';
-
 import '/screens/songs/songs_detail.dart';
-import '../home/home.dart';
+import '/utilities/constants.dart';
+import '/utilities/error_codes.dart';
 
 class CatDetail extends StatefulWidget {
   const CatDetail({
@@ -17,18 +18,20 @@ class CatDetail extends StatefulWidget {
     required this.catId,
     required this.catName,
     required this.macroId,
+    required this.macroName,
   }) : super(key: key);
 
   final int catId;
   final String catName;
   final int macroId;
+  final String macroName;
 
   @override
   State<CatDetail> createState() => _CatDetailState();
 }
 
-late int mac;
-late String macHint;
+late int macroId;
+late String macroName;
 
 class _CatDetailState extends State<CatDetail> {
   final ScrollController scrollController = ScrollController();
@@ -42,14 +45,13 @@ class _CatDetailState extends State<CatDetail> {
   @override
   void initState() {
     catController = TextEditingController(text: widget.catName);
-    mac = widget.macroId;
-    macHint = 'Seleziona';
+    macroId = widget.macroId;
+    macroName = widget.macroName;
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    final themeProvider = Provider.of<ThemeProvider>(context);
     return Scaffold(
       appBar: AppBar(
         elevation: 0.0,
@@ -74,134 +76,11 @@ class _CatDetailState extends State<CatDetail> {
                     showDialog(
                       context: context,
                       builder: (BuildContext context) {
-                        return AlertDialog(
-                          scrollable: true,
-                          title: const Text('Modifica categoria'),
-                          content: Form(
-                            key: editCatKey,
-                            child: Column(
-                              children: <Widget>[
-                                Padding(
-                                  padding: const EdgeInsets.only(
-                                      bottom: kDefaultPadding),
-                                  child: TextFormField(
-                                    controller: catController,
-                                    textCapitalization:
-                                        TextCapitalization.sentences,
-                                    decoration: const InputDecoration(
-                                      labelText: 'Nome categoria',
-                                      prefixIcon: Icon(
-                                        Icons.edit,
-                                        color: kLightGrey,
-                                      ),
-                                    ),
-                                    validator: (value) {
-                                      if (value == null || value.isEmpty) {
-                                        return 'Inserisci il nome!';
-                                      }
-                                      return null;
-                                    },
-                                  ),
-                                ),
-                                FutureBuilder(
-                                  future: query.getAllMacroCat(),
-                                  builder: (context, AsyncSnapshot snapshot) {
-                                    return snapshot.hasData
-                                        ? DropdownButtonFormField<String>(
-                                            isExpanded: true,
-                                            icon: const Padding(
-                                              padding: EdgeInsets.only(
-                                                  right: kDefaultPadding / 3),
-                                              child:
-                                                  Icon(Icons.arrow_drop_down),
-                                            ),
-                                            borderRadius:
-                                                const BorderRadius.all(
-                                              Radius.circular(25.0),
-                                            ),
-                                            hint: Text(macHint),
-                                            decoration: const InputDecoration(
-                                              contentPadding:
-                                                  EdgeInsets.symmetric(
-                                                vertical: kDefaultPadding,
-                                              ),
-                                              prefixIcon: Icon(
-                                                Icons.sell,
-                                                color: kLightGrey,
-                                              ),
-                                              labelText: 'Macrocategoria',
-                                            ),
-                                            items: snapshot.data!
-                                                .map<DropdownMenuItem<String>>(
-                                                    (get) {
-                                              return DropdownMenuItem<String>(
-                                                value: get.macroName,
-                                                onTap: () {
-                                                  mac = get.macroId;
-                                                },
-                                                child: Text(get.macroName),
-                                              );
-                                            }).toList(),
-                                            onChanged: (value) {
-                                              setState(() {
-                                                macHint = value!;
-                                              });
-                                            },
-                                            validator: (value) {
-                                              if (value == null ||
-                                                  value.isEmpty) {
-                                                return 'Seleziona una macrocategoria!';
-                                              }
-                                              return null;
-                                            },
-                                          )
-                                        : const Padding(
-                                            padding: EdgeInsets.only(
-                                                top: kDefaultPadding),
-                                            child: Text(
-                                              'Nessuna macrocategoria trovata',
-                                              style: TextStyle(),
-                                              textAlign: TextAlign.center,
-                                            ),
-                                          );
-                                  },
-                                ),
-                              ],
-                            ),
-                          ),
-                          actions: [
-                            OutlinedButton(
-                              onPressed: () {
-                                Navigator.pop(context, 'Annulla');
-                                catController.clear();
-                              },
-                              child: const Text('Annulla'),
-                            ),
-                            FilledButton(
-                              onPressed: () {
-                                if (editCatKey.currentState!.validate()) {
-                                  query.updateCat(
-                                      catController.text, mac, widget.catId);
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
-                                      content: Text('Categoria modificata!'),
-                                    ),
-                                  );
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) {
-                                        return const Home();
-                                      },
-                                    ),
-                                  );
-                                  catController.clear();
-                                  setState(() {});
-                                }
-                              },
-                              child: const Text('Conferma'),
-                            ),
-                          ],
+                        return CatDialog(
+                          catDialogFormKey: editCatKey,
+                          catController: catController,
+                          catId: widget.catId,
+                          state: setState,
                         );
                       },
                     );
@@ -218,101 +97,42 @@ class _CatDetailState extends State<CatDetail> {
                           future: query.getSongsByCat(id),
                           initialData: const [],
                           builder: (context, snapshot) {
-                            return snapshot.hasData
-                                ? AlertDialog(
-                                    scrollable: true,
-                                    title: const Text('Errore!'),
-                                    content: RichText(
-                                      text: TextSpan(
-                                        style: TextStyle(
-                                          color: themeProvider.isDarkMode
-                                              ? kWhite
-                                              : kBlack,
-                                        ),
-                                        children: [
-                                          const TextSpan(
-                                              text:
-                                                  'Prima di eliminare la categoria '),
-                                          TextSpan(
-                                            text: '${widget.catName} ',
-                                            style: const TextStyle(
-                                                fontWeight: FontWeight.bold),
-                                          ),
-                                          const TextSpan(
-                                              text:
-                                                  'è necessario dissociare o eliminare i cantici ancora associati.\n\n'),
-                                          const TextSpan(
-                                              text:
-                                                  'Nel fondo della pagina di ciascun cantico selezionare una delle seguenti opzioni:\n'),
-                                          const WidgetSpan(
-                                            child: Icon(Icons.edit_note),
-                                          ),
-                                          const TextSpan(
-                                              text: 'Modifica cantico\n'),
-                                          const WidgetSpan(
-                                            child: Icon(Icons.delete),
-                                          ),
-                                          const TextSpan(
-                                              text: 'Elimina cantico'),
-                                        ],
-                                      ),
+                            if (snapshot.connectionState ==
+                                ConnectionState.waiting) {
+                              return const Center(
+                                child: CircularProgressIndicator(),
+                              );
+                            } else if (snapshot.hasError) {
+                              return Center(
+                                child: Text(
+                                  'Errore: ${snapshot.error}',
+                                  textAlign: TextAlign.center,
+                                ),
+                              );
+                            } else if (!snapshot.hasData ||
+                                snapshot.data!.isEmpty) {
+                              return DeleteDialog(
+                                itemType: 'La categoria',
+                                itemToDelete: widget.catName,
+                                onPressed: () {
+                                  query.deleteCat(id);
+                                  setState(() {});
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) {
+                                        return const Home();
+                                      },
                                     ),
-                                    actions: <Widget>[
-                                      FilledButton(
-                                        onPressed: () {
-                                          Navigator.pop(context, 'Ho capito');
-                                        },
-                                        child: const Text('Ho capito'),
-                                      ),
-                                    ],
-                                  )
-                                : AlertDialog(
-                                    scrollable: true,
-                                    title: const Text('Conferma eliminazione'),
-                                    content: RichText(
-                                      text: TextSpan(
-                                        style: TextStyle(
-                                          color: themeProvider.isDarkMode
-                                              ? kWhite
-                                              : kBlack,
-                                        ),
-                                        children: <TextSpan>[
-                                          const TextSpan(text: 'La categoria '),
-                                          TextSpan(
-                                            text: widget.catName,
-                                            style: const TextStyle(
-                                                fontWeight: FontWeight.bold),
-                                          ),
-                                          const TextSpan(
-                                              text:
-                                                  ' sarà eliminata definitivamente.\nConfermi?')
-                                        ],
-                                      ),
-                                    ),
-                                    actions: <Widget>[
-                                      OutlinedButton(
-                                        onPressed: () {
-                                          Navigator.pop(context, 'Annulla');
-                                        },
-                                        child: const Text('Annulla'),
-                                      ),
-                                      FilledButton(
-                                        onPressed: () {
-                                          query.deleteCat(id);
-                                          setState(() {});
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                              builder: (context) {
-                                                return const Home();
-                                              },
-                                            ),
-                                          );
-                                        },
-                                        child: const Text('Elimina'),
-                                      ),
-                                    ],
                                   );
+                                },
+                              );
+                            } else {
+                              return ErrorDialog(
+                                itemType: 'la categoria',
+                                itemToDelete: widget.catName,
+                              );
+                            }
                           },
                         );
                       },
@@ -330,7 +150,7 @@ class _CatDetailState extends State<CatDetail> {
         future: query.getSongsByCat(id),
         controller: scrollController,
         row: buildRow,
-        condition: id > 32,
+        notFoundMessage: ErrorCodes.songsNotFound,
       ),
     );
   }

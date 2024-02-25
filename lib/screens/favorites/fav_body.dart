@@ -2,13 +2,13 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 
-import '/utilities/constants.dart';
+import '../songs/songs_detail.dart';
 import '/components/filter_bar.dart';
 import '/components/main_list.dart';
 import '/data/models.dart';
 import '/data/queries.dart';
-
-import '../songs/songs_detail.dart';
+import '/utilities/constants.dart';
+import '/utilities/error_codes.dart';
 
 class FavBody extends StatefulWidget {
   const FavBody({Key? key}) : super(key: key);
@@ -22,6 +22,9 @@ class _FavBodyState extends State<FavBody> {
   final QueryCtr query = QueryCtr();
 
   late Future<List?> future;
+  bool isNotFiltered = true;
+  late String currentKeyword = '';
+
   @override
   void initState() {
     future = query.getAllFav();
@@ -44,12 +47,16 @@ class _FavBodyState extends State<FavBody> {
 
       setState(() {
         future = query.getAllFav();
+        currentKeyword = '';
+        isNotFiltered = true;
       });
     } else {
       results = query.searchFav(1, keyword);
 
       setState(() {
         future = results;
+        currentKeyword = keyword;
+        isNotFiltered = false;
       });
     }
   }
@@ -69,7 +76,7 @@ class _FavBodyState extends State<FavBody> {
           future: future,
           padding: EdgeInsets.zero,
           row: buildRow,
-          message: 'Nessun preferito trovato',
+          notFoundMessage: ErrorCodes.favoritesNotFound,
         ),
       ],
     );
@@ -95,7 +102,8 @@ class _FavBodyState extends State<FavBody> {
             builder: (context) {
               return SongsDetail(
                 index: i,
-                from: 'Favorites',
+                from: isNotFiltered == true ? 'Favorites' : 'FavFilter',
+                keyword: currentKeyword,
               );
             },
           ),

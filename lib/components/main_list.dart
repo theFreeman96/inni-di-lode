@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '/utilities/constants.dart';
+import 'data_not_found.dart';
 
 class MainList extends StatelessWidget {
   const MainList({
@@ -8,13 +8,13 @@ class MainList extends StatelessWidget {
     required this.future,
     required this.padding,
     required this.row,
-    required this.message,
+    required this.notFoundMessage,
   }) : super(key: key);
 
   final Future<List?> future;
   final EdgeInsets padding;
   final Function row;
-  final String message;
+  final String notFoundMessage;
 
   @override
   Widget build(BuildContext context) {
@@ -22,34 +22,42 @@ class MainList extends StatelessWidget {
       future: future,
       initialData: const [],
       builder: (context, snapshot) {
-        return snapshot.hasData
-            ? Expanded(
-                child: Scrollbar(
-                  thumbVisibility: true,
-                  child: ListView.separated(
-                    padding: padding,
-                    physics: const ScrollPhysics(),
-                    shrinkWrap: true,
-                    itemCount: snapshot.data!.length,
-                    itemBuilder: (context, i) {
-                      return row(snapshot.data![i], i);
-                    },
-                    separatorBuilder: (context, index) {
-                      return const Divider();
-                    },
-                  ),
-                ),
-              )
-            : Padding(
-                padding: const EdgeInsets.only(top: kDefaultPadding),
-                child: Center(
-                  child: Text(
-                    message,
-                    style: const TextStyle(fontSize: 20.0),
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-              );
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        } else if (snapshot.hasError) {
+          return Center(
+            child: Text(
+              'Errore: ${snapshot.error}',
+              textAlign: TextAlign.center,
+            ),
+          );
+        } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+          return Expanded(
+            child: DataNotFound(
+              message: notFoundMessage,
+            ),
+          );
+        } else {
+          return Expanded(
+            child: Scrollbar(
+              thumbVisibility: true,
+              child: ListView.separated(
+                padding: padding,
+                physics: const ScrollPhysics(),
+                shrinkWrap: true,
+                itemCount: snapshot.data!.length,
+                itemBuilder: (context, i) {
+                  return row(snapshot.data![i], i);
+                },
+                separatorBuilder: (context, index) {
+                  return const Divider();
+                },
+              ),
+            ),
+          );
+        }
       },
     );
   }

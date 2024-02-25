@@ -1,16 +1,11 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
-import 'package:inni_di_lode/components/theme_switch.dart';
 import 'package:provider/provider.dart';
 
-import '/utilities/constants.dart';
-import '/utilities/theme_provider.dart';
-import '/data/queries.dart';
-
-import '/screens/songs/songs_detail.dart';
 import '/screens/editor/editor.dart';
 import '/screens/info/info_page.dart';
+import '/utilities/theme_provider.dart';
+import 'drawer_header.dart';
+import 'drawer_random_builder.dart';
 
 class DrawerMenu extends StatelessWidget {
   const DrawerMenu({Key? key}) : super(key: key);
@@ -22,7 +17,7 @@ class DrawerMenu extends StatelessWidget {
         physics: const ScrollPhysics(),
         padding: EdgeInsets.zero,
         children: <Widget>[
-          createDrawerHeader(),
+          const MyDrawerHeader(),
           Consumer<ThemeProvider>(
             builder: (context, themeProvider, child) {
               return SwitchListTile(
@@ -47,38 +42,7 @@ class DrawerMenu extends StatelessWidget {
                 context,
                 MaterialPageRoute(
                   builder: (context) {
-                    return FutureBuilder<List?>(
-                      future: QueryCtr().getAllSongs(),
-                      initialData: const [],
-                      builder: (context, snapshot) {
-                        if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                          return Scaffold(
-                            extendBody: true,
-                            appBar: AppBar(
-                              elevation: 0.0,
-                              leading: IconButton(
-                                tooltip: 'Indietro',
-                                icon: const Icon(Icons.arrow_back),
-                                onPressed: () {
-                                  FocusScope.of(context).unfocus();
-                                  Navigator.of(context).pop();
-                                },
-                              ),
-                              actions: const [
-                                ThemeSwitch(),
-                              ],
-                            ),
-                            body: const CircularProgressIndicator(),
-                          );
-                        }
-                        int randomSongId =
-                            Random().nextInt(snapshot.data!.length);
-                        return SongsDetail(
-                          index: randomSongId,
-                          from: 'Drawer',
-                        );
-                      },
-                    );
+                    return const DrawerRandomBuilder();
                   },
                 ),
               );
@@ -120,48 +84,4 @@ class DrawerMenu extends StatelessWidget {
       ),
     );
   }
-}
-
-Widget createDrawerHeader() {
-  return DrawerHeader(
-    margin: EdgeInsets.zero,
-    padding: EdgeInsets.zero,
-    decoration: const BoxDecoration(
-      image: DecorationImage(
-        fit: BoxFit.cover,
-        image: AssetImage('lib/assets/images/drawer_header.png'),
-      ),
-    ),
-    child: Stack(
-      children: <Widget>[
-        Builder(
-          builder: (BuildContext context) {
-            return IconButton(
-              icon: const Icon(
-                Icons.clear,
-                color: kWhite,
-              ),
-              onPressed: () {
-                FocusScope.of(context).unfocus();
-                Navigator.of(context).pop();
-              },
-              tooltip: 'Chiudi',
-            );
-          },
-        ),
-        const Positioned(
-          bottom: kDefaultPadding - 8.0,
-          left: kDefaultPadding - 4.0,
-          child: Text(
-            'Menu',
-            style: TextStyle(
-              color: kWhite,
-              fontSize: 20.0,
-              fontWeight: FontWeight.w500,
-            ),
-          ),
-        ),
-      ],
-    ),
-  );
 }

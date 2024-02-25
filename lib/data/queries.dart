@@ -16,13 +16,15 @@ class QueryCtr {
     return list;
   }
 
-  Future<List<Raccolta>?> getSongsFromRange(firstId, secondId) async {
+  Future<List<Raccolta>?> getAllSongsPaginated(limit, offset) async {
     final dbClient = await con.db;
-    final res = await dbClient!.query('View_Raccolta',
-        where: 'songId BETWEEN ? AND ?',
-        whereArgs: ['$firstId', '$secondId'],
-        groupBy: 'songId',
-        orderBy: 'songId');
+    final res = await dbClient!.query(
+      'View_Raccolta',
+      orderBy: 'songId',
+      groupBy: 'songId',
+      limit: limit,
+      offset: offset,
+    );
 
     List<Raccolta>? list =
         res.isNotEmpty ? res.map((c) => Raccolta.fromMap(c)).toList() : null;
@@ -253,11 +255,11 @@ class QueryCtr {
     return null;
   }
 
-  Future<List<Raccolta>?> insertCat(name, macroId) async {
+  Future<List<Raccolta>?> insertCat(name, macroId, macroName) async {
     final dbClient = await con.db;
     await dbClient!.insert(
       'Categories',
-      {'name': name, 'macro_id': macroId},
+      {'name': name, 'macro_id': macroId, 'macro_name': macroName},
     );
     return null;
   }
@@ -393,11 +395,11 @@ class QueryCtr {
     return null;
   }
 
-  Future<List<Raccolta>?> updateCat(name, macroId, id) async {
+  Future<List<Raccolta>?> updateCat(name, macroId, macroName, id) async {
     final dbClient = await con.db;
     await dbClient!.update(
       'Categories',
-      {'name': name, 'macro_id': macroId},
+      {'name': name, 'macro_id': macroId, 'macro_name': macroName},
       where: 'id = ?',
       whereArgs: [id],
     );

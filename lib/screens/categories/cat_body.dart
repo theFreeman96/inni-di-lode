@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '/utilities/constants.dart';
-import '/utilities/theme_provider.dart';
+import '/components/data_not_found.dart';
 import '/components/filter_bar.dart';
 import '/components/main_list.dart';
 import '/data/models.dart';
 import '/data/queries.dart';
-
+import '/utilities/constants.dart';
+import '/utilities/error_codes.dart';
+import '/utilities/theme_provider.dart';
 import 'cat_detail.dart';
 
 class CatBody extends StatefulWidget {
@@ -23,6 +24,7 @@ class _CatBodyState extends State<CatBody> {
   int? expansionIndex;
 
   late Future<List?> future;
+
   @override
   void initState() {
     future = query.getAllMacroCat();
@@ -61,7 +63,7 @@ class _CatBodyState extends State<CatBody> {
           future: future,
           padding: EdgeInsets.zero,
           row: buildRow,
-          message: 'Nessuna categoria trovata',
+          notFoundMessage: ErrorCodes.categoriesNotFound,
         ),
       ],
     );
@@ -112,21 +114,36 @@ class _CatBodyState extends State<CatBody> {
             future: query.getCatByMacro(get.macroId),
             initialData: const [],
             builder: (context, snapshot) {
-              return snapshot.hasData
-                  ? ListView.builder(
-                      physics: const ScrollPhysics(),
-                      shrinkWrap: true,
-                      padding: const EdgeInsets.only(
-                        bottom: kDefaultPadding,
-                      ),
-                      itemCount: snapshot.data!.length,
-                      itemBuilder: (context, i) {
-                        return buildCatRow(snapshot.data![i]);
-                      },
-                    )
-                  : const Center(
-                      child: CircularProgressIndicator(),
-                    );
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              } else if (snapshot.hasError) {
+                return Center(
+                  child: Text(
+                    'Errore: ${snapshot.error}',
+                    textAlign: TextAlign.center,
+                  ),
+                );
+              } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                return const Center(
+                  child: DataNotFound(
+                    message: ErrorCodes.categoriesNotFound,
+                  ),
+                );
+              } else {
+                return ListView.builder(
+                  physics: const ScrollPhysics(),
+                  shrinkWrap: true,
+                  padding: const EdgeInsets.only(
+                    bottom: kDefaultPadding,
+                  ),
+                  itemCount: snapshot.data!.length,
+                  itemBuilder: (context, i) {
+                    return buildCatRow(snapshot.data![i]);
+                  },
+                );
+              }
             },
           ),
         ),
@@ -143,7 +160,10 @@ class _CatBodyState extends State<CatBody> {
     return ListTile(
       leading: const Padding(
         padding: EdgeInsets.only(left: kDefaultPadding),
-        child: Icon(Icons.sell),
+        child: Icon(
+          Icons.sell,
+          color: kLightGrey,
+        ),
       ),
       title: Text(get.name),
       trailing: const Padding(
@@ -163,6 +183,7 @@ class _CatBodyState extends State<CatBody> {
                 catId: get.id,
                 catName: get.name,
                 macroId: get.macro_id,
+                macroName: get.macro_name,
               );
             },
           ),

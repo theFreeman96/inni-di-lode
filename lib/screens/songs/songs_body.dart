@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:number_paginator/number_paginator.dart';
+import 'package:provider/provider.dart';
 
-import '/utilities/constants.dart';
-import '/utilities/theme_provider.dart';
 import '/components/filter_bar.dart';
 import '/components/main_list.dart';
 import '/data/models.dart';
 import '/data/queries.dart';
-
+import '/utilities/constants.dart';
+import '/utilities/error_codes.dart';
+import '/utilities/theme_provider.dart';
 import 'songs_detail.dart';
 
 class SongsBody extends StatefulWidget {
@@ -24,34 +24,14 @@ class _SongsBodyState extends State<SongsBody> {
   late int currentPage = 0;
   final int itemsPerPage = 100;
 
-  void onValueChanged(newValue) {
-    setState(() {
-      currentPage = newValue;
-    });
-  }
-
-  late List<Future<List?>> songRange = [
-    query.getSongsFromRange(1, 100),
-    query.getSongsFromRange(101, 200),
-    query.getSongsFromRange(201, 300),
-    query.getSongsFromRange(301, 400),
-    query.getSongsFromRange(401, 500),
-    query.getSongsFromRange(501, 600),
-    query.getSongsFromRange(601, 700),
-    query.getSongsFromRange(701, 800),
-    query.getSongsFromRange(801, 900),
-    query.getSongsFromRange(901, 1000),
-    query.getSongsFromRange(1001, 1100),
-    query.getSongsFromRange(1101, 1200),
-    query.getSongsFromRange(1201, 1300),
-    query.getSongsFromRange(1301, 1400),
-  ];
-
   late Future<List?> future;
   bool isVisible = true;
+  late String currentKeyword = '';
+
   @override
   void initState() {
-    future = songRange[currentPage];
+    future =
+        query.getAllSongsPaginated(itemsPerPage, currentPage * itemsPerPage);
     super.initState();
   }
 
@@ -61,15 +41,18 @@ class _SongsBodyState extends State<SongsBody> {
       results = future;
 
       setState(() {
-        songRange[currentPage] = future;
+        future = query.getAllSongsPaginated(
+            itemsPerPage, currentPage * itemsPerPage);
+        currentKeyword = '';
         isVisible = true;
       });
     } else {
       results = query.searchSong(keyword);
 
       setState(() {
+        future = results;
         currentPage = 0;
-        songRange[currentPage] = results;
+        currentKeyword = keyword;
         isVisible = false;
       });
     }
@@ -96,42 +79,44 @@ class _SongsBodyState extends State<SongsBody> {
                 bottom: kDefaultPadding,
               ),
               child: FutureBuilder(
-                  future: query.getAllSongs(),
-                  builder: (context, AsyncSnapshot snapshot) {
-                    return NumberPaginator(
-                      numberPages: snapshot.hasData
-                          ? (snapshot.data!.length / itemsPerPage).ceil()
-                          : 7,
-                      onPageChange: (int index) {
-                        setState(() {
-                          currentPage = index;
-                        });
-                      },
-                      config: NumberPaginatorUIConfig(
-                        height: 44,
-                        mode: ContentDisplayMode.numbers,
-                        buttonSelectedForegroundColor: kWhite,
-                        buttonUnselectedForegroundColor:
-                            themeProvider.isDarkMode ? kWhite : kBlack,
-                        buttonSelectedBackgroundColor: themeProvider.isDarkMode
-                            ? kPrimaryLightColor
-                            : kPrimaryColor,
-                        buttonUnselectedBackgroundColor:
-                            themeProvider.isDarkMode
-                                ? kWhite.withOpacity(0.2)
-                                : kBlack.withOpacity(0.1),
-                      ),
-                    );
-                  }),
+                future: query.getAllSongs(),
+                builder: (context, AsyncSnapshot snapshot) {
+                  return NumberPaginator(
+                    numberPages: snapshot.hasData
+                        ? (snapshot.data!.length / itemsPerPage).ceil()
+                        : 7,
+                    onPageChange: (int index) {
+                      setState(() {
+                        currentPage = index;
+                        future = query.getAllSongsPaginated(
+                            itemsPerPage, currentPage * itemsPerPage);
+                      });
+                    },
+                    config: NumberPaginatorUIConfig(
+                      height: 44,
+                      mode: ContentDisplayMode.numbers,
+                      buttonSelectedForegroundColor: kWhite,
+                      buttonUnselectedForegroundColor:
+                          themeProvider.isDarkMode ? kWhite : kBlack,
+                      buttonSelectedBackgroundColor: themeProvider.isDarkMode
+                          ? kPrimaryLightColor
+                          : kPrimaryColor,
+                      buttonUnselectedBackgroundColor: themeProvider.isDarkMode
+                          ? kWhite.withOpacity(0.2)
+                          : kBlack.withOpacity(0.1),
+                    ),
+                  );
+                },
+              ),
             ),
           ),
         ),
         const Divider(height: 0.0),
         MainList(
-          future: songRange[currentPage],
+          future: future,
           padding: const EdgeInsets.only(top: 8),
           row: buildRow,
-          message: 'Nessun cantico trovato',
+          notFoundMessage: ErrorCodes.songsNotFound,
         ),
       ],
     );
@@ -156,8 +141,9 @@ class _SongsBodyState extends State<SongsBody> {
           MaterialPageRoute(
             builder: (context) {
               return SongsDetail(
-                index: get.songId,
-                from: 'Songs',
+                index: isVisible == true ? get.songId : i,
+                from: isVisible == true ? 'Songs' : 'SongFilter',
+                keyword: currentKeyword,
               );
             },
           ),

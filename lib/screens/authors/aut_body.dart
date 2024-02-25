@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-import '/utilities/constants.dart';
 import '/components/filter_bar.dart';
 import '/components/main_list.dart';
 import '/data/models.dart';
 import '/data/queries.dart';
-
+import '/utilities/constants.dart';
+import '/utilities/error_codes.dart';
 import 'aut_detail.dart';
 
 class AutBody extends StatefulWidget {
@@ -20,6 +20,7 @@ class _AutBodyState extends State<AutBody> {
   final QueryCtr query = QueryCtr();
 
   late Future<List?> future;
+
   @override
   void initState() {
     future = query.getAllAut();
@@ -58,7 +59,7 @@ class _AutBodyState extends State<AutBody> {
           future: future,
           padding: EdgeInsets.zero,
           row: buildRow,
-          message: 'Nessun autore trovato',
+          notFoundMessage: ErrorCodes.authorsNotFound,
         ),
       ],
     );

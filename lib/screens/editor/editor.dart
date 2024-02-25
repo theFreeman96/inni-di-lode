@@ -1,17 +1,19 @@
 import 'package:flutter/material.dart';
-
-import '/utilities/constants.dart';
-import '/components/theme_switch.dart';
-import '/data/queries.dart';
+import 'package:provider/provider.dart';
 
 import '../home/home.dart';
-import 'editor_fields/title_field.dart';
-import 'editor_dialogs/verse_tag.dart';
-import 'editor_fields/lyrics_field.dart';
-import 'editor_fields/cat_field.dart';
-import 'editor_dialogs/cat_dialog.dart';
+import '/components/aut_dialog.dart';
+import '/components/cat_dialog.dart';
+import '/components/empty_scaffold.dart';
+import '/components/theme_switch.dart';
+import '/data/queries.dart';
+import '/utilities/constants.dart';
+import '/utilities/theme_provider.dart';
 import 'editor_fields/aut_fields.dart';
-import 'editor_dialogs/aut_dialog.dart';
+import 'editor_fields/cat_fields.dart';
+import 'editor_fields/lyrics_field.dart';
+import 'editor_fields/title_field.dart';
+import 'editor_fields/verse_tag.dart';
 import 'submit.dart';
 
 class Editor extends StatefulWidget {
@@ -40,15 +42,8 @@ class EditorState extends State<Editor> {
   static List<int> macroList = [0, 0, 0];
   static List<int> catList = [0, 0, 0];
 
-  final newCatKey = GlobalKey<FormState>();
-  final catController = TextEditingController();
-
   static List<int> additionalAutFieldList = [];
   static List<int> autList = [0, 0, 0];
-
-  final newAutKey = GlobalKey<FormState>();
-  final autNameController = TextEditingController();
-  final autSurnameController = TextEditingController();
 
   final QueryCtr query = QueryCtr();
 
@@ -86,178 +81,221 @@ class EditorState extends State<Editor> {
 
   @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context);
+
     return FutureBuilder(
       future: query.getAllSongs(),
       builder: (context, AsyncSnapshot snapshot) {
-        if (!snapshot.hasData || snapshot.data!.isEmpty) {
+        if (snapshot.hasError) {
+          return EmptyScaffold(
+            body: Text(
+              'Errore: ${snapshot.error}',
+              textAlign: TextAlign.center,
+            ),
+          );
+        } else {
+          final newSongId = !snapshot.hasData || snapshot.data!.isEmpty
+              ? 1
+              : snapshot.data.length + 1;
           return Scaffold(
-            extendBody: true,
+            resizeToAvoidBottomInset: true,
             appBar: AppBar(
               elevation: 0.0,
+              title: Text(
+                widget.songId != null ? 'Modifica Cantico' : 'Nuovo cantico',
+              ),
               leading: IconButton(
                 tooltip: 'Indietro',
                 icon: const Icon(Icons.arrow_back),
                 onPressed: () {
                   FocusScope.of(context).unfocus();
-                  Navigator.of(context).pop();
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) {
+                        return const Home();
+                      },
+                    ),
+                  );
+                  additionalCatFieldList.clear();
+                  additionalAutFieldList.clear();
+                  macroList = [0, 0, 0];
+                  catList = [0, 0, 0];
+                  autList = [0, 0, 0];
                 },
               ),
               actions: const [
                 ThemeSwitch(),
               ],
             ),
-            body: const Center(
-              child: CircularProgressIndicator(),
-            ),
-          );
-        }
-        final newSongId = snapshot.data.length + 1;
-        return Scaffold(
-          resizeToAvoidBottomInset: true,
-          appBar: AppBar(
-            elevation: 0.0,
-            title: Text(
-              widget.songId != null ? 'Modifica Cantico' : 'Nuovo cantico',
-            ),
-            leading: IconButton(
-              tooltip: 'Indietro',
-              icon: const Icon(Icons.arrow_back),
+            floatingActionButton: FloatingActionButton(
+              tooltip: 'Conferma',
               onPressed: () {
-                FocusScope.of(context).unfocus();
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) {
-                      return const Home();
-                    },
-                  ),
+                submit(
+                  context: context,
+                  widget: widget,
+                  editorKey: editorKey,
+                  query: query,
+                  newSongId: newSongId,
+                  titleController: titleController,
+                  textController: textController,
+                  macroList: macroList,
+                  catList: catList,
+                  autList: autList,
+                  additionalCatFieldList: additionalCatFieldList,
+                  additionalAutFieldList: additionalAutFieldList,
                 );
-                additionalCatFieldList.clear();
-                additionalAutFieldList.clear();
-                macroList = [0, 0, 0];
-                catList = [0, 0, 0];
-                autList = [0, 0, 0];
               },
+              child: const Icon(Icons.send),
             ),
-            actions: const [
-              ThemeSwitch(),
-            ],
-          ),
-          floatingActionButton: FloatingActionButton(
-            tooltip: 'Conferma',
-            onPressed: () {
-              submit(
-                context: context,
-                widget: widget,
-                editorKey: editorKey,
-                query: query,
-                newSongId: newSongId,
-                titleController: titleController,
-                textController: textController,
-                macroList: macroList,
-                catList: catList,
-                autList: autList,
-                additionalCatFieldList: additionalCatFieldList,
-                additionalAutFieldList: additionalAutFieldList,
-              );
-            },
-            child: const Icon(Icons.send),
-          ),
-          body: SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.all(kDefaultPadding),
-              child: Form(
-                key: editorKey,
-                child: Column(
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Padding(
-                          padding:
-                              const EdgeInsets.only(right: kDefaultPadding),
-                          child: CircleAvatar(
-                            child: Text(widget.songId != null
-                                ? widget.songId.toString()
-                                : newSongId.toString()),
-                          ),
-                        ),
-                        TitleField(
-                          controller: titleController,
-                        ),
-                      ],
-                    ),
-                    Padding(
-                      padding:
-                          const EdgeInsets.symmetric(vertical: kDefaultPadding),
-                      child: Column(
+            body: SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.all(kDefaultPadding),
+                child: Form(
+                  key: editorKey,
+                  child: Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          VerseTag(
-                            focus: textFocusNode,
-                            controller: textController,
+                          Padding(
+                            padding:
+                                const EdgeInsets.only(right: kDefaultPadding),
+                            child: CircleAvatar(
+                              child: Text(
+                                widget.songId != null
+                                    ? widget.songId.toString()
+                                    : newSongId.toString(),
+                              ),
+                            ),
                           ),
-                          LyricsField(
-                            controller: textController,
-                            focus: textFocusNode,
+                          TitleField(
+                            controller: titleController,
                           ),
                         ],
                       ),
-                    ),
-                    Container(
-                      decoration: BoxDecoration(
-                        border: Border.all(color: kLightGrey, width: 1),
-                        borderRadius: const BorderRadius.all(
-                          Radius.circular(25.0),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                          vertical: kDefaultPadding,
                         ),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(kDefaultPadding),
                         child: Column(
                           children: [
-                            ...getCatFields(),
-                            CatDialog(
-                              newKey: newCatKey,
-                              controller: catController,
+                            VerseTag(
+                              focus: textFocusNode,
+                              controller: textController,
+                            ),
+                            LyricsField(
+                              controller: textController,
+                              focus: textFocusNode,
                             ),
                           ],
                         ),
                       ),
-                    ),
-                    Padding(
-                      padding:
-                          const EdgeInsets.symmetric(vertical: kDefaultPadding),
-                      child: Container(
+                      Container(
                         decoration: BoxDecoration(
-                          border: Border.all(color: kLightGrey, width: 1),
+                          border: Border.all(
+                            color: kLightGrey,
+                            width: 1,
+                          ),
                           borderRadius: const BorderRadius.all(
                             Radius.circular(25.0),
                           ),
                         ),
                         child: Padding(
-                          padding: const EdgeInsets.all(kDefaultPadding),
+                          padding: const EdgeInsets.all(
+                            kDefaultPadding,
+                          ),
                           child: Column(
                             children: [
-                              ...getAutFields(),
-                              AutDialog(
-                                newKey: newAutKey,
-                                nameController: autNameController,
-                                surController: autSurnameController,
-                                state: setState,
+                              ...getCatFields(),
+                              TextButton.icon(
+                                icon: Icon(Icons.person_add,
+                                    color: themeProvider.isDarkMode
+                                        ? kWhite
+                                        : kBlack),
+                                label: Text(
+                                  'Crea nuova categoria',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: themeProvider.isDarkMode
+                                          ? kWhite
+                                          : kBlack),
+                                ),
+                                onPressed: () {
+                                  showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return CatDialog(
+                                        state: setState,
+                                      );
+                                    },
+                                  );
+                                },
                               ),
                             ],
                           ),
                         ),
                       ),
-                    ),
-                    const SizedBox(
-                      height: kDefaultPadding * 5,
-                    ),
-                  ],
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                          vertical: kDefaultPadding,
+                        ),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                              color: kLightGrey,
+                              width: 1,
+                            ),
+                            borderRadius: const BorderRadius.all(
+                              Radius.circular(25.0),
+                            ),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(
+                              kDefaultPadding,
+                            ),
+                            child: Column(
+                              children: [
+                                ...getAutFields(),
+                                TextButton.icon(
+                                  icon: Icon(Icons.person_add,
+                                      color: themeProvider.isDarkMode
+                                          ? kWhite
+                                          : kBlack),
+                                  label: Text(
+                                    'Crea nuovo autore',
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color: themeProvider.isDarkMode
+                                            ? kWhite
+                                            : kBlack),
+                                  ),
+                                  onPressed: () {
+                                    showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return AutDialog(
+                                          state: setState,
+                                        );
+                                      },
+                                    );
+                                  },
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(
+                        height: kDefaultPadding * 5,
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
-          ),
-        );
+          );
+        }
       },
     );
   }
@@ -267,7 +305,9 @@ class EditorState extends State<Editor> {
     for (int i = 0; i <= additionalCatFieldList.length; i++) {
       catFieldsList.add(
         Padding(
-          padding: const EdgeInsets.only(bottom: kDefaultPadding),
+          padding: const EdgeInsets.only(
+            bottom: kDefaultPadding,
+          ),
           child: Row(
             children: [
               Expanded(child: CatFields(index: i)),
@@ -295,7 +335,9 @@ class EditorState extends State<Editor> {
 
   Widget catRemoveButton(bool add, int index) {
     return IconButton(
-      icon: Icon((add) ? Icons.add_circle : Icons.remove_circle),
+      icon: Icon(
+        (add) ? Icons.add_circle : Icons.remove_circle,
+      ),
       color: (add) ? Colors.green : Colors.red,
       tooltip: (add) ? 'Aggiungi categoria' : 'Rimuovi categoria',
       onPressed: () {
@@ -320,7 +362,9 @@ class EditorState extends State<Editor> {
     for (int i = 0; i <= additionalAutFieldList.length; i++) {
       autFieldsList.add(
         Padding(
-          padding: const EdgeInsets.only(bottom: kDefaultPadding),
+          padding: const EdgeInsets.only(
+            bottom: kDefaultPadding,
+          ),
           child: Row(
             children: [
               Expanded(child: AutFields(index: i)),

@@ -2,21 +2,24 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:flutter_html/flutter_html.dart';
+import 'package:provider/provider.dart';
 
-import '/utilities/constants.dart';
-import '/utilities/theme_provider.dart';
+import '../authors/aut_detail.dart';
+import '../categories/cat_detail.dart';
+import '../editor/editor.dart';
+import '../home/home.dart';
+import '/components/data_not_found.dart';
+import '/components/delete_dialog.dart';
+import '/components/empty_scaffold.dart';
 import '/components/theme_switch.dart';
 import '/data/models.dart';
 import '/data/queries.dart';
-
-import '../categories/cat_detail.dart';
-import '../authors/aut_detail.dart';
-import 'songs_player.dart';
+import '/utilities/constants.dart';
+import '/utilities/error_codes.dart';
+import '/utilities/theme_provider.dart';
 import 'songs_pdf.dart';
-import '../editor/editor.dart';
-import '../home/home.dart';
+import 'songs_player.dart';
 
 class SongsDetail extends StatefulWidget {
   const SongsDetail({
@@ -24,11 +27,13 @@ class SongsDetail extends StatefulWidget {
     required this.index,
     required this.from,
     this.id,
+    this.keyword,
   }) : super(key: key);
 
   final int index;
   final String from;
   final int? id;
+  final String? keyword;
 
   @override
   State<SongsDetail> createState() => _SongsDetailState();
@@ -67,102 +72,109 @@ class _SongsDetailState extends State<SongsDetail> {
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
     Orientation orientation = mediaQuery.orientation;
-    return Stack(
-      children: [
-        FutureBuilder<List?>(
-          future: widget.from == 'Category'
-              ? query.getSongsByCat(widget.id!)
-              : widget.from == 'Author'
-                  ? query.getSongsByAut(widget.id!)
-                  : widget.from == 'Favorites'
-                      ? query.getAllFav()
-                      : query.getAllSongs(),
-          initialData: const [],
-          builder: (context, snapshot) {
-            return PageView.builder(
+    return FutureBuilder<List?>(
+      future: widget.from == 'Category'
+          ? query.getSongsByCat(widget.id!)
+          : widget.from == 'Author'
+              ? query.getSongsByAut(widget.id!)
+              : widget.from == 'Favorites'
+                  ? query.getAllFav()
+                  : widget.from == 'SongFilter'
+                      ? query.searchSong(widget.keyword!)
+                      : widget.from == 'FavFilter'
+                          ? query.searchFav(1, widget.keyword!)
+                          : query.getAllSongs(),
+      initialData: const [],
+      builder: (context, snapshot) {
+        return Stack(
+          children: [
+            PageView.builder(
               controller: pageController,
+              physics: snapshot.hasData && snapshot.data!.length == 1
+                  ? const NeverScrollableScrollPhysics()
+                  : const ScrollPhysics(),
               itemBuilder: (context, i) {
-                if (!snapshot.hasData ||
-                    snapshot.data!.isEmpty ||
-                    snapshot.hasError) {
-                  return Scaffold(
-                    extendBody: true,
-                    appBar: AppBar(
-                      elevation: 0.0,
-                      leading: IconButton(
-                        tooltip: 'Indietro',
-                        icon: const Icon(Icons.arrow_back),
-                        onPressed: () {
-                          FocusScope.of(context).unfocus();
-                          Navigator.of(context).pop();
-                        },
-                      ),
-                      actions: const [
-                        ThemeSwitch(),
-                      ],
-                    ),
-                    body: const CircularProgressIndicator(),
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const EmptyScaffold(
+                    body: CircularProgressIndicator(),
                   );
+                } else if (snapshot.hasError) {
+                  return EmptyScaffold(
+                    body: Text(
+                      'Errore: ${snapshot.error}',
+                      textAlign: TextAlign.center,
+                    ),
+                  );
+                } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                  return const EmptyScaffold(
+                    body: DataNotFound(
+                      message: ErrorCodes.songNotFound,
+                    ),
+                  );
+                } else {
+                  return buildPage(snapshot.data![i % snapshot.data!.length]);
                 }
-                return buildPage(snapshot.data![i % snapshot.data!.length]);
               },
-            );
-          },
-        ),
-        Visibility(
-          visible: orientation == Orientation.portrait ? false : true,
-          child: Center(
-            child: Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: kDefaultPadding * 2),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Card(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(50),
-                    ),
-                    child: IconButton(
-                      onPressed: () {
-                        if (pageController.hasClients) {
-                          pageController.animateToPage(
-                            pageController.page!.toInt() - 1,
-                            duration: const Duration(milliseconds: 10),
-                            curve: Curves.easeInOut,
-                          );
-                        }
-                      },
-                      icon: const Icon(Icons.arrow_back_ios_new),
-                    ),
+            ),
+            Visibility(
+              visible:
+                  orientation == Orientation.portrait && snapshot.hasData ||
+                          snapshot.data!.length == 1
+                      ? false
+                      : true,
+              child: Center(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: kDefaultPadding * 2),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Card(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(50),
+                        ),
+                        child: IconButton(
+                          onPressed: () {
+                            if (pageController.hasClients) {
+                              pageController.animateToPage(
+                                pageController.page!.toInt() - 1,
+                                duration: const Duration(milliseconds: 10),
+                                curve: Curves.easeInOut,
+                              );
+                            }
+                          },
+                          icon: const Icon(Icons.arrow_back_ios_new),
+                        ),
+                      ),
+                      Card(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(50),
+                        ),
+                        child: IconButton(
+                          onPressed: () {
+                            if (pageController.hasClients) {
+                              pageController.animateToPage(
+                                pageController.page!.toInt() + 1,
+                                duration: const Duration(milliseconds: 10),
+                                curve: Curves.easeInOut,
+                              );
+                            }
+                          },
+                          icon: const Icon(Icons.arrow_forward_ios),
+                        ),
+                      ),
+                    ],
                   ),
-                  Card(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(50),
-                    ),
-                    child: IconButton(
-                      onPressed: () {
-                        if (pageController.hasClients) {
-                          pageController.animateToPage(
-                            pageController.page!.toInt() + 1,
-                            duration: const Duration(milliseconds: 10),
-                            curve: Curves.easeInOut,
-                          );
-                        }
-                      },
-                      icon: const Icon(Icons.arrow_forward_ios),
-                    ),
-                  ),
-                ],
+                ),
               ),
             ),
-          ),
-        ),
-      ],
+          ],
+        );
+      },
     );
   }
 
   Widget buildPage(Raccolta get) {
-    final themeProvider = Provider.of<ThemeProvider>(context);
     return Scaffold(
       extendBody: true,
       appBar: AppBar(
@@ -204,16 +216,20 @@ class _SongsDetailState extends State<SongsDetail> {
               Html(
                 data: get.songText,
                 style: {
-                  'ol': Style(
-                    textAlign: TextAlign.center,
+                  '*': Style(
                     fontSize: FontSize(fontSize),
                     lineHeight: LineHeight(lineHeight),
+                    textAlign: TextAlign.center,
+                    padding: HtmlPaddings(
+                      left: HtmlPadding(0),
+                    ),
                     listStylePosition: ListStylePosition.inside,
-                    padding: const EdgeInsets.only(bottom: kDefaultPadding),
                   ),
-                  'li': Style(
-                      padding:
-                          const EdgeInsets.only(right: kDefaultPadding / 4)),
+                  'ol': Style(
+                    padding: HtmlPaddings(
+                      bottom: HtmlPadding(kDefaultPadding),
+                    ),
+                  ),
                 },
               ),
               const Divider(),
@@ -221,61 +237,74 @@ class _SongsDetailState extends State<SongsDetail> {
                 future: query.getCatBySongId(get.songId),
                 initialData: const [],
                 builder: (context, snapshot) {
-                  return snapshot.hasData
-                      ? ListView.builder(
-                          physics: const ScrollPhysics(),
-                          shrinkWrap: true,
-                          padding: const EdgeInsets.only(
-                              bottom: kDefaultPadding * 0.4),
-                          itemCount: snapshot.data!.length,
-                          itemBuilder: (context, i) {
-                            return Column(
-                              children: [
-                                buildCatInfo(snapshot.data![i]),
-                              ],
-                            );
-                          },
-                        )
-                      : const Padding(
-                          padding: EdgeInsets.only(top: kDefaultPadding),
-                          child: Center(
-                            child: Text(
-                              'Nessuna categoria trovata',
-                              style: TextStyle(fontSize: 20.0),
-                            ),
-                          ),
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  } else if (snapshot.hasError) {
+                    return Center(
+                      child: Text(
+                        'Errore: ${snapshot.error}',
+                        textAlign: TextAlign.center,
+                      ),
+                    );
+                  } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                    return const SizedBox();
+                  } else {
+                    return ListView.builder(
+                      physics: const ScrollPhysics(),
+                      shrinkWrap: true,
+                      padding: const EdgeInsets.only(
+                        bottom: kDefaultPadding * 0.4,
+                      ),
+                      itemCount: snapshot.data!.length,
+                      itemBuilder: (context, i) {
+                        return Column(
+                          children: [
+                            buildCatInfo(snapshot.data![i]),
+                          ],
                         );
+                      },
+                    );
+                  }
                 },
               ),
               FutureBuilder<List?>(
                 future: query.getAutBySongId(get.songId),
                 initialData: const [],
                 builder: (context, snapshot) {
-                  return snapshot.hasData
-                      ? ListView.builder(
-                          physics: const ScrollPhysics(),
-                          shrinkWrap: true,
-                          itemCount: snapshot.data!.length,
-                          itemBuilder: (context, i) {
-                            return Column(
-                              children: [
-                                buildAutInfo(snapshot.data![i]),
-                              ],
-                            );
-                          },
-                        )
-                      : const Padding(
-                          padding: EdgeInsets.only(top: kDefaultPadding),
-                          child: Center(
-                            child: Text(
-                              'Nessun autore trovato',
-                              style: TextStyle(fontSize: 20.0),
-                            ),
-                          ),
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  } else if (snapshot.hasError) {
+                    return Center(
+                      child: Text(
+                        'Errore: ${snapshot.error}',
+                        textAlign: TextAlign.center,
+                      ),
+                    );
+                  } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                    return const SizedBox();
+                  } else {
+                    return ListView.builder(
+                      physics: const ScrollPhysics(),
+                      shrinkWrap: true,
+                      itemCount: snapshot.data!.length,
+                      itemBuilder: (context, i) {
+                        return Column(
+                          children: [
+                            buildAutInfo(snapshot.data![i]),
+                          ],
                         );
+                      },
+                    );
+                  }
                 },
               ),
-              const SizedBox(height: kDefaultPadding * 3)
+              const SizedBox(
+                height: kDefaultPadding * 3,
+              )
             ],
           ),
         ),
@@ -502,52 +531,21 @@ class _SongsDetailState extends State<SongsDetail> {
                         showDialog(
                           context: context,
                           builder: (BuildContext context) {
-                            return AlertDialog(
-                              scrollable: true,
-                              title: const Text('Conferma eliminazione'),
-                              content: RichText(
-                                text: TextSpan(
-                                  style: TextStyle(
-                                    color: themeProvider.isDarkMode
-                                        ? kWhite
-                                        : kBlack,
+                            return DeleteDialog(
+                              itemType: 'Il cantico',
+                              itemToDelete: '${get.songId}. ${get.songTitle}',
+                              onPressed: () {
+                                query.deleteSong(get.songId);
+                                setState(() {});
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) {
+                                      return const Home();
+                                    },
                                   ),
-                                  children: <TextSpan>[
-                                    const TextSpan(text: 'Il cantico '),
-                                    TextSpan(
-                                      text: '${get.songId}. ${get.songTitle} ',
-                                      style: const TextStyle(
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                    const TextSpan(
-                                        text:
-                                            'sarà eliminato definitivamente.\nConfermi?')
-                                  ],
-                                ),
-                              ),
-                              actions: <Widget>[
-                                OutlinedButton(
-                                  onPressed: () {
-                                    Navigator.pop(context, 'Annulla');
-                                  },
-                                  child: const Text('Annulla'),
-                                ),
-                                FilledButton(
-                                  onPressed: () {
-                                    query.deleteSong(get.songId);
-                                    setState(() {});
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) {
-                                          return const Home();
-                                        },
-                                      ),
-                                    );
-                                  },
-                                  child: const Text('Elimina'),
-                                ),
-                              ],
+                                );
+                              },
                             );
                           },
                         );
@@ -581,6 +579,7 @@ class _SongsDetailState extends State<SongsDetail> {
                 catId: get.catId,
                 catName: get.catName,
                 macroId: get.macroId,
+                macroName: get.macroName,
               );
             },
           ),
