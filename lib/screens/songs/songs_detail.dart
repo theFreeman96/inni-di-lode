@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
+import 'package:inni_di_lode/components/delete_dialog.dart';
 import 'package:provider/provider.dart';
 
 import '../authors/aut_detail.dart';
@@ -89,8 +90,8 @@ class _SongsDetailState extends State<SongsDetail> {
                     body: CircularProgressIndicator(),
                   );
                 } else if (snapshot.hasError) {
-                  return Center(
-                    child: Text(
+                  return EmptyScaffold(
+                    body: Text(
                       'Errore: ${snapshot.error}',
                       textAlign: TextAlign.center,
                     ),
@@ -161,7 +162,6 @@ class _SongsDetailState extends State<SongsDetail> {
   }
 
   Widget buildPage(Raccolta get) {
-    final themeProvider = Provider.of<ThemeProvider>(context);
     return Scaffold(
       extendBody: true,
       appBar: AppBar(
@@ -224,63 +224,74 @@ class _SongsDetailState extends State<SongsDetail> {
                 future: query.getCatBySongId(get.songId),
                 initialData: const [],
                 builder: (context, snapshot) {
-                  return snapshot.hasData
-                      ? ListView.builder(
-                          physics: const ScrollPhysics(),
-                          shrinkWrap: true,
-                          padding: const EdgeInsets.only(
-                              bottom: kDefaultPadding * 0.4),
-                          itemCount: snapshot.data!.length,
-                          itemBuilder: (context, i) {
-                            return Column(
-                              children: [
-                                buildCatInfo(snapshot.data![i]),
-                              ],
-                            );
-                          },
-                        )
-                      : const Padding(
-                          padding: EdgeInsets.only(top: kDefaultPadding),
-                          child: Center(
-                            child: Text(
-                              ErrorCodes.categoriesNotFound,
-                              textAlign: TextAlign.center,
-                              style: TextStyle(fontSize: 20.0),
-                            ),
-                          ),
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  } else if (snapshot.hasError) {
+                    return Center(
+                      child: Text(
+                        'Errore: ${snapshot.error}',
+                        textAlign: TextAlign.center,
+                      ),
+                    );
+                  } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                    return const SizedBox();
+                  } else {
+                    return ListView.builder(
+                      physics: const ScrollPhysics(),
+                      shrinkWrap: true,
+                      padding: const EdgeInsets.only(
+                        bottom: kDefaultPadding * 0.4,
+                      ),
+                      itemCount: snapshot.data!.length,
+                      itemBuilder: (context, i) {
+                        return Column(
+                          children: [
+                            buildCatInfo(snapshot.data![i]),
+                          ],
                         );
+                      },
+                    );
+                  }
                 },
               ),
               FutureBuilder<List?>(
                 future: query.getAutBySongId(get.songId),
                 initialData: const [],
                 builder: (context, snapshot) {
-                  return snapshot.hasData
-                      ? ListView.builder(
-                          physics: const ScrollPhysics(),
-                          shrinkWrap: true,
-                          itemCount: snapshot.data!.length,
-                          itemBuilder: (context, i) {
-                            return Column(
-                              children: [
-                                buildAutInfo(snapshot.data![i]),
-                              ],
-                            );
-                          },
-                        )
-                      : const Padding(
-                          padding: EdgeInsets.only(top: kDefaultPadding),
-                          child: Center(
-                            child: Text(
-                              ErrorCodes.authorsNotFound,
-                              textAlign: TextAlign.center,
-                              style: TextStyle(fontSize: 20.0),
-                            ),
-                          ),
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  } else if (snapshot.hasError) {
+                    return Center(
+                      child: Text(
+                        'Errore: ${snapshot.error}',
+                        textAlign: TextAlign.center,
+                      ),
+                    );
+                  } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                    return const SizedBox();
+                  } else {
+                    return ListView.builder(
+                      physics: const ScrollPhysics(),
+                      shrinkWrap: true,
+                      itemCount: snapshot.data!.length,
+                      itemBuilder: (context, i) {
+                        return Column(
+                          children: [
+                            buildAutInfo(snapshot.data![i]),
+                          ],
                         );
+                      },
+                    );
+                  }
                 },
               ),
-              const SizedBox(height: kDefaultPadding * 3)
+              const SizedBox(
+                height: kDefaultPadding * 3,
+              )
             ],
           ),
         ),
@@ -507,52 +518,21 @@ class _SongsDetailState extends State<SongsDetail> {
                         showDialog(
                           context: context,
                           builder: (BuildContext context) {
-                            return AlertDialog(
-                              scrollable: true,
-                              title: const Text('Conferma eliminazione'),
-                              content: RichText(
-                                text: TextSpan(
-                                  style: TextStyle(
-                                    color: themeProvider.isDarkMode
-                                        ? kWhite
-                                        : kBlack,
+                            return DeleteDialog(
+                              itemType: 'Il cantico',
+                              itemToDelete: '${get.songId}. ${get.songTitle}',
+                              onPressed: () {
+                                query.deleteSong(get.songId);
+                                setState(() {});
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) {
+                                      return const Home();
+                                    },
                                   ),
-                                  children: <TextSpan>[
-                                    const TextSpan(text: 'Il cantico '),
-                                    TextSpan(
-                                      text: '${get.songId}. ${get.songTitle} ',
-                                      style: const TextStyle(
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                    const TextSpan(
-                                        text:
-                                            'sarà eliminato definitivamente.\nConfermi?')
-                                  ],
-                                ),
-                              ),
-                              actions: <Widget>[
-                                OutlinedButton(
-                                  onPressed: () {
-                                    Navigator.pop(context, 'Annulla');
-                                  },
-                                  child: const Text('Annulla'),
-                                ),
-                                FilledButton(
-                                  onPressed: () {
-                                    query.deleteSong(get.songId);
-                                    setState(() {});
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) {
-                                          return const Home();
-                                        },
-                                      ),
-                                    );
-                                  },
-                                  child: const Text('Elimina'),
-                                ),
-                              ],
+                                );
+                              },
                             );
                           },
                         );

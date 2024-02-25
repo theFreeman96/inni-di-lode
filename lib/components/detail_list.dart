@@ -8,14 +8,14 @@ class DetailList extends StatelessWidget {
     Key? key,
     required this.context,
     required this.future,
-    required this.message,
+    required this.notFoundMessage,
     required this.controller,
     required this.row,
   }) : super(key: key);
 
   final BuildContext context;
   final Future<List?> future;
-  final String message;
+  final String notFoundMessage;
   final ScrollController controller;
   final Function row;
 
@@ -39,7 +39,7 @@ class DetailList extends StatelessWidget {
         } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
           return Center(
             child: DataNotFound(
-              message: message,
+              message: notFoundMessage,
             ),
           );
         } else {

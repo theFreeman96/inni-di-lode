@@ -50,7 +50,8 @@ class DataNotFound extends StatelessWidget {
                 onPressed: () {
                   FocusScope.of(context).unfocus();
                   if (message != ErrorCodes.categoriesNotFound &&
-                      message != ErrorCodes.authorsNotFound) {
+                      message != ErrorCodes.authorsNotFound &&
+                      message != ErrorCodes.macroCategoriesNotFound) {
                     Navigator.push(
                       context,
                       MaterialPageRoute(

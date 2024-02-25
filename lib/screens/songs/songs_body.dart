@@ -132,7 +132,7 @@ class _SongsBodyState extends State<SongsBody> {
           future: songRange[currentPage],
           padding: const EdgeInsets.only(top: 8),
           row: buildRow,
-          message: ErrorCodes.songsNotFound,
+          notFoundMessage: ErrorCodes.songsNotFound,
         ),
       ],
     );

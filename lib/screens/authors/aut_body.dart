@@ -59,7 +59,7 @@ class _AutBodyState extends State<AutBody> {
           future: future,
           padding: EdgeInsets.zero,
           row: buildRow,
-          message: ErrorCodes.authorsNotFound,
+          notFoundMessage: ErrorCodes.authorsNotFound,
         ),
       ],
     );

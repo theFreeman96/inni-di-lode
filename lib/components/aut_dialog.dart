@@ -9,12 +9,14 @@ class AutDialog extends StatelessWidget {
     this.autDialogFormKey,
     this.autNameController,
     this.autSurnameController,
+    this.autId,
     this.state,
   }) : super(key: key);
 
   final GlobalKey<FormState>? autDialogFormKey;
   final TextEditingController? autNameController;
   final TextEditingController? autSurnameController;
+  final int? autId;
   final dynamic state;
 
   late GlobalKey<FormState> formKey =
@@ -87,13 +89,21 @@ class AutDialog extends StatelessWidget {
         FilledButton(
           onPressed: () {
             if (formKey.currentState!.validate()) {
-              query.insertAut(
-                nameController.text,
-                surnameController.text,
-              );
+              autId != null
+                  ? query.updateAut(
+                      nameController.text,
+                      surnameController.text,
+                      autId,
+                    )
+                  : query.insertAut(
+                      nameController.text,
+                      surnameController.text,
+                    );
               ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
-                  content: Text('Autore aggiunto!'),
+                SnackBar(
+                  content: autId != null
+                      ? const Text('Autore modificato!')
+                      : const Text('Autore aggiunto!'),
                 ),
               );
               Navigator.pop(context, 'Conferma');

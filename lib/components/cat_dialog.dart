@@ -9,11 +9,13 @@ class CatDialog extends StatelessWidget {
     Key? key,
     this.catDialogFormKey,
     this.catController,
+    this.catId,
     this.state,
   }) : super(key: key);
 
   final GlobalKey<FormState>? catDialogFormKey;
   final TextEditingController? catController;
+  final int? catId;
   final dynamic state;
 
   late GlobalKey<FormState> formKey =
@@ -61,57 +63,66 @@ class CatDialog extends StatelessWidget {
             FutureBuilder(
               future: query.getAllMacroCat(),
               builder: (context, AsyncSnapshot snapshot) {
-                return snapshot.hasData
-                    ? DropdownButtonFormField<String>(
-                        isExpanded: true,
-                        icon: const Padding(
-                          padding: EdgeInsets.only(right: kDefaultPadding / 3),
-                          child: Icon(Icons.arrow_drop_down),
-                        ),
-                        borderRadius: const BorderRadius.all(
-                          Radius.circular(25.0),
-                        ),
-                        hint: const Text('Seleziona'),
-                        decoration: const InputDecoration(
-                          contentPadding: EdgeInsets.symmetric(
-                            vertical: kDefaultPadding,
-                          ),
-                          prefixIcon: Icon(
-                            Icons.sell,
-                            color: kLightGrey,
-                          ),
-                          labelText: 'Macrocategoria',
-                          alignLabelWithHint: true,
-                        ),
-                        items:
-                            snapshot.data!.map<DropdownMenuItem<String>>((get) {
-                          return DropdownMenuItem<String>(
-                            value: get.macroName,
-                            onTap: () {
-                              macroId = get.macroId;
-                              macroName = get.macroName;
-                            },
-                            child: Text(get.macroName),
-                          );
-                        }).toList(),
-                        onChanged: (value) {
-                          state(() {});
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
+                } else if (snapshot.hasError) {
+                  return Center(
+                    child: Text(
+                      'Errore: ${snapshot.error}',
+                      textAlign: TextAlign.center,
+                    ),
+                  );
+                } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                  return const Center(
+                    child: Text(
+                      ErrorCodes.macroCategoriesNotFound,
+                    ),
+                  );
+                } else {
+                  return DropdownButtonFormField<String>(
+                    isExpanded: true,
+                    icon: const Padding(
+                      padding: EdgeInsets.only(right: kDefaultPadding / 3),
+                      child: Icon(Icons.arrow_drop_down),
+                    ),
+                    borderRadius: const BorderRadius.all(
+                      Radius.circular(25.0),
+                    ),
+                    hint: const Text('Seleziona'),
+                    decoration: const InputDecoration(
+                      contentPadding: EdgeInsets.symmetric(
+                        vertical: kDefaultPadding,
+                      ),
+                      prefixIcon: Icon(
+                        Icons.sell,
+                        color: kLightGrey,
+                      ),
+                      labelText: 'Macrocategoria',
+                      alignLabelWithHint: true,
+                    ),
+                    items: snapshot.data!.map<DropdownMenuItem<String>>((get) {
+                      return DropdownMenuItem<String>(
+                        value: get.macroName,
+                        onTap: () {
+                          macroId = get.macroId;
+                          macroName = get.macroName;
                         },
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Seleziona una macrocategoria!';
-                          }
-                          return null;
-                        },
-                      )
-                    : const Padding(
-                        padding: EdgeInsets.only(top: kDefaultPadding),
-                        child: Text(
-                          ErrorCodes.macroCategoriesNotFound,
-                          style: TextStyle(),
-                          textAlign: TextAlign.center,
-                        ),
+                        child: Text(get.macroName),
                       );
+                    }).toList(),
+                    onChanged: (value) {
+                      state(() {});
+                    },
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Seleziona una macrocategoria!';
+                      }
+                      return null;
+                    },
+                  );
+                }
               },
             ),
           ],
@@ -128,14 +139,23 @@ class CatDialog extends StatelessWidget {
         FilledButton(
           onPressed: () {
             if (formKey.currentState!.validate()) {
-              query.insertCat(
-                controller.text,
-                macroId,
-                macroName,
-              );
+              catId != null
+                  ? query.updateCat(
+                      controller.text,
+                      macroId,
+                      macroName,
+                      catId,
+                    )
+                  : query.insertCat(
+                      controller.text,
+                      macroId,
+                      macroName,
+                    );
               ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
-                  content: Text('Categoria aggiunta!'),
+                SnackBar(
+                  content: catId != null
+                      ? const Text('Categoria modificata!')
+                      : const Text('Categoria aggiunta!'),
                 ),
               );
               Navigator.pop(context, 'Conferma');

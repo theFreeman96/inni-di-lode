@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../utilities/theme_provider.dart';
 import '../home/home.dart';
 import '/components/aut_dialog.dart';
 import '/components/cat_dialog.dart';
+import '/components/empty_scaffold.dart';
 import '/components/theme_switch.dart';
 import '/data/queries.dart';
 import '/utilities/constants.dart';
+import '/utilities/theme_provider.dart';
 import 'editor_fields/aut_fields.dart';
 import 'editor_fields/cat_fields.dart';
 import 'editor_fields/lyrics_field.dart';
@@ -86,8 +87,8 @@ class EditorState extends State<Editor> {
       future: query.getAllSongs(),
       builder: (context, AsyncSnapshot snapshot) {
         if (snapshot.hasError) {
-          return Center(
-            child: Text(
+          return EmptyScaffold(
+            body: Text(
               'Errore: ${snapshot.error}',
               textAlign: TextAlign.center,
             ),

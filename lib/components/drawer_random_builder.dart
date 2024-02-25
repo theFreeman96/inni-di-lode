@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:inni_di_lode/components/empty_scaffold.dart';
 
 import '/data/queries.dart';
 import '/screens/songs/songs_detail.dart';
@@ -17,22 +18,16 @@ class DrawerRandomBuilder extends StatelessWidget {
       initialData: const [],
       builder: (context, snapshot) {
         if (snapshot.hasError) {
-          return Scaffold(
-            appBar: AppBar(),
-            body: Center(
-              child: Text(
-                'Errore: ${snapshot.error}',
-                textAlign: TextAlign.center,
-              ),
+          return EmptyScaffold(
+            body: Text(
+              'Errore: ${snapshot.error}',
+              textAlign: TextAlign.center,
             ),
           );
         } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-          return Scaffold(
-            appBar: AppBar(),
-            body: const Center(
-              child: DataNotFound(
-                message: ErrorCodes.songsNotFound,
-              ),
+          return const EmptyScaffold(
+            body: DataNotFound(
+              message: ErrorCodes.songsNotFound,
             ),
           );
         } else {

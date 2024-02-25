@@ -70,7 +70,7 @@ class _FavBodyState extends State<FavBody> {
           future: future,
           padding: EdgeInsets.zero,
           row: buildRow,
-          message: ErrorCodes.favoritesNotFound,
+          notFoundMessage: ErrorCodes.favoritesNotFound,
         ),
       ],
     );

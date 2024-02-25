@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 import '../home/home.dart';
 import '/components/cat_dialog.dart';
+import '/components/delete_dialog.dart';
 import '/components/detail_list.dart';
+import '/components/error_dialog.dart';
 import '/components/theme_switch.dart';
 import '/data/models.dart';
 import '/data/queries.dart';
 import '/screens/songs/songs_detail.dart';
 import '/utilities/constants.dart';
 import '/utilities/error_codes.dart';
-import '/utilities/theme_provider.dart';
 
 class CatDetail extends StatefulWidget {
   const CatDetail({
@@ -52,7 +52,6 @@ class _CatDetailState extends State<CatDetail> {
 
   @override
   Widget build(BuildContext context) {
-    final themeProvider = Provider.of<ThemeProvider>(context);
     return Scaffold(
       appBar: AppBar(
         elevation: 0.0,
@@ -80,6 +79,7 @@ class _CatDetailState extends State<CatDetail> {
                         return CatDialog(
                           catDialogFormKey: editCatKey,
                           catController: catController,
+                          catId: widget.catId,
                           state: setState,
                         );
                       },
@@ -97,101 +97,42 @@ class _CatDetailState extends State<CatDetail> {
                           future: query.getSongsByCat(id),
                           initialData: const [],
                           builder: (context, snapshot) {
-                            return snapshot.hasData
-                                ? AlertDialog(
-                                    scrollable: true,
-                                    title: const Text('Errore!'),
-                                    content: RichText(
-                                      text: TextSpan(
-                                        style: TextStyle(
-                                          color: themeProvider.isDarkMode
-                                              ? kWhite
-                                              : kBlack,
-                                        ),
-                                        children: [
-                                          const TextSpan(
-                                              text:
-                                                  'Prima di eliminare la categoria '),
-                                          TextSpan(
-                                            text: '${widget.catName} ',
-                                            style: const TextStyle(
-                                                fontWeight: FontWeight.bold),
-                                          ),
-                                          const TextSpan(
-                                              text:
-                                                  'è necessario dissociare o eliminare i cantici ancora associati.\n\n'),
-                                          const TextSpan(
-                                              text:
-                                                  'Nel fondo della pagina di ciascun cantico selezionare una delle seguenti opzioni:\n'),
-                                          const WidgetSpan(
-                                            child: Icon(Icons.edit_note),
-                                          ),
-                                          const TextSpan(
-                                              text: 'Modifica cantico\n'),
-                                          const WidgetSpan(
-                                            child: Icon(Icons.delete),
-                                          ),
-                                          const TextSpan(
-                                              text: 'Elimina cantico'),
-                                        ],
-                                      ),
+                            if (snapshot.connectionState ==
+                                ConnectionState.waiting) {
+                              return const Center(
+                                child: CircularProgressIndicator(),
+                              );
+                            } else if (snapshot.hasError) {
+                              return Center(
+                                child: Text(
+                                  'Errore: ${snapshot.error}',
+                                  textAlign: TextAlign.center,
+                                ),
+                              );
+                            } else if (!snapshot.hasData ||
+                                snapshot.data!.isEmpty) {
+                              return DeleteDialog(
+                                itemType: 'La categoria',
+                                itemToDelete: widget.catName,
+                                onPressed: () {
+                                  query.deleteCat(id);
+                                  setState(() {});
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) {
+                                        return const Home();
+                                      },
                                     ),
-                                    actions: <Widget>[
-                                      FilledButton(
-                                        onPressed: () {
-                                          Navigator.pop(context, 'Ho capito');
-                                        },
-                                        child: const Text('Ho capito'),
-                                      ),
-                                    ],
-                                  )
-                                : AlertDialog(
-                                    scrollable: true,
-                                    title: const Text('Conferma eliminazione'),
-                                    content: RichText(
-                                      text: TextSpan(
-                                        style: TextStyle(
-                                          color: themeProvider.isDarkMode
-                                              ? kWhite
-                                              : kBlack,
-                                        ),
-                                        children: <TextSpan>[
-                                          const TextSpan(text: 'La categoria '),
-                                          TextSpan(
-                                            text: widget.catName,
-                                            style: const TextStyle(
-                                                fontWeight: FontWeight.bold),
-                                          ),
-                                          const TextSpan(
-                                              text:
-                                                  ' sarà eliminata definitivamente.\nConfermi?')
-                                        ],
-                                      ),
-                                    ),
-                                    actions: <Widget>[
-                                      OutlinedButton(
-                                        onPressed: () {
-                                          Navigator.pop(context, 'Annulla');
-                                        },
-                                        child: const Text('Annulla'),
-                                      ),
-                                      FilledButton(
-                                        onPressed: () {
-                                          query.deleteCat(id);
-                                          setState(() {});
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                              builder: (context) {
-                                                return const Home();
-                                              },
-                                            ),
-                                          );
-                                        },
-                                        child: const Text('Elimina'),
-                                      ),
-                                    ],
                                   );
+                                },
+                              );
+                            } else {
+                              return ErrorDialog(
+                                itemType: 'la categoria',
+                                itemToDelete: widget.catName,
+                              );
+                            }
                           },
                         );
                       },
@@ -209,7 +150,7 @@ class _CatDetailState extends State<CatDetail> {
         future: query.getSongsByCat(id),
         controller: scrollController,
         row: buildRow,
-        message: ErrorCodes.songsNotFound,
+        notFoundMessage: ErrorCodes.songsNotFound,
       ),
     );
   }

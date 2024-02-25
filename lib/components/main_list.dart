@@ -8,13 +8,13 @@ class MainList extends StatelessWidget {
     required this.future,
     required this.padding,
     required this.row,
-    required this.message,
+    required this.notFoundMessage,
   }) : super(key: key);
 
   final Future<List?> future;
   final EdgeInsets padding;
   final Function row;
-  final String message;
+  final String notFoundMessage;
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +36,7 @@ class MainList extends StatelessWidget {
         } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
           return Expanded(
             child: DataNotFound(
-              message: message,
+              message: notFoundMessage,
             ),
           );
         } else {
