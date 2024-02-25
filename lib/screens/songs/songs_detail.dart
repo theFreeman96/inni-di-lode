@@ -3,7 +3,6 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
-import 'package:inni_di_lode/components/delete_dialog.dart';
 import 'package:provider/provider.dart';
 
 import '../authors/aut_detail.dart';
@@ -11,6 +10,7 @@ import '../categories/cat_detail.dart';
 import '../editor/editor.dart';
 import '../home/home.dart';
 import '/components/data_not_found.dart';
+import '/components/delete_dialog.dart';
 import '/components/empty_scaffold.dart';
 import '/components/theme_switch.dart';
 import '/data/models.dart';
