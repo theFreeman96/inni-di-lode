@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../home/home.dart';
+import '/components/cat_dialog.dart';
 import '/components/detail_list.dart';
 import '/components/theme_switch.dart';
 import '/data/models.dart';
@@ -76,158 +77,10 @@ class _CatDetailState extends State<CatDetail> {
                     showDialog(
                       context: context,
                       builder: (BuildContext context) {
-                        return AlertDialog(
-                          scrollable: true,
-                          title: const Text('Modifica categoria'),
-                          content: Form(
-                            key: editCatKey,
-                            child: Column(
-                              children: <Widget>[
-                                Padding(
-                                  padding: const EdgeInsets.only(
-                                      bottom: kDefaultPadding),
-                                  child: TextFormField(
-                                    controller: catController,
-                                    textCapitalization:
-                                        TextCapitalization.sentences,
-                                    decoration: const InputDecoration(
-                                      labelText: 'Nome categoria',
-                                      alignLabelWithHint: true,
-                                      prefixIcon: Icon(
-                                        Icons.edit,
-                                        color: kLightGrey,
-                                      ),
-                                    ),
-                                    validator: (value) {
-                                      if (catController.text ==
-                                              widget.catName &&
-                                          macroId == widget.macroId) {
-                                        return 'Cambia almeno un campo per confermare!';
-                                      }
-                                      if (value == null || value.isEmpty) {
-                                        return 'Inserisci il nome!';
-                                      }
-                                      return null;
-                                    },
-                                  ),
-                                ),
-                                FutureBuilder(
-                                  future: query.getAllMacroCat(),
-                                  builder: (context, AsyncSnapshot snapshot) {
-                                    return snapshot.hasData
-                                        ? DropdownButtonFormField<String>(
-                                            isExpanded: true,
-                                            icon: const Padding(
-                                              padding: EdgeInsets.only(
-                                                  right: kDefaultPadding / 3),
-                                              child:
-                                                  Icon(Icons.arrow_drop_down),
-                                            ),
-                                            borderRadius:
-                                                const BorderRadius.all(
-                                              Radius.circular(25.0),
-                                            ),
-                                            hint: Text(macroName),
-                                            decoration: const InputDecoration(
-                                              contentPadding:
-                                                  EdgeInsets.symmetric(
-                                                vertical: kDefaultPadding,
-                                              ),
-                                              prefixIcon: Icon(
-                                                Icons.sell,
-                                                color: kLightGrey,
-                                              ),
-                                              labelText: 'Macrocategoria',
-                                              alignLabelWithHint: true,
-                                            ),
-                                            items: snapshot.data!
-                                                .map<DropdownMenuItem<String>>(
-                                                    (get) {
-                                              return DropdownMenuItem<String>(
-                                                value: get.macroName,
-                                                onTap: () {
-                                                  macroId = get.macroId;
-                                                  macroName = get.macroName;
-                                                },
-                                                child: Text(get.macroName),
-                                              );
-                                            }).toList(),
-                                            onChanged: (value) {
-                                              setState(() {
-                                                macroName = value!;
-                                              });
-                                            },
-                                            validator: (value) {
-                                              if (catController.text ==
-                                                      widget.catName &&
-                                                  macroId == widget.macroId) {
-                                                return 'Cambia almeno un campo per confermare!';
-                                              }
-                                              if (macroId == widget.macroId) {
-                                                return null;
-                                              }
-                                              if (value == null ||
-                                                  value.isEmpty) {
-                                                return 'Seleziona una macrocategoria!';
-                                              }
-                                              return null;
-                                            },
-                                          )
-                                        : const Padding(
-                                            padding: EdgeInsets.only(
-                                                top: kDefaultPadding),
-                                            child: Text(
-                                              ErrorCodes
-                                                  .macroCategoriesNotFound,
-                                              style: TextStyle(),
-                                              textAlign: TextAlign.center,
-                                            ),
-                                          );
-                                  },
-                                ),
-                              ],
-                            ),
-                          ),
-                          actions: [
-                            OutlinedButton(
-                              onPressed: () {
-                                Navigator.pop(context, 'Annulla');
-                                catController =
-                                    TextEditingController(text: widget.catName);
-                                macroId = widget.macroId;
-                                macroName = widget.macroName;
-                              },
-                              child: const Text('Annulla'),
-                            ),
-                            FilledButton(
-                              onPressed: () {
-                                if (editCatKey.currentState!.validate()) {
-                                  query.updateCat(
-                                    catController.text,
-                                    macroId,
-                                    macroName,
-                                    widget.catId,
-                                  );
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
-                                      content: Text('Categoria modificata!'),
-                                    ),
-                                  );
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) {
-                                        return const Home();
-                                      },
-                                    ),
-                                  );
-                                  catController.clear();
-                                  setState(() {});
-                                }
-                              },
-                              child: const Text('Conferma'),
-                            ),
-                          ],
+                        return CatDialog(
+                          catDialogFormKey: editCatKey,
+                          catController: catController,
+                          state: setState,
                         );
                       },
                     );

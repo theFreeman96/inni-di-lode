@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../home/home.dart';
+import '/components/aut_dialog.dart';
 import '/components/detail_list.dart';
 import '/components/theme_switch.dart';
 import '/data/models.dart';
@@ -72,106 +73,10 @@ class _AutDetailState extends State<AutDetail> {
                     showDialog(
                       context: context,
                       builder: (BuildContext context) {
-                        return AlertDialog(
-                          scrollable: true,
-                          title: const Text('Modifica autore'),
-                          content: Form(
-                            key: editAutKey,
-                            child: Column(
-                              children: <Widget>[
-                                Padding(
-                                  padding: const EdgeInsets.only(
-                                      bottom: kDefaultPadding),
-                                  child: TextFormField(
-                                    controller: autNameController,
-                                    textCapitalization:
-                                        TextCapitalization.sentences,
-                                    decoration: const InputDecoration(
-                                      labelText: 'Nome',
-                                      alignLabelWithHint: true,
-                                      prefixIcon: Icon(
-                                        Icons.edit,
-                                        color: kLightGrey,
-                                      ),
-                                    ),
-                                    validator: (value) {
-                                      if (autNameController.text ==
-                                              widget.autName &&
-                                          autSurnameController.text ==
-                                              widget.autSurname) {
-                                        return 'Cambia almeno un campo per confermare!';
-                                      }
-                                      if (value == null || value.isEmpty) {
-                                        return 'Inserisci il nome!';
-                                      }
-                                      return null;
-                                    },
-                                  ),
-                                ),
-                                TextFormField(
-                                  controller: autSurnameController,
-                                  textCapitalization:
-                                      TextCapitalization.sentences,
-                                  decoration: const InputDecoration(
-                                    labelText: 'Cognome (facoltativo)',
-                                    alignLabelWithHint: true,
-                                    prefixIcon: Icon(
-                                      Icons.edit,
-                                      color: kLightGrey,
-                                    ),
-                                  ),
-                                  validator: (value) {
-                                    if (autNameController.text ==
-                                            widget.autName &&
-                                        autSurnameController.text ==
-                                            widget.autSurname) {
-                                      return 'Cambia almeno un campo per confermare!';
-                                    }
-                                    return null;
-                                  },
-                                ),
-                              ],
-                            ),
-                          ),
-                          actions: [
-                            OutlinedButton(
-                              onPressed: () {
-                                Navigator.pop(context, 'Annulla');
-                                autNameController =
-                                    TextEditingController(text: widget.autName);
-                                autSurnameController = TextEditingController(
-                                    text: widget.autSurname);
-                              },
-                              child: const Text('Annulla'),
-                            ),
-                            FilledButton(
-                              onPressed: () {
-                                if (editAutKey.currentState!.validate()) {
-                                  query.updateAut(
-                                    autNameController.text,
-                                    autSurnameController.text,
-                                    widget.autId,
-                                  );
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
-                                      content: Text('Autore modificato!'),
-                                    ),
-                                  );
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) {
-                                        return const Home();
-                                      },
-                                    ),
-                                  );
-                                  autNameController.clear();
-                                  autSurnameController.clear();
-                                }
-                              },
-                              child: const Text('Conferma'),
-                            ),
-                          ],
+                        return AutDialog(
+                          autDialogFormKey: editAutKey,
+                          autNameController: autNameController,
+                          autSurnameController: autSurnameController,
                         );
                       },
                     );

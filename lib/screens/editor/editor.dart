@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
+import '../../utilities/theme_provider.dart';
 import '../home/home.dart';
+import '/components/aut_dialog.dart';
+import '/components/cat_dialog.dart';
 import '/components/theme_switch.dart';
 import '/data/queries.dart';
 import '/utilities/constants.dart';
-import 'editor_dialogs/aut_dialog.dart';
-import 'editor_dialogs/cat_dialog.dart';
-import 'editor_dialogs/verse_tag.dart';
 import 'editor_fields/aut_fields.dart';
 import 'editor_fields/cat_fields.dart';
 import 'editor_fields/lyrics_field.dart';
 import 'editor_fields/title_field.dart';
+import 'editor_fields/verse_tag.dart';
 import 'submit.dart';
 
 class Editor extends StatefulWidget {
@@ -85,6 +87,8 @@ class EditorState extends State<Editor> {
 
   @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context);
+
     return FutureBuilder(
       future: query.getAllSongs(),
       builder: (context, AsyncSnapshot snapshot) {
@@ -210,9 +214,31 @@ class EditorState extends State<Editor> {
                           child: Column(
                             children: [
                               ...getCatFields(),
-                              CatDialog(
-                                newKey: newCatKey,
-                                controller: catController,
+                              TextButton.icon(
+                                icon: Icon(Icons.person_add,
+                                    color: themeProvider.isDarkMode
+                                        ? kWhite
+                                        : kBlack),
+                                label: Text(
+                                  'Crea nuova categoria',
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: themeProvider.isDarkMode
+                                          ? kWhite
+                                          : kBlack),
+                                ),
+                                onPressed: () {
+                                  showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return CatDialog(
+                                        catDialogFormKey: newCatKey,
+                                        catController: catController,
+                                        state: setState,
+                                      );
+                                    },
+                                  );
+                                },
                               ),
                             ],
                           ),
@@ -239,11 +265,33 @@ class EditorState extends State<Editor> {
                             child: Column(
                               children: [
                                 ...getAutFields(),
-                                AutDialog(
-                                  newKey: newAutKey,
-                                  nameController: autNameController,
-                                  surController: autSurnameController,
-                                  state: setState,
+                                TextButton.icon(
+                                  icon: Icon(Icons.person_add,
+                                      color: themeProvider.isDarkMode
+                                          ? kWhite
+                                          : kBlack),
+                                  label: Text(
+                                    'Crea nuovo autore',
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color: themeProvider.isDarkMode
+                                            ? kWhite
+                                            : kBlack),
+                                  ),
+                                  onPressed: () {
+                                    showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return AutDialog(
+                                          autDialogFormKey: newAutKey,
+                                          autNameController: autNameController,
+                                          autSurnameController:
+                                              autSurnameController,
+                                          state: setState,
+                                        );
+                                      },
+                                    );
+                                  },
                                 ),
                               ],
                             ),

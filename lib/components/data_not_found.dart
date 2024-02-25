@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../components/aut_dialog.dart';
+import '../components/cat_dialog.dart';
 import '../screens/editor/editor.dart';
 import '../utilities/constants.dart';
+import '../utilities/error_codes.dart';
 import '../utilities/theme_provider.dart';
 
 class DataNotFound extends StatelessWidget {
@@ -28,32 +31,50 @@ class DataNotFound extends StatelessWidget {
             fontSize: 20.0,
           ),
         ),
-        TextButton.icon(
-          onPressed: () {
-            FocusScope.of(context).unfocus();
-            Navigator.pop(context);
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) {
-                  return const Editor();
+        message == ErrorCodes.favoritesNotFound
+            ? const SizedBox()
+            : TextButton.icon(
+                icon: Icon(
+                  Icons.add_circle,
+                  color: themeProvider.isDarkMode
+                      ? kPrimaryLightColor
+                      : kPrimaryColor,
+                ),
+                label: Text(
+                  'Aggiungi',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: themeProvider.isDarkMode ? kWhite : kBlack,
+                  ),
+                ),
+                onPressed: () {
+                  FocusScope.of(context).unfocus();
+                  if (message != ErrorCodes.categoriesNotFound &&
+                      message != ErrorCodes.authorsNotFound) {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) {
+                          return const Editor();
+                        },
+                      ),
+                    );
+                  } else {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        if (message == ErrorCodes.categoriesNotFound) {
+                          return CatDialog();
+                        } else if (message == ErrorCodes.authorsNotFound) {
+                          return AutDialog();
+                        } else {
+                          return const SizedBox();
+                        }
+                      },
+                    );
+                  }
                 },
               ),
-            );
-          },
-          icon: Icon(
-            Icons.add_circle,
-            color:
-                themeProvider.isDarkMode ? kPrimaryLightColor : kPrimaryColor,
-          ),
-          label: Text(
-            'Aggiungi',
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              color: themeProvider.isDarkMode ? kWhite : kBlack,
-            ),
-          ),
-        ),
       ],
     );
   }
