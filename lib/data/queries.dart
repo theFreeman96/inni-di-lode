@@ -16,13 +16,15 @@ class QueryCtr {
     return list;
   }
 
-  Future<List<Raccolta>?> getSongsFromRange(firstId, secondId) async {
+  Future<List<Raccolta>?> getAllSongsPaginated(limit, offset) async {
     final dbClient = await con.db;
-    final res = await dbClient!.query('View_Raccolta',
-        where: 'songId BETWEEN ? AND ?',
-        whereArgs: ['$firstId', '$secondId'],
-        groupBy: 'songId',
-        orderBy: 'songId');
+    final res = await dbClient!.query(
+      'View_Raccolta',
+      orderBy: 'songId',
+      groupBy: 'songId',
+      limit: limit,
+      offset: offset,
+    );
 
     List<Raccolta>? list =
         res.isNotEmpty ? res.map((c) => Raccolta.fromMap(c)).toList() : null;

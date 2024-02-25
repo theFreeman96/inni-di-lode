@@ -24,35 +24,13 @@ class _SongsBodyState extends State<SongsBody> {
   late int currentPage = 0;
   final int itemsPerPage = 100;
 
-  void onValueChanged(newValue) {
-    setState(() {
-      currentPage = newValue;
-    });
-  }
-
-  late List<Future<List?>> songRange = [
-    query.getSongsFromRange(1, 100),
-    query.getSongsFromRange(101, 200),
-    query.getSongsFromRange(201, 300),
-    query.getSongsFromRange(301, 400),
-    query.getSongsFromRange(401, 500),
-    query.getSongsFromRange(501, 600),
-    query.getSongsFromRange(601, 700),
-    query.getSongsFromRange(701, 800),
-    query.getSongsFromRange(801, 900),
-    query.getSongsFromRange(901, 1000),
-    query.getSongsFromRange(1001, 1100),
-    query.getSongsFromRange(1101, 1200),
-    query.getSongsFromRange(1201, 1300),
-    query.getSongsFromRange(1301, 1400),
-  ];
-
   late Future<List?> future;
   bool isVisible = true;
 
   @override
   void initState() {
-    future = songRange[currentPage];
+    future =
+        query.getAllSongsPaginated(itemsPerPage, currentPage * itemsPerPage);
     super.initState();
   }
 
@@ -62,7 +40,8 @@ class _SongsBodyState extends State<SongsBody> {
       results = future;
 
       setState(() {
-        songRange[currentPage] = future;
+        future = query.getAllSongsPaginated(
+            itemsPerPage, currentPage * itemsPerPage);
         isVisible = true;
       });
     } else {
@@ -70,7 +49,7 @@ class _SongsBodyState extends State<SongsBody> {
 
       setState(() {
         currentPage = 0;
-        songRange[currentPage] = results;
+        future = results;
         isVisible = false;
       });
     }
@@ -106,6 +85,8 @@ class _SongsBodyState extends State<SongsBody> {
                     onPageChange: (int index) {
                       setState(() {
                         currentPage = index;
+                        future = query.getAllSongsPaginated(
+                            itemsPerPage, currentPage * itemsPerPage);
                       });
                     },
                     config: NumberPaginatorUIConfig(
@@ -129,7 +110,7 @@ class _SongsBodyState extends State<SongsBody> {
         ),
         const Divider(height: 0.0),
         MainList(
-          future: songRange[currentPage],
+          future: future,
           padding: const EdgeInsets.only(top: 8),
           row: buildRow,
           notFoundMessage: ErrorCodes.songsNotFound,
