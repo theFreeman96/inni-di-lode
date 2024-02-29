@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../data/queries.dart';
 import '../utilities/constants.dart';
 import '../utilities/error_codes.dart';
+import 'drop_list.dart';
 
 class CatDialog extends StatelessWidget {
   CatDialog({
@@ -25,6 +26,7 @@ class CatDialog extends StatelessWidget {
 
   late int macroId;
   late String macroName;
+  String? selectedValue;
 
   final QueryCtr query = QueryCtr();
 
@@ -81,39 +83,26 @@ class CatDialog extends StatelessWidget {
                     ),
                   );
                 } else {
-                  return DropdownButtonFormField<String>(
-                    isExpanded: true,
-                    icon: const Padding(
-                      padding: EdgeInsets.only(right: kDefaultPadding / 3),
-                      child: Icon(Icons.arrow_drop_down),
-                    ),
-                    borderRadius: const BorderRadius.all(
-                      Radius.circular(25.0),
-                    ),
-                    hint: const Text('Seleziona'),
-                    decoration: const InputDecoration(
-                      contentPadding: EdgeInsets.symmetric(
-                        vertical: kDefaultPadding,
-                      ),
-                      prefixIcon: Icon(
-                        Icons.sell,
-                        color: kLightGrey,
-                      ),
-                      labelText: 'Macrocategoria',
-                      alignLabelWithHint: true,
-                    ),
-                    items: snapshot.data!.map<DropdownMenuItem<String>>((get) {
-                      return DropdownMenuItem<String>(
-                        value: get.macroName,
-                        onTap: () {
-                          macroId = get.macroId;
-                          macroName = get.macroName;
-                        },
-                        child: Text(get.macroName),
-                      );
-                    }).toList(),
+                  return DropList(
+                    selectedValue: selectedValue,
+                    icon: Icons.sell,
+                    label: 'Macrocategoria',
+                    items: snapshot.data!.map<DropdownMenuItem<String>>(
+                      (get) {
+                        return DropdownMenuItem<String>(
+                          value: get.macroName,
+                          onTap: () {
+                            macroId = get.macroId;
+                            macroName = get.macroName;
+                          },
+                          child: Text(get.macroName),
+                        );
+                      },
+                    ).toList(),
                     onChanged: (value) {
-                      state(() {});
+                      state(() {
+                        selectedValue = value!;
+                      });
                     },
                     validator: (value) {
                       if (value == null || value.isEmpty) {
