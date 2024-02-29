@@ -46,7 +46,13 @@ class DropList extends StatelessWidget {
         labelText: label,
         alignLabelWithHint: true,
       ),
-      items: items,
+      items: [
+        const DropdownMenuItem<String>(
+          value: null,
+          child: Text('Seleziona'),
+        ),
+        ...?items
+      ],
       onChanged: onChanged,
       validator: validator,
     );
