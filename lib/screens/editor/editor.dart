@@ -209,17 +209,31 @@ class EditorState extends State<Editor> {
                             children: [
                               ...getCatFields(),
                               TextButton.icon(
-                                icon: Icon(Icons.person_add,
-                                    color: themeProvider.isDarkMode
-                                        ? kWhite
-                                        : kBlack),
+                                icon: Row(
+                                  children: [
+                                    Icon(
+                                      Icons.add,
+                                      size: 15,
+                                      color: themeProvider.isDarkMode
+                                          ? kWhite
+                                          : kBlack,
+                                    ),
+                                    Icon(
+                                      Icons.sell,
+                                      color: themeProvider.isDarkMode
+                                          ? kWhite
+                                          : kBlack,
+                                    ),
+                                  ],
+                                ),
                                 label: Text(
                                   'Crea nuova categoria',
                                   style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      color: themeProvider.isDarkMode
-                                          ? kWhite
-                                          : kBlack),
+                                    fontWeight: FontWeight.bold,
+                                    color: themeProvider.isDarkMode
+                                        ? kWhite
+                                        : kBlack,
+                                  ),
                                 ),
                                 onPressed: () {
                                   showDialog(
@@ -258,17 +272,20 @@ class EditorState extends State<Editor> {
                               children: [
                                 ...getAutFields(),
                                 TextButton.icon(
-                                  icon: Icon(Icons.person_add,
-                                      color: themeProvider.isDarkMode
-                                          ? kWhite
-                                          : kBlack),
+                                  icon: Icon(
+                                    Icons.person_add,
+                                    color: themeProvider.isDarkMode
+                                        ? kWhite
+                                        : kBlack,
+                                  ),
                                   label: Text(
                                     'Crea nuovo autore',
                                     style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        color: themeProvider.isDarkMode
-                                            ? kWhite
-                                            : kBlack),
+                                      fontWeight: FontWeight.bold,
+                                      color: themeProvider.isDarkMode
+                                          ? kWhite
+                                          : kBlack,
+                                    ),
                                   ),
                                   onPressed: () {
                                     showDialog(
