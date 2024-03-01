@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import '/utilities/constants.dart';
 
@@ -18,6 +19,11 @@ class LyricsField extends StatelessWidget {
       controller: controller,
       focusNode: focus,
       textCapitalization: TextCapitalization.sentences,
+      maxLength: 2500,
+      maxLengthEnforcement: MaxLengthEnforcement.enforced,
+      inputFormatters: [
+        LengthLimitingTextInputFormatter(2500),
+      ],
       keyboardType: TextInputType.multiline,
       minLines: 15,
       maxLines: 15,

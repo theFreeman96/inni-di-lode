@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import '../data/queries.dart';
 import '../utilities/constants.dart';
@@ -46,6 +47,11 @@ class AutDialog extends StatelessWidget {
               child: TextFormField(
                 controller: nameController,
                 textCapitalization: TextCapitalization.sentences,
+                maxLength: 25,
+                maxLengthEnforcement: MaxLengthEnforcement.enforced,
+                inputFormatters: [
+                  LengthLimitingTextInputFormatter(25),
+                ],
                 decoration: const InputDecoration(
                   labelText: 'Nome',
                   alignLabelWithHint: true,
@@ -65,6 +71,11 @@ class AutDialog extends StatelessWidget {
             TextFormField(
               controller: surnameController,
               textCapitalization: TextCapitalization.sentences,
+              maxLength: 25,
+              maxLengthEnforcement: MaxLengthEnforcement.enforced,
+              inputFormatters: [
+                LengthLimitingTextInputFormatter(25),
+              ],
               decoration: const InputDecoration(
                 labelText: 'Cognome (facoltativo)',
                 alignLabelWithHint: true,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import '/utilities/constants.dart';
 
@@ -16,6 +17,11 @@ class TitleField extends StatelessWidget {
       child: TextFormField(
         controller: controller,
         textCapitalization: TextCapitalization.sentences,
+        maxLength: 25,
+        maxLengthEnforcement: MaxLengthEnforcement.enforced,
+        inputFormatters: [
+          LengthLimitingTextInputFormatter(25),
+        ],
         decoration: const InputDecoration(
           labelText: 'Titolo del cantico',
           alignLabelWithHint: true,

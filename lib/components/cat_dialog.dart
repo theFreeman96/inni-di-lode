@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import '../data/queries.dart';
 import '../utilities/constants.dart';
@@ -46,6 +47,11 @@ class CatDialog extends StatelessWidget {
               child: TextFormField(
                 controller: controller,
                 textCapitalization: TextCapitalization.sentences,
+                maxLength: 25,
+                maxLengthEnforcement: MaxLengthEnforcement.enforced,
+                inputFormatters: [
+                  LengthLimitingTextInputFormatter(25),
+                ],
                 decoration: const InputDecoration(
                   labelText: 'Nome categoria',
                   alignLabelWithHint: true,
