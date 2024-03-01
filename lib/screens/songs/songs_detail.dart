@@ -135,8 +135,7 @@ class _SongsDetailState extends State<SongsDetail> {
                         ),
                         child: IconButton(
                           onPressed: () {
-                            if (pageController.hasClients &&
-                                pageController.page!.toInt() > 0) {
+                            if (pageController.hasClients) {
                               pageController.animateToPage(
                                 pageController.page!.toInt() - 1,
                                 duration: const Duration(milliseconds: 10),
