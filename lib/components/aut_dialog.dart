@@ -92,8 +92,6 @@ class AutDialog extends StatelessWidget {
         OutlinedButton(
           onPressed: () {
             Navigator.pop(context, 'Annulla');
-            nameController.clear();
-            surnameController.clear();
           },
           child: const Text('Annulla'),
         ),
@@ -118,8 +116,6 @@ class AutDialog extends StatelessWidget {
                 ),
               );
               Navigator.pop(context, 'Conferma');
-              nameController.clear();
-              surnameController.clear();
               state(() {});
             }
           },

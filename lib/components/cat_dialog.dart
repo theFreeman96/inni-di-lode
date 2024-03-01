@@ -127,7 +127,6 @@ class CatDialog extends StatelessWidget {
         OutlinedButton(
           onPressed: () {
             Navigator.pop(context, 'Annulla');
-            controller.clear();
           },
           child: const Text('Annulla'),
         ),
@@ -154,7 +153,6 @@ class CatDialog extends StatelessWidget {
                 ),
               );
               Navigator.pop(context, 'Conferma');
-              controller.clear();
               state(() {});
             }
           },
