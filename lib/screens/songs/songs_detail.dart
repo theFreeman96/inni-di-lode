@@ -16,6 +16,7 @@ import '/data/models.dart';
 import '/data/queries.dart';
 import '/utilities/constants.dart';
 import '/utilities/error_codes.dart';
+import '/utilities/text_options_provider.dart';
 import '/utilities/theme_provider.dart';
 import 'songs_pdf.dart';
 import 'songs_player.dart';
@@ -42,11 +43,11 @@ class _SongsDetailState extends State<SongsDetail> {
   late PageController pageController;
   final QueryCtr query = QueryCtr();
 
-  late double fontSize = 18.0;
+  late double fontSize;
   final double fontSizeMin = 13.0;
   final double fontSizeMax = 23.0;
 
-  late double lineHeight = 1.5;
+  late double lineHeight;
   final double lineHeightMin = 1.0;
   final double lineHeightMax = 2.0;
 
@@ -174,6 +175,10 @@ class _SongsDetailState extends State<SongsDetail> {
   }
 
   Widget buildPage(Raccolta get) {
+    final textOptionsProvider = Provider.of<TextOptionsProvider>(context);
+    fontSize = textOptionsProvider.fontSize;
+    lineHeight = textOptionsProvider.lineHeight;
+
     return Scaffold(
       extendBody: true,
       appBar: AppBar(
@@ -216,8 +221,8 @@ class _SongsDetailState extends State<SongsDetail> {
                 data: get.songText,
                 style: {
                   '*': Style(
-                    fontSize: FontSize(fontSize),
-                    lineHeight: LineHeight(lineHeight),
+                    fontSize: FontSize(textOptionsProvider.fontSize),
+                    lineHeight: LineHeight(textOptionsProvider.lineHeight),
                     textAlign: TextAlign.center,
                     padding: HtmlPaddings(
                       left: HtmlPadding(0),
@@ -364,6 +369,7 @@ class _SongsDetailState extends State<SongsDetail> {
                                   onPressed: () {
                                     if (fontSize > fontSizeMin) {
                                       fontSize = fontSize - 1.0;
+                                      textOptionsProvider.setFontSize(fontSize);
                                       setState(() {});
                                     }
                                   },
@@ -374,6 +380,7 @@ class _SongsDetailState extends State<SongsDetail> {
                                   onPressed: () {
                                     if (fontSize != 18.0) {
                                       fontSize = 18.0;
+                                      textOptionsProvider.setFontSize(fontSize);
                                       setState(() {});
                                     }
                                   },
@@ -384,6 +391,7 @@ class _SongsDetailState extends State<SongsDetail> {
                                   onPressed: () {
                                     if (fontSize < fontSizeMax) {
                                       fontSize = fontSize + 1.0;
+                                      textOptionsProvider.setFontSize(fontSize);
                                       setState(() {});
                                     }
                                   },
@@ -405,6 +413,8 @@ class _SongsDetailState extends State<SongsDetail> {
                                   onPressed: () {
                                     if (lineHeight > lineHeightMin) {
                                       lineHeight = lineHeight - 0.1;
+                                      textOptionsProvider
+                                          .setLineHeight(lineHeight);
                                       setState(() {});
                                     }
                                   },
@@ -415,6 +425,8 @@ class _SongsDetailState extends State<SongsDetail> {
                                   onPressed: () {
                                     if (lineHeight != 1.5) {
                                       lineHeight = 1.5;
+                                      textOptionsProvider
+                                          .setLineHeight(lineHeight);
                                       setState(() {});
                                     }
                                   },
@@ -427,6 +439,8 @@ class _SongsDetailState extends State<SongsDetail> {
                                   onPressed: () {
                                     if (lineHeight < lineHeightMax) {
                                       lineHeight = lineHeight + 0.1;
+                                      textOptionsProvider
+                                          .setLineHeight(lineHeight);
                                       setState(() {});
                                     }
                                   },

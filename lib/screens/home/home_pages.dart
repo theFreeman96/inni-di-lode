@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '/components/page_header.dart';
+import '/screens/authors/aut_body.dart';
+import '/screens/categories/cat_body.dart';
+import '/screens/favorites/fav_body.dart';
+import '/screens/songs/songs_body.dart';
 import '/utilities/constants.dart';
 import '/utilities/theme_provider.dart';
-import '/components/page_header.dart';
-
-import '/screens/songs/songs_body.dart';
-import '/screens/categories/cat_body.dart';
-import '/screens/authors/aut_body.dart';
-import '/screens/favorites/fav_body.dart';
 
 class HomePages extends StatelessWidget {
   const HomePages({
