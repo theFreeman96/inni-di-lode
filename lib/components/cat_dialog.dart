@@ -29,7 +29,7 @@ class CatDialog extends StatelessWidget {
   late TextEditingController controller =
       catController ?? TextEditingController();
   late int macroId = initialMacroId ?? 0;
-  late String? selectedValue = initialMacroName ?? '';
+  late String? selectedValue = initialMacroName;
 
   final QueryCtr query = QueryCtr();
 
