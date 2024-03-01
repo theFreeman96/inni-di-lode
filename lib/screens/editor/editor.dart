@@ -9,6 +9,7 @@ import '/components/theme_switch.dart';
 import '/data/queries.dart';
 import '/utilities/constants.dart';
 import '/utilities/theme_provider.dart';
+import 'editor_fields/additional_fields_buttons.dart';
 import 'editor_fields/aut_fields.dart';
 import 'editor_fields/cat_fields.dart';
 import 'editor_fields/lyrics_field.dart';
@@ -207,7 +208,11 @@ class EditorState extends State<Editor> {
                           ),
                           child: Column(
                             children: [
-                              ...getCatFields(),
+                              ...buildFieldRow(
+                                additionalCatFieldList,
+                                'categoria',
+                                catList,
+                              ),
                               TextButton.icon(
                                 icon: Row(
                                   children: [
@@ -270,7 +275,11 @@ class EditorState extends State<Editor> {
                             ),
                             child: Column(
                               children: [
-                                ...getAutFields(),
+                                ...buildFieldRow(
+                                  additionalAutFieldList,
+                                  'autore',
+                                  autList,
+                                ),
                                 TextButton.icon(
                                   icon: Icon(
                                     Icons.person_add,
@@ -317,115 +326,72 @@ class EditorState extends State<Editor> {
     );
   }
 
-  List<Widget> getCatFields() {
-    List<Widget> catFieldsList = [];
-    for (int i = 0; i <= additionalCatFieldList.length; i++) {
-      catFieldsList.add(
+  List<Widget> buildFieldRow(
+    List<int> additionalFieldsList,
+    String tooltip,
+    List<int> list,
+  ) {
+    List<Widget> fieldsList = [];
+    for (int i = 0; i <= additionalFieldsList.length; i++) {
+      fieldsList.add(
         Padding(
           padding: const EdgeInsets.only(
             bottom: kDefaultPadding,
           ),
           child: Row(
             children: [
-              Expanded(child: CatFields(index: i)),
-              additionalCatFieldList.isEmpty
-                  ? catRemoveButton(i == 0, i)
+              Expanded(
+                child: tooltip == 'categoria'
+                    ? CatFields(index: i)
+                    : AutFields(index: i),
+              ),
+              additionalFieldsList.isEmpty
+                  ? AdditionalFieldsButtons(
+                      add: i == 0,
+                      index: i,
+                      tooltip: tooltip,
+                      additionalFieldsList: additionalFieldsList,
+                      list: list,
+                      state: setState,
+                    )
                   : i == 0
                       ? const SizedBox()
-                      : i != 0 && additionalCatFieldList.length == 1
+                      : i != 0 && additionalFieldsList.length == 1
                           ? Row(
                               children: [
-                                catRemoveButton(true, i),
-                                catRemoveButton(false, 0)
+                                AdditionalFieldsButtons(
+                                  add: true,
+                                  index: i,
+                                  tooltip: tooltip,
+                                  additionalFieldsList: additionalFieldsList,
+                                  list: list,
+                                  state: setState,
+                                ),
+                                AdditionalFieldsButtons(
+                                  add: false,
+                                  index: 0,
+                                  tooltip: tooltip,
+                                  additionalFieldsList: additionalFieldsList,
+                                  list: list,
+                                  state: setState,
+                                )
                               ],
                             )
-                          : i == 2 && additionalCatFieldList.length == 2
-                              ? catRemoveButton(false, 0)
+                          : i == 2 && additionalFieldsList.length == 2
+                              ? AdditionalFieldsButtons(
+                                  add: false,
+                                  index: 0,
+                                  tooltip: tooltip,
+                                  additionalFieldsList: additionalFieldsList,
+                                  list: list,
+                                  state: setState,
+                                )
                               : const SizedBox(),
             ],
           ),
         ),
       );
     }
-    return catFieldsList;
-  }
-
-  Widget catRemoveButton(bool add, int index) {
-    return IconButton(
-      icon: Icon(
-        (add) ? Icons.add_circle : Icons.remove_circle,
-      ),
-      color: (add) ? Colors.green : Colors.red,
-      tooltip: (add) ? 'Aggiungi categoria' : 'Rimuovi categoria',
-      onPressed: () {
-        if (add) {
-          additionalCatFieldList.insert(index, index);
-        } else {
-          additionalCatFieldList.removeAt(index);
-          if (additionalCatFieldList.isEmpty) {
-            catList[1] = 0;
-          }
-          if (additionalCatFieldList.length == 1) {
-            catList[2] = 0;
-          }
-        }
-        setState(() {});
-      },
-    );
-  }
-
-  List<Widget> getAutFields() {
-    List<Widget> autFieldsList = [];
-    for (int i = 0; i <= additionalAutFieldList.length; i++) {
-      autFieldsList.add(
-        Padding(
-          padding: const EdgeInsets.only(
-            bottom: kDefaultPadding,
-          ),
-          child: Row(
-            children: [
-              Expanded(child: AutFields(index: i)),
-              additionalAutFieldList.isEmpty
-                  ? autRemoveButton(i == 0, i)
-                  : i == 0
-                      ? const SizedBox()
-                      : i != 0 && additionalAutFieldList.length == 1
-                          ? Row(
-                              children: [
-                                autRemoveButton(true, i),
-                                autRemoveButton(false, 0)
-                              ],
-                            )
-                          : i == 2 && additionalAutFieldList.length == 2
-                              ? autRemoveButton(false, 0)
-                              : const SizedBox(),
-            ],
-          ),
-        ),
-      );
-    }
-    return autFieldsList;
-  }
-
-  Widget autRemoveButton(bool add, int index) {
-    return IconButton(
-      icon: Icon((add) ? Icons.add_circle : Icons.remove_circle),
-      color: (add) ? Colors.green : Colors.red,
-      tooltip: (add) ? 'Aggiungi autore' : 'Rimuovi autore',
-      onPressed: () {
-        if (add) {
-          additionalAutFieldList.insert(index, index);
-        } else {
-          additionalAutFieldList.removeAt(index);
-          if (additionalAutFieldList.isEmpty) {
-            autList[1] = 0;
-          }
-          if (additionalAutFieldList.length == 1) {
-            autList[2] = 0;
-          }
-        }
-        setState(() {});
-      },
-    );
+    return fieldsList;
   }
 }
