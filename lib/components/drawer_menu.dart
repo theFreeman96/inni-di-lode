@@ -1,17 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../utilities/constants.dart';
 import '/screens/editor/editor.dart';
 import '/screens/info/info_page.dart';
 import '/utilities/theme_provider.dart';
 import 'drawer_header.dart';
-import 'drawer_random_builder.dart';
+import 'random_song.dart';
 
 class DrawerMenu extends StatelessWidget {
   const DrawerMenu({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context);
     return Drawer(
       child: ListView(
         physics: const ScrollPhysics(),
@@ -33,7 +35,17 @@ class DrawerMenu extends StatelessWidget {
             },
           ),
           ListTile(
-            leading: const Icon(Icons.shuffle),
+            leading: Stack(
+              alignment: Alignment.center,
+              children: [
+                const Icon(Icons.circle),
+                Icon(
+                  Icons.shuffle,
+                  size: 15,
+                  color: themeProvider.isDarkMode ? kBlack : kWhite,
+                ),
+              ],
+            ),
             title: const Text('Cantico casuale'),
             onTap: () {
               FocusScope.of(context).unfocus();
@@ -42,7 +54,7 @@ class DrawerMenu extends StatelessWidget {
                 context,
                 MaterialPageRoute(
                   builder: (context) {
-                    return const DrawerRandomBuilder();
+                    return const RandomSong();
                   },
                 ),
               );

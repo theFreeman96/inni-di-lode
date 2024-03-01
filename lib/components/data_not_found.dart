@@ -7,6 +7,7 @@ import '../screens/editor/editor.dart';
 import '../utilities/constants.dart';
 import '../utilities/error_codes.dart';
 import '../utilities/theme_provider.dart';
+import 'random_song.dart';
 
 class DataNotFound extends StatelessWidget {
   const DataNotFound({
@@ -19,7 +20,6 @@ class DataNotFound extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final themeProvider = Provider.of<ThemeProvider>(context);
-
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -32,7 +32,42 @@ class DataNotFound extends StatelessWidget {
           ),
         ),
         message == ErrorCodes.favoritesNotFound
-            ? const SizedBox()
+            ? TextButton.icon(
+                icon: Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    Icon(
+                      Icons.circle,
+                      color: themeProvider.isDarkMode
+                          ? kPrimaryLightColor
+                          : kPrimaryColor,
+                    ),
+                    Icon(
+                      Icons.shuffle,
+                      size: 15,
+                      color: themeProvider.isDarkMode ? kBlack : kWhite,
+                    ),
+                  ],
+                ),
+                label: Text(
+                  'Cantico casuale',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: themeProvider.isDarkMode ? kWhite : kBlack,
+                  ),
+                ),
+                onPressed: () {
+                  FocusScope.of(context).unfocus();
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) {
+                        return const RandomSong();
+                      },
+                    ),
+                  );
+                },
+              )
             : TextButton.icon(
                 icon: Icon(
                   Icons.add_circle,

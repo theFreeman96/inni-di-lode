@@ -8,8 +8,8 @@ import '/screens/songs/songs_detail.dart';
 import '/utilities/error_codes.dart';
 import 'data_not_found.dart';
 
-class DrawerRandomBuilder extends StatelessWidget {
-  const DrawerRandomBuilder({Key? key}) : super(key: key);
+class RandomSong extends StatelessWidget {
+  const RandomSong({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
