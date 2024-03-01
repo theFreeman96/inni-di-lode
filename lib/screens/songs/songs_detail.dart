@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -44,8 +43,8 @@ class _SongsDetailState extends State<SongsDetail> {
   final QueryCtr query = QueryCtr();
 
   late double fontSize = 18.0;
-  final double fontSizeMin = 16.0;
-  final double fontSizeMax = 20.0;
+  final double fontSizeMin = 13.0;
+  final double fontSizeMax = 23.0;
 
   late double lineHeight = 1.5;
   final double lineHeightMin = 1.0;
@@ -364,24 +363,19 @@ class _SongsDetailState extends State<SongsDetail> {
                                   tooltip: 'Testo più Piccolo',
                                   onPressed: () {
                                     if (fontSize > fontSizeMin) {
-                                      fontSize = fontSize - 2.0;
-                                    } else {
-                                      log('Dimensione minima del testo: $fontSize');
+                                      fontSize = fontSize - 1.0;
+                                      setState(() {});
                                     }
-                                    setState(
-                                      () {},
-                                    );
                                   },
                                 ),
                                 IconButton(
                                   icon: const Icon(Icons.replay),
                                   tooltip: 'Ripristina dimensione testo',
                                   onPressed: () {
-                                    fontSize = 18.0;
-                                    log('Dimensione default del testo: $fontSize');
-                                    setState(
-                                      () {},
-                                    );
+                                    if (fontSize != 18.0) {
+                                      fontSize = 18.0;
+                                      setState(() {});
+                                    }
                                   },
                                 ),
                                 IconButton(
@@ -389,13 +383,9 @@ class _SongsDetailState extends State<SongsDetail> {
                                   tooltip: 'Testo più Grande',
                                   onPressed: () {
                                     if (fontSize < fontSizeMax) {
-                                      fontSize = fontSize + 2.0;
-                                    } else {
-                                      log('Dimensione massima del testo: $fontSize');
+                                      fontSize = fontSize + 1.0;
+                                      setState(() {});
                                     }
-                                    setState(
-                                      () {},
-                                    );
                                   },
                                 ),
                               ],
@@ -414,24 +404,19 @@ class _SongsDetailState extends State<SongsDetail> {
                                   tooltip: 'Diminuisci Interlinea',
                                   onPressed: () {
                                     if (lineHeight > lineHeightMin) {
-                                      lineHeight = lineHeight - 0.5;
-                                    } else {
-                                      log('Interlinea minima: $lineHeight');
+                                      lineHeight = lineHeight - 0.1;
+                                      setState(() {});
                                     }
-                                    setState(
-                                      () {},
-                                    );
                                   },
                                 ),
                                 IconButton(
                                   icon: const Icon(Icons.replay),
                                   tooltip: 'Ripristina dimensione testo',
                                   onPressed: () {
-                                    lineHeight = 1.5;
-                                    log('Interlinea di default: $lineHeight');
-                                    setState(
-                                      () {},
-                                    );
+                                    if (lineHeight != 1.5) {
+                                      lineHeight = 1.5;
+                                      setState(() {});
+                                    }
                                   },
                                 ),
                                 IconButton(
@@ -441,13 +426,9 @@ class _SongsDetailState extends State<SongsDetail> {
                                   tooltip: 'Aumenta Interlinea',
                                   onPressed: () {
                                     if (lineHeight < lineHeightMax) {
-                                      lineHeight = lineHeight + 0.5;
-                                    } else {
-                                      log('Interlinea massima: $lineHeight');
+                                      lineHeight = lineHeight + 0.1;
+                                      setState(() {});
                                     }
-                                    setState(
-                                      () {},
-                                    );
                                   },
                                 ),
                               ],
