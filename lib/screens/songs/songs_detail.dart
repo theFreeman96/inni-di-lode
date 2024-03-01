@@ -41,6 +41,8 @@ class SongsDetail extends StatefulWidget {
 
 class _SongsDetailState extends State<SongsDetail> {
   late PageController pageController;
+  late int initialPageIndex;
+
   final QueryCtr query = QueryCtr();
 
   late double fontSize;
@@ -55,16 +57,13 @@ class _SongsDetailState extends State<SongsDetail> {
   initState() {
     super.initState();
 
-    widget.from == 'Songs' || widget.from == 'Drawer'
-        ? pageController = PageController(initialPage: widget.index - 1)
-        : pageController = PageController(initialPage: widget.index);
+    initialPageIndex = widget.from == 'Songs' || widget.from == 'Drawer'
+        ? widget.index - 1
+        : widget.index;
+    pageController = PageController(initialPage: initialPageIndex);
 
     if (pageController.hasClients) {
-      if (widget.from == 'Songs' || widget.from == 'Drawer') {
-        pageController.jumpToPage(widget.index - 1);
-      } else {
-        pageController.jumpToPage(widget.index);
-      }
+      pageController.jumpToPage(initialPageIndex);
     }
   }
 
@@ -117,15 +116,16 @@ class _SongsDetailState extends State<SongsDetail> {
               },
             ),
             Visibility(
-              visible:
-                  orientation == Orientation.portrait && snapshot.hasData ||
-                          snapshot.data!.length == 1
+              visible: orientation == Orientation.portrait && snapshot.hasData
+                  ? false
+                  : snapshot.data!.length == 1
                       ? false
                       : true,
               child: Center(
                 child: Padding(
                   padding: const EdgeInsets.symmetric(
-                      horizontal: kDefaultPadding * 2),
+                    horizontal: kDefaultPadding * 2,
+                  ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -135,7 +135,8 @@ class _SongsDetailState extends State<SongsDetail> {
                         ),
                         child: IconButton(
                           onPressed: () {
-                            if (pageController.hasClients) {
+                            if (pageController.hasClients &&
+                                pageController.page!.toInt() > 0) {
                               pageController.animateToPage(
                                 pageController.page!.toInt() - 1,
                                 duration: const Duration(milliseconds: 10),
