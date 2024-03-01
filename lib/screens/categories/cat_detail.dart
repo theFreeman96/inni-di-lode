@@ -75,6 +75,8 @@ class _CatDetailState extends State<CatDetail> {
                           catDialogFormKey: editCatKey,
                           catController: catController,
                           catId: widget.catId,
+                          initialMacroId: widget.macroId,
+                          initialMacroName: widget.macroName,
                           state: setState,
                         );
                       },

@@ -12,22 +12,24 @@ class CatDialog extends StatelessWidget {
     this.catDialogFormKey,
     this.catController,
     this.catId,
+    this.initialMacroId,
+    this.initialMacroName,
     this.state,
   }) : super(key: key);
 
   final GlobalKey<FormState>? catDialogFormKey;
   final TextEditingController? catController;
   final int? catId;
+  final int? initialMacroId;
+  final String? initialMacroName;
   final dynamic state;
 
   late GlobalKey<FormState> formKey =
       catDialogFormKey ?? GlobalKey<FormState>();
   late TextEditingController controller =
       catController ?? TextEditingController();
-
-  late int macroId;
-  late String macroName;
-  String? selectedValue;
+  late int macroId = initialMacroId ?? 0;
+  late String? selectedValue = initialMacroName ?? '';
 
   final QueryCtr query = QueryCtr();
 
@@ -99,7 +101,7 @@ class CatDialog extends StatelessWidget {
                           value: get.macroName,
                           onTap: () {
                             macroId = get.macroId;
-                            macroName = get.macroName;
+                            selectedValue = get.macroName;
                           },
                           child: Text(get.macroName),
                         );
@@ -137,13 +139,13 @@ class CatDialog extends StatelessWidget {
                   ? query.updateCat(
                       controller.text,
                       macroId,
-                      macroName,
+                      selectedValue,
                       catId,
                     )
                   : query.insertCat(
                       controller.text,
                       macroId,
-                      macroName,
+                      selectedValue,
                     );
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
