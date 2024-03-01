@@ -30,9 +30,6 @@ class CatDetail extends StatefulWidget {
   State<CatDetail> createState() => _CatDetailState();
 }
 
-late int macroId;
-late String macroName;
-
 class _CatDetailState extends State<CatDetail> {
   final ScrollController scrollController = ScrollController();
   final QueryCtr query = QueryCtr();
@@ -45,8 +42,6 @@ class _CatDetailState extends State<CatDetail> {
   @override
   void initState() {
     catController = TextEditingController(text: widget.catName);
-    macroId = widget.macroId;
-    macroName = widget.macroName;
     super.initState();
   }
 
