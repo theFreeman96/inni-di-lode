@@ -39,7 +39,7 @@ class DetailList extends StatelessWidget {
         } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
           return Center(
             child: DataNotFound(
-              message: notFoundMessage,
+              notFoundMessage: notFoundMessage,
             ),
           );
         } else {

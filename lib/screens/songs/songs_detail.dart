@@ -108,7 +108,7 @@ class _SongsDetailState extends State<SongsDetail> {
                 } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
                   return const EmptyScaffold(
                     body: DataNotFound(
-                      message: ErrorCodes.songNotFound,
+                      notFoundMessage: ErrorCodes.songNotFound,
                     ),
                   );
                 } else {

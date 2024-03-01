@@ -36,7 +36,7 @@ class MainList extends StatelessWidget {
         } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
           return Expanded(
             child: DataNotFound(
-              message: notFoundMessage,
+              notFoundMessage: notFoundMessage,
             ),
           );
         } else {

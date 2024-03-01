@@ -128,7 +128,7 @@ class _CatBodyState extends State<CatBody> {
               } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
                 return const Center(
                   child: DataNotFound(
-                    message: ErrorCodes.categoriesNotFound,
+                    notFoundMessage: ErrorCodes.categoriesNotFound,
                   ),
                 );
               } else {

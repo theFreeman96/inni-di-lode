@@ -12,10 +12,10 @@ import 'random_song.dart';
 class DataNotFound extends StatelessWidget {
   const DataNotFound({
     Key? key,
-    required this.message,
+    required this.notFoundMessage,
   }) : super(key: key);
 
-  final String message;
+  final String notFoundMessage;
 
   @override
   Widget build(BuildContext context) {
@@ -25,13 +25,13 @@ class DataNotFound extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Text(
-          message,
+          notFoundMessage,
           textAlign: TextAlign.center,
           style: const TextStyle(
             fontSize: 20.0,
           ),
         ),
-        message == ErrorCodes.favoritesNotFound
+        notFoundMessage == ErrorCodes.favoritesNotFound
             ? TextButton.icon(
                 icon: Stack(
                   alignment: Alignment.center,
@@ -50,7 +50,7 @@ class DataNotFound extends StatelessWidget {
                   ],
                 ),
                 label: Text(
-                  'Cantico casuale',
+                  'Scopri un cantico casuale',
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     color: themeProvider.isDarkMode ? kWhite : kBlack,
@@ -84,9 +84,9 @@ class DataNotFound extends StatelessWidget {
                 ),
                 onPressed: () {
                   FocusScope.of(context).unfocus();
-                  if (message != ErrorCodes.categoriesNotFound &&
-                      message != ErrorCodes.authorsNotFound &&
-                      message != ErrorCodes.macroCategoriesNotFound) {
+                  if (notFoundMessage != ErrorCodes.categoriesNotFound &&
+                      notFoundMessage != ErrorCodes.authorsNotFound &&
+                      notFoundMessage != ErrorCodes.macroCategoriesNotFound) {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
@@ -99,9 +99,10 @@ class DataNotFound extends StatelessWidget {
                     showDialog(
                       context: context,
                       builder: (BuildContext context) {
-                        if (message == ErrorCodes.categoriesNotFound) {
+                        if (notFoundMessage == ErrorCodes.categoriesNotFound) {
                           return CatDialog();
-                        } else if (message == ErrorCodes.authorsNotFound) {
+                        } else if (notFoundMessage ==
+                            ErrorCodes.authorsNotFound) {
                           return AutDialog();
                         } else {
                           return const SizedBox();

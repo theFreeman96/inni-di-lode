@@ -27,7 +27,7 @@ class RandomSong extends StatelessWidget {
         } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
           return const EmptyScaffold(
             body: DataNotFound(
-              message: ErrorCodes.songsNotFound,
+              notFoundMessage: ErrorCodes.songsNotFound,
             ),
           );
         } else {
