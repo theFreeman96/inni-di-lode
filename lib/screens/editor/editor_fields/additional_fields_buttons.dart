@@ -24,7 +24,7 @@ class AdditionalFieldsButtons extends StatelessWidget {
     return IconButton(
       icon: Icon(add ? Icons.add_circle : Icons.remove_circle),
       color: add ? Colors.green : Colors.red,
-      tooltip: add ? 'Aggiungi ${tooltip}' : 'Rimuovi ${tooltip}',
+      tooltip: add ? 'Aggiungi $tooltip' : 'Rimuovi $tooltip',
       onPressed: () {
         if (add) {
           additionalFieldsList.insert(index, index);
