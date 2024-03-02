@@ -58,8 +58,13 @@ class CatFieldsState extends State<CatFields> {
                 return DropdownMenuItem<String>(
                   value: get.name,
                   onTap: () {
-                    EditorState.catList[widget.index] = get.id;
-                    EditorState.macroList[widget.index] = get.macro_id;
+                    if (selectedValue == null) {
+                      EditorState.catList[widget.index] = 0;
+                      EditorState.macroList[widget.index] = 0;
+                    } else {
+                      EditorState.catList[widget.index] = get.id;
+                      EditorState.macroList[widget.index] = get.macro_id;
+                    }
                   },
                   child: Text(get.name),
                 );
@@ -67,7 +72,7 @@ class CatFieldsState extends State<CatFields> {
             ).toList(),
             onChanged: (value) {
               setState(() {
-                selectedValue = value!;
+                selectedValue = value;
               });
             },
             validator: (value) {

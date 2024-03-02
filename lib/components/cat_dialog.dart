@@ -109,7 +109,7 @@ class CatDialog extends StatelessWidget {
                     ).toList(),
                     onChanged: (value) {
                       state(() {
-                        selectedValue = value!;
+                        selectedValue = value;
                       });
                     },
                     validator: (value) {
