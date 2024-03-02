@@ -352,6 +352,7 @@ class EditorState extends State<Editor> {
                       tooltip: tooltip,
                       additionalFieldsList: additionalFieldsList,
                       list: list,
+                      macrolist: macroList,
                       state: setState,
                     )
                   : i == 0
@@ -365,6 +366,7 @@ class EditorState extends State<Editor> {
                                   tooltip: tooltip,
                                   additionalFieldsList: additionalFieldsList,
                                   list: list,
+                                  macrolist: macroList,
                                   state: setState,
                                 ),
                                 AdditionalFieldsButtons(
@@ -373,6 +375,7 @@ class EditorState extends State<Editor> {
                                   tooltip: tooltip,
                                   additionalFieldsList: additionalFieldsList,
                                   list: list,
+                                  macrolist: macroList,
                                   state: setState,
                                 )
                               ],
@@ -384,6 +387,7 @@ class EditorState extends State<Editor> {
                                   tooltip: tooltip,
                                   additionalFieldsList: additionalFieldsList,
                                   list: list,
+                                  macrolist: macroList,
                                   state: setState,
                                 )
                               : const SizedBox(),
