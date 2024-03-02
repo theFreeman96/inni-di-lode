@@ -424,6 +424,20 @@ class QueryCtr {
     return null;
   }
 
+  Future<List<Raccolta>?> deleteSongCategories(id) async {
+    final dbClient = await con.db;
+    await dbClient!
+        .delete('Songs_Categories', where: 'song_id = ?', whereArgs: [id]);
+    return null;
+  }
+
+  Future<List<Raccolta>?> deleteSongAuthors(id) async {
+    final dbClient = await con.db;
+    await dbClient!
+        .delete('Songs_Authors', where: 'song_id = ?', whereArgs: [id]);
+    return null;
+  }
+
   Future<List<Raccolta>?> deleteCat(id) async {
     final dbClient = await con.db;
     await dbClient!.delete('Categories', where: 'id = ?', whereArgs: [id]);

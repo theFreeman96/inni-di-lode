@@ -530,8 +530,11 @@ class _SongsDetailState extends State<SongsDetail> {
                               itemType: 'Il cantico',
                               itemToDelete: '${get.songId}. ${get.songTitle}',
                               onPressed: () {
-                                query.deleteSong(get.songId);
-                                setState(() {});
+                                setState(() {
+                                  query.deleteSong(get.songId);
+                                  query.deleteSongCategories(get.songId);
+                                  query.deleteSongAuthors(get.songId);
+                                });
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
