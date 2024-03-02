@@ -222,7 +222,7 @@ class QueryCtr {
   }
 
   // Insert queries
-  Future<List<Raccolta>?> insertSongs(title, text, fav) async {
+  Future<List<Raccolta>?> insertSong(title, text, fav) async {
     final dbClient = await con.db;
     await dbClient!.insert(
       'Songs',
@@ -231,7 +231,7 @@ class QueryCtr {
     return null;
   }
 
-  Future<List<Raccolta>?> insertSongsCategories(
+  Future<List<Raccolta>?> insertSongCategories(
       songId, macroId, catId, songTitle) async {
     final dbClient = await con.db;
     await dbClient!.insert(
@@ -246,7 +246,7 @@ class QueryCtr {
     return null;
   }
 
-  Future<List<Raccolta>?> insertSongsAuthors(songId, autId, songTitle) async {
+  Future<List<Raccolta>?> insertSongAuthors(songId, autId, songTitle) async {
     final dbClient = await con.db;
     await dbClient!.insert(
       'Songs_Authors',
@@ -285,7 +285,7 @@ class QueryCtr {
     return null;
   }
 
-  Future<List<Raccolta>?> updateSongsCategories(
+  Future<List<Raccolta>?> updateSongCategories(
       id, macroIdList, catIdList, songTitle) async {
     final dbClient = await con.db;
 
@@ -344,7 +344,7 @@ class QueryCtr {
     return null;
   }
 
-  Future<List<Raccolta>?> updateSongsAuthors(id, autIdList, songTitle) async {
+  Future<List<Raccolta>?> updateSongAuthors(id, autIdList, songTitle) async {
     final dbClient = await con.db;
 
     // Get all existing author records for the specified song

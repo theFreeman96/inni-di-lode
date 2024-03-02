@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import '../home/home.dart';
 import '/data/queries.dart';
-
 import 'editor.dart';
 
 submit({
@@ -35,20 +34,20 @@ submit({
         widget.songId,
       );
 
-      query.updateSongsCategories(
+      query.updateSongCategories(
         widget.songId,
         macroList,
         catList,
         titleController.text,
       );
 
-      query.updateSongsAuthors(
+      query.updateSongAuthors(
         widget.songId,
         autList,
         titleController.text,
       );
     } else if (widget.songId == null) {
-      query.insertSongs(
+      query.insertSong(
         titleController.text,
         formattedText,
         0,
@@ -58,7 +57,7 @@ submit({
         int selectedMacro = macroList[i];
         int selectedCat = catList[i];
         if (selectedCat != 0) {
-          query.insertSongsCategories(
+          query.insertSongCategories(
             newSongId,
             selectedMacro,
             selectedCat,
@@ -69,7 +68,7 @@ submit({
 
       for (int selectedAut in autList) {
         if (selectedAut != 0) {
-          query.insertSongsAuthors(
+          query.insertSongAuthors(
             newSongId,
             selectedAut,
             titleController.text,
