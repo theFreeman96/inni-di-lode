@@ -355,42 +355,40 @@ class EditorState extends State<Editor> {
                       macrolist: macroList,
                       state: setState,
                     )
-                  : i == 0
-                      ? const SizedBox()
-                      : i != 0 && additionalFieldsList.length == 1
-                          ? Row(
-                              children: [
-                                AdditionalFieldsButtons(
-                                  add: true,
-                                  index: i,
-                                  tooltip: tooltip,
-                                  additionalFieldsList: additionalFieldsList,
-                                  list: list,
-                                  macrolist: macroList,
-                                  state: setState,
-                                ),
-                                AdditionalFieldsButtons(
-                                  add: false,
-                                  index: 0,
-                                  tooltip: tooltip,
-                                  additionalFieldsList: additionalFieldsList,
-                                  list: list,
-                                  macrolist: macroList,
-                                  state: setState,
-                                )
-                              ],
+                  : i == 1 && additionalFieldsList.length == 1
+                      ? Row(
+                          children: [
+                            AdditionalFieldsButtons(
+                              add: true,
+                              index: i,
+                              tooltip: tooltip,
+                              additionalFieldsList: additionalFieldsList,
+                              list: list,
+                              macrolist: macroList,
+                              state: setState,
+                            ),
+                            AdditionalFieldsButtons(
+                              add: false,
+                              index: 0,
+                              tooltip: tooltip,
+                              additionalFieldsList: additionalFieldsList,
+                              list: list,
+                              macrolist: macroList,
+                              state: setState,
                             )
-                          : i == 2 && additionalFieldsList.length == 2
-                              ? AdditionalFieldsButtons(
-                                  add: false,
-                                  index: 0,
-                                  tooltip: tooltip,
-                                  additionalFieldsList: additionalFieldsList,
-                                  list: list,
-                                  macrolist: macroList,
-                                  state: setState,
-                                )
-                              : const SizedBox(),
+                          ],
+                        )
+                      : i == 2 && additionalFieldsList.length == 2
+                          ? AdditionalFieldsButtons(
+                              add: false,
+                              index: 0,
+                              tooltip: tooltip,
+                              additionalFieldsList: additionalFieldsList,
+                              list: list,
+                              macrolist: macroList,
+                              state: setState,
+                            )
+                          : const SizedBox(),
             ],
           ),
         ),
