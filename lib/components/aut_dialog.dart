@@ -4,8 +4,8 @@ import 'package:flutter/services.dart';
 import '../data/queries.dart';
 import '../utilities/constants.dart';
 
-class AutDialog extends StatelessWidget {
-  AutDialog({
+class AutDialog extends StatefulWidget {
+  const AutDialog({
     Key? key,
     this.autDialogFormKey,
     this.autNameController,
@@ -20,12 +20,17 @@ class AutDialog extends StatelessWidget {
   final int? autId;
   final dynamic state;
 
+  @override
+  State<AutDialog> createState() => _AutDialogState();
+}
+
+class _AutDialogState extends State<AutDialog> {
   late GlobalKey<FormState> formKey =
-      autDialogFormKey ?? GlobalKey<FormState>();
+      widget.autDialogFormKey ?? GlobalKey<FormState>();
   late TextEditingController nameController =
-      autNameController ?? TextEditingController();
+      widget.autNameController ?? TextEditingController();
   late TextEditingController surnameController =
-      autSurnameController ?? TextEditingController();
+      widget.autSurnameController ?? TextEditingController();
 
   final QueryCtr query = QueryCtr();
 
@@ -33,7 +38,7 @@ class AutDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     return AlertDialog(
       scrollable: true,
-      title: autNameController != null
+      title: widget.autNameController != null
           ? const Text('Modifica autore')
           : const Text('Nuovo autore'),
       content: Form(
@@ -98,11 +103,11 @@ class AutDialog extends StatelessWidget {
         FilledButton(
           onPressed: () {
             if (formKey.currentState!.validate()) {
-              autId != null
+              widget.autId != null
                   ? query.updateAut(
                       nameController.text,
                       surnameController.text,
-                      autId,
+                      widget.autId,
                     )
                   : query.insertAut(
                       nameController.text,
@@ -110,13 +115,13 @@ class AutDialog extends StatelessWidget {
                     );
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
-                  content: autId != null
+                  content: widget.autId != null
                       ? const Text('Autore modificato!')
                       : const Text('Autore aggiunto!'),
                 ),
               );
               Navigator.pop(context, 'Conferma');
-              state(() {});
+              widget.state(() {});
             }
           },
           child: const Text('Conferma'),

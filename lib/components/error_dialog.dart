@@ -36,20 +36,30 @@ class ErrorDialog extends StatelessWidget {
                 fontWeight: FontWeight.bold,
               ),
             ),
-            const TextSpan(
-                text:
-                    'è necessario dissociare o eliminare i cantici ancora associati.\n\n'),
-            const TextSpan(
-                text:
-                    'Nel fondo della pagina di ciascun cantico selezionare una delle seguenti opzioni:\n'),
-            const WidgetSpan(
-              child: Icon(Icons.edit_note),
+            TextSpan(
+              text:
+                  'è necessario dissociare o eliminare ${itemType == 'la macrocategoria' ? 'le categorie ancora associate' : 'i cantici ancora associati'}.\n\n',
             ),
-            const TextSpan(text: 'Modifica cantico\n'),
-            const WidgetSpan(
-              child: Icon(Icons.delete),
+            TextSpan(
+              text:
+                  '${itemType == 'la macrocategoria' ? 'Nella parte alta della pagina di ciascuna categoria associata' : 'Nel fondo della pagina di ciascun cantico associato'}, selezionare una delle seguenti opzioni:\n\n',
             ),
-            const TextSpan(text: 'Elimina cantico'),
+            const WidgetSpan(
+              child: Icon(
+                Icons.edit_note,
+              ),
+            ),
+            const TextSpan(
+              text: 'Modifica\n',
+            ),
+            const WidgetSpan(
+              child: Icon(
+                Icons.delete,
+              ),
+            ),
+            const TextSpan(
+              text: 'Elimina',
+            ),
           ],
         ),
       ),

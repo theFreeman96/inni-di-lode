@@ -21,7 +21,9 @@ class DeleteDialog extends StatelessWidget {
     final themeProvider = Provider.of<ThemeProvider>(context);
 
     late String deleted =
-        itemType == 'La categoria' ? 'eliminata' : 'eliminato';
+        itemType == 'La categoria' || itemType == 'La macrocategoria'
+            ? 'eliminata'
+            : 'eliminato';
 
     return AlertDialog(
       scrollable: true,

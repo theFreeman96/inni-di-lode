@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../home/home.dart';
 import '/components/data_not_found.dart';
+import '/components/delete_dialog.dart';
+import '/components/error_dialog.dart';
 import '/components/filter_bar.dart';
+import '/components/macrocat_dialog.dart';
 import '/components/main_list.dart';
 import '/data/models.dart';
 import '/data/queries.dart';
@@ -22,6 +26,9 @@ class _CatBodyState extends State<CatBody> {
   final FocusNode myFocusNode = FocusNode();
   final QueryCtr query = QueryCtr();
   int? expansionIndex;
+
+  final editMacroKey = GlobalKey<FormState>();
+  late TextEditingController macroController;
 
   late Future<List?> future;
 
@@ -110,41 +117,124 @@ class _CatBodyState extends State<CatBody> {
           },
           canTapOnHeader: true,
           isExpanded: expansionIndex == i,
-          body: FutureBuilder<List?>(
-            future: query.getCatByMacro(get.macroId),
-            initialData: const [],
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return const Center(
-                  child: CircularProgressIndicator(),
-                );
-              } else if (snapshot.hasError) {
-                return Center(
-                  child: Text(
-                    'Errore: ${snapshot.error}',
-                    textAlign: TextAlign.center,
-                  ),
-                );
-              } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                return const Center(
-                  child: DataNotFound(
-                    notFoundMessage: ErrorCodes.categoriesNotFound,
-                  ),
-                );
-              } else {
-                return ListView.builder(
-                  physics: const ScrollPhysics(),
-                  shrinkWrap: true,
-                  padding: const EdgeInsets.only(
-                    bottom: kDefaultPadding,
-                  ),
-                  itemCount: snapshot.data!.length,
-                  itemBuilder: (context, i) {
-                    return buildCatRow(snapshot.data![i]);
-                  },
-                );
-              }
-            },
+          body: Column(
+            children: [
+              FutureBuilder<List?>(
+                future: query.getCatByMacro(get.macroId),
+                initialData: const [],
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  } else if (snapshot.hasError) {
+                    return Center(
+                      child: Text(
+                        'Errore: ${snapshot.error}',
+                        textAlign: TextAlign.center,
+                      ),
+                    );
+                  } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                    return const Center(
+                      child: DataNotFound(
+                        notFoundMessage: ErrorCodes.categoriesNotFound,
+                      ),
+                    );
+                  } else {
+                    return ListView.builder(
+                      physics: const ScrollPhysics(),
+                      shrinkWrap: true,
+                      padding: const EdgeInsets.only(
+                        bottom: kDefaultPadding,
+                      ),
+                      itemCount: snapshot.data!.length,
+                      itemBuilder: (context, i) {
+                        return buildCatRow(snapshot.data![i]);
+                      },
+                    );
+                  }
+                },
+              ),
+              Visibility(
+                visible: get.macroId > 11 ? true : false,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    IconButton(
+                      icon: const Icon(Icons.edit_note),
+                      tooltip: 'Modifica macrocategoria',
+                      onPressed: () {
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return MacroCatDialog(
+                              macroDialogFormKey: editMacroKey,
+                              macroController: macroController =
+                                  TextEditingController(text: get.macroName),
+                              initialMacroId: get.macroId,
+                              state: setState,
+                            );
+                          },
+                        );
+                      },
+                    ),
+                    IconButton(
+                      icon: const Icon(Icons.delete),
+                      tooltip: 'Elimina macrocategoria',
+                      onPressed: () {
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return FutureBuilder<List?>(
+                              future: query.getCatByMacro(get.macroId),
+                              initialData: const [],
+                              builder: (context, snapshot) {
+                                if (snapshot.connectionState ==
+                                    ConnectionState.waiting) {
+                                  return const Center(
+                                    child: CircularProgressIndicator(),
+                                  );
+                                } else if (snapshot.hasError) {
+                                  return Center(
+                                    child: Text(
+                                      'Errore: ${snapshot.error}',
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  );
+                                } else if (!snapshot.hasData ||
+                                    snapshot.data!.isEmpty) {
+                                  return DeleteDialog(
+                                    itemType: 'La macrocategoria',
+                                    itemToDelete: get.macroName,
+                                    onPressed: () {
+                                      query.deleteMacroCat(get.macroId);
+                                      setState(() {});
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) {
+                                            return const Home();
+                                          },
+                                        ),
+                                      );
+                                    },
+                                  );
+                                } else {
+                                  return ErrorDialog(
+                                    itemType: 'la macrocategoria',
+                                    itemToDelete: get.macroName,
+                                  );
+                                }
+                              },
+                            );
+                          },
+                        );
+                      },
+                    ),
+                  ],
+                ),
+              ),
+            ],
           ),
         ),
       ],

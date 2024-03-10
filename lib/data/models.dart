@@ -26,6 +26,16 @@ class Raccolta {
   }
 }
 
+class Macrocategorie {
+  late int id;
+  late String name;
+
+  Macrocategorie.fromMap(dynamic obj) {
+    id = obj['id'];
+    name = obj['name'];
+  }
+}
+
 class Categorie {
   late int id;
   late String name;

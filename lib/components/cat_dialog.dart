@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 
 import '../data/queries.dart';
 import '../utilities/constants.dart';
 import '../utilities/error_codes.dart';
+import '../utilities/theme_provider.dart';
 import 'drop_list.dart';
+import 'macrocat_dialog.dart';
 
-class CatDialog extends StatelessWidget {
-  CatDialog({
+class CatDialog extends StatefulWidget {
+  const CatDialog({
     Key? key,
     this.catDialogFormKey,
     this.catController,
@@ -24,20 +27,25 @@ class CatDialog extends StatelessWidget {
   final String? initialMacroName;
   final dynamic state;
 
-  late GlobalKey<FormState> formKey =
-      catDialogFormKey ?? GlobalKey<FormState>();
-  late TextEditingController controller =
-      catController ?? TextEditingController();
-  late int macroId = initialMacroId ?? 0;
-  late String? selectedValue = initialMacroName;
+  @override
+  State<CatDialog> createState() => _CatDialogState();
+}
 
+class _CatDialogState extends State<CatDialog> {
+  late GlobalKey<FormState> formKey =
+      widget.catDialogFormKey ?? GlobalKey<FormState>();
+  late TextEditingController controller =
+      widget.catController ?? TextEditingController();
+  late int macroId = widget.initialMacroId ?? 0;
+  late String? selectedValue = widget.initialMacroName;
   final QueryCtr query = QueryCtr();
 
   @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context);
     return AlertDialog(
       scrollable: true,
-      title: catController != null
+      title: widget.catController != null
           ? const Text('Modifica categoria')
           : const Text('Nuova categoria'),
       content: Form(
@@ -108,9 +116,8 @@ class CatDialog extends StatelessWidget {
                       },
                     ).toList(),
                     onChanged: (value) {
-                      state(() {
-                        selectedValue = value;
-                      });
+                      selectedValue = value;
+                      widget.state(() {}) ?? setState(() {});
                     },
                     validator: (value) {
                       if (value == null || value.isEmpty) {
@@ -120,6 +127,38 @@ class CatDialog extends StatelessWidget {
                     },
                   );
                 }
+              },
+            ),
+            TextButton.icon(
+              icon: Row(
+                children: [
+                  Icon(
+                    Icons.add,
+                    size: 15,
+                    color: themeProvider.isDarkMode ? kWhite : kBlack,
+                  ),
+                  Icon(
+                    Icons.sell,
+                    color: themeProvider.isDarkMode ? kWhite : kBlack,
+                  ),
+                ],
+              ),
+              label: Text(
+                'Crea nuova macrocategoria',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: themeProvider.isDarkMode ? kWhite : kBlack,
+                ),
+              ),
+              onPressed: () {
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return MacroCatDialog(
+                      state: setState,
+                    );
+                  },
+                );
               },
             ),
           ],
@@ -135,12 +174,12 @@ class CatDialog extends StatelessWidget {
         FilledButton(
           onPressed: () {
             if (formKey.currentState!.validate()) {
-              catId != null
+              widget.catId != null
                   ? query.updateCat(
                       controller.text,
                       macroId,
                       selectedValue,
-                      catId,
+                      widget.catId,
                     )
                   : query.insertCat(
                       controller.text,
@@ -149,13 +188,13 @@ class CatDialog extends StatelessWidget {
                     );
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
-                  content: catId != null
+                  content: widget.catId != null
                       ? const Text('Categoria modificata!')
                       : const Text('Categoria aggiunta!'),
                 ),
               );
               Navigator.pop(context, 'Conferma');
-              state(() {});
+              widget.state(() {}) ?? setState(() {});
             }
           },
           child: const Text('Conferma'),

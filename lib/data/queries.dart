@@ -7,8 +7,11 @@ class QueryCtr {
   // Song list queries
   Future<List<Raccolta>?> getAllSongs() async {
     final dbClient = await con.db;
-    final res = await dbClient!
-        .query('View_Raccolta', orderBy: 'songId', groupBy: 'songId');
+    final res = await dbClient!.query(
+      'View_Raccolta',
+      orderBy: 'songId',
+      groupBy: 'songId',
+    );
 
     List<Raccolta>? list =
         res.isNotEmpty ? res.map((c) => Raccolta.fromMap(c)).toList() : null;
@@ -34,11 +37,13 @@ class QueryCtr {
 
   Future<List<Raccolta>?> searchSong(String keyword) async {
     final dbClient = await con.db;
-    final res = await dbClient!.query('View_Raccolta',
-        where: 'songId LIKE ? OR songTitle LIKE ? OR songText LIKE ?',
-        whereArgs: ['%$keyword%', '%$keyword%', '%$keyword%'],
-        groupBy: 'songId',
-        orderBy: 'songId');
+    final res = await dbClient!.query(
+      'View_Raccolta',
+      where: 'songId LIKE ? OR songTitle LIKE ? OR songText LIKE ?',
+      whereArgs: ['%$keyword%', '%$keyword%', '%$keyword%'],
+      groupBy: 'songId',
+      orderBy: 'songId',
+    );
 
     List<Raccolta>? list =
         res.isNotEmpty ? res.map((c) => Raccolta.fromMap(c)).toList() : null;
@@ -49,8 +54,16 @@ class QueryCtr {
   // Category related queries
   Future<List<Raccolta>?> getAllMacroCat() async {
     final dbClient = await con.db;
-    final res = await dbClient!
-        .query('View_Raccolta', orderBy: 'macroId', groupBy: 'macroId');
+    final res = await dbClient!.query(
+      'View_Raccolta INNER JOIN Macrocategories',
+      columns: [
+        'View_Raccolta.*',
+        'Macrocategories.id AS macroId',
+        'Macrocategories.name AS macroName',
+      ],
+      orderBy: 'id',
+      groupBy: 'id',
+    );
 
     List<Raccolta>? list =
         res.isNotEmpty ? res.map((c) => Raccolta.fromMap(c)).toList() : null;
@@ -60,11 +73,13 @@ class QueryCtr {
 
   Future<List<Categorie>?> getCatByMacro(macroId) async {
     final dbClient = await con.db;
-    final res = await dbClient!.query('Categories',
-        where: 'macro_id = ?',
-        whereArgs: [macroId],
-        orderBy: 'id',
-        groupBy: 'id');
+    final res = await dbClient!.query(
+      'Categories',
+      where: 'macro_id = ?',
+      whereArgs: [macroId],
+      orderBy: 'id',
+      groupBy: 'id',
+    );
 
     List<Categorie>? list =
         res.isNotEmpty ? res.map((c) => Categorie.fromMap(c)).toList() : null;
@@ -74,8 +89,11 @@ class QueryCtr {
 
   Future<List<Categorie>?> getAllCat() async {
     final dbClient = await con.db;
-    final res = await dbClient!
-        .query('Categories', orderBy: 'macro_id, id', groupBy: 'id');
+    final res = await dbClient!.query(
+      'Categories',
+      orderBy: 'macro_id, id',
+      groupBy: 'id',
+    );
 
     List<Categorie>? list =
         res.isNotEmpty ? res.map((c) => Categorie.fromMap(c)).toList() : null;
@@ -83,6 +101,7 @@ class QueryCtr {
     return list;
   }
 
+  //TODO: mancano macrocategorie non associate ad alcuna categoria
   Future<List<Raccolta>?> searchCat(String keyword) async {
     final dbClient = await con.db;
     final res = await dbClient!.query(
@@ -100,11 +119,13 @@ class QueryCtr {
 
   Future<List<Raccolta>?> getSongsByCat(id) async {
     final dbClient = await con.db;
-    final res = await dbClient!.query('View_Raccolta',
-        where: 'catId = ?',
-        whereArgs: [id],
-        orderBy: 'songId',
-        groupBy: 'songId');
+    final res = await dbClient!.query(
+      'View_Raccolta',
+      where: 'catId = ?',
+      whereArgs: [id],
+      orderBy: 'songId',
+      groupBy: 'songId',
+    );
 
     List<Raccolta>? list =
         res.isNotEmpty ? res.map((c) => Raccolta.fromMap(c)).toList() : null;
@@ -114,11 +135,13 @@ class QueryCtr {
 
   Future<List<Raccolta>?> getCatBySongId(id) async {
     final dbClient = await con.db;
-    final res = await dbClient!.query('View_Raccolta',
-        where: 'songId = ?',
-        whereArgs: [id],
-        groupBy: 'catId',
-        orderBy: 'catName');
+    final res = await dbClient!.query(
+      'View_Raccolta',
+      where: 'songId = ?',
+      whereArgs: [id],
+      groupBy: 'catId',
+      orderBy: 'catName',
+    );
 
     List<Raccolta>? list =
         res.isNotEmpty ? res.map((c) => Raccolta.fromMap(c)).toList() : null;
@@ -129,8 +152,11 @@ class QueryCtr {
   // Author related queries
   Future<List<Autori>?> getAllAut() async {
     final dbClient = await con.db;
-    final res = await dbClient!
-        .query('Authors', orderBy: 'name, surname', groupBy: 'id');
+    final res = await dbClient!.query(
+      'Authors',
+      orderBy: 'name, surname',
+      groupBy: 'id',
+    );
 
     List<Autori>? list =
         res.isNotEmpty ? res.map((c) => Autori.fromMap(c)).toList() : null;
@@ -140,11 +166,13 @@ class QueryCtr {
 
   Future<List<Autori>?> searchAut(String keyword) async {
     final dbClient = await con.db;
-    final res = await dbClient!.query('Authors',
-        where: 'name LIKE ? OR surname LIKE ?',
-        whereArgs: ['%$keyword%', '%$keyword%'],
-        groupBy: 'id',
-        orderBy: 'name, surname');
+    final res = await dbClient!.query(
+      'Authors',
+      where: 'name LIKE ? OR surname LIKE ?',
+      whereArgs: ['%$keyword%', '%$keyword%'],
+      groupBy: 'id',
+      orderBy: 'name, surname',
+    );
 
     List<Autori>? list =
         res.isNotEmpty ? res.map((c) => Autori.fromMap(c)).toList() : null;
@@ -154,11 +182,13 @@ class QueryCtr {
 
   Future<List<Raccolta>?> getSongsByAut(id) async {
     final dbClient = await con.db;
-    final res = await dbClient!.query('View_Raccolta',
-        where: 'autId = ?',
-        whereArgs: [id],
-        orderBy: 'songId',
-        groupBy: 'songId');
+    final res = await dbClient!.query(
+      'View_Raccolta',
+      where: 'autId = ?',
+      whereArgs: [id],
+      orderBy: 'songId',
+      groupBy: 'songId',
+    );
 
     List<Raccolta>? list =
         res.isNotEmpty ? res.map((c) => Raccolta.fromMap(c)).toList() : null;
@@ -168,11 +198,13 @@ class QueryCtr {
 
   Future<List<Raccolta>?> getAutBySongId(id) async {
     final dbClient = await con.db;
-    final res = await dbClient!.query('View_Raccolta',
-        where: 'songId = ?',
-        whereArgs: [id],
-        groupBy: 'autId',
-        orderBy: 'autName');
+    final res = await dbClient!.query(
+      'View_Raccolta',
+      where: 'songId = ?',
+      whereArgs: [id],
+      groupBy: 'autId',
+      orderBy: 'autName',
+    );
 
     List<Raccolta>? list =
         res.isNotEmpty ? res.map((c) => Raccolta.fromMap(c)).toList() : null;
@@ -194,11 +226,13 @@ class QueryCtr {
 
   Future<List<Raccolta>?> getAllFav() async {
     final dbClient = await con.db;
-    final res = await dbClient!.query('View_Raccolta',
-        where: 'isFav = ?',
-        whereArgs: [1],
-        orderBy: 'songId',
-        groupBy: 'songId');
+    final res = await dbClient!.query(
+      'View_Raccolta',
+      where: 'isFav = ?',
+      whereArgs: [1],
+      orderBy: 'songId',
+      groupBy: 'songId',
+    );
 
     List<Raccolta>? list =
         res.isNotEmpty ? res.map((c) => Raccolta.fromMap(c)).toList() : null;
@@ -208,12 +242,14 @@ class QueryCtr {
 
   Future<List<Raccolta>?> searchFav(int value, String keyword) async {
     final dbClient = await con.db;
-    final res = await dbClient!.query('View_Raccolta',
-        where:
-            'isFav = ? AND (songId LIKE ? OR songTitle LIKE ? OR songText LIKE ?)',
-        whereArgs: ['$value', '%$keyword%', '%$keyword%', '%$keyword%'],
-        groupBy: 'songId',
-        orderBy: 'songId');
+    final res = await dbClient!.query(
+      'View_Raccolta',
+      where:
+          'isFav = ? AND (songId LIKE ? OR songTitle LIKE ? OR songText LIKE ?)',
+      whereArgs: ['$value', '%$keyword%', '%$keyword%', '%$keyword%'],
+      groupBy: 'songId',
+      orderBy: 'songId',
+    );
 
     List<Raccolta>? list =
         res.isNotEmpty ? res.map((c) => Raccolta.fromMap(c)).toList() : null;
@@ -226,7 +262,11 @@ class QueryCtr {
     final dbClient = await con.db;
     await dbClient!.insert(
       'Songs',
-      {'title': title, 'text': text, 'fav': fav},
+      {
+        'title': title,
+        'text': text,
+        'fav': fav,
+      },
     );
     return null;
   }
@@ -250,7 +290,20 @@ class QueryCtr {
     final dbClient = await con.db;
     await dbClient!.insert(
       'Songs_Authors',
-      {'song_id': songId, 'aut_id': autId, 'song_title': songTitle},
+      {
+        'song_id': songId,
+        'aut_id': autId,
+        'song_title': songTitle,
+      },
+    );
+    return null;
+  }
+
+  Future<List<Raccolta>?> insertMacroCat(name) async {
+    final dbClient = await con.db;
+    await dbClient!.insert(
+      'Macrocategories',
+      {'name': name},
     );
     return null;
   }
@@ -259,7 +312,11 @@ class QueryCtr {
     final dbClient = await con.db;
     await dbClient!.insert(
       'Categories',
-      {'name': name, 'macro_id': macroId, 'macro_name': macroName},
+      {
+        'name': name,
+        'macro_id': macroId,
+        'macro_name': macroName,
+      },
     );
     return null;
   }
@@ -268,7 +325,10 @@ class QueryCtr {
     final dbClient = await con.db;
     await dbClient!.insert(
       'Authors',
-      {'name': name, 'surname': surname},
+      {
+        'name': name,
+        'surname': surname,
+      },
     );
     return null;
   }
@@ -278,7 +338,10 @@ class QueryCtr {
     final dbClient = await con.db;
     await dbClient!.update(
       'Songs',
-      {'title': title, 'text': text},
+      {
+        'title': title,
+        'text': text,
+      },
       where: 'id = ?',
       whereArgs: [id],
     );
@@ -301,12 +364,14 @@ class QueryCtr {
     for (int i = 0; i < macroIdList.length; i++) {
       int macroId = macroIdList[i];
       int catId = catIdList[i];
-      newCategories.add({
-        'song_id': id,
-        'macro_id': macroId,
-        'cat_id': catId,
-        'song_title': songTitle,
-      });
+      newCategories.add(
+        {
+          'song_id': id,
+          'macro_id': macroId,
+          'cat_id': catId,
+          'song_title': songTitle,
+        },
+      );
     }
 
     // Insert the new category records
@@ -387,7 +452,10 @@ class QueryCtr {
         await dbClient.delete(
           'Songs_Authors',
           where: 'song_id = ? AND aut_id = ?',
-          whereArgs: [id, existingAuthor['aut_id']],
+          whereArgs: [
+            id,
+            existingAuthor['aut_id'],
+          ],
         );
       }
     }
@@ -395,11 +463,26 @@ class QueryCtr {
     return null;
   }
 
+  Future<List<Raccolta>?> updateMacroCat(name, id) async {
+    final dbClient = await con.db;
+    await dbClient!.update(
+      'Macrocategories',
+      {'name': name},
+      where: 'id = ?',
+      whereArgs: [id],
+    );
+    return null;
+  }
+
   Future<List<Raccolta>?> updateCat(name, macroId, macroName, id) async {
     final dbClient = await con.db;
     await dbClient!.update(
       'Categories',
-      {'name': name, 'macro_id': macroId, 'macro_name': macroName},
+      {
+        'name': name,
+        'macro_id': macroId,
+        'macro_name': macroName,
+      },
       where: 'id = ?',
       whereArgs: [id],
     );
@@ -410,7 +493,10 @@ class QueryCtr {
     final dbClient = await con.db;
     await dbClient!.update(
       'Authors',
-      {'name': name, 'surname': surname},
+      {
+        'name': name,
+        'surname': surname,
+      },
       where: 'id = ?',
       whereArgs: [id],
     );
@@ -420,33 +506,61 @@ class QueryCtr {
   //Delete queries
   Future<List<Raccolta>?> deleteSong(id) async {
     final dbClient = await con.db;
-    await dbClient!.delete('Songs', where: 'id = ?', whereArgs: [id]);
+    await dbClient!.delete(
+      'Songs',
+      where: 'id = ?',
+      whereArgs: [id],
+    );
     return null;
   }
 
   Future<List<Raccolta>?> deleteSongCategories(id) async {
     final dbClient = await con.db;
-    await dbClient!
-        .delete('Songs_Categories', where: 'song_id = ?', whereArgs: [id]);
+    await dbClient!.delete(
+      'Songs_Categories',
+      where: 'song_id = ?',
+      whereArgs: [id],
+    );
     return null;
   }
 
   Future<List<Raccolta>?> deleteSongAuthors(id) async {
     final dbClient = await con.db;
-    await dbClient!
-        .delete('Songs_Authors', where: 'song_id = ?', whereArgs: [id]);
+    await dbClient!.delete(
+      'Songs_Authors',
+      where: 'song_id = ?',
+      whereArgs: [id],
+    );
+    return null;
+  }
+
+  Future<List<Raccolta>?> deleteMacroCat(id) async {
+    final dbClient = await con.db;
+    await dbClient!.delete(
+      'Macrocategories',
+      where: 'id = ?',
+      whereArgs: [id],
+    );
     return null;
   }
 
   Future<List<Raccolta>?> deleteCat(id) async {
     final dbClient = await con.db;
-    await dbClient!.delete('Categories', where: 'id = ?', whereArgs: [id]);
+    await dbClient!.delete(
+      'Categories',
+      where: 'id = ?',
+      whereArgs: [id],
+    );
     return null;
   }
 
   Future<List<Raccolta>?> deleteAut(id) async {
     final dbClient = await con.db;
-    await dbClient!.delete('Authors', where: 'id = ?', whereArgs: [id]);
+    await dbClient!.delete(
+      'Authors',
+      where: 'id = ?',
+      whereArgs: [id],
+    );
     return null;
   }
 }
