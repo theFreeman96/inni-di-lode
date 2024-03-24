@@ -1,8 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-
-import '../utilities/constants.dart';
-import '../utilities/theme_provider.dart';
 
 class DeleteDialog extends StatelessWidget {
   const DeleteDialog({
@@ -18,8 +14,6 @@ class DeleteDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final themeProvider = Provider.of<ThemeProvider>(context);
-
     late String deleted =
         itemType == 'La categoria' || itemType == 'La macrocategoria'
             ? 'eliminata'
@@ -28,18 +22,17 @@ class DeleteDialog extends StatelessWidget {
     return AlertDialog(
       scrollable: true,
       title: const Text('Conferma eliminazione'),
-      content: RichText(
-        text: TextSpan(
-          style: TextStyle(
-            color: themeProvider.isDarkMode ? kWhite : kBlack,
-          ),
+      content: Text.rich(
+        TextSpan(
           children: <TextSpan>[
             TextSpan(text: '$itemType '),
             TextSpan(
               text: '$itemToDelete ',
-              style: const TextStyle(fontWeight: FontWeight.bold),
+              style: const TextStyle(
+                fontWeight: FontWeight.bold,
+              ),
             ),
-            TextSpan(text: 'sarà $deleted definitivamente.')
+            TextSpan(text: 'sarà $deleted definitivamente.'),
           ],
         ),
       ),

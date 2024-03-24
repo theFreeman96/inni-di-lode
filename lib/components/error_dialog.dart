@@ -1,8 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-
-import '../utilities/constants.dart';
-import '../utilities/theme_provider.dart';
 
 class ErrorDialog extends StatelessWidget {
   const ErrorDialog({
@@ -16,52 +12,70 @@ class ErrorDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final themeProvider = Provider.of<ThemeProvider>(context);
-
     return AlertDialog(
       scrollable: true,
       title: const Text('Errore!'),
-      content: RichText(
-        text: TextSpan(
-          style: TextStyle(
-            color: themeProvider.isDarkMode ? kWhite : kBlack,
+      content: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text.rich(
+            TextSpan(
+              children: <TextSpan>[
+                TextSpan(text: 'Prima di eliminare $itemType '),
+                TextSpan(
+                  text: '$itemToDelete ',
+                  style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const TextSpan(
+                  text: 'è necessario dissociare o eliminare ',
+                ),
+                itemType == 'la macrocategoria'
+                    ? const TextSpan(
+                        children: <TextSpan>[
+                          TextSpan(
+                            text: 'le categorie ancora associate.\n\n',
+                          ),
+                          TextSpan(
+                            text:
+                                'Nella parte alta della pagina di ciascuna categoria associata ',
+                          ),
+                        ],
+                      )
+                    : const TextSpan(
+                        children: <TextSpan>[
+                          TextSpan(
+                            text: 'i cantici ancora associati.\n\n',
+                          ),
+                          TextSpan(
+                            text:
+                                'Nel fondo della pagina di ciascun cantico associato ',
+                          ),
+                        ],
+                      ),
+                const TextSpan(
+                  text: 'selezionare una delle seguenti opzioni:\n',
+                ),
+              ],
+            ),
           ),
-          children: [
-            TextSpan(
-              text: 'Prima di eliminare $itemType ',
+          ListTile(
+            leading: const Icon(Icons.edit_note),
+            title: const Text(
+              'Modfica',
             ),
-            TextSpan(
-              text: '$itemToDelete ',
-              style: const TextStyle(
-                fontWeight: FontWeight.bold,
-              ),
+            onTap: () {},
+          ),
+          ListTile(
+            leading: const Icon(Icons.delete),
+            title: const Text(
+              'Elimina',
             ),
-            TextSpan(
-              text:
-                  'è necessario dissociare o eliminare ${itemType == 'la macrocategoria' ? 'le categorie ancora associate' : 'i cantici ancora associati'}.\n\n',
-            ),
-            TextSpan(
-              text:
-                  '${itemType == 'la macrocategoria' ? 'Nella parte alta della pagina di ciascuna categoria associata' : 'Nel fondo della pagina di ciascun cantico associato'}, selezionare una delle seguenti opzioni:\n\n',
-            ),
-            const WidgetSpan(
-              child: Icon(
-                Icons.edit_note,
-              ),
-            ),
-            const TextSpan(
-              text: 'Modifica\n',
-            ),
-            const WidgetSpan(
-              child: Icon(
-                Icons.delete,
-              ),
-            ),
-            const TextSpan(
-              text: 'Elimina',
-            ),
-          ],
-        ),
+            onTap: () {},
+          ),
+        ],
       ),
       actions: <Widget>[
         FilledButton(
