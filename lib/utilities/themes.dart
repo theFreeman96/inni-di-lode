@@ -15,48 +15,48 @@ class AppTheme {
       onPrimaryContainer: kWhite,
 
       //Backgrounds
-      background: kWhite,
-      onBackground: kLightGrey.withOpacity(0.5),
+      surface: kWhite,
+      onSurface: kLightGrey.withValues(alpha: 0.5),
       surfaceTint: kWhite,
     ),
     appBarTheme: const AppBarTheme(
-      color: kPrimaryColor,
+      backgroundColor: kPrimaryColor,
       foregroundColor: kWhite,
     ),
     scaffoldBackgroundColor: kWhite,
     navigationBarTheme: NavigationBarThemeData(
-      iconTheme: MaterialStateProperty.resolveWith<IconThemeData?>(
-          (Set<MaterialState> states) {
-        if (states.contains(MaterialState.disabled)) {
+      iconTheme: WidgetStateProperty.resolveWith<IconThemeData?>(
+          (Set<WidgetState> states) {
+        if (states.contains(WidgetState.disabled)) {
           return const IconThemeData(color: kLightGrey);
         }
-        if (states.contains(MaterialState.selected)) {
+        if (states.contains(WidgetState.selected)) {
           return const IconThemeData(color: kWhite);
         }
-        return IconThemeData(color: kWhite.withOpacity(0.6));
+        return IconThemeData(color: kWhite.withValues(alpha: 0.6));
       }),
-      labelTextStyle: MaterialStateProperty.resolveWith<TextStyle?>(
-          (Set<MaterialState> states) {
-        if (states.contains(MaterialState.disabled)) {
+      labelTextStyle: WidgetStateProperty.resolveWith<TextStyle?>(
+          (Set<WidgetState> states) {
+        if (states.contains(WidgetState.disabled)) {
           return const TextStyle(
             color: kLightGrey,
             fontSize: 10,
           );
         }
-        if (states.contains(MaterialState.selected)) {
+        if (states.contains(WidgetState.selected)) {
           return const TextStyle(
             color: kWhite,
             fontSize: 12,
           );
         }
         return TextStyle(
-          color: kWhite.withOpacity(0.6),
+          color: kWhite.withValues(alpha: 0.6),
           fontSize: 10,
         );
       }),
     ),
     cardColor: kWhite,
-    dividerTheme: DividerThemeData(color: kLightGrey.withOpacity(0.2)),
+    dividerTheme: DividerThemeData(color: kLightGrey.withValues(alpha: 0.2)),
     floatingActionButtonTheme: const FloatingActionButtonThemeData(
       foregroundColor: kWhite,
       backgroundColor: kPrimaryColor,
@@ -111,14 +111,14 @@ class AppTheme {
     ),
     textSelectionTheme: TextSelectionThemeData(
       cursorColor: kPrimaryColor,
-      selectionColor: kPrimaryColor.withOpacity(0.3),
+      selectionColor: kPrimaryColor.withValues(alpha: 0.3),
       selectionHandleColor: kPrimaryColor,
     ),
     sliderTheme: SliderThemeData(
       thumbColor: kPrimaryColor,
-      inactiveTrackColor: kLightGrey.withOpacity(0.4),
-      activeTrackColor: kPrimaryColor.withOpacity(0.8),
-      overlayColor: kPrimaryColor.withOpacity(0.4),
+      inactiveTrackColor: kLightGrey.withValues(alpha: 0.4),
+      activeTrackColor: kPrimaryColor.withValues(alpha: 0.8),
+      overlayColor: kPrimaryColor.withValues(alpha: 0.4),
       thumbShape: const RoundSliderThumbShape(
         enabledThumbRadius: kDefaultPadding * 0.75,
       ),
@@ -136,46 +136,46 @@ class AppTheme {
       style: TextButton.styleFrom(foregroundColor: kLightGrey),
     ),
     switchTheme: SwitchThemeData(
-      thumbColor: MaterialStateProperty.resolveWith<Color?>(
-          (Set<MaterialState> states) {
-        if (states.contains(MaterialState.disabled)) {
+      thumbColor:
+          WidgetStateProperty.resolveWith<Color?>((Set<WidgetState> states) {
+        if (states.contains(WidgetState.disabled)) {
           return kWhite;
         }
-        if (states.contains(MaterialState.selected)) {
+        if (states.contains(WidgetState.selected)) {
           return kWhite;
         }
         return kWhite;
       }),
-      trackColor: MaterialStateProperty.resolveWith<Color?>(
-          (Set<MaterialState> states) {
-        if (states.contains(MaterialState.disabled)) {
+      trackColor:
+          WidgetStateProperty.resolveWith<Color?>((Set<WidgetState> states) {
+        if (states.contains(WidgetState.disabled)) {
           return kWhite;
         }
-        if (states.contains(MaterialState.selected)) {
+        if (states.contains(WidgetState.selected)) {
           return kLightGrey;
         }
         return Colors.blue;
       }),
-      trackOutlineColor: MaterialStateProperty.resolveWith<Color?>(
-          (Set<MaterialState> states) {
-        if (states.contains(MaterialState.disabled)) {
+      trackOutlineColor:
+          WidgetStateProperty.resolveWith<Color?>((Set<WidgetState> states) {
+        if (states.contains(WidgetState.disabled)) {
           return kWhite;
         }
-        if (states.contains(MaterialState.selected)) {
+        if (states.contains(WidgetState.selected)) {
           return kWhite;
         }
         return kWhite;
       }),
       thumbIcon:
-          MaterialStateProperty.resolveWith<Icon?>((Set<MaterialState> states) {
-        if (states.contains(MaterialState.disabled)) {
+          WidgetStateProperty.resolveWith<Icon?>((Set<WidgetState> states) {
+        if (states.contains(WidgetState.disabled)) {
           return const Icon(
             Icons.light_mode,
             color: kTertiaryColor,
             size: 20,
           );
         }
-        if (states.contains(MaterialState.selected)) {
+        if (states.contains(WidgetState.selected)) {
           return const Icon(
             Icons.dark_mode,
             color: kLightGrey,
@@ -202,47 +202,47 @@ class AppTheme {
       onPrimaryContainer: kWhite,
 
       //Backgrounds
-      background: kBlack,
-      onBackground: kLightGrey.withOpacity(0.5),
+      surface: kBlack,
+      onSurface: kLightGrey.withValues(alpha: 0.5),
       surfaceTint: kGrey,
     ),
-    appBarTheme: const AppBarTheme(color: kGrey),
+    appBarTheme: const AppBarTheme(backgroundColor: kGrey),
     scaffoldBackgroundColor: kBlack,
     navigationBarTheme: NavigationBarThemeData(
-      iconTheme: MaterialStateProperty.resolveWith<IconThemeData?>(
-          (Set<MaterialState> states) {
-        if (states.contains(MaterialState.disabled)) {
+      iconTheme: WidgetStateProperty.resolveWith<IconThemeData?>(
+          (Set<WidgetState> states) {
+        if (states.contains(WidgetState.disabled)) {
           return const IconThemeData(color: kLightGrey);
         }
-        if (states.contains(MaterialState.selected)) {
+        if (states.contains(WidgetState.selected)) {
           return const IconThemeData(color: kWhite);
         }
-        return IconThemeData(color: kWhite.withOpacity(0.6));
+        return IconThemeData(color: kWhite.withValues(alpha: 0.6));
       }),
-      labelTextStyle: MaterialStateProperty.resolveWith<TextStyle?>(
-          (Set<MaterialState> states) {
-        if (states.contains(MaterialState.disabled)) {
+      labelTextStyle: WidgetStateProperty.resolveWith<TextStyle?>(
+          (Set<WidgetState> states) {
+        if (states.contains(WidgetState.disabled)) {
           return const TextStyle(
             color: kLightGrey,
             fontSize: 10,
           );
         }
-        if (states.contains(MaterialState.selected)) {
+        if (states.contains(WidgetState.selected)) {
           return const TextStyle(
             color: kWhite,
             fontSize: 12,
           );
         }
         return TextStyle(
-          color: kWhite.withOpacity(0.6),
+          color: kWhite.withValues(alpha: 0.6),
           fontSize: 10,
         );
       }),
     ),
-    bottomAppBarTheme: const BottomAppBarTheme(color: kGrey),
+    bottomAppBarTheme: const BottomAppBarThemeData(color: kGrey),
     bottomSheetTheme: const BottomSheetThemeData(backgroundColor: kGrey),
     cardColor: kBlack,
-    dividerTheme: DividerThemeData(color: kLightGrey.withOpacity(0.2)),
+    dividerTheme: DividerThemeData(color: kLightGrey.withValues(alpha: 0.2)),
     progressIndicatorTheme: const ProgressIndicatorThemeData(color: kWhite),
     floatingActionButtonTheme: const FloatingActionButtonThemeData(
       foregroundColor: kWhite,
@@ -298,14 +298,14 @@ class AppTheme {
     ),
     textSelectionTheme: TextSelectionThemeData(
       cursorColor: kPrimaryLightColor,
-      selectionColor: kPrimaryLightColor.withOpacity(0.3),
+      selectionColor: kPrimaryLightColor.withValues(alpha: 0.3),
       selectionHandleColor: kPrimaryLightColor,
     ),
     sliderTheme: SliderThemeData(
       thumbColor: kPrimaryLightColor,
       inactiveTrackColor: kLightGrey,
-      activeTrackColor: kPrimaryLightColor.withOpacity(0.8),
-      overlayColor: kPrimaryLightColor.withOpacity(0.3),
+      activeTrackColor: kPrimaryLightColor.withValues(alpha: 0.8),
+      overlayColor: kPrimaryLightColor.withValues(alpha: 0.3),
       thumbShape: const RoundSliderThumbShape(
         enabledThumbRadius: kDefaultPadding * 0.75,
       ),
@@ -323,45 +323,45 @@ class AppTheme {
       style: TextButton.styleFrom(foregroundColor: kWhite),
     ),
     switchTheme: SwitchThemeData(
-      thumbColor: MaterialStateProperty.resolveWith<Color?>(
-          (Set<MaterialState> states) {
-        if (states.contains(MaterialState.disabled)) {
+      thumbColor:
+          WidgetStateProperty.resolveWith<Color?>((Set<WidgetState> states) {
+        if (states.contains(WidgetState.disabled)) {
           return kWhite;
         }
-        if (states.contains(MaterialState.selected)) {
+        if (states.contains(WidgetState.selected)) {
           return kWhite;
         }
         return kWhite;
       }),
-      trackColor: MaterialStateProperty.resolveWith<Color?>(
-          (Set<MaterialState> states) {
-        if (states.contains(MaterialState.disabled)) {
+      trackColor:
+          WidgetStateProperty.resolveWith<Color?>((Set<WidgetState> states) {
+        if (states.contains(WidgetState.disabled)) {
           return kWhite;
         }
-        if (states.contains(MaterialState.selected)) {
+        if (states.contains(WidgetState.selected)) {
           return kLightGrey;
         }
         return Colors.blue;
       }),
-      trackOutlineColor: MaterialStateProperty.resolveWith<Color?>(
-          (Set<MaterialState> states) {
-        if (states.contains(MaterialState.disabled)) {
+      trackOutlineColor:
+          WidgetStateProperty.resolveWith<Color?>((Set<WidgetState> states) {
+        if (states.contains(WidgetState.disabled)) {
           return kWhite;
         }
-        if (states.contains(MaterialState.selected)) {
+        if (states.contains(WidgetState.selected)) {
           return kWhite;
         }
         return kWhite;
       }),
       thumbIcon:
-          MaterialStateProperty.resolveWith<Icon?>((Set<MaterialState> states) {
-        if (states.contains(MaterialState.disabled)) {
+          WidgetStateProperty.resolveWith<Icon?>((Set<WidgetState> states) {
+        if (states.contains(WidgetState.disabled)) {
           return const Icon(
             Icons.dark_mode,
             color: kLightGrey,
           );
         }
-        if (states.contains(MaterialState.selected)) {
+        if (states.contains(WidgetState.selected)) {
           return const Icon(
             Icons.dark_mode,
             color: kLightGrey,

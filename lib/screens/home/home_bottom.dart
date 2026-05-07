@@ -30,7 +30,7 @@ class HomeBottomBar extends StatelessWidget {
           selectedIndex: currentIndex,
           onDestinationSelected: onTabTapped,
           indicatorColor:
-              themeProvider.isDarkMode ? kBlack : kWhite.withOpacity(0.3),
+              themeProvider.isDarkMode ? kBlack : kWhite.withValues(alpha: 0.3),
           backgroundColor: themeProvider.isDarkMode ? kGrey : kPrimaryColor,
           destinations: const [
             NavigationDestination(

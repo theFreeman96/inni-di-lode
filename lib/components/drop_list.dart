@@ -33,7 +33,7 @@ class DropList extends StatelessWidget {
       borderRadius: const BorderRadius.all(
         Radius.circular(25.0),
       ),
-      value: selectedValue,
+      initialValue: selectedValue,
       hint: const Text('Seleziona'),
       decoration: InputDecoration(
         contentPadding: const EdgeInsets.symmetric(

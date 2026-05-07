@@ -100,10 +100,10 @@ class DataNotFound extends StatelessWidget {
                       context: context,
                       builder: (BuildContext context) {
                         if (notFoundMessage == ErrorCodes.categoriesNotFound) {
-                          return CatDialog();
+                          return const CatDialog();
                         } else if (notFoundMessage ==
                             ErrorCodes.authorsNotFound) {
-                          return AutDialog();
+                          return const AutDialog();
                         } else {
                           return const SizedBox();
                         }

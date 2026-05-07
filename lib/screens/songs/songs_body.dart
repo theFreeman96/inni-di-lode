@@ -102,8 +102,8 @@ class _SongsBodyState extends State<SongsBody> {
                           ? kPrimaryLightColor
                           : kPrimaryColor,
                       buttonUnselectedBackgroundColor: themeProvider.isDarkMode
-                          ? kWhite.withOpacity(0.2)
-                          : kBlack.withOpacity(0.1),
+                          ? kWhite.withValues(alpha: 0.2)
+                          : kBlack.withValues(alpha: 0.1),
                     ),
                   );
                 },
